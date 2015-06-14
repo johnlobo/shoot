@@ -1,0 +1,833 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.4.3 #9207 (Jun  5 2015) (Mac OS X x86_64)
+                              4 ; This file was generated Sun Jun 14 18:05:38 2015
+                              5 ;--------------------------------------------------------
+                              6 	.module main
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _main
+                             13 	.globl _initialization
+                             14 	.globl _updateUser
+                             15 	.globl _drawFrame
+                             16 	.globl _updateBlock
+                             17 	.globl _clear_screen
+                             18 	.globl _draw_blocks
+                             19 	.globl _draw_sprite
+                             20 	.globl _changeVideoMemoryPage
+                             21 	.globl _moverEstrellas
+                             22 	.globl _pintarEstrellas
+                             23 	.globl _inicializarEstrellas
+                             24 	.globl _cpct_getScreenPtr
+                             25 	.globl _cpct_setVideoMemoryPage
+                             26 	.globl _cpct_setPALColour
+                             27 	.globl _cpct_setPalette
+                             28 	.globl _cpct_waitVSYNC
+                             29 	.globl _cpct_setVideoMode
+                             30 	.globl _cpct_drawSolidBox
+                             31 	.globl _cpct_drawSprite
+                             32 	.globl _cpct_px2byteM0
+                             33 	.globl _cpct_memset
+                             34 	.globl _cpct_isKeyPressed
+                             35 	.globl _cpct_scanKeyboard_f
+                             36 	.globl _cpct_disableFirmware
+                             37 	.globl _pvmem
+                             38 	.globl _user
+                             39 	.globl _block02
+                             40 	.globl _block01
+                             41 ;--------------------------------------------------------
+                             42 ; special function registers
+                             43 ;--------------------------------------------------------
+                             44 ;--------------------------------------------------------
+                             45 ; ram data
+                             46 ;--------------------------------------------------------
+                             47 	.area _DATA
+   0000                      48 _block01::
+   0000                      49 	.ds 7
+   0007                      50 _block02::
+   0007                      51 	.ds 7
+   000E                      52 _user::
+   000E                      53 	.ds 15
+   001D                      54 _pvmem::
+   001D                      55 	.ds 2
+   001F                      56 _changeVideoMemoryPage_page_1_58:
+   001F                      57 	.ds 1
+                             58 ;--------------------------------------------------------
+                             59 ; ram data
+                             60 ;--------------------------------------------------------
+                             61 	.area _INITIALIZED
+                             62 ;--------------------------------------------------------
+                             63 ; absolute external ram data
+                             64 ;--------------------------------------------------------
+                             65 	.area _DABS (ABS)
+                             66 ;--------------------------------------------------------
+                             67 ; global & static initialisations
+                             68 ;--------------------------------------------------------
+                             69 	.area _HOME
+                             70 	.area _GSINIT
+                             71 	.area _GSFINAL
+                             72 	.area _GSINIT
+                             73 ;src/main.c:54: static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
+   0000 FD 21r1Fr00   [14]   74 	ld	iy,#_changeVideoMemoryPage_page_1_58
+   0004 FD 36 00 00   [19]   75 	ld	0 (iy),#0x00
+                             76 ;--------------------------------------------------------
+                             77 ; Home
+                             78 ;--------------------------------------------------------
+                             79 	.area _HOME
+                             80 	.area _HOME
+                             81 ;--------------------------------------------------------
+                             82 ; code
+                             83 ;--------------------------------------------------------
+                             84 	.area _CODE
+                             85 ;src/main.c:53: u8* changeVideoMemoryPage() {
+                             86 ;	---------------------------------
+                             87 ; Function changeVideoMemoryPage
+                             88 ; ---------------------------------
+   0000                      89 _changeVideoMemoryPage::
+                             90 ;src/main.c:59: if (page) {
+   0000 3Ar1Fr00      [13]   91 	ld	a,(#_changeVideoMemoryPage_page_1_58 + 0)
+   0003 B7            [ 4]   92 	or	a, a
+   0004 28 11         [12]   93 	jr	Z,00102$
+                             94 ;src/main.c:60: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
+   0006 3E 30         [ 7]   95 	ld	a,#0x30
+   0008 F5            [11]   96 	push	af
+   0009 33            [ 6]   97 	inc	sp
+   000A CDr00r00      [17]   98 	call	_cpct_setVideoMemoryPage
+   000D 33            [ 6]   99 	inc	sp
+                            100 ;src/main.c:61: page = 0;  
+   000E 21r1Fr00      [10]  101 	ld	hl,#_changeVideoMemoryPage_page_1_58 + 0
+   0011 36 00         [10]  102 	ld	(hl), #0x00
+                            103 ;src/main.c:62: screen = SCR_BUFF;                            // Next page = 0
+   0013 21 00 40      [10]  104 	ld	hl,#0x4000
+   0016 C9            [10]  105 	ret
+   0017                     106 00102$:
+                            107 ;src/main.c:64: cpct_setVideoMemoryPage(cpct_page40);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
+   0017 3E 10         [ 7]  108 	ld	a,#0x10
+   0019 F5            [11]  109 	push	af
+   001A 33            [ 6]  110 	inc	sp
+   001B CDr00r00      [17]  111 	call	_cpct_setVideoMemoryPage
+   001E 33            [ 6]  112 	inc	sp
+                            113 ;src/main.c:65: page = 1;                              // Next page = 1
+   001F 21r1Fr00      [10]  114 	ld	hl,#_changeVideoMemoryPage_page_1_58 + 0
+   0022 36 01         [10]  115 	ld	(hl), #0x01
+                            116 ;src/main.c:66: screen = SCR_VMEM;
+   0024 21 00 C0      [10]  117 	ld	hl,#0xC000
+                            118 ;src/main.c:68: return screen;
+   0027 C9            [10]  119 	ret
+                            120 ;src/main.c:72: void draw_sprite(u8* screen){
+                            121 ;	---------------------------------
+                            122 ; Function draw_sprite
+                            123 ; ---------------------------------
+   0028                     124 _draw_sprite::
+   0028 DD E5         [15]  125 	push	ix
+   002A DD 21 00 00   [14]  126 	ld	ix,#0
+   002E DD 39         [15]  127 	add	ix,sp
+                            128 ;src/main.c:74: pscreen = cpct_getScreenPtr(screen, user.x, user.y);
+   0030 21r13r00      [10]  129 	ld	hl, #_user + 5
+   0033 4E            [ 7]  130 	ld	c,(hl)
+   0034 21r12r00      [10]  131 	ld	hl, #_user + 4
+   0037 66            [ 7]  132 	ld	h,(hl)
+   0038 DD 5E 04      [19]  133 	ld	e,4 (ix)
+   003B DD 56 05      [19]  134 	ld	d,5 (ix)
+   003E 79            [ 4]  135 	ld	a,c
+   003F F5            [11]  136 	push	af
+   0040 33            [ 6]  137 	inc	sp
+   0041 E5            [11]  138 	push	hl
+   0042 33            [ 6]  139 	inc	sp
+   0043 D5            [11]  140 	push	de
+   0044 CDr00r00      [17]  141 	call	_cpct_getScreenPtr
+   0047 F1            [10]  142 	pop	af
+   0048 F1            [10]  143 	pop	af
+   0049 EB            [ 4]  144 	ex	de,hl
+                            145 ;src/main.c:75: cpct_drawSprite(ship01,pscreen,user.w,user.h);
+   004A 21r15r00      [10]  146 	ld	hl, #_user + 7
+   004D 4E            [ 7]  147 	ld	c,(hl)
+   004E 21r14r00      [10]  148 	ld	hl, #_user + 6
+   0051 46            [ 7]  149 	ld	b,(hl)
+   0052 79            [ 4]  150 	ld	a,c
+   0053 F5            [11]  151 	push	af
+   0054 33            [ 6]  152 	inc	sp
+   0055 C5            [11]  153 	push	bc
+   0056 33            [ 6]  154 	inc	sp
+   0057 D5            [11]  155 	push	de
+   0058 21r00r00      [10]  156 	ld	hl,#_ship01
+   005B E5            [11]  157 	push	hl
+   005C CDr00r00      [17]  158 	call	_cpct_drawSprite
+   005F 21 06 00      [10]  159 	ld	hl,#6
+   0062 39            [11]  160 	add	hl,sp
+   0063 F9            [ 6]  161 	ld	sp,hl
+   0064 DD E1         [14]  162 	pop	ix
+   0066 C9            [10]  163 	ret
+                            164 ;src/main.c:79: void draw_blocks(u8* screen){
+                            165 ;	---------------------------------
+                            166 ; Function draw_blocks
+                            167 ; ---------------------------------
+   0067                     168 _draw_blocks::
+   0067 DD E5         [15]  169 	push	ix
+   0069 DD 21 00 00   [14]  170 	ld	ix,#0
+   006D DD 39         [15]  171 	add	ix,sp
+   006F F5            [11]  172 	push	af
+   0070 3B            [ 6]  173 	dec	sp
+                            174 ;src/main.c:82: pscreen = cpct_getScreenPtr(screen, block01.x, block01.y);
+   0071 21r01r00      [10]  175 	ld	hl, #_block01 + 1
+   0074 46            [ 7]  176 	ld	b,(hl)
+   0075 21r00r00      [10]  177 	ld	hl, #_block01 + 0
+   0078 56            [ 7]  178 	ld	d,(hl)
+   0079 DD 7E 04      [19]  179 	ld	a,4 (ix)
+   007C DD 77 FD      [19]  180 	ld	-3 (ix),a
+   007F DD 7E 05      [19]  181 	ld	a,5 (ix)
+   0082 DD 77 FE      [19]  182 	ld	-2 (ix),a
+   0085 4A            [ 4]  183 	ld	c, d
+   0086 C5            [11]  184 	push	bc
+   0087 C1            [10]  185 	pop	bc
+   0088 E1            [10]  186 	pop	hl
+   0089 E5            [11]  187 	push	hl
+   008A C5            [11]  188 	push	bc
+   008B E5            [11]  189 	push	hl
+   008C CDr00r00      [17]  190 	call	_cpct_getScreenPtr
+   008F F1            [10]  191 	pop	af
+   0090 F1            [10]  192 	pop	af
+   0091 5D            [ 4]  193 	ld	e, l
+   0092 54            [ 4]  194 	ld	d, h
+                            195 ;src/main.c:83: cpct_drawSolidBox(pscreen, cpct_px2byteM0(4, 4), block01.w, block01.h);
+   0093 21r05r00      [10]  196 	ld	hl, #_block01 + 5
+   0096 4E            [ 7]  197 	ld	c,(hl)
+   0097 21r04r00      [10]  198 	ld	hl, #_block01 + 4
+   009A 46            [ 7]  199 	ld	b,(hl)
+   009B C5            [11]  200 	push	bc
+   009C D5            [11]  201 	push	de
+   009D 21 04 04      [10]  202 	ld	hl,#0x0404
+   00A0 E5            [11]  203 	push	hl
+   00A1 CDr00r00      [17]  204 	call	_cpct_px2byteM0
+   00A4 F1            [10]  205 	pop	af
+   00A5 DD 75 FF      [19]  206 	ld	-1 (ix),l
+   00A8 D1            [10]  207 	pop	de
+   00A9 C1            [10]  208 	pop	bc
+   00AA 79            [ 4]  209 	ld	a,c
+   00AB F5            [11]  210 	push	af
+   00AC 33            [ 6]  211 	inc	sp
+   00AD C5            [11]  212 	push	bc
+   00AE 33            [ 6]  213 	inc	sp
+   00AF DD 7E FF      [19]  214 	ld	a,-1 (ix)
+   00B2 F5            [11]  215 	push	af
+   00B3 33            [ 6]  216 	inc	sp
+   00B4 D5            [11]  217 	push	de
+   00B5 CDr00r00      [17]  218 	call	_cpct_drawSolidBox
+   00B8 F1            [10]  219 	pop	af
+   00B9 F1            [10]  220 	pop	af
+   00BA 33            [ 6]  221 	inc	sp
+                            222 ;src/main.c:85: pscreen = cpct_getScreenPtr(screen, block02.x, block02.y);
+   00BB 21r08r00      [10]  223 	ld	hl, #_block02 + 1
+   00BE 56            [ 7]  224 	ld	d,(hl)
+   00BF 3Ar07r00      [13]  225 	ld	a, (#_block02 + 0)
+   00C2 D5            [11]  226 	push	de
+   00C3 33            [ 6]  227 	inc	sp
+   00C4 F5            [11]  228 	push	af
+   00C5 33            [ 6]  229 	inc	sp
+   00C6 C1            [10]  230 	pop	bc
+   00C7 E1            [10]  231 	pop	hl
+   00C8 E5            [11]  232 	push	hl
+   00C9 C5            [11]  233 	push	bc
+   00CA E5            [11]  234 	push	hl
+   00CB CDr00r00      [17]  235 	call	_cpct_getScreenPtr
+   00CE F1            [10]  236 	pop	af
+   00CF F1            [10]  237 	pop	af
+   00D0 5D            [ 4]  238 	ld	e, l
+   00D1 54            [ 4]  239 	ld	d, h
+                            240 ;src/main.c:86: cpct_drawSolidBox(pscreen, cpct_px2byteM0(6, 6), block02.w, block02.h);    
+   00D2 21r0Cr00      [10]  241 	ld	hl, #_block02 + 5
+   00D5 4E            [ 7]  242 	ld	c,(hl)
+   00D6 21r0Br00      [10]  243 	ld	hl, #_block02 + 4
+   00D9 46            [ 7]  244 	ld	b,(hl)
+   00DA C5            [11]  245 	push	bc
+   00DB D5            [11]  246 	push	de
+   00DC 21 06 06      [10]  247 	ld	hl,#0x0606
+   00DF E5            [11]  248 	push	hl
+   00E0 CDr00r00      [17]  249 	call	_cpct_px2byteM0
+   00E3 F1            [10]  250 	pop	af
+   00E4 DD 75 FF      [19]  251 	ld	-1 (ix),l
+   00E7 D1            [10]  252 	pop	de
+   00E8 C1            [10]  253 	pop	bc
+   00E9 79            [ 4]  254 	ld	a,c
+   00EA F5            [11]  255 	push	af
+   00EB 33            [ 6]  256 	inc	sp
+   00EC C5            [11]  257 	push	bc
+   00ED 33            [ 6]  258 	inc	sp
+   00EE DD 7E FF      [19]  259 	ld	a,-1 (ix)
+   00F1 F5            [11]  260 	push	af
+   00F2 33            [ 6]  261 	inc	sp
+   00F3 D5            [11]  262 	push	de
+   00F4 CDr00r00      [17]  263 	call	_cpct_drawSolidBox
+   00F7 DD F9         [10]  264 	ld	sp,ix
+   00F9 DD E1         [14]  265 	pop	ix
+   00FB C9            [10]  266 	ret
+                            267 ;src/main.c:90: void clear_screen(u8* screen){
+                            268 ;	---------------------------------
+                            269 ; Function clear_screen
+                            270 ; ---------------------------------
+   00FC                     271 _clear_screen::
+                            272 ;src/main.c:91: cpct_memset(screen, 0x00, 0x4000);   
+   00FC C1            [10]  273 	pop	bc
+   00FD D1            [10]  274 	pop	de
+   00FE D5            [11]  275 	push	de
+   00FF C5            [11]  276 	push	bc
+   0100 21 00 40      [10]  277 	ld	hl,#0x4000
+   0103 E5            [11]  278 	push	hl
+   0104 AF            [ 4]  279 	xor	a, a
+   0105 F5            [11]  280 	push	af
+   0106 33            [ 6]  281 	inc	sp
+   0107 D5            [11]  282 	push	de
+   0108 CDr00r00      [17]  283 	call	_cpct_memset
+   010B F1            [10]  284 	pop	af
+   010C F1            [10]  285 	pop	af
+   010D 33            [ 6]  286 	inc	sp
+   010E C9            [10]  287 	ret
+                            288 ;src/main.c:95: void updateBlock(){
+                            289 ;	---------------------------------
+                            290 ; Function updateBlock
+                            291 ; ---------------------------------
+   010F                     292 _updateBlock::
+                            293 ;src/main.c:96: if (block01.vx>0){
+   010F 21r02r00      [10]  294 	ld	hl, #(_block01 + 0x0002) + 0
+   0112 46            [ 7]  295 	ld	b,(hl)
+                            296 ;src/main.c:97: if ((block01.x+block01.vx)<79){
+   0113 21r00r00      [10]  297 	ld	hl, #_block01 + 0
+   0116 4E            [ 7]  298 	ld	c,(hl)
+   0117 68            [ 4]  299 	ld	l,b
+   0118 26 00         [ 7]  300 	ld	h,#0x00
+   011A 59            [ 4]  301 	ld	e,c
+   011B 16 00         [ 7]  302 	ld	d,#0x00
+                            303 ;src/main.c:98: block01.x = block01.x + block01.vx;
+   011D 79            [ 4]  304 	ld	a,c
+   011E 80            [ 4]  305 	add	a, b
+   011F 4F            [ 4]  306 	ld	c,a
+                            307 ;src/main.c:97: if ((block01.x+block01.vx)<79){
+   0120 19            [11]  308 	add	hl,de
+   0121 5D            [ 4]  309 	ld	e,l
+   0122 54            [ 4]  310 	ld	d,h
+                            311 ;src/main.c:96: if (block01.vx>0){
+   0123 78            [ 4]  312 	ld	a,b
+   0124 B7            [ 4]  313 	or	a, a
+   0125 28 27         [12]  314 	jr	Z,00108$
+                            315 ;src/main.c:97: if ((block01.x+block01.vx)<79){
+   0127 7B            [ 4]  316 	ld	a,e
+   0128 D6 4F         [ 7]  317 	sub	a, #0x4F
+   012A 7A            [ 4]  318 	ld	a,d
+   012B 17            [ 4]  319 	rla
+   012C 3F            [ 4]  320 	ccf
+   012D 1F            [ 4]  321 	rra
+   012E DE 80         [ 7]  322 	sbc	a, #0x80
+   0130 30 05         [12]  323 	jr	NC,00102$
+                            324 ;src/main.c:98: block01.x = block01.x + block01.vx;
+   0132 21r00r00      [10]  325 	ld	hl,#_block01
+   0135 71            [ 7]  326 	ld	(hl),c
+   0136 C9            [10]  327 	ret
+   0137                     328 00102$:
+                            329 ;src/main.c:101: block01.x = 79-block01.w;
+   0137 21r04r00      [10]  330 	ld	hl, #_block01 + 4
+   013A 66            [ 7]  331 	ld	h,(hl)
+   013B 3E 4F         [ 7]  332 	ld	a,#0x4F
+   013D 94            [ 4]  333 	sub	a, h
+   013E 21r00r00      [10]  334 	ld	hl,#_block01
+   0141 77            [ 7]  335 	ld	(hl),a
+                            336 ;src/main.c:102: block01.vx = - block01.vx;
+   0142 21r02r00      [10]  337 	ld	hl, #(_block01 + 0x0002) + 0
+   0145 66            [ 7]  338 	ld	h,(hl)
+   0146 AF            [ 4]  339 	xor	a, a
+   0147 94            [ 4]  340 	sub	a, h
+   0148 57            [ 4]  341 	ld	d,a
+   0149 21r02r00      [10]  342 	ld	hl,#(_block01 + 0x0002)
+   014C 72            [ 7]  343 	ld	(hl),d
+   014D C9            [10]  344 	ret
+   014E                     345 00108$:
+                            346 ;src/main.c:105: if ((block01.x+block01.vx)>0){
+   014E AF            [ 4]  347 	xor	a, a
+   014F BB            [ 4]  348 	cp	a, e
+   0150 9A            [ 4]  349 	sbc	a, d
+   0151 E2r56r01      [10]  350 	jp	PO, 00124$
+   0154 EE 80         [ 7]  351 	xor	a, #0x80
+   0156                     352 00124$:
+   0156 F2r5Er01      [10]  353 	jp	P,00105$
+                            354 ;src/main.c:106: block01.x = block01.x + block01.vx;
+   0159 21r00r00      [10]  355 	ld	hl,#_block01
+   015C 71            [ 7]  356 	ld	(hl),c
+   015D C9            [10]  357 	ret
+   015E                     358 00105$:
+                            359 ;src/main.c:109: block01.x = 0;
+   015E 21r00r00      [10]  360 	ld	hl,#_block01
+   0161 36 00         [10]  361 	ld	(hl),#0x00
+                            362 ;src/main.c:110: block01.vx = - block01.vx;
+   0163 21r02r00      [10]  363 	ld	hl, #(_block01 + 0x0002) + 0
+   0166 66            [ 7]  364 	ld	h,(hl)
+   0167 AF            [ 4]  365 	xor	a, a
+   0168 94            [ 4]  366 	sub	a, h
+   0169 57            [ 4]  367 	ld	d,a
+   016A 21r02r00      [10]  368 	ld	hl,#(_block01 + 0x0002)
+   016D 72            [ 7]  369 	ld	(hl),d
+   016E C9            [10]  370 	ret
+                            371 ;src/main.c:118: void drawFrame(u8* screen) {
+                            372 ;	---------------------------------
+                            373 ; Function drawFrame
+                            374 ; ---------------------------------
+   016F                     375 _drawFrame::
+   016F DD E5         [15]  376 	push	ix
+   0171 DD 21 00 00   [14]  377 	ld	ix,#0
+   0175 DD 39         [15]  378 	add	ix,sp
+                            379 ;src/main.c:123: pattern = cpct_px2byteM0 (15, 15);
+   0177 21 0F 0F      [10]  380 	ld	hl,#0x0F0F
+   017A E5            [11]  381 	push	hl
+   017B CDr00r00      [17]  382 	call	_cpct_px2byteM0
+   017E F1            [10]  383 	pop	af
+   017F 45            [ 4]  384 	ld	b,l
+                            385 ;src/main.c:126: pv = cpct_getScreenPtr(screen, (BACK_X),  (BACK_Y));
+   0180 DD 5E 04      [19]  386 	ld	e,4 (ix)
+   0183 DD 56 05      [19]  387 	ld	d,5 (ix)
+   0186 C5            [11]  388 	push	bc
+   0187 D5            [11]  389 	push	de
+   0188 21 00 00      [10]  390 	ld	hl,#0x0000
+   018B E5            [11]  391 	push	hl
+   018C D5            [11]  392 	push	de
+   018D CDr00r00      [17]  393 	call	_cpct_getScreenPtr
+   0190 F1            [10]  394 	pop	af
+   0191 F1            [10]  395 	pop	af
+   0192 D1            [10]  396 	pop	de
+   0193 C1            [10]  397 	pop	bc
+                            398 ;src/main.c:127: cpct_drawSolidBox(pv, pattern, BACK_W,  4);
+   0194 E5            [11]  399 	push	hl
+   0195 FD E1         [14]  400 	pop	iy
+   0197 C5            [11]  401 	push	bc
+   0198 D5            [11]  402 	push	de
+   0199 21 40 04      [10]  403 	ld	hl,#0x0440
+   019C E5            [11]  404 	push	hl
+   019D C5            [11]  405 	push	bc
+   019E 33            [ 6]  406 	inc	sp
+   019F FD E5         [15]  407 	push	iy
+   01A1 CDr00r00      [17]  408 	call	_cpct_drawSolidBox
+   01A4 F1            [10]  409 	pop	af
+   01A5 F1            [10]  410 	pop	af
+   01A6 33            [ 6]  411 	inc	sp
+   01A7 D1            [10]  412 	pop	de
+   01A8 D5            [11]  413 	push	de
+   01A9 21 00 C5      [10]  414 	ld	hl,#0xC500
+   01AC E5            [11]  415 	push	hl
+   01AD D5            [11]  416 	push	de
+   01AE CDr00r00      [17]  417 	call	_cpct_getScreenPtr
+   01B1 F1            [10]  418 	pop	af
+   01B2 F1            [10]  419 	pop	af
+   01B3 D1            [10]  420 	pop	de
+   01B4 C1            [10]  421 	pop	bc
+                            422 ;src/main.c:131: cpct_drawSolidBox(pv, pattern, BACK_W,  4);
+   01B5 E5            [11]  423 	push	hl
+   01B6 FD E1         [14]  424 	pop	iy
+   01B8 C5            [11]  425 	push	bc
+   01B9 D5            [11]  426 	push	de
+   01BA 21 40 04      [10]  427 	ld	hl,#0x0440
+   01BD E5            [11]  428 	push	hl
+   01BE C5            [11]  429 	push	bc
+   01BF 33            [ 6]  430 	inc	sp
+   01C0 FD E5         [15]  431 	push	iy
+   01C2 CDr00r00      [17]  432 	call	_cpct_drawSolidBox
+   01C5 F1            [10]  433 	pop	af
+   01C6 F1            [10]  434 	pop	af
+   01C7 33            [ 6]  435 	inc	sp
+   01C8 D1            [10]  436 	pop	de
+   01C9 D5            [11]  437 	push	de
+   01CA 21 00 00      [10]  438 	ld	hl,#0x0000
+   01CD E5            [11]  439 	push	hl
+   01CE D5            [11]  440 	push	de
+   01CF CDr00r00      [17]  441 	call	_cpct_getScreenPtr
+   01D2 F1            [10]  442 	pop	af
+   01D3 F1            [10]  443 	pop	af
+   01D4 D1            [10]  444 	pop	de
+   01D5 C1            [10]  445 	pop	bc
+                            446 ;src/main.c:135: cpct_drawSolidBox(pv, pattern,  2, BACK_H );
+   01D6 E5            [11]  447 	push	hl
+   01D7 FD E1         [14]  448 	pop	iy
+   01D9 C5            [11]  449 	push	bc
+   01DA D5            [11]  450 	push	de
+   01DB 21 02 C7      [10]  451 	ld	hl,#0xC702
+   01DE E5            [11]  452 	push	hl
+   01DF C5            [11]  453 	push	bc
+   01E0 33            [ 6]  454 	inc	sp
+   01E1 FD E5         [15]  455 	push	iy
+   01E3 CDr00r00      [17]  456 	call	_cpct_drawSolidBox
+   01E6 F1            [10]  457 	pop	af
+   01E7 F1            [10]  458 	pop	af
+   01E8 33            [ 6]  459 	inc	sp
+   01E9 D1            [10]  460 	pop	de
+   01EA 21 3E 00      [10]  461 	ld	hl,#0x003E
+   01ED E5            [11]  462 	push	hl
+   01EE D5            [11]  463 	push	de
+   01EF CDr00r00      [17]  464 	call	_cpct_getScreenPtr
+   01F2 F1            [10]  465 	pop	af
+   01F3 F1            [10]  466 	pop	af
+   01F4 C1            [10]  467 	pop	bc
+                            468 ;src/main.c:139: cpct_drawSolidBox(pv, pattern,  2, BACK_H );
+   01F5 EB            [ 4]  469 	ex	de,hl
+   01F6 21 02 C7      [10]  470 	ld	hl,#0xC702
+   01F9 E5            [11]  471 	push	hl
+   01FA C5            [11]  472 	push	bc
+   01FB 33            [ 6]  473 	inc	sp
+   01FC D5            [11]  474 	push	de
+   01FD CDr00r00      [17]  475 	call	_cpct_drawSolidBox
+   0200 F1            [10]  476 	pop	af
+   0201 F1            [10]  477 	pop	af
+   0202 33            [ 6]  478 	inc	sp
+   0203 DD E1         [14]  479 	pop	ix
+   0205 C9            [10]  480 	ret
+                            481 ;src/main.c:145: void updateUser() {
+                            482 ;	---------------------------------
+                            483 ; Function updateUser
+                            484 ; ---------------------------------
+   0206                     485 _updateUser::
+   0206 DD E5         [15]  486 	push	ix
+   0208 DD 21 00 00   [14]  487 	ld	ix,#0
+   020C DD 39         [15]  488 	add	ix,sp
+   020E 3B            [ 6]  489 	dec	sp
+                            490 ;src/main.c:147: cpct_scanKeyboard_f();
+   020F CDr00r00      [17]  491 	call	_cpct_scanKeyboard_f
+                            492 ;src/main.c:154: if ((cpct_isKeyPressed(Key_CursorUp))){ 
+   0212 21 00 01      [10]  493 	ld	hl,#0x0100
+   0215 E5            [11]  494 	push	hl
+   0216 CDr00r00      [17]  495 	call	_cpct_isKeyPressed
+   0219 F1            [10]  496 	pop	af
+   021A 7D            [ 4]  497 	ld	a,l
+   021B B7            [ 4]  498 	or	a, a
+   021C 28 2D         [12]  499 	jr	Z,00105$
+                            500 ;src/main.c:155: if ((user.y-user.vy)>0)
+   021E 21r13r00      [10]  501 	ld	hl, #(_user + 0x0005) + 0
+   0221 5E            [ 7]  502 	ld	e,(hl)
+   0222 4B            [ 4]  503 	ld	c,e
+   0223 06 00         [ 7]  504 	ld	b,#0x00
+   0225 21r1Br00      [10]  505 	ld	hl, #_user + 13
+   0228 56            [ 7]  506 	ld	d,(hl)
+   0229 7A            [ 4]  507 	ld	a,d
+   022A 6F            [ 4]  508 	ld	l,a
+   022B 17            [ 4]  509 	rla
+   022C 9F            [ 4]  510 	sbc	a, a
+   022D 67            [ 4]  511 	ld	h,a
+   022E 79            [ 4]  512 	ld	a,c
+   022F 95            [ 4]  513 	sub	a, l
+   0230 6F            [ 4]  514 	ld	l,a
+   0231 78            [ 4]  515 	ld	a,b
+   0232 9C            [ 4]  516 	sbc	a, h
+   0233 67            [ 4]  517 	ld	h,a
+   0234 AF            [ 4]  518 	xor	a, a
+   0235 BD            [ 4]  519 	cp	a, l
+   0236 9C            [ 4]  520 	sbc	a, h
+   0237 E2r3Cr02      [10]  521 	jp	PO, 00155$
+   023A EE 80         [ 7]  522 	xor	a, #0x80
+   023C                     523 00155$:
+   023C F2r46r02      [10]  524 	jp	P,00102$
+                            525 ;src/main.c:156: user.y = user.y - user.vy;
+   023F 7B            [ 4]  526 	ld	a,e
+   0240 92            [ 4]  527 	sub	a, d
+   0241 32r13r00      [13]  528 	ld	(#(_user + 0x0005)),a
+   0244 18 05         [12]  529 	jr	00105$
+   0246                     530 00102$:
+                            531 ;src/main.c:158: user.y = 0;
+   0246 21r13r00      [10]  532 	ld	hl,#(_user + 0x0005)
+   0249 36 00         [10]  533 	ld	(hl),#0x00
+   024B                     534 00105$:
+                            535 ;src/main.c:161: if ((cpct_isKeyPressed(Key_CursorRight))){ 
+   024B 21 00 02      [10]  536 	ld	hl,#0x0200
+   024E E5            [11]  537 	push	hl
+   024F CDr00r00      [17]  538 	call	_cpct_isKeyPressed
+   0252 F1            [10]  539 	pop	af
+   0253 7D            [ 4]  540 	ld	a,l
+   0254 B7            [ 4]  541 	or	a, a
+   0255 28 3F         [12]  542 	jr	Z,00110$
+                            543 ;src/main.c:162: if ((user.x+user.vx<(79-user.w)))
+   0257 21r12r00      [10]  544 	ld	hl, #(_user + 0x0004) + 0
+   025A 5E            [ 7]  545 	ld	e,(hl)
+   025B 4B            [ 4]  546 	ld	c,e
+   025C 06 00         [ 7]  547 	ld	b,#0x00
+   025E 21r1Ar00      [10]  548 	ld	hl, #_user + 12
+   0261 56            [ 7]  549 	ld	d,(hl)
+   0262 7A            [ 4]  550 	ld	a,d
+   0263 6F            [ 4]  551 	ld	l,a
+   0264 17            [ 4]  552 	rla
+   0265 9F            [ 4]  553 	sbc	a, a
+   0266 67            [ 4]  554 	ld	h,a
+   0267 09            [11]  555 	add	hl,bc
+   0268 4D            [ 4]  556 	ld	c,l
+   0269 44            [ 4]  557 	ld	b,h
+   026A 3Ar14r00      [13]  558 	ld	a,(#_user + 6)
+   026D DD 77 FF      [19]  559 	ld	-1 (ix), a
+   0270 6F            [ 4]  560 	ld	l, a
+   0271 26 00         [ 7]  561 	ld	h,#0x00
+   0273 3E 4F         [ 7]  562 	ld	a,#0x4F
+   0275 95            [ 4]  563 	sub	a, l
+   0276 6F            [ 4]  564 	ld	l,a
+   0277 3E 00         [ 7]  565 	ld	a,#0x00
+   0279 9C            [ 4]  566 	sbc	a, h
+   027A 67            [ 4]  567 	ld	h,a
+   027B 79            [ 4]  568 	ld	a,c
+   027C 95            [ 4]  569 	sub	a, l
+   027D 78            [ 4]  570 	ld	a,b
+   027E 9C            [ 4]  571 	sbc	a, h
+   027F E2r84r02      [10]  572 	jp	PO, 00156$
+   0282 EE 80         [ 7]  573 	xor	a, #0x80
+   0284                     574 00156$:
+   0284 F2r8Er02      [10]  575 	jp	P,00107$
+                            576 ;src/main.c:163: user.x = user.x + user.vx;
+   0287 7B            [ 4]  577 	ld	a,e
+   0288 82            [ 4]  578 	add	a, d
+   0289 32r12r00      [13]  579 	ld	(#(_user + 0x0004)),a
+   028C 18 08         [12]  580 	jr	00110$
+   028E                     581 00107$:
+                            582 ;src/main.c:165: user.x = 79-user.w;
+   028E 3E 4F         [ 7]  583 	ld	a,#0x4F
+   0290 DD 96 FF      [19]  584 	sub	a, -1 (ix)
+   0293 32r12r00      [13]  585 	ld	(#(_user + 0x0004)),a
+   0296                     586 00110$:
+                            587 ;src/main.c:168: if (cpct_isKeyPressed(Key_CursorLeft)){
+   0296 21 01 01      [10]  588 	ld	hl,#0x0101
+   0299 E5            [11]  589 	push	hl
+   029A CDr00r00      [17]  590 	call	_cpct_isKeyPressed
+   029D F1            [10]  591 	pop	af
+   029E 7D            [ 4]  592 	ld	a,l
+   029F B7            [ 4]  593 	or	a, a
+   02A0 28 2D         [12]  594 	jr	Z,00115$
+                            595 ;src/main.c:169: if ((user.x-user.vx)>0) 
+   02A2 21r12r00      [10]  596 	ld	hl, #(_user + 0x0004) + 0
+   02A5 5E            [ 7]  597 	ld	e,(hl)
+   02A6 4B            [ 4]  598 	ld	c,e
+   02A7 06 00         [ 7]  599 	ld	b,#0x00
+   02A9 21r1Ar00      [10]  600 	ld	hl, #_user + 12
+   02AC 56            [ 7]  601 	ld	d,(hl)
+   02AD 7A            [ 4]  602 	ld	a,d
+   02AE 6F            [ 4]  603 	ld	l,a
+   02AF 17            [ 4]  604 	rla
+   02B0 9F            [ 4]  605 	sbc	a, a
+   02B1 67            [ 4]  606 	ld	h,a
+   02B2 79            [ 4]  607 	ld	a,c
+   02B3 95            [ 4]  608 	sub	a, l
+   02B4 6F            [ 4]  609 	ld	l,a
+   02B5 78            [ 4]  610 	ld	a,b
+   02B6 9C            [ 4]  611 	sbc	a, h
+   02B7 67            [ 4]  612 	ld	h,a
+   02B8 AF            [ 4]  613 	xor	a, a
+   02B9 BD            [ 4]  614 	cp	a, l
+   02BA 9C            [ 4]  615 	sbc	a, h
+   02BB E2rC0r02      [10]  616 	jp	PO, 00157$
+   02BE EE 80         [ 7]  617 	xor	a, #0x80
+   02C0                     618 00157$:
+   02C0 F2rCAr02      [10]  619 	jp	P,00112$
+                            620 ;src/main.c:170: user.x = user.x - user.vx;    
+   02C3 7B            [ 4]  621 	ld	a,e
+   02C4 92            [ 4]  622 	sub	a, d
+   02C5 32r12r00      [13]  623 	ld	(#(_user + 0x0004)),a
+   02C8 18 05         [12]  624 	jr	00115$
+   02CA                     625 00112$:
+                            626 ;src/main.c:172: user.x = 0;
+   02CA 21r12r00      [10]  627 	ld	hl,#(_user + 0x0004)
+   02CD 36 00         [10]  628 	ld	(hl),#0x00
+   02CF                     629 00115$:
+                            630 ;src/main.c:175: if (cpct_isKeyPressed(Key_CursorDown)){
+   02CF 21 00 04      [10]  631 	ld	hl,#0x0400
+   02D2 E5            [11]  632 	push	hl
+   02D3 CDr00r00      [17]  633 	call	_cpct_isKeyPressed
+   02D6 F1            [10]  634 	pop	af
+   02D7 7D            [ 4]  635 	ld	a,l
+   02D8 B7            [ 4]  636 	or	a, a
+   02D9 28 37         [12]  637 	jr	Z,00121$
+                            638 ;src/main.c:176: if ((user.y<(199-user.h) ))
+   02DB 21r13r00      [10]  639 	ld	hl, #(_user + 0x0005) + 0
+   02DE 5E            [ 7]  640 	ld	e,(hl)
+   02DF 3Ar15r00      [13]  641 	ld	a,(#_user + 7)
+   02E2 DD 77 FF      [19]  642 	ld	-1 (ix), a
+   02E5 6F            [ 4]  643 	ld	l, a
+   02E6 26 00         [ 7]  644 	ld	h,#0x00
+   02E8 3E C7         [ 7]  645 	ld	a,#0xC7
+   02EA 95            [ 4]  646 	sub	a, l
+   02EB 6F            [ 4]  647 	ld	l,a
+   02EC 3E 00         [ 7]  648 	ld	a,#0x00
+   02EE 9C            [ 4]  649 	sbc	a, h
+   02EF 67            [ 4]  650 	ld	h,a
+   02F0 4B            [ 4]  651 	ld	c,e
+   02F1 16 00         [ 7]  652 	ld	d,#0x00
+   02F3 79            [ 4]  653 	ld	a,c
+   02F4 95            [ 4]  654 	sub	a, l
+   02F5 7A            [ 4]  655 	ld	a,d
+   02F6 9C            [ 4]  656 	sbc	a, h
+   02F7 E2rFCr02      [10]  657 	jp	PO, 00158$
+   02FA EE 80         [ 7]  658 	xor	a, #0x80
+   02FC                     659 00158$:
+   02FC F2r0Ar03      [10]  660 	jp	P,00117$
+                            661 ;src/main.c:177: user.y = user.y + user.vy;
+   02FF 21r1Br00      [10]  662 	ld	hl, #_user + 13
+   0302 6E            [ 7]  663 	ld	l,(hl)
+   0303 7B            [ 4]  664 	ld	a,e
+   0304 85            [ 4]  665 	add	a, l
+   0305 32r13r00      [13]  666 	ld	(#(_user + 0x0005)),a
+   0308 18 08         [12]  667 	jr	00121$
+   030A                     668 00117$:
+                            669 ;src/main.c:179: user.y = 199-user.h;
+   030A 3E C7         [ 7]  670 	ld	a,#0xC7
+   030C DD 96 FF      [19]  671 	sub	a, -1 (ix)
+   030F 32r13r00      [13]  672 	ld	(#(_user + 0x0005)),a
+   0312                     673 00121$:
+   0312 33            [ 6]  674 	inc	sp
+   0313 DD E1         [14]  675 	pop	ix
+   0315 C9            [10]  676 	ret
+                            677 ;src/main.c:184: void initialization(){
+                            678 ;	---------------------------------
+                            679 ; Function initialization
+                            680 ; ---------------------------------
+   0316                     681 _initialization::
+                            682 ;src/main.c:186: pvmem = SCR_BUFF;
+   0316 21 00 40      [10]  683 	ld	hl,#0x4000
+   0319 22r1Dr00      [16]  684 	ld	(_pvmem),hl
+                            685 ;src/main.c:189: inicializarEstrellas();
+   031C CDr00r00      [17]  686 	call	_inicializarEstrellas
+                            687 ;src/main.c:191: block01.x = 10;
+   031F 21r00r00      [10]  688 	ld	hl,#_block01+0
+   0322 36 0A         [10]  689 	ld	(hl),#0x0A
+                            690 ;src/main.c:192: block01.y = 10;
+   0324 21r01r00      [10]  691 	ld	hl,#_block01 + 1
+   0327 36 0A         [10]  692 	ld	(hl),#0x0A
+                            693 ;src/main.c:193: block01.vx = 2;
+   0329 21r02r00      [10]  694 	ld	hl,#_block01 + 2
+   032C 36 02         [10]  695 	ld	(hl),#0x02
+                            696 ;src/main.c:194: block01.vy = 0;
+   032E 21r03r00      [10]  697 	ld	hl,#_block01 + 3
+   0331 36 00         [10]  698 	ld	(hl),#0x00
+                            699 ;src/main.c:195: block01.w = 20;
+   0333 21r04r00      [10]  700 	ld	hl,#_block01 + 4
+   0336 36 14         [10]  701 	ld	(hl),#0x14
+                            702 ;src/main.c:196: block01.h = 40;
+   0338 21r05r00      [10]  703 	ld	hl,#_block01 + 5
+   033B 36 28         [10]  704 	ld	(hl),#0x28
+                            705 ;src/main.c:198: block02.x = 15;
+   033D 21r07r00      [10]  706 	ld	hl,#_block02+0
+   0340 36 0F         [10]  707 	ld	(hl),#0x0F
+                            708 ;src/main.c:199: block02.y = 15;
+   0342 21r08r00      [10]  709 	ld	hl,#_block02 + 1
+   0345 36 0F         [10]  710 	ld	(hl),#0x0F
+                            711 ;src/main.c:200: block02.vx = 4;
+   0347 21r09r00      [10]  712 	ld	hl,#_block02 + 2
+   034A 36 04         [10]  713 	ld	(hl),#0x04
+                            714 ;src/main.c:201: block02.vy = 0;
+   034C 21r0Ar00      [10]  715 	ld	hl,#_block02 + 3
+   034F 36 00         [10]  716 	ld	(hl),#0x00
+                            717 ;src/main.c:202: block02.w = 25;
+   0351 21r0Br00      [10]  718 	ld	hl,#_block02 + 4
+   0354 36 19         [10]  719 	ld	(hl),#0x19
+                            720 ;src/main.c:203: block02.h = 20;
+   0356 21r0Cr00      [10]  721 	ld	hl,#_block02 + 5
+   0359 36 14         [10]  722 	ld	(hl),#0x14
+                            723 ;src/main.c:205: user.x = 39;
+   035B 21r12r00      [10]  724 	ld	hl,#_user + 4
+   035E 36 27         [10]  725 	ld	(hl),#0x27
+                            726 ;src/main.c:206: user.y = 183;
+   0360 21r13r00      [10]  727 	ld	hl,#_user + 5
+   0363 36 B7         [10]  728 	ld	(hl),#0xB7
+                            729 ;src/main.c:207: user.w = 6;
+   0365 21r14r00      [10]  730 	ld	hl,#_user + 6
+   0368 36 06         [10]  731 	ld	(hl),#0x06
+                            732 ;src/main.c:208: user.h = 16;
+   036A 21r15r00      [10]  733 	ld	hl,#_user + 7
+   036D 36 10         [10]  734 	ld	(hl),#0x10
+                            735 ;src/main.c:209: user.vx = 2;
+   036F 21r1Ar00      [10]  736 	ld	hl,#_user + 12
+   0372 36 02         [10]  737 	ld	(hl),#0x02
+                            738 ;src/main.c:210: user.vy = 4;
+   0374 21r1Br00      [10]  739 	ld	hl,#_user + 13
+   0377 36 04         [10]  740 	ld	(hl),#0x04
+   0379 C9            [10]  741 	ret
+                            742 ;src/main.c:214: void main(void) {
+                            743 ;	---------------------------------
+                            744 ; Function main
+                            745 ; ---------------------------------
+   037A                     746 _main::
+                            747 ;src/main.c:216: cpct_disableFirmware();             // Disable firmware to prevent it from interfering
+   037A CDr00r00      [17]  748 	call	_cpct_disableFirmware
+                            749 ;src/main.c:218: cpct_setPalette  (G_palette, 16);   // Set up palette using hardware colours
+   037D 11r00r00      [10]  750 	ld	de,#_G_palette
+   0380 3E 10         [ 7]  751 	ld	a,#0x10
+   0382 F5            [11]  752 	push	af
+   0383 33            [ 6]  753 	inc	sp
+   0384 D5            [11]  754 	push	de
+   0385 CDr00r00      [17]  755 	call	_cpct_setPalette
+   0388 F1            [10]  756 	pop	af
+   0389 33            [ 6]  757 	inc	sp
+                            758 ;src/main.c:219: cpct_setBorder   (G_palette[1]);    // Set up the border to the background colour (white)
+   038A 3Ar01r00      [13]  759 	ld	a, (#_G_palette + 1)
+   038D 57            [ 4]  760 	ld	d,a
+   038E 1E 10         [ 7]  761 	ld	e,#0x10
+   0390 D5            [11]  762 	push	de
+   0391 CDr00r00      [17]  763 	call	_cpct_setPALColour
+   0394 F1            [10]  764 	pop	af
+                            765 ;src/main.c:220: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
+   0395 AF            [ 4]  766 	xor	a, a
+   0396 F5            [11]  767 	push	af
+   0397 33            [ 6]  768 	inc	sp
+   0398 CDr00r00      [17]  769 	call	_cpct_setVideoMode
+   039B 33            [ 6]  770 	inc	sp
+                            771 ;src/main.c:223: cpct_memset(SCR_VMEM, 0x00, 0x4000);
+   039C 21 00 40      [10]  772 	ld	hl,#0x4000
+   039F E5            [11]  773 	push	hl
+   03A0 AF            [ 4]  774 	xor	a, a
+   03A1 F5            [11]  775 	push	af
+   03A2 33            [ 6]  776 	inc	sp
+   03A3 26 C0         [ 7]  777 	ld	h, #0xC0
+   03A5 E5            [11]  778 	push	hl
+   03A6 CDr00r00      [17]  779 	call	_cpct_memset
+   03A9 F1            [10]  780 	pop	af
+   03AA F1            [10]  781 	pop	af
+   03AB 33            [ 6]  782 	inc	sp
+                            783 ;src/main.c:224: cpct_memset(SCR_BUFF, 0x00, 0x4000);
+   03AC 21 00 40      [10]  784 	ld	hl,#0x4000
+   03AF E5            [11]  785 	push	hl
+   03B0 AF            [ 4]  786 	xor	a, a
+   03B1 F5            [11]  787 	push	af
+   03B2 33            [ 6]  788 	inc	sp
+   03B3 2E 00         [ 7]  789 	ld	l, #0x00
+   03B5 E5            [11]  790 	push	hl
+   03B6 CDr00r00      [17]  791 	call	_cpct_memset
+   03B9 F1            [10]  792 	pop	af
+   03BA F1            [10]  793 	pop	af
+   03BB 33            [ 6]  794 	inc	sp
+                            795 ;src/main.c:226: initialization(); 
+   03BC CDr16r03      [17]  796 	call	_initialization
+                            797 ;src/main.c:229: while (1){
+   03BF                     798 00104$:
+                            799 ;src/main.c:231: clear_screen(pvmem);
+   03BF 2Ar1Dr00      [16]  800 	ld	hl,(_pvmem)
+   03C2 E5            [11]  801 	push	hl
+   03C3 CDrFCr00      [17]  802 	call	_clear_screen
+   03C6 F1            [10]  803 	pop	af
+                            804 ;src/main.c:233: updateUser();
+   03C7 CDr06r02      [17]  805 	call	_updateUser
+                            806 ;src/main.c:234: updateBlock();
+   03CA CDr0Fr01      [17]  807 	call	_updateBlock
+                            808 ;src/main.c:236: moverEstrellas();
+   03CD CDr00r00      [17]  809 	call	_moverEstrellas
+                            810 ;src/main.c:237: pintarEstrellas(pvmem);
+   03D0 2Ar1Dr00      [16]  811 	ld	hl,(_pvmem)
+   03D3 E5            [11]  812 	push	hl
+   03D4 CDr00r00      [17]  813 	call	_pintarEstrellas
+   03D7 F1            [10]  814 	pop	af
+                            815 ;src/main.c:240: draw_blocks(pvmem);
+   03D8 2Ar1Dr00      [16]  816 	ld	hl,(_pvmem)
+   03DB E5            [11]  817 	push	hl
+   03DC CDr67r00      [17]  818 	call	_draw_blocks
+   03DF F1            [10]  819 	pop	af
+                            820 ;src/main.c:243: draw_sprite(pvmem);
+   03E0 2Ar1Dr00      [16]  821 	ld	hl,(_pvmem)
+   03E3 E5            [11]  822 	push	hl
+   03E4 CDr28r00      [17]  823 	call	_draw_sprite
+   03E7 F1            [10]  824 	pop	af
+                            825 ;src/main.c:246: pvmem = changeVideoMemoryPage();
+   03E8 CDr00r00      [17]  826 	call	_changeVideoMemoryPage
+   03EB 22r1Dr00      [16]  827 	ld	(_pvmem),hl
+                            828 ;src/main.c:249: cpct_waitVSYNC();
+   03EE CDr00r00      [17]  829 	call	_cpct_waitVSYNC
+   03F1 18 CC         [12]  830 	jr	00104$
+                            831 	.area _CODE
+                            832 	.area _INITIALIZER
+                            833 	.area _CABS (ABS)

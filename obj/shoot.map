@@ -1,0 +1,238 @@
+ASxxxx Linker V03.00 + NoICE + sdld,  page 1.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+.  .ABS.                            00000000    00000000 =           0. bytes (ABS,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00000000  .__.ABS.                           cpct_strings
+     00000000  l__CABS                         
+     00000000  l__DABS                         
+     00000000  l__GSFINAL                      
+     00000000  s__CABS                         
+     00000000  s__DABS                         
+     00000004  l__INITIALIZED                  
+     00000004  l__INITIALIZER                  
+     00000008  l__GSINIT                       
+     00000071  l__DATA                         
+     0000017E  l__HOME                         
+     00000D08  l__CODE                         
+     00002000  s__CODE                         
+     00002D08  s__DATA                         
+     00002D79  s__INITIALIZED                  
+     00002D7D  s__HOME                         
+     00002EFB  s__GSINIT                       
+     00002F03  s__GSFINAL                      
+     00002F03  s__INITIALIZER                  
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00000D08 =        3336. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00002000  _changeVideoMemoryPage             main
+     00002028  _draw_sprite                       main
+     00002067  _draw_blocks                       main
+     000020FC  _clear_screen                      main
+     0000210F  _updateBlock                       main
+     0000216F  _drawFrame                         main
+     00002206  _updateUser                        main
+     00002316  _initialization                    main
+     0000237A  _main                              main
+     000023F3  _getRandomUniform                  random
+     0000240E  _g_randUnif                        random
+     0000250E  _cpc_random                        random
+     0000251E  _G_palette                         sprites
+     0000252E  _tintas                            sprites
+     0000253F  _redFlag                           sprites
+     0000254D  _ship01                            sprites
+     000025AD  _bullet01                          sprites
+     000025BB  _pixelEstrella                     starfield
+     000025C9  _GetMode0PixelColorByte            starfield
+     00002639  _inicializarEstrellas              starfield
+     000026CB  _borrarEstrellas                   starfield
+     00002726  _pintarEstrellas                   starfield
+     000027A1  _moverEstrellas                    starfield
+     00002854  _cpc_Random                        
+     00002863  _cpct_setPalette                   cpct_video
+     0000286C  cpct_setPalette_asm                cpct_video
+     00002887  _cpct_isKeyPressed                 cpct_keyboard
+     00002898  _cpct_scanKeyboard_f               cpct_keyboard
+     00002898  cpct_scanKeyboard_f_asm            cpct_keyboard
+     00002902  _rand                              rand
+     0000295E  _srand                             rand
+     00002979  _cpct_setPALColour                 cpct_video
+     00002980  cpct_setPALColour_asm              cpct_video
+     00002989  _cpct_drawSprite                   cpct_sprites
+     00002991  cpct_drawSprite_asm                cpct_sprites
+     00002A31  _cpct_keyboardStatusBuffer         cpct_keyboard
+     00002A3B  _cpct_setVideoMemoryPage           cpct_video
+     00002A40  cpct_setVideoMemoryPage_asm        cpct_video
+     00002A49  cpct_firmware2hw_colour            
+     00002A64  _cpct_waitVSYNC                    cpct_video
+     00002A64  cpct_waitVSYNC_asm                 cpct_video
+     00002A6C  _cpct_setVideoMode                 cpct_video
+     00002A71  cpct_setVideoMode_asm              cpct_video
+     00002A7E  _cpct_px2byteM0                    cpct_sprites
+     00002A9D  cpct_memset_asm                    cpct_memutils
+     00002AA2  _cpct_memset                       cpct_memutils
+     00002AB6  _cpct_mode_rom_status              cpct_firmware
+     00002AB7  _cpct_firmware_address             cpct_firmware
+     00002AB9  _cpct_disableFirmware              cpct_firmware
+     00002AB9  cpct_disableFirmware_asm           cpct_firmware
+ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_CODE                               00002000    00000D08 =        3336. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00002ACA  cpct_drawSolidBox_asm              cpct_sprites
+     00002AD1  _cpct_drawSolidBox                 cpct_sprites
+     00002B8A  __modschar                         
+     00002B97  __modsint                          
+     00002BA3  _cpct_getScreenPtr                 cpct_video
+     00002BA9  cpct_getScreenPtr_asm              cpct_video
+     00002BC6  __divsint                          
+     00002BCF  __divschar                         
+     00002BD6  __div8                             
+     00002BDA  __div_signexte                     
+     00002BDE  __div16                            
+     00002C04  __get_remainder                    
+     00002C0E  __mulint                           
+     00002C16  __mul16                            
+     00002C2A  __divuint                          
+     00002C32  __divuchar                         
+     00002C39  __divu8                            
+     00002C3C  __divu16                           
+     00002C6B  dc_mode0_ct                        cpct_strings
+     00002C7B  _cpct_drawCharM0                   cpct_strings
+     00002C88  cpct_drawCharM0_asm                cpct_strings
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_DATA                               00002D08    00000071 =         113. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00002D08  _block01                           main
+     00002D0F  _block02                           main
+     00002D16  _user                              main
+     00002D25  _pvmem                             main
+     00002D28  _g_nextRand                        random
+     00002D29  _aStars                            starfield
+ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZED                        00002D79    00000004 =           4. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_HOME                               00002D7D    0000017E =         382. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+     00002D7D  __mullong                          _mullong
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_GSINIT                             00002EFB    00000008 =           8. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
+Hexadecimal  [32-Bits]
+
+Area                                    Addr        Size        Decimal Bytes (Attributes)
+--------------------------------        ----        ----        ------- ----- ------------
+_INITIALIZER                        00002F03    00000004 =           4. bytes (REL,CON)
+
+      Value  Global                              Global Defined In Module
+      -----  --------------------------------   ------------------------
+ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
+
+Files Linked                              [ module(s) ]
+
+obj/main.rel                              [ main ]
+obj/random/random.rel                     [ random ]
+obj/sprites/sprites.rel                   [ sprites ]
+obj/starfield/starfield.rel               [ starfield ]
+obj/random/cpc_random.rel                 [  ]
+
+
+Libraries Linked                          [ object file ]
+
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPalette.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_isKeyPressed.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_scanKeyboard_f.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/tools/sdcc-3.4.3/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ rand.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setPALColour.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSprite.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ keyboard.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setVideoMemoryPage.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_firmware2hw_colour_table.re ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_waitVSYNC.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_setVideoMode.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_px2byteM0.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_memset.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_disableFirmware.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawSolidBox.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/tools/sdcc-3.4.3/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ _mullong.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/tools/sdcc-3.4.3/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ modsigned.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_getScreenPtr.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/tools/sdcc-3.4.3/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ divsigned.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/tools/sdcc-3.4.3/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ mul.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/tools/sdcc-3.4.3/bin/../share/sdcc/lib/z80/z80.lib
+                                          [ divunsigned.rel ]
+/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera/cpctelera.lib
+                                          [ cpct_drawCharM0.rel ]
+
+ASxxxx Linker V03.00 + NoICE + sdld,  page 10.
+
+User Base Address Definitions
+
+_CODE = 0x2000
+_DATA = 0x0000
+
+
