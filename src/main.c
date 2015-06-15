@@ -94,7 +94,7 @@ void clear_screen(u8* screen){
 
 void updateBlock(){
   if (block01.vx>0){
-    if ((block01.x+block01.vx)<79){
+    if ((block01.x+block01.vx)<(79-block01.w)){
       block01.x = block01.x + block01.vx;
     }
     else{

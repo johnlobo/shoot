@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.3 #9207 (Jun  5 2015) (Mac OS X x86_64)
-; This file was generated Sun Jun 14 18:05:38 2015
+; This file was generated Sun Jun 14 18:20:21 2015
 ;--------------------------------------------------------
 	.module main
 	.optsdcc -mz80
@@ -177,15 +177,13 @@ _draw_blocks::
 	ld	hl, #_block01 + 0
 	ld	d,(hl)
 	ld	a,4 (ix)
-	ld	-3 (ix),a
-	ld	a,5 (ix)
 	ld	-2 (ix),a
+	ld	a,5 (ix)
+	ld	-1 (ix),a
 	ld	c, d
 	push	bc
-	pop	bc
-	pop	hl
-	push	hl
-	push	bc
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	push	hl
 	call	_cpct_getScreenPtr
 	pop	af
@@ -203,7 +201,7 @@ _draw_blocks::
 	push	hl
 	call	_cpct_px2byteM0
 	pop	af
-	ld	-1 (ix),l
+	ld	-3 (ix),l
 	pop	de
 	pop	bc
 	ld	a,c
@@ -211,7 +209,7 @@ _draw_blocks::
 	inc	sp
 	push	bc
 	inc	sp
-	ld	a,-1 (ix)
+	ld	a,-3 (ix)
 	push	af
 	inc	sp
 	push	de
@@ -227,10 +225,8 @@ _draw_blocks::
 	inc	sp
 	push	af
 	inc	sp
-	pop	bc
-	pop	hl
-	push	hl
-	push	bc
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	push	hl
 	call	_cpct_getScreenPtr
 	pop	af
@@ -248,7 +244,7 @@ _draw_blocks::
 	push	hl
 	call	_cpct_px2byteM0
 	pop	af
-	ld	-1 (ix),l
+	ld	-3 (ix),l
 	pop	de
 	pop	bc
 	ld	a,c
@@ -256,7 +252,7 @@ _draw_blocks::
 	inc	sp
 	push	bc
 	inc	sp
-	ld	a,-1 (ix)
+	ld	a,-3 (ix)
 	push	af
 	inc	sp
 	push	de
@@ -293,7 +289,7 @@ _updateBlock::
 ;src/main.c:96: if (block01.vx>0){
 	ld	hl, #(_block01 + 0x0002) + 0
 	ld	b,(hl)
-;src/main.c:97: if ((block01.x+block01.vx)<79){
+;src/main.c:97: if ((block01.x+block01.vx)<(79-block01.w)){
 	ld	hl, #_block01 + 0
 	ld	c,(hl)
 	ld	l,b
@@ -304,7 +300,7 @@ _updateBlock::
 	ld	a,c
 	add	a, b
 	ld	c,a
-;src/main.c:97: if ((block01.x+block01.vx)<79){
+;src/main.c:97: if ((block01.x+block01.vx)<(79-block01.w)){
 	add	hl,de
 	ld	e,l
 	ld	d,h
@@ -312,23 +308,31 @@ _updateBlock::
 	ld	a,b
 	or	a, a
 	jr	Z,00108$
-;src/main.c:97: if ((block01.x+block01.vx)<79){
+;src/main.c:97: if ((block01.x+block01.vx)<(79-block01.w)){
+	ld	hl, #_block01 + 4
+	ld	h,(hl)
+	ld	l,h
+	ld	b,#0x00
+	ld	a,#0x4F
+	sub	a, l
+	ld	l,a
+	ld	a,#0x00
+	sbc	a, b
+	ld	b,a
 	ld	a,e
-	sub	a, #0x4F
+	sub	a, l
 	ld	a,d
-	rla
-	ccf
-	rra
-	sbc	a, #0x80
-	jr	NC,00102$
+	sbc	a, b
+	jp	PO, 00124$
+	xor	a, #0x80
+00124$:
+	jp	P,00102$
 ;src/main.c:98: block01.x = block01.x + block01.vx;
 	ld	hl,#_block01
 	ld	(hl),c
 	ret
 00102$:
 ;src/main.c:101: block01.x = 79-block01.w;
-	ld	hl, #_block01 + 4
-	ld	h,(hl)
 	ld	a,#0x4F
 	sub	a, h
 	ld	hl,#_block01
@@ -347,9 +351,9 @@ _updateBlock::
 	xor	a, a
 	cp	a, e
 	sbc	a, d
-	jp	PO, 00124$
+	jp	PO, 00125$
 	xor	a, #0x80
-00124$:
+00125$:
 	jp	P,00105$
 ;src/main.c:106: block01.x = block01.x + block01.vx;
 	ld	hl,#_block01
