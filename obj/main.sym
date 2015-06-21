@@ -8,11 +8,13 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
     _G_palette                                                     **** GX
+  1 _aux_txt                                                       001F GR
   1 _block01                                                       0000 GR
   1 _block02                                                       0007 GR
   0 _changeVideoMemoryPage                                         0000 GR
-  1 _changeVideoMemoryPage_page_1_58                               001F R
-  0 _clear_screen                                                  0100 GR
+  1 _changeVideoMemoryPage_page_1_71                               0047 R
+  0 _clear_screen                                                  00B7 GR
+    _cpc_SetInkGphStr                                              **** GX
     _cpct_disableFirmware                                          **** GX
     _cpct_drawSolidBox                                             **** GX
     _cpct_drawSprite                                               **** GX
@@ -26,27 +28,28 @@ Symbol Table
     _cpct_setVideoMemoryPage                                       **** GX
     _cpct_setVideoMode                                             **** GX
     _cpct_waitVSYNC                                                **** GX
-  0 _drawFrame                                                     017F GR
   0 _draw_blocks                                                   0067 GR
   0 _draw_sprite                                                   0028 GR
     _inicializarEstrellas                                          **** GX
-  0 _initialization                                                0326 GR
-  0 _main                                                          038A GR
+  0 _initialization                                                028A GR
+  0 _main                                                          030B GR
     _moverEstrellas                                                **** GX
     _pintarEstrellas                                               **** GX
   1 _pvmem                                                         001D GR
+    _set_stack                                                     **** GX
     _ship01                                                        **** GX
-  0 _updateBlock                                                   0113 GR
-  0 _updateUser                                                    0216 GR
+  0 _updateBlock                                                   00CA GR
+  0 _updateUser                                                    015A GR
   1 _user                                                          000E GR
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  403   flags    0
-   1 _DATA                                      size   20   flags    0
+   0 _CODE                                      size  384   flags    0
+   1 _DATA                                      size   48   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

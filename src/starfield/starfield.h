@@ -6,7 +6,7 @@
 
 
 // Definiciones para el mapa de estrellas
-#define STARS_NUM 10
+#define STARS_NUM 15
 #define ESTRELLAS_ACTIVADAS 1
 #define VELOCIDAD_ESTRELLAS 40
 

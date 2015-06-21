@@ -3,14 +3,14 @@ Hexadecimal [16-Bits]
 
 
 
-   2864                       1 _cpc_Random::
-   2864 3A 72 28      [13]    2 	LD A,(#valor_previo)
-   2867 6F            [ 4]    3 	LD L,A
-   2868 ED 5F         [ 9]    4 	LD A,R
-   286A 85            [ 4]    5 	ADD L ;LOS 2 ÚLTIMOS BITS DE A DIRÁN SI ES 0,1,2,3
-   286B 32 72 28      [13]    6 	LD (#valor_previo),A
-   286E 6F            [ 4]    7 	LD L,A ;SE DEVUELVE L (CHAR)
-   286F 26 00         [ 7]    8 	LD H,#0
-   2871 C9            [10]    9 	RET
-   2872                      10 valor_previo:
-   2872 FF                   11 	.db #0xFF
+   2787                       1 _cpc_Random::
+   2787 3A 95 27      [13]    2 	LD A,(#valor_previo)
+   278A 6F            [ 4]    3 	LD L,A
+   278B ED 5F         [ 9]    4 	LD A,R
+   278D 85            [ 4]    5 	ADD L ;LOS 2 ÚLTIMOS BITS DE A DIRÁN SI ES 0,1,2,3
+   278E 32 95 27      [13]    6 	LD (#valor_previo),A
+   2791 6F            [ 4]    7 	LD L,A ;SE DEVUELVE L (CHAR)
+   2792 26 00         [ 7]    8 	LD H,#0
+   2794 C9            [10]    9 	RET
+   2795                      10 valor_previo:
+   2795 FF                   11 	.db #0xFF

@@ -16,14 +16,16 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
+#include <stdio.h>
 #include <cpctelera.h>
 #include "entities/entities.h"
 #include "sprites/sprites.h"
 #include "starfield/starfield.h"
 #include "random/random.h"
+#include "util/util.h"
 
 #define SCR_VMEM  (u8*)0xC000
-#define SCR_BUFF  (u8*)0x4000
+#define SCR_BUFF  (u8*)0x8000
 
 // Background information
 // Starting screen coordinates of the top-left pixel (in bytes)
@@ -41,6 +43,7 @@
 TBlock block01,block02;
 TEntity user;
 u8* pvmem;     // Pointer to video memory (or backbuffer) where to draw sprites
+u8 aux_txt[40];
 
 
 
@@ -56,162 +59,170 @@ u8* changeVideoMemoryPage() {
 
       // Depending on which was the last page shown, we show the other 
       // now, and change the page for the next time 
-      if (page) {
+   if (page) {
          cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
          page = 0;  
          screen = SCR_BUFF;                            // Next page = 0
-      } else {
-         cpct_setVideoMemoryPage(cpct_page40);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
+       } else {
+         cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
          page = 1;                              // Next page = 1
          screen = SCR_VMEM;
-      }
-   return screen;
-}
+       }
+       return screen;
+     }
+/////////////////////////////////////////////////////////////////////////
+// Draws a sprite
+//
 
+     void draw_sprite(u8* screen){
+       u8* pscreen;
+       pscreen = cpct_getScreenPtr(screen, user.x, user.y);
+       cpct_drawSprite(ship01,pscreen,user.w,user.h);
+     }
+/////////////////////////////////////////////////////////////////////////
+// Draws a block
+//
 
-void draw_sprite(u8* screen){
-   u8* pscreen;
-   pscreen = cpct_getScreenPtr(screen, user.x, user.y);
-   cpct_drawSprite(ship01,pscreen,user.w,user.h);
-}
+     void draw_blocks(u8* screen){
+       u8* pscreen;
 
+       pscreen = cpct_getScreenPtr(screen, block01.x, block01.y);
+       cpct_drawSolidBox(pscreen, cpct_px2byteM0(4, 4), block01.w, block01.h);
 
-void draw_blocks(u8* screen){
-   u8* pscreen;
-
-   pscreen = cpct_getScreenPtr(screen, block01.x, block01.y);
-   cpct_drawSolidBox(pscreen, cpct_px2byteM0(4, 4), block01.w, block01.h);
-
-   pscreen = cpct_getScreenPtr(screen, block02.x, block02.y);
-   cpct_drawSolidBox(pscreen, cpct_px2byteM0(6, 6), block02.w, block02.h);    
-}
-
-
-void clear_screen(u8* screen){
-   cpct_memset(screen, 0x00, 0x4000);   
-}
-
-
-void updateBlock(){
-  if (block01.vx>0){
-    if ((block01.x+block01.vx)<(79-block01.w)){
-      block01.x = block01.x + block01.vx;
-    }
-    else{
-      block01.x = 79-block01.w;
-      block01.vx = - block01.vx;
-    }
-  } else {
-    if ((block01.x+block01.vx)>0){
-      block01.x = block01.x + block01.vx;
-    }
-    else{
-      block01.x = 0;
-      block01.vx = - block01.vx;
-    }
-  }
-}
+     }
 
 /////////////////////////////////////////////////////////////////////////
-// Draws a frame box around the "play zone"
+// Clears screen
 //
-void drawFrame(u8* screen) {
-  u8* pv;    // Pointer to video memory for drawing boxes
-  u8  pattern;  // Colour pattern to be drawn
+     void clear_screen(u8* screen){
+       cpct_memset(screen, 0x00, 0x4000);   
+     }
 
-  // Colour pattern for frame boxes (2 pixels of PEN colour 15)
-  pattern = cpct_px2byteM0 (15, 15);
-  
-  // Draw top box
-  pv = cpct_getScreenPtr(screen, (BACK_X),  (BACK_Y));
-  cpct_drawSolidBox(pv, pattern, BACK_W,  4);
+/////////////////////////////////////////////////////////////////////////
+// Update blocks position
+//
 
-  // Draw bottom box
-  pv = cpct_getScreenPtr(screen, (BACK_X),  (BACK_Y - 2 + BACK_H) );
-  cpct_drawSolidBox(pv, pattern, BACK_W,  4);
-
-  // Draw left box
-  pv = cpct_getScreenPtr(screen, (BACK_X), (BACK_Y) );
-  cpct_drawSolidBox(pv, pattern,  2, BACK_H );
-
-  // Draw right box
-  pv = cpct_getScreenPtr(screen, (BACK_X + BACK_W - 2),  BACK_Y);
-  cpct_drawSolidBox(pv, pattern,  2, BACK_H );
-}
+     void updateBlock(){
+      if (block01.vx<128){
+        if ((block01.x+block01.vx)<(80-block01.w)){
+          block01.x = block01.x + block01.vx;
+        }
+        else{
+          block01.x = 79-block01.w;
+          block01.vx = - block01.vx;
+        }
+      } else {
+        if (( (i8) (block01.x+block01.vx))>0){
+          block01.x = block01.x + block01.vx;
+        }
+        else{
+          block01.x = 0;
+          block01.vx = - block01.vx;
+        }
+      }
+    }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Scan Keyboard and update user actions as requested by the user
 //
 void updateUser() {
    // Scan Keyboard
-   cpct_scanKeyboard_f();
+ cpct_scanKeyboard_f();
 
    //
    // Check possible keys to press, and do actions
    //
 
    // KEY = Cursor Up
-   if ((cpct_isKeyPressed(Key_CursorUp))){ 
-      if ((user.y-user.vy)>0)
-        user.y = user.y - user.vy;
-      else
-        user.y = 0;
-    }
+ if ((cpct_isKeyPressed(Key_CursorUp))){ 
+  if ((user.y-user.vy)>0)
+    user.y = user.y - user.vy;
+  else
+    user.y = 0;
+}
    // KEY = Cursor Right
-   if ((cpct_isKeyPressed(Key_CursorRight))){ 
-      if ((user.x+user.vx<(79-user.w)))
-        user.x = user.x + user.vx;
-      else     
-        user.x = 79-user.w;
-    }
+if ((cpct_isKeyPressed(Key_CursorRight))){ 
+  if ((user.x+user.vx<(79-user.w)))
+    user.x = user.x + user.vx;
+  else     
+    user.x = 79-user.w;
+}
    // KEY = Cursor Left
-   if (cpct_isKeyPressed(Key_CursorLeft)){
-      if ((user.x-user.vx)>0) 
-        user.x = user.x - user.vx;    
-      else
-        user.x = 0;
-    }
+if (cpct_isKeyPressed(Key_CursorLeft)){
+  if ((user.x-user.vx)>0) 
+    user.x = user.x - user.vx;    
+  else
+    user.x = 0;
+}
    // KEY = Cursor Down
-   if (cpct_isKeyPressed(Key_CursorDown)){
-      if ((user.y<(199-user.h) ))
-        user.y = user.y + user.vy;
-      else
-        user.y = 199-user.h;
-    }
+if (cpct_isKeyPressed(Key_CursorDown)){
+  if ((user.y<(199-user.h) ))
+    user.y = user.y + user.vy;
+  else
+    user.y = 199-user.h;
+}
+
+  // KEY = Space
+if (cpct_isKeyPressed(Key_Space)){
+  // Scan Keyboard
+  cpct_scanKeyboard_f();
+  
+  while(!cpct_isKeyPressed(Key_P)){
+    // Scan Keyboard
+    cpct_scanKeyboard_f();
+  }
+}
 
 }
+
+/////////////////////////////////////////////////////////////////////////
+// Initialization
+//
 
 void initialization(){
 
-    pvmem = SCR_BUFF;
+  pvmem = SCR_BUFF;
 
-   if (ESTRELLAS_ACTIVADAS)
-      inicializarEstrellas();
+  if (ESTRELLAS_ACTIVADAS)
+    inicializarEstrellas();
 
-   block01.x = 10;
-   block01.y = 10;
-   block01.vx = 2;
-   block01.vy = 0;
-   block01.w = 20;
-   block01.h = 40;
+  block01.x = 50;
+  block01.y = 10;
+  block01.vx = 2;
+  block01.vy = 0;
+  block01.w = 20;
+  block01.h = 40;
 
-   block02.x = 15;
-   block02.y = 15;
-   block02.vx = 4;
-   block02.vy = 0;
-   block02.w = 25;
-   block02.h = 20;
- 
-   user.x = 39;
-   user.y = 183;
-   user.w = 6;
-   user.h = 16;
-   user.vx = 2;
-   user.vy = 4;
+  block02.x = 15;
+  block02.y = 15;
+  block02.vx = 4;
+  block02.vy = 0;
+  block02.w = 25;
+  block02.h = 20;
+  
+  user.x = 39;
+  user.y = 183;
+  user.w = 6;
+  user.h = 16;
+  user.vx = 2;
+  user.vy = 4;
+
+    //tintas para los textos
+  cpc_SetInkGphStr(0,0);
+  cpc_SetInkGphStr(1,2);
+  cpc_SetInkGphStr(2,8);
+  cpc_SetInkGphStr(3,42);
 
 }
 
+/////////////////////////////////////////////////////////////////////////
+// main
+//
+
 void main(void) {
+
+  // Reubico el stack
+  set_stack(0x1000);
 
    cpct_disableFirmware();             // Disable firmware to prevent it from interfering
    //cpct_fw2hw       (G_palette, 16);   // Convert Firmware colours to Hardware colours 
@@ -224,29 +235,27 @@ void main(void) {
    cpct_memset(SCR_BUFF, 0x00, 0x4000);
 
    initialization(); 
- 
+   
    // Loop forever
    while (1){
 
-      clear_screen(pvmem);
+    clear_screen(pvmem);
       //#include <stdlib.h>drawFrame(pvmem);
-      updateUser();
-      updateBlock();
-      if (ESTRELLAS_ACTIVADAS){
-         moverEstrellas();
-         pintarEstrellas(pvmem);
-      }
-  
-      draw_blocks(pvmem);
+    updateUser();
+    updateBlock();
+    if (ESTRELLAS_ACTIVADAS){
+     moverEstrellas();
+     pintarEstrellas(pvmem);
+   }
+   
+   //draw_blocks(pvmem);
 
-      //draw_sprite(pvmem);
-      draw_sprite(pvmem);
+   draw_sprite(pvmem);
 
-
-      pvmem = changeVideoMemoryPage();
+   pvmem = changeVideoMemoryPage();
 
       // Synchronize next frame drawing with VSYNC
-      cpct_waitVSYNC();
-   } 
+   cpct_waitVSYNC();
+ } 
 
 }

@@ -10,11 +10,10 @@ Symbol Table
   0 _GetMode0PixelColorByte                                        000E GR
     __modsint                                                      **** GX
   1 _aStars                                                        0000 GR
-  0 _borrarEstrellas                                               0110 GR
     _cpct_getScreenPtr                                             **** GX
   0 _inicializarEstrellas                                          007E GR
-  0 _moverEstrellas                                                01E6 GR
-  0 _pintarEstrellas                                               016B GR
+  0 _moverEstrellas                                                0189 GR
+  0 _pintarEstrellas                                               010E GR
   0 _pixelEstrella                                                 0000 GR
     _rand                                                          **** GX
 
@@ -24,8 +23,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  299   flags    0
-   1 _DATA                                      size   50   flags    0
+   0 _CODE                                      size  23B   flags    0
+   1 _DATA                                      size   78   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

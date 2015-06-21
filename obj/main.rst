@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
-                              3 ; Version 3.4.3 #9207 (Jun  5 2015) (Mac OS X x86_64)
-                              4 ; This file was generated Sun Jun 14 18:20:21 2015
+                              3 ; Version 3.4.3 #9207 (Jun 21 2015) (Mac OS X x86_64)
+                              4 ; This file was generated Sun Jun 21 18:17:49 2015
                               5 ;--------------------------------------------------------
                               6 	.module main
                               7 	.optsdcc -mz80
@@ -12,826 +12,728 @@
                              12 	.globl _main
                              13 	.globl _initialization
                              14 	.globl _updateUser
-                             15 	.globl _drawFrame
-                             16 	.globl _updateBlock
-                             17 	.globl _clear_screen
-                             18 	.globl _draw_blocks
-                             19 	.globl _draw_sprite
-                             20 	.globl _changeVideoMemoryPage
-                             21 	.globl _moverEstrellas
-                             22 	.globl _pintarEstrellas
-                             23 	.globl _inicializarEstrellas
-                             24 	.globl _cpct_getScreenPtr
-                             25 	.globl _cpct_setVideoMemoryPage
-                             26 	.globl _cpct_setPALColour
-                             27 	.globl _cpct_setPalette
-                             28 	.globl _cpct_waitVSYNC
-                             29 	.globl _cpct_setVideoMode
-                             30 	.globl _cpct_drawSolidBox
-                             31 	.globl _cpct_drawSprite
-                             32 	.globl _cpct_px2byteM0
-                             33 	.globl _cpct_memset
-                             34 	.globl _cpct_isKeyPressed
-                             35 	.globl _cpct_scanKeyboard_f
-                             36 	.globl _cpct_disableFirmware
-                             37 	.globl _pvmem
-                             38 	.globl _user
-                             39 	.globl _block02
-                             40 	.globl _block01
-                             41 ;--------------------------------------------------------
-                             42 ; special function registers
+                             15 	.globl _updateBlock
+                             16 	.globl _clear_screen
+                             17 	.globl _draw_blocks
+                             18 	.globl _draw_sprite
+                             19 	.globl _changeVideoMemoryPage
+                             20 	.globl _set_stack
+                             21 	.globl _cpc_SetInkGphStr
+                             22 	.globl _moverEstrellas
+                             23 	.globl _pintarEstrellas
+                             24 	.globl _inicializarEstrellas
+                             25 	.globl _cpct_getScreenPtr
+                             26 	.globl _cpct_setVideoMemoryPage
+                             27 	.globl _cpct_setPALColour
+                             28 	.globl _cpct_setPalette
+                             29 	.globl _cpct_waitVSYNC
+                             30 	.globl _cpct_setVideoMode
+                             31 	.globl _cpct_drawSolidBox
+                             32 	.globl _cpct_drawSprite
+                             33 	.globl _cpct_px2byteM0
+                             34 	.globl _cpct_memset
+                             35 	.globl _cpct_isKeyPressed
+                             36 	.globl _cpct_scanKeyboard_f
+                             37 	.globl _cpct_disableFirmware
+                             38 	.globl _aux_txt
+                             39 	.globl _pvmem
+                             40 	.globl _user
+                             41 	.globl _block02
+                             42 	.globl _block01
                              43 ;--------------------------------------------------------
-                             44 ;--------------------------------------------------------
-                             45 ; ram data
+                             44 ; special function registers
+                             45 ;--------------------------------------------------------
                              46 ;--------------------------------------------------------
-                             47 	.area _DATA
-   2D18                      48 _block01::
-   2D18                      49 	.ds 7
-   2D1F                      50 _block02::
-   2D1F                      51 	.ds 7
-   2D26                      52 _user::
-   2D26                      53 	.ds 15
-   2D35                      54 _pvmem::
-   2D35                      55 	.ds 2
-   2D37                      56 _changeVideoMemoryPage_page_1_58:
-   2D37                      57 	.ds 1
-                             58 ;--------------------------------------------------------
-                             59 ; ram data
-                             60 ;--------------------------------------------------------
-                             61 	.area _INITIALIZED
+                             47 ; ram data
+                             48 ;--------------------------------------------------------
+                             49 	.area _DATA
+   3154                      50 _block01::
+   3154                      51 	.ds 7
+   315B                      52 _block02::
+   315B                      53 	.ds 7
+   3162                      54 _user::
+   3162                      55 	.ds 15
+   3171                      56 _pvmem::
+   3171                      57 	.ds 2
+   3173                      58 _aux_txt::
+   3173                      59 	.ds 40
+   319B                      60 _changeVideoMemoryPage_page_1_71:
+   319B                      61 	.ds 1
                              62 ;--------------------------------------------------------
-                             63 ; absolute external ram data
+                             63 ; ram data
                              64 ;--------------------------------------------------------
-                             65 	.area _DABS (ABS)
+                             65 	.area _INITIALIZED
                              66 ;--------------------------------------------------------
-                             67 ; global & static initialisations
+                             67 ; absolute external ram data
                              68 ;--------------------------------------------------------
-                             69 	.area _HOME
-                             70 	.area _GSINIT
-                             71 	.area _GSFINAL
-                             72 	.area _GSINIT
-                             73 ;src/main.c:54: static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
-   2F0B FD 21 37 2D   [14]   74 	ld	iy,#_changeVideoMemoryPage_page_1_58
-   2F0F FD 36 00 00   [19]   75 	ld	0 (iy),#0x00
-                             76 ;--------------------------------------------------------
-                             77 ; Home
-                             78 ;--------------------------------------------------------
-                             79 	.area _HOME
-                             80 	.area _HOME
-                             81 ;--------------------------------------------------------
-                             82 ; code
-                             83 ;--------------------------------------------------------
-                             84 	.area _CODE
-                             85 ;src/main.c:53: u8* changeVideoMemoryPage() {
-                             86 ;	---------------------------------
-                             87 ; Function changeVideoMemoryPage
-                             88 ; ---------------------------------
-   2000                      89 _changeVideoMemoryPage::
-                             90 ;src/main.c:59: if (page) {
-   2000 3A 37 2D      [13]   91 	ld	a,(#_changeVideoMemoryPage_page_1_58 + 0)
-   2003 B7            [ 4]   92 	or	a, a
-   2004 28 11         [12]   93 	jr	Z,00102$
-                             94 ;src/main.c:60: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
-   2006 3E 30         [ 7]   95 	ld	a,#0x30
-   2008 F5            [11]   96 	push	af
-   2009 33            [ 6]   97 	inc	sp
-   200A CD 4B 2A      [17]   98 	call	_cpct_setVideoMemoryPage
-   200D 33            [ 6]   99 	inc	sp
-                            100 ;src/main.c:61: page = 0;  
-   200E 21 37 2D      [10]  101 	ld	hl,#_changeVideoMemoryPage_page_1_58 + 0
-   2011 36 00         [10]  102 	ld	(hl), #0x00
-                            103 ;src/main.c:62: screen = SCR_BUFF;                            // Next page = 0
-   2013 21 00 40      [10]  104 	ld	hl,#0x4000
-   2016 C9            [10]  105 	ret
-   2017                     106 00102$:
-                            107 ;src/main.c:64: cpct_setVideoMemoryPage(cpct_page40);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
-   2017 3E 10         [ 7]  108 	ld	a,#0x10
-   2019 F5            [11]  109 	push	af
-   201A 33            [ 6]  110 	inc	sp
-   201B CD 4B 2A      [17]  111 	call	_cpct_setVideoMemoryPage
-   201E 33            [ 6]  112 	inc	sp
-                            113 ;src/main.c:65: page = 1;                              // Next page = 1
-   201F 21 37 2D      [10]  114 	ld	hl,#_changeVideoMemoryPage_page_1_58 + 0
-   2022 36 01         [10]  115 	ld	(hl), #0x01
-                            116 ;src/main.c:66: screen = SCR_VMEM;
-   2024 21 00 C0      [10]  117 	ld	hl,#0xC000
-                            118 ;src/main.c:68: return screen;
-   2027 C9            [10]  119 	ret
-                            120 ;src/main.c:72: void draw_sprite(u8* screen){
-                            121 ;	---------------------------------
-                            122 ; Function draw_sprite
-                            123 ; ---------------------------------
-   2028                     124 _draw_sprite::
-   2028 DD E5         [15]  125 	push	ix
-   202A DD 21 00 00   [14]  126 	ld	ix,#0
-   202E DD 39         [15]  127 	add	ix,sp
-                            128 ;src/main.c:74: pscreen = cpct_getScreenPtr(screen, user.x, user.y);
-   2030 21 2B 2D      [10]  129 	ld	hl, #_user + 5
-   2033 4E            [ 7]  130 	ld	c,(hl)
-   2034 21 2A 2D      [10]  131 	ld	hl, #_user + 4
-   2037 66            [ 7]  132 	ld	h,(hl)
-   2038 DD 5E 04      [19]  133 	ld	e,4 (ix)
-   203B DD 56 05      [19]  134 	ld	d,5 (ix)
-   203E 79            [ 4]  135 	ld	a,c
-   203F F5            [11]  136 	push	af
-   2040 33            [ 6]  137 	inc	sp
-   2041 E5            [11]  138 	push	hl
-   2042 33            [ 6]  139 	inc	sp
-   2043 D5            [11]  140 	push	de
-   2044 CD B3 2B      [17]  141 	call	_cpct_getScreenPtr
-   2047 F1            [10]  142 	pop	af
-   2048 F1            [10]  143 	pop	af
-   2049 EB            [ 4]  144 	ex	de,hl
-                            145 ;src/main.c:75: cpct_drawSprite(ship01,pscreen,user.w,user.h);
-   204A 21 2D 2D      [10]  146 	ld	hl, #_user + 7
-   204D 4E            [ 7]  147 	ld	c,(hl)
-   204E 21 2C 2D      [10]  148 	ld	hl, #_user + 6
-   2051 46            [ 7]  149 	ld	b,(hl)
-   2052 79            [ 4]  150 	ld	a,c
-   2053 F5            [11]  151 	push	af
-   2054 33            [ 6]  152 	inc	sp
-   2055 C5            [11]  153 	push	bc
-   2056 33            [ 6]  154 	inc	sp
-   2057 D5            [11]  155 	push	de
-   2058 21 5D 25      [10]  156 	ld	hl,#_ship01
-   205B E5            [11]  157 	push	hl
-   205C CD 99 29      [17]  158 	call	_cpct_drawSprite
-   205F 21 06 00      [10]  159 	ld	hl,#6
-   2062 39            [11]  160 	add	hl,sp
-   2063 F9            [ 6]  161 	ld	sp,hl
-   2064 DD E1         [14]  162 	pop	ix
-   2066 C9            [10]  163 	ret
-                            164 ;src/main.c:79: void draw_blocks(u8* screen){
-                            165 ;	---------------------------------
-                            166 ; Function draw_blocks
-                            167 ; ---------------------------------
-   2067                     168 _draw_blocks::
-   2067 DD E5         [15]  169 	push	ix
-   2069 DD 21 00 00   [14]  170 	ld	ix,#0
-   206D DD 39         [15]  171 	add	ix,sp
-   206F F5            [11]  172 	push	af
-   2070 3B            [ 6]  173 	dec	sp
-                            174 ;src/main.c:82: pscreen = cpct_getScreenPtr(screen, block01.x, block01.y);
-   2071 21 19 2D      [10]  175 	ld	hl, #_block01 + 1
-   2074 46            [ 7]  176 	ld	b,(hl)
-   2075 21 18 2D      [10]  177 	ld	hl, #_block01 + 0
-   2078 56            [ 7]  178 	ld	d,(hl)
-   2079 DD 7E 04      [19]  179 	ld	a,4 (ix)
-   207C DD 77 FE      [19]  180 	ld	-2 (ix),a
-   207F DD 7E 05      [19]  181 	ld	a,5 (ix)
-   2082 DD 77 FF      [19]  182 	ld	-1 (ix),a
-   2085 4A            [ 4]  183 	ld	c, d
-   2086 C5            [11]  184 	push	bc
-   2087 DD 6E FE      [19]  185 	ld	l,-2 (ix)
-   208A DD 66 FF      [19]  186 	ld	h,-1 (ix)
-   208D E5            [11]  187 	push	hl
-   208E CD B3 2B      [17]  188 	call	_cpct_getScreenPtr
-   2091 F1            [10]  189 	pop	af
-   2092 F1            [10]  190 	pop	af
-   2093 5D            [ 4]  191 	ld	e, l
-   2094 54            [ 4]  192 	ld	d, h
-                            193 ;src/main.c:83: cpct_drawSolidBox(pscreen, cpct_px2byteM0(4, 4), block01.w, block01.h);
-   2095 21 1D 2D      [10]  194 	ld	hl, #_block01 + 5
-   2098 4E            [ 7]  195 	ld	c,(hl)
-   2099 21 1C 2D      [10]  196 	ld	hl, #_block01 + 4
-   209C 46            [ 7]  197 	ld	b,(hl)
-   209D C5            [11]  198 	push	bc
-   209E D5            [11]  199 	push	de
-   209F 21 04 04      [10]  200 	ld	hl,#0x0404
-   20A2 E5            [11]  201 	push	hl
-   20A3 CD 8E 2A      [17]  202 	call	_cpct_px2byteM0
-   20A6 F1            [10]  203 	pop	af
-   20A7 DD 75 FD      [19]  204 	ld	-3 (ix),l
-   20AA D1            [10]  205 	pop	de
-   20AB C1            [10]  206 	pop	bc
-   20AC 79            [ 4]  207 	ld	a,c
-   20AD F5            [11]  208 	push	af
-   20AE 33            [ 6]  209 	inc	sp
-   20AF C5            [11]  210 	push	bc
-   20B0 33            [ 6]  211 	inc	sp
-   20B1 DD 7E FD      [19]  212 	ld	a,-3 (ix)
-   20B4 F5            [11]  213 	push	af
-   20B5 33            [ 6]  214 	inc	sp
-   20B6 D5            [11]  215 	push	de
-   20B7 CD E1 2A      [17]  216 	call	_cpct_drawSolidBox
-   20BA F1            [10]  217 	pop	af
-   20BB F1            [10]  218 	pop	af
-   20BC 33            [ 6]  219 	inc	sp
-                            220 ;src/main.c:85: pscreen = cpct_getScreenPtr(screen, block02.x, block02.y);
-   20BD 21 20 2D      [10]  221 	ld	hl, #_block02 + 1
-   20C0 56            [ 7]  222 	ld	d,(hl)
-   20C1 3A 1F 2D      [13]  223 	ld	a, (#_block02 + 0)
-   20C4 D5            [11]  224 	push	de
-   20C5 33            [ 6]  225 	inc	sp
-   20C6 F5            [11]  226 	push	af
-   20C7 33            [ 6]  227 	inc	sp
-   20C8 DD 6E FE      [19]  228 	ld	l,-2 (ix)
-   20CB DD 66 FF      [19]  229 	ld	h,-1 (ix)
-   20CE E5            [11]  230 	push	hl
-   20CF CD B3 2B      [17]  231 	call	_cpct_getScreenPtr
-   20D2 F1            [10]  232 	pop	af
-   20D3 F1            [10]  233 	pop	af
-   20D4 5D            [ 4]  234 	ld	e, l
-   20D5 54            [ 4]  235 	ld	d, h
-                            236 ;src/main.c:86: cpct_drawSolidBox(pscreen, cpct_px2byteM0(6, 6), block02.w, block02.h);    
-   20D6 21 24 2D      [10]  237 	ld	hl, #_block02 + 5
-   20D9 4E            [ 7]  238 	ld	c,(hl)
-   20DA 21 23 2D      [10]  239 	ld	hl, #_block02 + 4
-   20DD 46            [ 7]  240 	ld	b,(hl)
-   20DE C5            [11]  241 	push	bc
-   20DF D5            [11]  242 	push	de
-   20E0 21 06 06      [10]  243 	ld	hl,#0x0606
-   20E3 E5            [11]  244 	push	hl
-   20E4 CD 8E 2A      [17]  245 	call	_cpct_px2byteM0
-   20E7 F1            [10]  246 	pop	af
-   20E8 DD 75 FD      [19]  247 	ld	-3 (ix),l
-   20EB D1            [10]  248 	pop	de
-   20EC C1            [10]  249 	pop	bc
-   20ED 79            [ 4]  250 	ld	a,c
-   20EE F5            [11]  251 	push	af
-   20EF 33            [ 6]  252 	inc	sp
-   20F0 C5            [11]  253 	push	bc
-   20F1 33            [ 6]  254 	inc	sp
-   20F2 DD 7E FD      [19]  255 	ld	a,-3 (ix)
-   20F5 F5            [11]  256 	push	af
-   20F6 33            [ 6]  257 	inc	sp
-   20F7 D5            [11]  258 	push	de
-   20F8 CD E1 2A      [17]  259 	call	_cpct_drawSolidBox
-   20FB DD F9         [10]  260 	ld	sp,ix
-   20FD DD E1         [14]  261 	pop	ix
-   20FF C9            [10]  262 	ret
-                            263 ;src/main.c:90: void clear_screen(u8* screen){
-                            264 ;	---------------------------------
-                            265 ; Function clear_screen
-                            266 ; ---------------------------------
-   2100                     267 _clear_screen::
-                            268 ;src/main.c:91: cpct_memset(screen, 0x00, 0x4000);   
-   2100 C1            [10]  269 	pop	bc
-   2101 D1            [10]  270 	pop	de
-   2102 D5            [11]  271 	push	de
-   2103 C5            [11]  272 	push	bc
-   2104 21 00 40      [10]  273 	ld	hl,#0x4000
-   2107 E5            [11]  274 	push	hl
-   2108 AF            [ 4]  275 	xor	a, a
-   2109 F5            [11]  276 	push	af
-   210A 33            [ 6]  277 	inc	sp
-   210B D5            [11]  278 	push	de
-   210C CD B2 2A      [17]  279 	call	_cpct_memset
-   210F F1            [10]  280 	pop	af
-   2110 F1            [10]  281 	pop	af
-   2111 33            [ 6]  282 	inc	sp
-   2112 C9            [10]  283 	ret
-                            284 ;src/main.c:95: void updateBlock(){
-                            285 ;	---------------------------------
-                            286 ; Function updateBlock
-                            287 ; ---------------------------------
-   2113                     288 _updateBlock::
-                            289 ;src/main.c:96: if (block01.vx>0){
-   2113 21 1A 2D      [10]  290 	ld	hl, #(_block01 + 0x0002) + 0
-   2116 46            [ 7]  291 	ld	b,(hl)
-                            292 ;src/main.c:97: if ((block01.x+block01.vx)<(79-block01.w)){
-   2117 21 18 2D      [10]  293 	ld	hl, #_block01 + 0
-   211A 4E            [ 7]  294 	ld	c,(hl)
-   211B 68            [ 4]  295 	ld	l,b
-   211C 26 00         [ 7]  296 	ld	h,#0x00
-   211E 59            [ 4]  297 	ld	e,c
-   211F 16 00         [ 7]  298 	ld	d,#0x00
-                            299 ;src/main.c:98: block01.x = block01.x + block01.vx;
-   2121 79            [ 4]  300 	ld	a,c
-   2122 80            [ 4]  301 	add	a, b
-   2123 4F            [ 4]  302 	ld	c,a
-                            303 ;src/main.c:97: if ((block01.x+block01.vx)<(79-block01.w)){
-   2124 19            [11]  304 	add	hl,de
-   2125 5D            [ 4]  305 	ld	e,l
-   2126 54            [ 4]  306 	ld	d,h
-                            307 ;src/main.c:96: if (block01.vx>0){
-   2127 78            [ 4]  308 	ld	a,b
-   2128 B7            [ 4]  309 	or	a, a
-   2129 28 33         [12]  310 	jr	Z,00108$
-                            311 ;src/main.c:97: if ((block01.x+block01.vx)<(79-block01.w)){
-   212B 21 1C 2D      [10]  312 	ld	hl, #_block01 + 4
-   212E 66            [ 7]  313 	ld	h,(hl)
-   212F 6C            [ 4]  314 	ld	l,h
-   2130 06 00         [ 7]  315 	ld	b,#0x00
-   2132 3E 4F         [ 7]  316 	ld	a,#0x4F
-   2134 95            [ 4]  317 	sub	a, l
-   2135 6F            [ 4]  318 	ld	l,a
-   2136 3E 00         [ 7]  319 	ld	a,#0x00
-   2138 98            [ 4]  320 	sbc	a, b
-   2139 47            [ 4]  321 	ld	b,a
-   213A 7B            [ 4]  322 	ld	a,e
-   213B 95            [ 4]  323 	sub	a, l
-   213C 7A            [ 4]  324 	ld	a,d
-   213D 98            [ 4]  325 	sbc	a, b
-   213E E2 43 21      [10]  326 	jp	PO, 00124$
-   2141 EE 80         [ 7]  327 	xor	a, #0x80
-   2143                     328 00124$:
-   2143 F2 4B 21      [10]  329 	jp	P,00102$
-                            330 ;src/main.c:98: block01.x = block01.x + block01.vx;
-   2146 21 18 2D      [10]  331 	ld	hl,#_block01
-   2149 71            [ 7]  332 	ld	(hl),c
-   214A C9            [10]  333 	ret
-   214B                     334 00102$:
-                            335 ;src/main.c:101: block01.x = 79-block01.w;
-   214B 3E 4F         [ 7]  336 	ld	a,#0x4F
-   214D 94            [ 4]  337 	sub	a, h
-   214E 21 18 2D      [10]  338 	ld	hl,#_block01
-   2151 77            [ 7]  339 	ld	(hl),a
-                            340 ;src/main.c:102: block01.vx = - block01.vx;
-   2152 21 1A 2D      [10]  341 	ld	hl, #(_block01 + 0x0002) + 0
-   2155 66            [ 7]  342 	ld	h,(hl)
-   2156 AF            [ 4]  343 	xor	a, a
-   2157 94            [ 4]  344 	sub	a, h
-   2158 57            [ 4]  345 	ld	d,a
-   2159 21 1A 2D      [10]  346 	ld	hl,#(_block01 + 0x0002)
-   215C 72            [ 7]  347 	ld	(hl),d
-   215D C9            [10]  348 	ret
-   215E                     349 00108$:
-                            350 ;src/main.c:105: if ((block01.x+block01.vx)>0){
-   215E AF            [ 4]  351 	xor	a, a
-   215F BB            [ 4]  352 	cp	a, e
-   2160 9A            [ 4]  353 	sbc	a, d
-   2161 E2 66 21      [10]  354 	jp	PO, 00125$
-   2164 EE 80         [ 7]  355 	xor	a, #0x80
-   2166                     356 00125$:
-   2166 F2 6E 21      [10]  357 	jp	P,00105$
-                            358 ;src/main.c:106: block01.x = block01.x + block01.vx;
-   2169 21 18 2D      [10]  359 	ld	hl,#_block01
-   216C 71            [ 7]  360 	ld	(hl),c
-   216D C9            [10]  361 	ret
-   216E                     362 00105$:
-                            363 ;src/main.c:109: block01.x = 0;
-   216E 21 18 2D      [10]  364 	ld	hl,#_block01
-   2171 36 00         [10]  365 	ld	(hl),#0x00
-                            366 ;src/main.c:110: block01.vx = - block01.vx;
-   2173 21 1A 2D      [10]  367 	ld	hl, #(_block01 + 0x0002) + 0
-   2176 66            [ 7]  368 	ld	h,(hl)
-   2177 AF            [ 4]  369 	xor	a, a
-   2178 94            [ 4]  370 	sub	a, h
-   2179 57            [ 4]  371 	ld	d,a
-   217A 21 1A 2D      [10]  372 	ld	hl,#(_block01 + 0x0002)
-   217D 72            [ 7]  373 	ld	(hl),d
-   217E C9            [10]  374 	ret
-                            375 ;src/main.c:118: void drawFrame(u8* screen) {
-                            376 ;	---------------------------------
-                            377 ; Function drawFrame
-                            378 ; ---------------------------------
-   217F                     379 _drawFrame::
-   217F DD E5         [15]  380 	push	ix
-   2181 DD 21 00 00   [14]  381 	ld	ix,#0
-   2185 DD 39         [15]  382 	add	ix,sp
-                            383 ;src/main.c:123: pattern = cpct_px2byteM0 (15, 15);
-   2187 21 0F 0F      [10]  384 	ld	hl,#0x0F0F
-   218A E5            [11]  385 	push	hl
-   218B CD 8E 2A      [17]  386 	call	_cpct_px2byteM0
-   218E F1            [10]  387 	pop	af
-   218F 45            [ 4]  388 	ld	b,l
-                            389 ;src/main.c:126: pv = cpct_getScreenPtr(screen, (BACK_X),  (BACK_Y));
-   2190 DD 5E 04      [19]  390 	ld	e,4 (ix)
-   2193 DD 56 05      [19]  391 	ld	d,5 (ix)
-   2196 C5            [11]  392 	push	bc
-   2197 D5            [11]  393 	push	de
-   2198 21 00 00      [10]  394 	ld	hl,#0x0000
-   219B E5            [11]  395 	push	hl
-   219C D5            [11]  396 	push	de
-   219D CD B3 2B      [17]  397 	call	_cpct_getScreenPtr
-   21A0 F1            [10]  398 	pop	af
-   21A1 F1            [10]  399 	pop	af
-   21A2 D1            [10]  400 	pop	de
-   21A3 C1            [10]  401 	pop	bc
-                            402 ;src/main.c:127: cpct_drawSolidBox(pv, pattern, BACK_W,  4);
-   21A4 E5            [11]  403 	push	hl
-   21A5 FD E1         [14]  404 	pop	iy
-   21A7 C5            [11]  405 	push	bc
-   21A8 D5            [11]  406 	push	de
-   21A9 21 40 04      [10]  407 	ld	hl,#0x0440
-   21AC E5            [11]  408 	push	hl
-   21AD C5            [11]  409 	push	bc
-   21AE 33            [ 6]  410 	inc	sp
-   21AF FD E5         [15]  411 	push	iy
-   21B1 CD E1 2A      [17]  412 	call	_cpct_drawSolidBox
-   21B4 F1            [10]  413 	pop	af
-   21B5 F1            [10]  414 	pop	af
-   21B6 33            [ 6]  415 	inc	sp
-   21B7 D1            [10]  416 	pop	de
-   21B8 D5            [11]  417 	push	de
-   21B9 21 00 C5      [10]  418 	ld	hl,#0xC500
-   21BC E5            [11]  419 	push	hl
-   21BD D5            [11]  420 	push	de
-   21BE CD B3 2B      [17]  421 	call	_cpct_getScreenPtr
-   21C1 F1            [10]  422 	pop	af
-   21C2 F1            [10]  423 	pop	af
-   21C3 D1            [10]  424 	pop	de
-   21C4 C1            [10]  425 	pop	bc
-                            426 ;src/main.c:131: cpct_drawSolidBox(pv, pattern, BACK_W,  4);
-   21C5 E5            [11]  427 	push	hl
-   21C6 FD E1         [14]  428 	pop	iy
-   21C8 C5            [11]  429 	push	bc
-   21C9 D5            [11]  430 	push	de
-   21CA 21 40 04      [10]  431 	ld	hl,#0x0440
-   21CD E5            [11]  432 	push	hl
-   21CE C5            [11]  433 	push	bc
-   21CF 33            [ 6]  434 	inc	sp
-   21D0 FD E5         [15]  435 	push	iy
-   21D2 CD E1 2A      [17]  436 	call	_cpct_drawSolidBox
-   21D5 F1            [10]  437 	pop	af
-   21D6 F1            [10]  438 	pop	af
-   21D7 33            [ 6]  439 	inc	sp
-   21D8 D1            [10]  440 	pop	de
-   21D9 D5            [11]  441 	push	de
-   21DA 21 00 00      [10]  442 	ld	hl,#0x0000
-   21DD E5            [11]  443 	push	hl
-   21DE D5            [11]  444 	push	de
-   21DF CD B3 2B      [17]  445 	call	_cpct_getScreenPtr
-   21E2 F1            [10]  446 	pop	af
-   21E3 F1            [10]  447 	pop	af
-   21E4 D1            [10]  448 	pop	de
-   21E5 C1            [10]  449 	pop	bc
-                            450 ;src/main.c:135: cpct_drawSolidBox(pv, pattern,  2, BACK_H );
-   21E6 E5            [11]  451 	push	hl
-   21E7 FD E1         [14]  452 	pop	iy
-   21E9 C5            [11]  453 	push	bc
-   21EA D5            [11]  454 	push	de
-   21EB 21 02 C7      [10]  455 	ld	hl,#0xC702
-   21EE E5            [11]  456 	push	hl
-   21EF C5            [11]  457 	push	bc
-   21F0 33            [ 6]  458 	inc	sp
-   21F1 FD E5         [15]  459 	push	iy
-   21F3 CD E1 2A      [17]  460 	call	_cpct_drawSolidBox
-   21F6 F1            [10]  461 	pop	af
-   21F7 F1            [10]  462 	pop	af
-   21F8 33            [ 6]  463 	inc	sp
-   21F9 D1            [10]  464 	pop	de
-   21FA 21 3E 00      [10]  465 	ld	hl,#0x003E
-   21FD E5            [11]  466 	push	hl
-   21FE D5            [11]  467 	push	de
-   21FF CD B3 2B      [17]  468 	call	_cpct_getScreenPtr
-   2202 F1            [10]  469 	pop	af
-   2203 F1            [10]  470 	pop	af
-   2204 C1            [10]  471 	pop	bc
-                            472 ;src/main.c:139: cpct_drawSolidBox(pv, pattern,  2, BACK_H );
-   2205 EB            [ 4]  473 	ex	de,hl
-   2206 21 02 C7      [10]  474 	ld	hl,#0xC702
-   2209 E5            [11]  475 	push	hl
-   220A C5            [11]  476 	push	bc
-   220B 33            [ 6]  477 	inc	sp
-   220C D5            [11]  478 	push	de
-   220D CD E1 2A      [17]  479 	call	_cpct_drawSolidBox
-   2210 F1            [10]  480 	pop	af
-   2211 F1            [10]  481 	pop	af
-   2212 33            [ 6]  482 	inc	sp
-   2213 DD E1         [14]  483 	pop	ix
-   2215 C9            [10]  484 	ret
-                            485 ;src/main.c:145: void updateUser() {
-                            486 ;	---------------------------------
-                            487 ; Function updateUser
-                            488 ; ---------------------------------
-   2216                     489 _updateUser::
-   2216 DD E5         [15]  490 	push	ix
-   2218 DD 21 00 00   [14]  491 	ld	ix,#0
-   221C DD 39         [15]  492 	add	ix,sp
-   221E 3B            [ 6]  493 	dec	sp
-                            494 ;src/main.c:147: cpct_scanKeyboard_f();
-   221F CD A8 28      [17]  495 	call	_cpct_scanKeyboard_f
-                            496 ;src/main.c:154: if ((cpct_isKeyPressed(Key_CursorUp))){ 
-   2222 21 00 01      [10]  497 	ld	hl,#0x0100
-   2225 E5            [11]  498 	push	hl
-   2226 CD 97 28      [17]  499 	call	_cpct_isKeyPressed
-   2229 F1            [10]  500 	pop	af
-   222A 7D            [ 4]  501 	ld	a,l
-   222B B7            [ 4]  502 	or	a, a
-   222C 28 2D         [12]  503 	jr	Z,00105$
-                            504 ;src/main.c:155: if ((user.y-user.vy)>0)
-   222E 21 2B 2D      [10]  505 	ld	hl, #(_user + 0x0005) + 0
-   2231 5E            [ 7]  506 	ld	e,(hl)
-   2232 4B            [ 4]  507 	ld	c,e
-   2233 06 00         [ 7]  508 	ld	b,#0x00
-   2235 21 33 2D      [10]  509 	ld	hl, #_user + 13
-   2238 56            [ 7]  510 	ld	d,(hl)
-   2239 7A            [ 4]  511 	ld	a,d
-   223A 6F            [ 4]  512 	ld	l,a
-   223B 17            [ 4]  513 	rla
-   223C 9F            [ 4]  514 	sbc	a, a
-   223D 67            [ 4]  515 	ld	h,a
-   223E 79            [ 4]  516 	ld	a,c
-   223F 95            [ 4]  517 	sub	a, l
-   2240 6F            [ 4]  518 	ld	l,a
-   2241 78            [ 4]  519 	ld	a,b
-   2242 9C            [ 4]  520 	sbc	a, h
-   2243 67            [ 4]  521 	ld	h,a
-   2244 AF            [ 4]  522 	xor	a, a
-   2245 BD            [ 4]  523 	cp	a, l
-   2246 9C            [ 4]  524 	sbc	a, h
-   2247 E2 4C 22      [10]  525 	jp	PO, 00155$
-   224A EE 80         [ 7]  526 	xor	a, #0x80
-   224C                     527 00155$:
-   224C F2 56 22      [10]  528 	jp	P,00102$
-                            529 ;src/main.c:156: user.y = user.y - user.vy;
-   224F 7B            [ 4]  530 	ld	a,e
-   2250 92            [ 4]  531 	sub	a, d
-   2251 32 2B 2D      [13]  532 	ld	(#(_user + 0x0005)),a
-   2254 18 05         [12]  533 	jr	00105$
-   2256                     534 00102$:
-                            535 ;src/main.c:158: user.y = 0;
-   2256 21 2B 2D      [10]  536 	ld	hl,#(_user + 0x0005)
-   2259 36 00         [10]  537 	ld	(hl),#0x00
-   225B                     538 00105$:
-                            539 ;src/main.c:161: if ((cpct_isKeyPressed(Key_CursorRight))){ 
-   225B 21 00 02      [10]  540 	ld	hl,#0x0200
-   225E E5            [11]  541 	push	hl
-   225F CD 97 28      [17]  542 	call	_cpct_isKeyPressed
-   2262 F1            [10]  543 	pop	af
-   2263 7D            [ 4]  544 	ld	a,l
-   2264 B7            [ 4]  545 	or	a, a
-   2265 28 3F         [12]  546 	jr	Z,00110$
-                            547 ;src/main.c:162: if ((user.x+user.vx<(79-user.w)))
-   2267 21 2A 2D      [10]  548 	ld	hl, #(_user + 0x0004) + 0
-   226A 5E            [ 7]  549 	ld	e,(hl)
-   226B 4B            [ 4]  550 	ld	c,e
-   226C 06 00         [ 7]  551 	ld	b,#0x00
-   226E 21 32 2D      [10]  552 	ld	hl, #_user + 12
-   2271 56            [ 7]  553 	ld	d,(hl)
-   2272 7A            [ 4]  554 	ld	a,d
-   2273 6F            [ 4]  555 	ld	l,a
-   2274 17            [ 4]  556 	rla
-   2275 9F            [ 4]  557 	sbc	a, a
-   2276 67            [ 4]  558 	ld	h,a
-   2277 09            [11]  559 	add	hl,bc
-   2278 4D            [ 4]  560 	ld	c,l
-   2279 44            [ 4]  561 	ld	b,h
-   227A 3A 2C 2D      [13]  562 	ld	a,(#_user + 6)
-   227D DD 77 FF      [19]  563 	ld	-1 (ix), a
-   2280 6F            [ 4]  564 	ld	l, a
-   2281 26 00         [ 7]  565 	ld	h,#0x00
-   2283 3E 4F         [ 7]  566 	ld	a,#0x4F
-   2285 95            [ 4]  567 	sub	a, l
-   2286 6F            [ 4]  568 	ld	l,a
-   2287 3E 00         [ 7]  569 	ld	a,#0x00
-   2289 9C            [ 4]  570 	sbc	a, h
-   228A 67            [ 4]  571 	ld	h,a
-   228B 79            [ 4]  572 	ld	a,c
-   228C 95            [ 4]  573 	sub	a, l
-   228D 78            [ 4]  574 	ld	a,b
-   228E 9C            [ 4]  575 	sbc	a, h
-   228F E2 94 22      [10]  576 	jp	PO, 00156$
-   2292 EE 80         [ 7]  577 	xor	a, #0x80
-   2294                     578 00156$:
-   2294 F2 9E 22      [10]  579 	jp	P,00107$
-                            580 ;src/main.c:163: user.x = user.x + user.vx;
-   2297 7B            [ 4]  581 	ld	a,e
-   2298 82            [ 4]  582 	add	a, d
-   2299 32 2A 2D      [13]  583 	ld	(#(_user + 0x0004)),a
-   229C 18 08         [12]  584 	jr	00110$
-   229E                     585 00107$:
-                            586 ;src/main.c:165: user.x = 79-user.w;
-   229E 3E 4F         [ 7]  587 	ld	a,#0x4F
-   22A0 DD 96 FF      [19]  588 	sub	a, -1 (ix)
-   22A3 32 2A 2D      [13]  589 	ld	(#(_user + 0x0004)),a
-   22A6                     590 00110$:
-                            591 ;src/main.c:168: if (cpct_isKeyPressed(Key_CursorLeft)){
-   22A6 21 01 01      [10]  592 	ld	hl,#0x0101
-   22A9 E5            [11]  593 	push	hl
-   22AA CD 97 28      [17]  594 	call	_cpct_isKeyPressed
-   22AD F1            [10]  595 	pop	af
-   22AE 7D            [ 4]  596 	ld	a,l
-   22AF B7            [ 4]  597 	or	a, a
-   22B0 28 2D         [12]  598 	jr	Z,00115$
-                            599 ;src/main.c:169: if ((user.x-user.vx)>0) 
-   22B2 21 2A 2D      [10]  600 	ld	hl, #(_user + 0x0004) + 0
-   22B5 5E            [ 7]  601 	ld	e,(hl)
-   22B6 4B            [ 4]  602 	ld	c,e
-   22B7 06 00         [ 7]  603 	ld	b,#0x00
-   22B9 21 32 2D      [10]  604 	ld	hl, #_user + 12
-   22BC 56            [ 7]  605 	ld	d,(hl)
-   22BD 7A            [ 4]  606 	ld	a,d
-   22BE 6F            [ 4]  607 	ld	l,a
-   22BF 17            [ 4]  608 	rla
-   22C0 9F            [ 4]  609 	sbc	a, a
-   22C1 67            [ 4]  610 	ld	h,a
-   22C2 79            [ 4]  611 	ld	a,c
-   22C3 95            [ 4]  612 	sub	a, l
-   22C4 6F            [ 4]  613 	ld	l,a
-   22C5 78            [ 4]  614 	ld	a,b
-   22C6 9C            [ 4]  615 	sbc	a, h
-   22C7 67            [ 4]  616 	ld	h,a
-   22C8 AF            [ 4]  617 	xor	a, a
-   22C9 BD            [ 4]  618 	cp	a, l
-   22CA 9C            [ 4]  619 	sbc	a, h
-   22CB E2 D0 22      [10]  620 	jp	PO, 00157$
-   22CE EE 80         [ 7]  621 	xor	a, #0x80
-   22D0                     622 00157$:
-   22D0 F2 DA 22      [10]  623 	jp	P,00112$
-                            624 ;src/main.c:170: user.x = user.x - user.vx;    
-   22D3 7B            [ 4]  625 	ld	a,e
-   22D4 92            [ 4]  626 	sub	a, d
-   22D5 32 2A 2D      [13]  627 	ld	(#(_user + 0x0004)),a
-   22D8 18 05         [12]  628 	jr	00115$
-   22DA                     629 00112$:
-                            630 ;src/main.c:172: user.x = 0;
-   22DA 21 2A 2D      [10]  631 	ld	hl,#(_user + 0x0004)
-   22DD 36 00         [10]  632 	ld	(hl),#0x00
-   22DF                     633 00115$:
-                            634 ;src/main.c:175: if (cpct_isKeyPressed(Key_CursorDown)){
-   22DF 21 00 04      [10]  635 	ld	hl,#0x0400
-   22E2 E5            [11]  636 	push	hl
-   22E3 CD 97 28      [17]  637 	call	_cpct_isKeyPressed
-   22E6 F1            [10]  638 	pop	af
-   22E7 7D            [ 4]  639 	ld	a,l
-   22E8 B7            [ 4]  640 	or	a, a
-   22E9 28 37         [12]  641 	jr	Z,00121$
-                            642 ;src/main.c:176: if ((user.y<(199-user.h) ))
-   22EB 21 2B 2D      [10]  643 	ld	hl, #(_user + 0x0005) + 0
-   22EE 5E            [ 7]  644 	ld	e,(hl)
-   22EF 3A 2D 2D      [13]  645 	ld	a,(#_user + 7)
-   22F2 DD 77 FF      [19]  646 	ld	-1 (ix), a
-   22F5 6F            [ 4]  647 	ld	l, a
-   22F6 26 00         [ 7]  648 	ld	h,#0x00
-   22F8 3E C7         [ 7]  649 	ld	a,#0xC7
-   22FA 95            [ 4]  650 	sub	a, l
-   22FB 6F            [ 4]  651 	ld	l,a
-   22FC 3E 00         [ 7]  652 	ld	a,#0x00
-   22FE 9C            [ 4]  653 	sbc	a, h
-   22FF 67            [ 4]  654 	ld	h,a
-   2300 4B            [ 4]  655 	ld	c,e
-   2301 16 00         [ 7]  656 	ld	d,#0x00
-   2303 79            [ 4]  657 	ld	a,c
-   2304 95            [ 4]  658 	sub	a, l
-   2305 7A            [ 4]  659 	ld	a,d
-   2306 9C            [ 4]  660 	sbc	a, h
-   2307 E2 0C 23      [10]  661 	jp	PO, 00158$
-   230A EE 80         [ 7]  662 	xor	a, #0x80
-   230C                     663 00158$:
-   230C F2 1A 23      [10]  664 	jp	P,00117$
-                            665 ;src/main.c:177: user.y = user.y + user.vy;
-   230F 21 33 2D      [10]  666 	ld	hl, #_user + 13
-   2312 6E            [ 7]  667 	ld	l,(hl)
-   2313 7B            [ 4]  668 	ld	a,e
-   2314 85            [ 4]  669 	add	a, l
-   2315 32 2B 2D      [13]  670 	ld	(#(_user + 0x0005)),a
-   2318 18 08         [12]  671 	jr	00121$
-   231A                     672 00117$:
-                            673 ;src/main.c:179: user.y = 199-user.h;
-   231A 3E C7         [ 7]  674 	ld	a,#0xC7
-   231C DD 96 FF      [19]  675 	sub	a, -1 (ix)
-   231F 32 2B 2D      [13]  676 	ld	(#(_user + 0x0005)),a
-   2322                     677 00121$:
-   2322 33            [ 6]  678 	inc	sp
-   2323 DD E1         [14]  679 	pop	ix
-   2325 C9            [10]  680 	ret
-                            681 ;src/main.c:184: void initialization(){
-                            682 ;	---------------------------------
-                            683 ; Function initialization
-                            684 ; ---------------------------------
-   2326                     685 _initialization::
-                            686 ;src/main.c:186: pvmem = SCR_BUFF;
-   2326 21 00 40      [10]  687 	ld	hl,#0x4000
-   2329 22 35 2D      [16]  688 	ld	(_pvmem),hl
-                            689 ;src/main.c:189: inicializarEstrellas();
-   232C CD 49 26      [17]  690 	call	_inicializarEstrellas
-                            691 ;src/main.c:191: block01.x = 10;
-   232F 21 18 2D      [10]  692 	ld	hl,#_block01+0
-   2332 36 0A         [10]  693 	ld	(hl),#0x0A
-                            694 ;src/main.c:192: block01.y = 10;
-   2334 21 19 2D      [10]  695 	ld	hl,#_block01 + 1
-   2337 36 0A         [10]  696 	ld	(hl),#0x0A
-                            697 ;src/main.c:193: block01.vx = 2;
-   2339 21 1A 2D      [10]  698 	ld	hl,#_block01 + 2
-   233C 36 02         [10]  699 	ld	(hl),#0x02
-                            700 ;src/main.c:194: block01.vy = 0;
-   233E 21 1B 2D      [10]  701 	ld	hl,#_block01 + 3
-   2341 36 00         [10]  702 	ld	(hl),#0x00
-                            703 ;src/main.c:195: block01.w = 20;
-   2343 21 1C 2D      [10]  704 	ld	hl,#_block01 + 4
-   2346 36 14         [10]  705 	ld	(hl),#0x14
-                            706 ;src/main.c:196: block01.h = 40;
-   2348 21 1D 2D      [10]  707 	ld	hl,#_block01 + 5
-   234B 36 28         [10]  708 	ld	(hl),#0x28
-                            709 ;src/main.c:198: block02.x = 15;
-   234D 21 1F 2D      [10]  710 	ld	hl,#_block02+0
-   2350 36 0F         [10]  711 	ld	(hl),#0x0F
-                            712 ;src/main.c:199: block02.y = 15;
-   2352 21 20 2D      [10]  713 	ld	hl,#_block02 + 1
-   2355 36 0F         [10]  714 	ld	(hl),#0x0F
-                            715 ;src/main.c:200: block02.vx = 4;
-   2357 21 21 2D      [10]  716 	ld	hl,#_block02 + 2
-   235A 36 04         [10]  717 	ld	(hl),#0x04
-                            718 ;src/main.c:201: block02.vy = 0;
-   235C 21 22 2D      [10]  719 	ld	hl,#_block02 + 3
-   235F 36 00         [10]  720 	ld	(hl),#0x00
-                            721 ;src/main.c:202: block02.w = 25;
-   2361 21 23 2D      [10]  722 	ld	hl,#_block02 + 4
-   2364 36 19         [10]  723 	ld	(hl),#0x19
-                            724 ;src/main.c:203: block02.h = 20;
-   2366 21 24 2D      [10]  725 	ld	hl,#_block02 + 5
-   2369 36 14         [10]  726 	ld	(hl),#0x14
-                            727 ;src/main.c:205: user.x = 39;
-   236B 21 2A 2D      [10]  728 	ld	hl,#_user + 4
-   236E 36 27         [10]  729 	ld	(hl),#0x27
-                            730 ;src/main.c:206: user.y = 183;
-   2370 21 2B 2D      [10]  731 	ld	hl,#_user + 5
-   2373 36 B7         [10]  732 	ld	(hl),#0xB7
-                            733 ;src/main.c:207: user.w = 6;
-   2375 21 2C 2D      [10]  734 	ld	hl,#_user + 6
-   2378 36 06         [10]  735 	ld	(hl),#0x06
-                            736 ;src/main.c:208: user.h = 16;
-   237A 21 2D 2D      [10]  737 	ld	hl,#_user + 7
-   237D 36 10         [10]  738 	ld	(hl),#0x10
-                            739 ;src/main.c:209: user.vx = 2;
-   237F 21 32 2D      [10]  740 	ld	hl,#_user + 12
-   2382 36 02         [10]  741 	ld	(hl),#0x02
-                            742 ;src/main.c:210: user.vy = 4;
-   2384 21 33 2D      [10]  743 	ld	hl,#_user + 13
-   2387 36 04         [10]  744 	ld	(hl),#0x04
-   2389 C9            [10]  745 	ret
-                            746 ;src/main.c:214: void main(void) {
-                            747 ;	---------------------------------
-                            748 ; Function main
-                            749 ; ---------------------------------
-   238A                     750 _main::
-                            751 ;src/main.c:216: cpct_disableFirmware();             // Disable firmware to prevent it from interfering
-   238A CD C9 2A      [17]  752 	call	_cpct_disableFirmware
-                            753 ;src/main.c:218: cpct_setPalette  (G_palette, 16);   // Set up palette using hardware colours
-   238D 11 2E 25      [10]  754 	ld	de,#_G_palette
-   2390 3E 10         [ 7]  755 	ld	a,#0x10
-   2392 F5            [11]  756 	push	af
-   2393 33            [ 6]  757 	inc	sp
-   2394 D5            [11]  758 	push	de
-   2395 CD 73 28      [17]  759 	call	_cpct_setPalette
-   2398 F1            [10]  760 	pop	af
-   2399 33            [ 6]  761 	inc	sp
-                            762 ;src/main.c:219: cpct_setBorder   (G_palette[1]);    // Set up the border to the background colour (white)
-   239A 3A 2F 25      [13]  763 	ld	a, (#_G_palette + 1)
-   239D 57            [ 4]  764 	ld	d,a
-   239E 1E 10         [ 7]  765 	ld	e,#0x10
-   23A0 D5            [11]  766 	push	de
-   23A1 CD 89 29      [17]  767 	call	_cpct_setPALColour
-   23A4 F1            [10]  768 	pop	af
-                            769 ;src/main.c:220: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
-   23A5 AF            [ 4]  770 	xor	a, a
-   23A6 F5            [11]  771 	push	af
-   23A7 33            [ 6]  772 	inc	sp
-   23A8 CD 7C 2A      [17]  773 	call	_cpct_setVideoMode
-   23AB 33            [ 6]  774 	inc	sp
-                            775 ;src/main.c:223: cpct_memset(SCR_VMEM, 0x00, 0x4000);
-   23AC 21 00 40      [10]  776 	ld	hl,#0x4000
-   23AF E5            [11]  777 	push	hl
-   23B0 AF            [ 4]  778 	xor	a, a
-   23B1 F5            [11]  779 	push	af
-   23B2 33            [ 6]  780 	inc	sp
-   23B3 26 C0         [ 7]  781 	ld	h, #0xC0
-   23B5 E5            [11]  782 	push	hl
-   23B6 CD B2 2A      [17]  783 	call	_cpct_memset
-   23B9 F1            [10]  784 	pop	af
-   23BA F1            [10]  785 	pop	af
-   23BB 33            [ 6]  786 	inc	sp
-                            787 ;src/main.c:224: cpct_memset(SCR_BUFF, 0x00, 0x4000);
-   23BC 21 00 40      [10]  788 	ld	hl,#0x4000
-   23BF E5            [11]  789 	push	hl
-   23C0 AF            [ 4]  790 	xor	a, a
-   23C1 F5            [11]  791 	push	af
-   23C2 33            [ 6]  792 	inc	sp
-   23C3 2E 00         [ 7]  793 	ld	l, #0x00
-   23C5 E5            [11]  794 	push	hl
-   23C6 CD B2 2A      [17]  795 	call	_cpct_memset
-   23C9 F1            [10]  796 	pop	af
-   23CA F1            [10]  797 	pop	af
-   23CB 33            [ 6]  798 	inc	sp
-                            799 ;src/main.c:226: initialization(); 
-   23CC CD 26 23      [17]  800 	call	_initialization
-                            801 ;src/main.c:229: while (1){
-   23CF                     802 00104$:
-                            803 ;src/main.c:231: clear_screen(pvmem);
-   23CF 2A 35 2D      [16]  804 	ld	hl,(_pvmem)
-   23D2 E5            [11]  805 	push	hl
-   23D3 CD 00 21      [17]  806 	call	_clear_screen
-   23D6 F1            [10]  807 	pop	af
-                            808 ;src/main.c:233: updateUser();
-   23D7 CD 16 22      [17]  809 	call	_updateUser
-                            810 ;src/main.c:234: updateBlock();
-   23DA CD 13 21      [17]  811 	call	_updateBlock
-                            812 ;src/main.c:236: moverEstrellas();
-   23DD CD B1 27      [17]  813 	call	_moverEstrellas
-                            814 ;src/main.c:237: pintarEstrellas(pvmem);
-   23E0 2A 35 2D      [16]  815 	ld	hl,(_pvmem)
-   23E3 E5            [11]  816 	push	hl
-   23E4 CD 36 27      [17]  817 	call	_pintarEstrellas
-   23E7 F1            [10]  818 	pop	af
-                            819 ;src/main.c:240: draw_blocks(pvmem);
-   23E8 2A 35 2D      [16]  820 	ld	hl,(_pvmem)
-   23EB E5            [11]  821 	push	hl
-   23EC CD 67 20      [17]  822 	call	_draw_blocks
-   23EF F1            [10]  823 	pop	af
-                            824 ;src/main.c:243: draw_sprite(pvmem);
-   23F0 2A 35 2D      [16]  825 	ld	hl,(_pvmem)
-   23F3 E5            [11]  826 	push	hl
-   23F4 CD 28 20      [17]  827 	call	_draw_sprite
-   23F7 F1            [10]  828 	pop	af
-                            829 ;src/main.c:246: pvmem = changeVideoMemoryPage();
-   23F8 CD 00 20      [17]  830 	call	_changeVideoMemoryPage
-   23FB 22 35 2D      [16]  831 	ld	(_pvmem),hl
-                            832 ;src/main.c:249: cpct_waitVSYNC();
-   23FE CD 74 2A      [17]  833 	call	_cpct_waitVSYNC
-   2401 18 CC         [12]  834 	jr	00104$
-                            835 	.area _CODE
-                            836 	.area _INITIALIZER
-                            837 	.area _CABS (ABS)
+                             69 	.area _DABS (ABS)
+                             70 ;--------------------------------------------------------
+                             71 ; global & static initialisations
+                             72 ;--------------------------------------------------------
+                             73 	.area _HOME
+                             74 	.area _GSINIT
+                             75 	.area _GSFINAL
+                             76 	.area _GSINIT
+                             77 ;src/main.c:57: static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
+   3397 FD 21 9B 31   [14]   78 	ld	iy,#_changeVideoMemoryPage_page_1_71
+   339B FD 36 00 00   [19]   79 	ld	0 (iy),#0x00
+                             80 ;--------------------------------------------------------
+                             81 ; Home
+                             82 ;--------------------------------------------------------
+                             83 	.area _HOME
+                             84 	.area _HOME
+                             85 ;--------------------------------------------------------
+                             86 ; code
+                             87 ;--------------------------------------------------------
+                             88 	.area _CODE
+                             89 ;src/main.c:56: u8* changeVideoMemoryPage() {
+                             90 ;	---------------------------------
+                             91 ; Function changeVideoMemoryPage
+                             92 ; ---------------------------------
+   2000                      93 _changeVideoMemoryPage::
+                             94 ;src/main.c:62: if (page) {
+   2000 3A 9B 31      [13]   95 	ld	a,(#_changeVideoMemoryPage_page_1_71 + 0)
+   2003 B7            [ 4]   96 	or	a, a
+   2004 28 11         [12]   97 	jr	Z,00102$
+                             98 ;src/main.c:63: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
+   2006 3E 30         [ 7]   99 	ld	a,#0x30
+   2008 F5            [11]  100 	push	af
+   2009 33            [ 6]  101 	inc	sp
+   200A CD 87 2E      [17]  102 	call	_cpct_setVideoMemoryPage
+   200D 33            [ 6]  103 	inc	sp
+                            104 ;src/main.c:64: page = 0;  
+   200E 21 9B 31      [10]  105 	ld	hl,#_changeVideoMemoryPage_page_1_71 + 0
+   2011 36 00         [10]  106 	ld	(hl), #0x00
+                            107 ;src/main.c:65: screen = SCR_BUFF;                            // Next page = 0
+   2013 21 00 80      [10]  108 	ld	hl,#0x8000
+   2016 C9            [10]  109 	ret
+   2017                     110 00102$:
+                            111 ;src/main.c:67: cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
+   2017 3E 20         [ 7]  112 	ld	a,#0x20
+   2019 F5            [11]  113 	push	af
+   201A 33            [ 6]  114 	inc	sp
+   201B CD 87 2E      [17]  115 	call	_cpct_setVideoMemoryPage
+   201E 33            [ 6]  116 	inc	sp
+                            117 ;src/main.c:68: page = 1;                              // Next page = 1
+   201F 21 9B 31      [10]  118 	ld	hl,#_changeVideoMemoryPage_page_1_71 + 0
+   2022 36 01         [10]  119 	ld	(hl), #0x01
+                            120 ;src/main.c:69: screen = SCR_VMEM;
+   2024 21 00 C0      [10]  121 	ld	hl,#0xC000
+                            122 ;src/main.c:71: return screen;
+   2027 C9            [10]  123 	ret
+                            124 ;src/main.c:77: void draw_sprite(u8* screen){
+                            125 ;	---------------------------------
+                            126 ; Function draw_sprite
+                            127 ; ---------------------------------
+   2028                     128 _draw_sprite::
+   2028 DD E5         [15]  129 	push	ix
+   202A DD 21 00 00   [14]  130 	ld	ix,#0
+   202E DD 39         [15]  131 	add	ix,sp
+                            132 ;src/main.c:79: pscreen = cpct_getScreenPtr(screen, user.x, user.y);
+   2030 21 67 31      [10]  133 	ld	hl, #_user + 5
+   2033 4E            [ 7]  134 	ld	c,(hl)
+   2034 21 66 31      [10]  135 	ld	hl, #_user + 4
+   2037 66            [ 7]  136 	ld	h,(hl)
+   2038 DD 5E 04      [19]  137 	ld	e,4 (ix)
+   203B DD 56 05      [19]  138 	ld	d,5 (ix)
+   203E 79            [ 4]  139 	ld	a,c
+   203F F5            [11]  140 	push	af
+   2040 33            [ 6]  141 	inc	sp
+   2041 E5            [11]  142 	push	hl
+   2042 33            [ 6]  143 	inc	sp
+   2043 D5            [11]  144 	push	de
+   2044 CD EF 2F      [17]  145 	call	_cpct_getScreenPtr
+   2047 F1            [10]  146 	pop	af
+   2048 F1            [10]  147 	pop	af
+   2049 EB            [ 4]  148 	ex	de,hl
+                            149 ;src/main.c:80: cpct_drawSprite(ship01,pscreen,user.w,user.h);
+   204A 21 69 31      [10]  150 	ld	hl, #_user + 7
+   204D 4E            [ 7]  151 	ld	c,(hl)
+   204E 21 68 31      [10]  152 	ld	hl, #_user + 6
+   2051 46            [ 7]  153 	ld	b,(hl)
+   2052 79            [ 4]  154 	ld	a,c
+   2053 F5            [11]  155 	push	af
+   2054 33            [ 6]  156 	inc	sp
+   2055 C5            [11]  157 	push	bc
+   2056 33            [ 6]  158 	inc	sp
+   2057 D5            [11]  159 	push	de
+   2058 21 DE 24      [10]  160 	ld	hl,#_ship01
+   205B E5            [11]  161 	push	hl
+   205C CD D5 2D      [17]  162 	call	_cpct_drawSprite
+   205F 21 06 00      [10]  163 	ld	hl,#6
+   2062 39            [11]  164 	add	hl,sp
+   2063 F9            [ 6]  165 	ld	sp,hl
+   2064 DD E1         [14]  166 	pop	ix
+   2066 C9            [10]  167 	ret
+                            168 ;src/main.c:86: void draw_blocks(u8* screen){
+                            169 ;	---------------------------------
+                            170 ; Function draw_blocks
+                            171 ; ---------------------------------
+   2067                     172 _draw_blocks::
+   2067 DD E5         [15]  173 	push	ix
+   2069 DD 21 00 00   [14]  174 	ld	ix,#0
+   206D DD 39         [15]  175 	add	ix,sp
+   206F 3B            [ 6]  176 	dec	sp
+                            177 ;src/main.c:89: pscreen = cpct_getScreenPtr(screen, block01.x, block01.y);
+   2070 21 55 31      [10]  178 	ld	hl, #_block01 + 1
+   2073 4E            [ 7]  179 	ld	c,(hl)
+   2074 21 54 31      [10]  180 	ld	hl, #_block01 + 0
+   2077 66            [ 7]  181 	ld	h,(hl)
+   2078 DD 5E 04      [19]  182 	ld	e,4 (ix)
+   207B DD 56 05      [19]  183 	ld	d,5 (ix)
+   207E 79            [ 4]  184 	ld	a,c
+   207F F5            [11]  185 	push	af
+   2080 33            [ 6]  186 	inc	sp
+   2081 E5            [11]  187 	push	hl
+   2082 33            [ 6]  188 	inc	sp
+   2083 D5            [11]  189 	push	de
+   2084 CD EF 2F      [17]  190 	call	_cpct_getScreenPtr
+   2087 F1            [10]  191 	pop	af
+   2088 F1            [10]  192 	pop	af
+   2089 5D            [ 4]  193 	ld	e, l
+   208A 54            [ 4]  194 	ld	d, h
+                            195 ;src/main.c:90: cpct_drawSolidBox(pscreen, cpct_px2byteM0(4, 4), block01.w, block01.h);
+   208B 21 59 31      [10]  196 	ld	hl, #_block01 + 5
+   208E 4E            [ 7]  197 	ld	c,(hl)
+   208F 21 58 31      [10]  198 	ld	hl, #_block01 + 4
+   2092 46            [ 7]  199 	ld	b,(hl)
+   2093 C5            [11]  200 	push	bc
+   2094 D5            [11]  201 	push	de
+   2095 21 04 04      [10]  202 	ld	hl,#0x0404
+   2098 E5            [11]  203 	push	hl
+   2099 CD CA 2E      [17]  204 	call	_cpct_px2byteM0
+   209C F1            [10]  205 	pop	af
+   209D DD 75 FF      [19]  206 	ld	-1 (ix),l
+   20A0 D1            [10]  207 	pop	de
+   20A1 C1            [10]  208 	pop	bc
+   20A2 79            [ 4]  209 	ld	a,c
+   20A3 F5            [11]  210 	push	af
+   20A4 33            [ 6]  211 	inc	sp
+   20A5 C5            [11]  212 	push	bc
+   20A6 33            [ 6]  213 	inc	sp
+   20A7 DD 7E FF      [19]  214 	ld	a,-1 (ix)
+   20AA F5            [11]  215 	push	af
+   20AB 33            [ 6]  216 	inc	sp
+   20AC D5            [11]  217 	push	de
+   20AD CD 1D 2F      [17]  218 	call	_cpct_drawSolidBox
+   20B0 F1            [10]  219 	pop	af
+   20B1 F1            [10]  220 	pop	af
+   20B2 33            [ 6]  221 	inc	sp
+   20B3 33            [ 6]  222 	inc	sp
+   20B4 DD E1         [14]  223 	pop	ix
+   20B6 C9            [10]  224 	ret
+                            225 ;src/main.c:97: void clear_screen(u8* screen){
+                            226 ;	---------------------------------
+                            227 ; Function clear_screen
+                            228 ; ---------------------------------
+   20B7                     229 _clear_screen::
+                            230 ;src/main.c:98: cpct_memset(screen, 0x00, 0x4000);   
+   20B7 C1            [10]  231 	pop	bc
+   20B8 D1            [10]  232 	pop	de
+   20B9 D5            [11]  233 	push	de
+   20BA C5            [11]  234 	push	bc
+   20BB 21 00 40      [10]  235 	ld	hl,#0x4000
+   20BE E5            [11]  236 	push	hl
+   20BF AF            [ 4]  237 	xor	a, a
+   20C0 F5            [11]  238 	push	af
+   20C1 33            [ 6]  239 	inc	sp
+   20C2 D5            [11]  240 	push	de
+   20C3 CD EE 2E      [17]  241 	call	_cpct_memset
+   20C6 F1            [10]  242 	pop	af
+   20C7 F1            [10]  243 	pop	af
+   20C8 33            [ 6]  244 	inc	sp
+   20C9 C9            [10]  245 	ret
+                            246 ;src/main.c:105: void updateBlock(){
+                            247 ;	---------------------------------
+                            248 ; Function updateBlock
+                            249 ; ---------------------------------
+   20CA                     250 _updateBlock::
+   20CA DD E5         [15]  251 	push	ix
+   20CC DD 21 00 00   [14]  252 	ld	ix,#0
+   20D0 DD 39         [15]  253 	add	ix,sp
+   20D2 F5            [11]  254 	push	af
+   20D3 3B            [ 6]  255 	dec	sp
+                            256 ;src/main.c:106: if (block01.vx<128){
+   20D4 01 54 31      [10]  257 	ld	bc,#_block01+0
+   20D7 21 56 31      [10]  258 	ld	hl, #(_block01 + 0x0002) + 0
+   20DA 7E            [ 7]  259 	ld	a,(hl)
+   20DB DD 77 FF      [19]  260 	ld	-1 (ix),a
+                            261 ;src/main.c:107: if ((block01.x+block01.vx)<(80-block01.w)){
+   20DE 0A            [ 7]  262 	ld	a,(bc)
+                            263 ;src/main.c:108: block01.x = block01.x + block01.vx;
+   20DF 57            [ 4]  264 	ld	d,a
+   20E0 DD 86 FF      [19]  265 	add	a, -1 (ix)
+   20E3 5F            [ 4]  266 	ld	e,a
+                            267 ;src/main.c:106: if (block01.vx<128){
+   20E4 DD 7E FF      [19]  268 	ld	a,-1 (ix)
+   20E7 D6 80         [ 7]  269 	sub	a, #0x80
+   20E9 30 4E         [12]  270 	jr	NC,00108$
+                            271 ;src/main.c:107: if ((block01.x+block01.vx)<(80-block01.w)){
+   20EB DD 72 FD      [19]  272 	ld	-3 (ix),d
+   20EE DD 36 FE 00   [19]  273 	ld	-2 (ix),#0x00
+   20F2 DD 66 FF      [19]  274 	ld	h,-1 (ix)
+   20F5 2E 00         [ 7]  275 	ld	l,#0x00
+   20F7 DD 7E FD      [19]  276 	ld	a,-3 (ix)
+   20FA 84            [ 4]  277 	add	a, h
+   20FB DD 77 FD      [19]  278 	ld	-3 (ix),a
+   20FE DD 7E FE      [19]  279 	ld	a,-2 (ix)
+   2101 8D            [ 4]  280 	adc	a, l
+   2102 DD 77 FE      [19]  281 	ld	-2 (ix),a
+   2105 21 58 31      [10]  282 	ld	hl, #_block01 + 4
+   2108 66            [ 7]  283 	ld	h,(hl)
+   2109 6C            [ 4]  284 	ld	l,h
+   210A 16 00         [ 7]  285 	ld	d,#0x00
+   210C 3E 50         [ 7]  286 	ld	a,#0x50
+   210E 95            [ 4]  287 	sub	a, l
+   210F 6F            [ 4]  288 	ld	l,a
+   2110 3E 00         [ 7]  289 	ld	a,#0x00
+   2112 9A            [ 4]  290 	sbc	a, d
+   2113 57            [ 4]  291 	ld	d,a
+   2114 DD 7E FD      [19]  292 	ld	a,-3 (ix)
+   2117 95            [ 4]  293 	sub	a, l
+   2118 DD 7E FE      [19]  294 	ld	a,-2 (ix)
+   211B 9A            [ 4]  295 	sbc	a, d
+   211C E2 21 21      [10]  296 	jp	PO, 00124$
+   211F EE 80         [ 7]  297 	xor	a, #0x80
+   2121                     298 00124$:
+   2121 F2 28 21      [10]  299 	jp	P,00102$
+                            300 ;src/main.c:108: block01.x = block01.x + block01.vx;
+   2124 7B            [ 4]  301 	ld	a,e
+   2125 02            [ 7]  302 	ld	(bc),a
+   2126 18 2D         [12]  303 	jr	00110$
+   2128                     304 00102$:
+                            305 ;src/main.c:111: block01.x = 79-block01.w;
+   2128 3E 4F         [ 7]  306 	ld	a,#0x4F
+   212A 94            [ 4]  307 	sub	a, h
+   212B 02            [ 7]  308 	ld	(bc),a
+                            309 ;src/main.c:112: block01.vx = - block01.vx;
+   212C 21 56 31      [10]  310 	ld	hl, #(_block01 + 0x0002) + 0
+   212F 66            [ 7]  311 	ld	h,(hl)
+   2130 AF            [ 4]  312 	xor	a, a
+   2131 94            [ 4]  313 	sub	a, h
+   2132 57            [ 4]  314 	ld	d,a
+   2133 21 56 31      [10]  315 	ld	hl,#(_block01 + 0x0002)
+   2136 72            [ 7]  316 	ld	(hl),d
+   2137 18 1C         [12]  317 	jr	00110$
+   2139                     318 00108$:
+                            319 ;src/main.c:115: if (( (i8) (block01.x+block01.vx))>0){
+   2139 6B            [ 4]  320 	ld	l,e
+   213A AF            [ 4]  321 	xor	a, a
+   213B 95            [ 4]  322 	sub	a, l
+   213C E2 41 21      [10]  323 	jp	PO, 00125$
+   213F EE 80         [ 7]  324 	xor	a, #0x80
+   2141                     325 00125$:
+   2141 F2 48 21      [10]  326 	jp	P,00105$
+                            327 ;src/main.c:116: block01.x = block01.x + block01.vx;
+   2144 7B            [ 4]  328 	ld	a,e
+   2145 02            [ 7]  329 	ld	(bc),a
+   2146 18 0D         [12]  330 	jr	00110$
+   2148                     331 00105$:
+                            332 ;src/main.c:119: block01.x = 0;
+   2148 AF            [ 4]  333 	xor	a, a
+   2149 02            [ 7]  334 	ld	(bc),a
+                            335 ;src/main.c:120: block01.vx = - block01.vx;
+   214A 21 56 31      [10]  336 	ld	hl, #(_block01 + 0x0002) + 0
+   214D 66            [ 7]  337 	ld	h,(hl)
+   214E AF            [ 4]  338 	xor	a, a
+   214F 94            [ 4]  339 	sub	a, h
+   2150 57            [ 4]  340 	ld	d,a
+   2151 21 56 31      [10]  341 	ld	hl,#(_block01 + 0x0002)
+   2154 72            [ 7]  342 	ld	(hl),d
+   2155                     343 00110$:
+   2155 DD F9         [10]  344 	ld	sp, ix
+   2157 DD E1         [14]  345 	pop	ix
+   2159 C9            [10]  346 	ret
+                            347 ;src/main.c:128: void updateUser() {
+                            348 ;	---------------------------------
+                            349 ; Function updateUser
+                            350 ; ---------------------------------
+   215A                     351 _updateUser::
+   215A DD E5         [15]  352 	push	ix
+   215C DD 21 00 00   [14]  353 	ld	ix,#0
+   2160 DD 39         [15]  354 	add	ix,sp
+   2162 3B            [ 6]  355 	dec	sp
+                            356 ;src/main.c:130: cpct_scanKeyboard_f();
+   2163 CD E4 2C      [17]  357 	call	_cpct_scanKeyboard_f
+                            358 ;src/main.c:137: if ((cpct_isKeyPressed(Key_CursorUp))){ 
+   2166 21 00 01      [10]  359 	ld	hl,#0x0100
+   2169 E5            [11]  360 	push	hl
+   216A CD D3 2C      [17]  361 	call	_cpct_isKeyPressed
+   216D F1            [10]  362 	pop	af
+   216E 7D            [ 4]  363 	ld	a,l
+   216F B7            [ 4]  364 	or	a, a
+   2170 28 2D         [12]  365 	jr	Z,00105$
+                            366 ;src/main.c:138: if ((user.y-user.vy)>0)
+   2172 21 67 31      [10]  367 	ld	hl, #(_user + 0x0005) + 0
+   2175 5E            [ 7]  368 	ld	e,(hl)
+   2176 4B            [ 4]  369 	ld	c,e
+   2177 06 00         [ 7]  370 	ld	b,#0x00
+   2179 21 6F 31      [10]  371 	ld	hl, #_user + 13
+   217C 56            [ 7]  372 	ld	d,(hl)
+   217D 7A            [ 4]  373 	ld	a,d
+   217E 6F            [ 4]  374 	ld	l,a
+   217F 17            [ 4]  375 	rla
+   2180 9F            [ 4]  376 	sbc	a, a
+   2181 67            [ 4]  377 	ld	h,a
+   2182 79            [ 4]  378 	ld	a,c
+   2183 95            [ 4]  379 	sub	a, l
+   2184 6F            [ 4]  380 	ld	l,a
+   2185 78            [ 4]  381 	ld	a,b
+   2186 9C            [ 4]  382 	sbc	a, h
+   2187 67            [ 4]  383 	ld	h,a
+   2188 AF            [ 4]  384 	xor	a, a
+   2189 BD            [ 4]  385 	cp	a, l
+   218A 9C            [ 4]  386 	sbc	a, h
+   218B E2 90 21      [10]  387 	jp	PO, 00172$
+   218E EE 80         [ 7]  388 	xor	a, #0x80
+   2190                     389 00172$:
+   2190 F2 9A 21      [10]  390 	jp	P,00102$
+                            391 ;src/main.c:139: user.y = user.y - user.vy;
+   2193 7B            [ 4]  392 	ld	a,e
+   2194 92            [ 4]  393 	sub	a, d
+   2195 32 67 31      [13]  394 	ld	(#(_user + 0x0005)),a
+   2198 18 05         [12]  395 	jr	00105$
+   219A                     396 00102$:
+                            397 ;src/main.c:141: user.y = 0;
+   219A 21 67 31      [10]  398 	ld	hl,#(_user + 0x0005)
+   219D 36 00         [10]  399 	ld	(hl),#0x00
+   219F                     400 00105$:
+                            401 ;src/main.c:144: if ((cpct_isKeyPressed(Key_CursorRight))){ 
+   219F 21 00 02      [10]  402 	ld	hl,#0x0200
+   21A2 E5            [11]  403 	push	hl
+   21A3 CD D3 2C      [17]  404 	call	_cpct_isKeyPressed
+   21A6 F1            [10]  405 	pop	af
+   21A7 7D            [ 4]  406 	ld	a,l
+   21A8 B7            [ 4]  407 	or	a, a
+   21A9 28 3F         [12]  408 	jr	Z,00110$
+                            409 ;src/main.c:145: if ((user.x+user.vx<(79-user.w)))
+   21AB 21 66 31      [10]  410 	ld	hl, #(_user + 0x0004) + 0
+   21AE 5E            [ 7]  411 	ld	e,(hl)
+   21AF 4B            [ 4]  412 	ld	c,e
+   21B0 06 00         [ 7]  413 	ld	b,#0x00
+   21B2 21 6E 31      [10]  414 	ld	hl, #_user + 12
+   21B5 56            [ 7]  415 	ld	d,(hl)
+   21B6 7A            [ 4]  416 	ld	a,d
+   21B7 6F            [ 4]  417 	ld	l,a
+   21B8 17            [ 4]  418 	rla
+   21B9 9F            [ 4]  419 	sbc	a, a
+   21BA 67            [ 4]  420 	ld	h,a
+   21BB 09            [11]  421 	add	hl,bc
+   21BC 4D            [ 4]  422 	ld	c,l
+   21BD 44            [ 4]  423 	ld	b,h
+   21BE 3A 68 31      [13]  424 	ld	a,(#_user + 6)
+   21C1 DD 77 FF      [19]  425 	ld	-1 (ix), a
+   21C4 6F            [ 4]  426 	ld	l, a
+   21C5 26 00         [ 7]  427 	ld	h,#0x00
+   21C7 3E 4F         [ 7]  428 	ld	a,#0x4F
+   21C9 95            [ 4]  429 	sub	a, l
+   21CA 6F            [ 4]  430 	ld	l,a
+   21CB 3E 00         [ 7]  431 	ld	a,#0x00
+   21CD 9C            [ 4]  432 	sbc	a, h
+   21CE 67            [ 4]  433 	ld	h,a
+   21CF 79            [ 4]  434 	ld	a,c
+   21D0 95            [ 4]  435 	sub	a, l
+   21D1 78            [ 4]  436 	ld	a,b
+   21D2 9C            [ 4]  437 	sbc	a, h
+   21D3 E2 D8 21      [10]  438 	jp	PO, 00173$
+   21D6 EE 80         [ 7]  439 	xor	a, #0x80
+   21D8                     440 00173$:
+   21D8 F2 E2 21      [10]  441 	jp	P,00107$
+                            442 ;src/main.c:146: user.x = user.x + user.vx;
+   21DB 7B            [ 4]  443 	ld	a,e
+   21DC 82            [ 4]  444 	add	a, d
+   21DD 32 66 31      [13]  445 	ld	(#(_user + 0x0004)),a
+   21E0 18 08         [12]  446 	jr	00110$
+   21E2                     447 00107$:
+                            448 ;src/main.c:148: user.x = 79-user.w;
+   21E2 3E 4F         [ 7]  449 	ld	a,#0x4F
+   21E4 DD 96 FF      [19]  450 	sub	a, -1 (ix)
+   21E7 32 66 31      [13]  451 	ld	(#(_user + 0x0004)),a
+   21EA                     452 00110$:
+                            453 ;src/main.c:151: if (cpct_isKeyPressed(Key_CursorLeft)){
+   21EA 21 01 01      [10]  454 	ld	hl,#0x0101
+   21ED E5            [11]  455 	push	hl
+   21EE CD D3 2C      [17]  456 	call	_cpct_isKeyPressed
+   21F1 F1            [10]  457 	pop	af
+   21F2 7D            [ 4]  458 	ld	a,l
+   21F3 B7            [ 4]  459 	or	a, a
+   21F4 28 2D         [12]  460 	jr	Z,00115$
+                            461 ;src/main.c:152: if ((user.x-user.vx)>0) 
+   21F6 21 66 31      [10]  462 	ld	hl, #(_user + 0x0004) + 0
+   21F9 5E            [ 7]  463 	ld	e,(hl)
+   21FA 4B            [ 4]  464 	ld	c,e
+   21FB 06 00         [ 7]  465 	ld	b,#0x00
+   21FD 21 6E 31      [10]  466 	ld	hl, #_user + 12
+   2200 56            [ 7]  467 	ld	d,(hl)
+   2201 7A            [ 4]  468 	ld	a,d
+   2202 6F            [ 4]  469 	ld	l,a
+   2203 17            [ 4]  470 	rla
+   2204 9F            [ 4]  471 	sbc	a, a
+   2205 67            [ 4]  472 	ld	h,a
+   2206 79            [ 4]  473 	ld	a,c
+   2207 95            [ 4]  474 	sub	a, l
+   2208 6F            [ 4]  475 	ld	l,a
+   2209 78            [ 4]  476 	ld	a,b
+   220A 9C            [ 4]  477 	sbc	a, h
+   220B 67            [ 4]  478 	ld	h,a
+   220C AF            [ 4]  479 	xor	a, a
+   220D BD            [ 4]  480 	cp	a, l
+   220E 9C            [ 4]  481 	sbc	a, h
+   220F E2 14 22      [10]  482 	jp	PO, 00174$
+   2212 EE 80         [ 7]  483 	xor	a, #0x80
+   2214                     484 00174$:
+   2214 F2 1E 22      [10]  485 	jp	P,00112$
+                            486 ;src/main.c:153: user.x = user.x - user.vx;    
+   2217 7B            [ 4]  487 	ld	a,e
+   2218 92            [ 4]  488 	sub	a, d
+   2219 32 66 31      [13]  489 	ld	(#(_user + 0x0004)),a
+   221C 18 05         [12]  490 	jr	00115$
+   221E                     491 00112$:
+                            492 ;src/main.c:155: user.x = 0;
+   221E 21 66 31      [10]  493 	ld	hl,#(_user + 0x0004)
+   2221 36 00         [10]  494 	ld	(hl),#0x00
+   2223                     495 00115$:
+                            496 ;src/main.c:158: if (cpct_isKeyPressed(Key_CursorDown)){
+   2223 21 00 04      [10]  497 	ld	hl,#0x0400
+   2226 E5            [11]  498 	push	hl
+   2227 CD D3 2C      [17]  499 	call	_cpct_isKeyPressed
+   222A F1            [10]  500 	pop	af
+   222B 7D            [ 4]  501 	ld	a,l
+   222C B7            [ 4]  502 	or	a, a
+   222D 28 37         [12]  503 	jr	Z,00120$
+                            504 ;src/main.c:159: if ((user.y<(199-user.h) ))
+   222F 21 67 31      [10]  505 	ld	hl, #(_user + 0x0005) + 0
+   2232 5E            [ 7]  506 	ld	e,(hl)
+   2233 3A 69 31      [13]  507 	ld	a,(#_user + 7)
+   2236 DD 77 FF      [19]  508 	ld	-1 (ix), a
+   2239 6F            [ 4]  509 	ld	l, a
+   223A 26 00         [ 7]  510 	ld	h,#0x00
+   223C 3E C7         [ 7]  511 	ld	a,#0xC7
+   223E 95            [ 4]  512 	sub	a, l
+   223F 6F            [ 4]  513 	ld	l,a
+   2240 3E 00         [ 7]  514 	ld	a,#0x00
+   2242 9C            [ 4]  515 	sbc	a, h
+   2243 67            [ 4]  516 	ld	h,a
+   2244 4B            [ 4]  517 	ld	c,e
+   2245 16 00         [ 7]  518 	ld	d,#0x00
+   2247 79            [ 4]  519 	ld	a,c
+   2248 95            [ 4]  520 	sub	a, l
+   2249 7A            [ 4]  521 	ld	a,d
+   224A 9C            [ 4]  522 	sbc	a, h
+   224B E2 50 22      [10]  523 	jp	PO, 00175$
+   224E EE 80         [ 7]  524 	xor	a, #0x80
+   2250                     525 00175$:
+   2250 F2 5E 22      [10]  526 	jp	P,00117$
+                            527 ;src/main.c:160: user.y = user.y + user.vy;
+   2253 21 6F 31      [10]  528 	ld	hl, #_user + 13
+   2256 6E            [ 7]  529 	ld	l,(hl)
+   2257 7B            [ 4]  530 	ld	a,e
+   2258 85            [ 4]  531 	add	a, l
+   2259 32 67 31      [13]  532 	ld	(#(_user + 0x0005)),a
+   225C 18 08         [12]  533 	jr	00120$
+   225E                     534 00117$:
+                            535 ;src/main.c:162: user.y = 199-user.h;
+   225E 3E C7         [ 7]  536 	ld	a,#0xC7
+   2260 DD 96 FF      [19]  537 	sub	a, -1 (ix)
+   2263 32 67 31      [13]  538 	ld	(#(_user + 0x0005)),a
+   2266                     539 00120$:
+                            540 ;src/main.c:166: if (cpct_isKeyPressed(Key_Space)){
+   2266 21 05 80      [10]  541 	ld	hl,#0x8005
+   2269 E5            [11]  542 	push	hl
+   226A CD D3 2C      [17]  543 	call	_cpct_isKeyPressed
+   226D F1            [10]  544 	pop	af
+   226E 7D            [ 4]  545 	ld	a,l
+   226F B7            [ 4]  546 	or	a, a
+   2270 28 14         [12]  547 	jr	Z,00126$
+                            548 ;src/main.c:168: cpct_scanKeyboard_f();
+   2272 CD E4 2C      [17]  549 	call	_cpct_scanKeyboard_f
+                            550 ;src/main.c:170: while(!cpct_isKeyPressed(Key_P)){
+   2275                     551 00121$:
+   2275 21 03 08      [10]  552 	ld	hl,#0x0803
+   2278 E5            [11]  553 	push	hl
+   2279 CD D3 2C      [17]  554 	call	_cpct_isKeyPressed
+   227C F1            [10]  555 	pop	af
+   227D 7D            [ 4]  556 	ld	a,l
+   227E B7            [ 4]  557 	or	a, a
+   227F 20 05         [12]  558 	jr	NZ,00126$
+                            559 ;src/main.c:172: cpct_scanKeyboard_f();
+   2281 CD E4 2C      [17]  560 	call	_cpct_scanKeyboard_f
+   2284 18 EF         [12]  561 	jr	00121$
+   2286                     562 00126$:
+   2286 33            [ 6]  563 	inc	sp
+   2287 DD E1         [14]  564 	pop	ix
+   2289 C9            [10]  565 	ret
+                            566 ;src/main.c:182: void initialization(){
+                            567 ;	---------------------------------
+                            568 ; Function initialization
+                            569 ; ---------------------------------
+   228A                     570 _initialization::
+                            571 ;src/main.c:184: pvmem = SCR_BUFF;
+   228A 21 00 80      [10]  572 	ld	hl,#0x8000
+   228D 22 71 31      [16]  573 	ld	(_pvmem),hl
+                            574 ;src/main.c:187: inicializarEstrellas();
+   2290 CD CA 25      [17]  575 	call	_inicializarEstrellas
+                            576 ;src/main.c:189: block01.x = 50;
+   2293 21 54 31      [10]  577 	ld	hl,#_block01+0
+   2296 36 32         [10]  578 	ld	(hl),#0x32
+                            579 ;src/main.c:190: block01.y = 10;
+   2298 21 55 31      [10]  580 	ld	hl,#_block01 + 1
+   229B 36 0A         [10]  581 	ld	(hl),#0x0A
+                            582 ;src/main.c:191: block01.vx = 2;
+   229D 21 56 31      [10]  583 	ld	hl,#_block01 + 2
+   22A0 36 02         [10]  584 	ld	(hl),#0x02
+                            585 ;src/main.c:192: block01.vy = 0;
+   22A2 21 57 31      [10]  586 	ld	hl,#_block01 + 3
+   22A5 36 00         [10]  587 	ld	(hl),#0x00
+                            588 ;src/main.c:193: block01.w = 20;
+   22A7 21 58 31      [10]  589 	ld	hl,#_block01 + 4
+   22AA 36 14         [10]  590 	ld	(hl),#0x14
+                            591 ;src/main.c:194: block01.h = 40;
+   22AC 21 59 31      [10]  592 	ld	hl,#_block01 + 5
+   22AF 36 28         [10]  593 	ld	(hl),#0x28
+                            594 ;src/main.c:196: block02.x = 15;
+   22B1 21 5B 31      [10]  595 	ld	hl,#_block02+0
+   22B4 36 0F         [10]  596 	ld	(hl),#0x0F
+                            597 ;src/main.c:197: block02.y = 15;
+   22B6 21 5C 31      [10]  598 	ld	hl,#_block02 + 1
+   22B9 36 0F         [10]  599 	ld	(hl),#0x0F
+                            600 ;src/main.c:198: block02.vx = 4;
+   22BB 21 5D 31      [10]  601 	ld	hl,#_block02 + 2
+   22BE 36 04         [10]  602 	ld	(hl),#0x04
+                            603 ;src/main.c:199: block02.vy = 0;
+   22C0 21 5E 31      [10]  604 	ld	hl,#_block02 + 3
+   22C3 36 00         [10]  605 	ld	(hl),#0x00
+                            606 ;src/main.c:200: block02.w = 25;
+   22C5 21 5F 31      [10]  607 	ld	hl,#_block02 + 4
+   22C8 36 19         [10]  608 	ld	(hl),#0x19
+                            609 ;src/main.c:201: block02.h = 20;
+   22CA 21 60 31      [10]  610 	ld	hl,#_block02 + 5
+   22CD 36 14         [10]  611 	ld	(hl),#0x14
+                            612 ;src/main.c:203: user.x = 39;
+   22CF 21 66 31      [10]  613 	ld	hl,#_user + 4
+   22D2 36 27         [10]  614 	ld	(hl),#0x27
+                            615 ;src/main.c:204: user.y = 183;
+   22D4 21 67 31      [10]  616 	ld	hl,#_user + 5
+   22D7 36 B7         [10]  617 	ld	(hl),#0xB7
+                            618 ;src/main.c:205: user.w = 6;
+   22D9 21 68 31      [10]  619 	ld	hl,#_user + 6
+   22DC 36 06         [10]  620 	ld	(hl),#0x06
+                            621 ;src/main.c:206: user.h = 16;
+   22DE 21 69 31      [10]  622 	ld	hl,#_user + 7
+   22E1 36 10         [10]  623 	ld	(hl),#0x10
+                            624 ;src/main.c:207: user.vx = 2;
+   22E3 21 6E 31      [10]  625 	ld	hl,#_user + 12
+   22E6 36 02         [10]  626 	ld	(hl),#0x02
+                            627 ;src/main.c:208: user.vy = 4;
+   22E8 21 6F 31      [10]  628 	ld	hl,#_user + 13
+   22EB 36 04         [10]  629 	ld	(hl),#0x04
+                            630 ;src/main.c:211: cpc_SetInkGphStr(0,0);
+   22ED 21 00 00      [10]  631 	ld	hl,#0x0000
+   22F0 E5            [11]  632 	push	hl
+   22F1 CD 9B 29      [17]  633 	call	_cpc_SetInkGphStr
+                            634 ;src/main.c:212: cpc_SetInkGphStr(1,2);
+   22F4 21 01 02      [10]  635 	ld	hl, #0x0201
+   22F7 E3            [19]  636 	ex	(sp),hl
+   22F8 CD 9B 29      [17]  637 	call	_cpc_SetInkGphStr
+                            638 ;src/main.c:213: cpc_SetInkGphStr(2,8);
+   22FB 21 02 08      [10]  639 	ld	hl, #0x0802
+   22FE E3            [19]  640 	ex	(sp),hl
+   22FF CD 9B 29      [17]  641 	call	_cpc_SetInkGphStr
+                            642 ;src/main.c:214: cpc_SetInkGphStr(3,42);
+   2302 21 03 2A      [10]  643 	ld	hl, #0x2A03
+   2305 E3            [19]  644 	ex	(sp),hl
+   2306 CD 9B 29      [17]  645 	call	_cpc_SetInkGphStr
+   2309 F1            [10]  646 	pop	af
+   230A C9            [10]  647 	ret
+                            648 ;src/main.c:222: void main(void) {
+                            649 ;	---------------------------------
+                            650 ; Function main
+                            651 ; ---------------------------------
+   230B                     652 _main::
+                            653 ;src/main.c:225: set_stack(0x1000);
+   230B 21 00 10      [10]  654 	ld	hl,#0x1000
+   230E E5            [11]  655 	push	hl
+   230F CD A9 2C      [17]  656 	call	_set_stack
+   2312 F1            [10]  657 	pop	af
+                            658 ;src/main.c:227: cpct_disableFirmware();             // Disable firmware to prevent it from interfering
+   2313 CD 05 2F      [17]  659 	call	_cpct_disableFirmware
+                            660 ;src/main.c:229: cpct_setPalette  (G_palette, 16);   // Set up palette using hardware colours
+   2316 11 AF 24      [10]  661 	ld	de,#_G_palette
+   2319 3E 10         [ 7]  662 	ld	a,#0x10
+   231B F5            [11]  663 	push	af
+   231C 33            [ 6]  664 	inc	sp
+   231D D5            [11]  665 	push	de
+   231E CD AF 2C      [17]  666 	call	_cpct_setPalette
+   2321 F1            [10]  667 	pop	af
+   2322 33            [ 6]  668 	inc	sp
+                            669 ;src/main.c:230: cpct_setBorder   (G_palette[1]);    // Set up the border to the background colour (white)
+   2323 3A B0 24      [13]  670 	ld	a, (#_G_palette + 1)
+   2326 57            [ 4]  671 	ld	d,a
+   2327 1E 10         [ 7]  672 	ld	e,#0x10
+   2329 D5            [11]  673 	push	de
+   232A CD C5 2D      [17]  674 	call	_cpct_setPALColour
+   232D F1            [10]  675 	pop	af
+                            676 ;src/main.c:231: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
+   232E AF            [ 4]  677 	xor	a, a
+   232F F5            [11]  678 	push	af
+   2330 33            [ 6]  679 	inc	sp
+   2331 CD B8 2E      [17]  680 	call	_cpct_setVideoMode
+   2334 33            [ 6]  681 	inc	sp
+                            682 ;src/main.c:234: cpct_memset(SCR_VMEM, 0x00, 0x4000);
+   2335 21 00 40      [10]  683 	ld	hl,#0x4000
+   2338 E5            [11]  684 	push	hl
+   2339 AF            [ 4]  685 	xor	a, a
+   233A F5            [11]  686 	push	af
+   233B 33            [ 6]  687 	inc	sp
+   233C 26 C0         [ 7]  688 	ld	h, #0xC0
+   233E E5            [11]  689 	push	hl
+   233F CD EE 2E      [17]  690 	call	_cpct_memset
+   2342 F1            [10]  691 	pop	af
+   2343 F1            [10]  692 	pop	af
+   2344 33            [ 6]  693 	inc	sp
+                            694 ;src/main.c:235: cpct_memset(SCR_BUFF, 0x00, 0x4000);
+   2345 21 00 40      [10]  695 	ld	hl,#0x4000
+   2348 E5            [11]  696 	push	hl
+   2349 AF            [ 4]  697 	xor	a, a
+   234A F5            [11]  698 	push	af
+   234B 33            [ 6]  699 	inc	sp
+   234C 26 80         [ 7]  700 	ld	h, #0x80
+   234E E5            [11]  701 	push	hl
+   234F CD EE 2E      [17]  702 	call	_cpct_memset
+   2352 F1            [10]  703 	pop	af
+   2353 F1            [10]  704 	pop	af
+   2354 33            [ 6]  705 	inc	sp
+                            706 ;src/main.c:237: initialization(); 
+   2355 CD 8A 22      [17]  707 	call	_initialization
+                            708 ;src/main.c:240: while (1){
+   2358                     709 00104$:
+                            710 ;src/main.c:242: clear_screen(pvmem);
+   2358 2A 71 31      [16]  711 	ld	hl,(_pvmem)
+   235B E5            [11]  712 	push	hl
+   235C CD B7 20      [17]  713 	call	_clear_screen
+   235F F1            [10]  714 	pop	af
+                            715 ;src/main.c:244: updateUser();
+   2360 CD 5A 21      [17]  716 	call	_updateUser
+                            717 ;src/main.c:245: updateBlock();
+   2363 CD CA 20      [17]  718 	call	_updateBlock
+                            719 ;src/main.c:247: moverEstrellas();
+   2366 CD D5 26      [17]  720 	call	_moverEstrellas
+                            721 ;src/main.c:248: pintarEstrellas(pvmem);
+   2369 2A 71 31      [16]  722 	ld	hl,(_pvmem)
+   236C E5            [11]  723 	push	hl
+   236D CD 5A 26      [17]  724 	call	_pintarEstrellas
+   2370 F1            [10]  725 	pop	af
+                            726 ;src/main.c:253: draw_sprite(pvmem);
+   2371 2A 71 31      [16]  727 	ld	hl,(_pvmem)
+   2374 E5            [11]  728 	push	hl
+   2375 CD 28 20      [17]  729 	call	_draw_sprite
+   2378 F1            [10]  730 	pop	af
+                            731 ;src/main.c:255: pvmem = changeVideoMemoryPage();
+   2379 CD 00 20      [17]  732 	call	_changeVideoMemoryPage
+   237C 22 71 31      [16]  733 	ld	(_pvmem),hl
+                            734 ;src/main.c:258: cpct_waitVSYNC();
+   237F CD B0 2E      [17]  735 	call	_cpct_waitVSYNC
+   2382 18 D4         [12]  736 	jr	00104$
+                            737 	.area _CODE
+                            738 	.area _INITIALIZER
+                            739 	.area _CABS (ABS)

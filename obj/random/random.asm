@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.4.3 #9207 (Jun  5 2015) (Mac OS X x86_64)
-; This file was generated Sat Jun 13 23:34:18 2015
+; Version 3.4.3 #9207 (Jun 21 2015) (Mac OS X x86_64)
+; This file was generated Sun Jun 21 16:50:37 2015
 ;--------------------------------------------------------
 	.module random
 	.optsdcc -mz80
@@ -340,7 +340,7 @@ _cpc_random::
 	LD L,A ;SE DEVUELVE L (CHAR)
 	LD H,#0
 	RET
-	valor_previo:
+	 valor_previo:
 	.db #0xFF
 	ret
 	.area _CODE

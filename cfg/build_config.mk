@@ -31,7 +31,7 @@
 ##   Sets CPCTelera main path for accessing tools and configuration. If you
 ##   change folder structure, change CPCT_PATH value for its absolute path.
 ##
-CPCT_PATH := /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera#%%%CPCTELERA_PATH%%%
+CPCT_PATH := /Users/david/Documents/retro/proyectos/cpctelera/cpctelera#%%%CPCTELERA_PATH%%%
 
 ####
 ## SECTION 1: Project configuration 

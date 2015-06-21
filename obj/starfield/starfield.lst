@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
-                              3 ; Version 3.4.3 #9207 (Jun  5 2015) (Mac OS X x86_64)
-                              4 ; This file was generated Sun Jun 14 16:46:15 2015
+                              3 ; Version 3.4.3 #9207 (Jun 21 2015) (Mac OS X x86_64)
+                              4 ; This file was generated Sun Jun 21 19:57:08 2015
                               5 ;--------------------------------------------------------
                               6 	.module starfield
                               7 	.optsdcc -mz80
@@ -15,529 +15,463 @@
                              15 	.globl _rand
                              16 	.globl _aStars
                              17 	.globl _inicializarEstrellas
-                             18 	.globl _borrarEstrellas
-                             19 	.globl _pintarEstrellas
-                             20 	.globl _moverEstrellas
-                             21 ;--------------------------------------------------------
-                             22 ; special function registers
+                             18 	.globl _pintarEstrellas
+                             19 	.globl _moverEstrellas
+                             20 ;--------------------------------------------------------
+                             21 ; special function registers
+                             22 ;--------------------------------------------------------
                              23 ;--------------------------------------------------------
-                             24 ;--------------------------------------------------------
-                             25 ; ram data
-                             26 ;--------------------------------------------------------
-                             27 	.area _DATA
-   0000                      28 _aStars::
-   0000                      29 	.ds 80
-                             30 ;--------------------------------------------------------
-                             31 ; ram data
-                             32 ;--------------------------------------------------------
-                             33 	.area _INITIALIZED
-                             34 ;--------------------------------------------------------
-                             35 ; absolute external ram data
-                             36 ;--------------------------------------------------------
-                             37 	.area _DABS (ABS)
-                             38 ;--------------------------------------------------------
-                             39 ; global & static initialisations
-                             40 ;--------------------------------------------------------
-                             41 	.area _HOME
-                             42 	.area _GSINIT
-                             43 	.area _GSFINAL
-                             44 	.area _GSINIT
-                             45 ;--------------------------------------------------------
-                             46 ; Home
-                             47 ;--------------------------------------------------------
+                             24 ; ram data
+                             25 ;--------------------------------------------------------
+                             26 	.area _DATA
+   0000                      27 _aStars::
+   0000                      28 	.ds 120
+                             29 ;--------------------------------------------------------
+                             30 ; ram data
+                             31 ;--------------------------------------------------------
+                             32 	.area _INITIALIZED
+                             33 ;--------------------------------------------------------
+                             34 ; absolute external ram data
+                             35 ;--------------------------------------------------------
+                             36 	.area _DABS (ABS)
+                             37 ;--------------------------------------------------------
+                             38 ; global & static initialisations
+                             39 ;--------------------------------------------------------
+                             40 	.area _HOME
+                             41 	.area _GSINIT
+                             42 	.area _GSFINAL
+                             43 	.area _GSINIT
+                             44 ;--------------------------------------------------------
+                             45 ; Home
+                             46 ;--------------------------------------------------------
+                             47 	.area _HOME
                              48 	.area _HOME
-                             49 	.area _HOME
-                             50 ;--------------------------------------------------------
-                             51 ; code
-                             52 ;--------------------------------------------------------
-                             53 	.area _CODE
-                             54 ;src/starfield/starfield.c:13: u8 pixelEstrella(u8 nPixel){
-                             55 ;	---------------------------------
-                             56 ; Function pixelEstrella
-                             57 ; ---------------------------------
-   0000                      58 _pixelEstrella::
-                             59 ;src/starfield/starfield.c:16: if(nPixel == 0)
-   0000 21 02 00      [10]   60 	ld	hl, #2+0
-   0003 39            [11]   61 	add	hl, sp
-   0004 7E            [ 7]   62 	ld	a, (hl)
-   0005 B7            [ 4]   63 	or	a, a
-   0006 20 03         [12]   64 	jr	NZ,00102$
-                             65 ;src/starfield/starfield.c:18: nByte = 32;
-   0008 2E 20         [ 7]   66 	ld	l,#0x20
-   000A C9            [10]   67 	ret
-   000B                      68 00102$:
-                             69 ;src/starfield/starfield.c:21: nByte = 16;
-   000B 2E 10         [ 7]   70 	ld	l,#0x10
-                             71 ;src/starfield/starfield.c:24: return nByte;
-   000D C9            [10]   72 	ret
-                             73 ;src/starfield/starfield.c:30: u8 GetMode0PixelColorByte(u8 nColor, u8 nPixel)
-                             74 ;	---------------------------------
-                             75 ; Function GetMode0PixelColorByte
-                             76 ; ---------------------------------
-   000E                      77 _GetMode0PixelColorByte::
-   000E 3B            [ 6]   78 	dec	sp
-                             79 ;src/starfield/starfield.c:38: if(nColor & 1)
-   000F FD 21 03 00   [14]   80 	ld	iy,#3
-   0013 FD 39         [15]   81 	add	iy,sp
-   0015 FD 7E 00      [19]   82 	ld	a,0 (iy)
-   0018 E6 01         [ 7]   83 	and	a, #0x01
-   001A 47            [ 4]   84 	ld	b,a
-                             85 ;src/starfield/starfield.c:41: if(nColor & 2)
-   001B FD 7E 00      [19]   86 	ld	a,0 (iy)
-   001E E6 02         [ 7]   87 	and	a, #0x02
-   0020 57            [ 4]   88 	ld	d,a
-                             89 ;src/starfield/starfield.c:44: if(nColor & 4)
-   0021 FD 7E 00      [19]   90 	ld	a,0 (iy)
-   0024 E6 04         [ 7]   91 	and	a, #0x04
-   0026 33            [ 6]   92 	inc	sp
-   0027 F5            [11]   93 	push	af
-   0028 33            [ 6]   94 	inc	sp
-                             95 ;src/starfield/starfield.c:47: if(nColor & 8)
-   0029 FD 7E 00      [19]   96 	ld	a,0 (iy)
-   002C E6 08         [ 7]   97 	and	a, #0x08
-   002E 5F            [ 4]   98 	ld	e,a
-                             99 ;src/starfield/starfield.c:34: if(nPixel == 0)
-   002F 21 04 00      [10]  100 	ld	hl, #4+0
-   0032 39            [11]  101 	add	hl, sp
-   0033 7E            [ 7]  102 	ld	a, (hl)
-                            103 ;src/starfield/starfield.c:36: nByte &= 85;
-   0034 B7            [ 4]  104 	or	a,a
-   0035 20 23         [12]  105 	jr	NZ,00118$
-   0037 6F            [ 4]  106 	ld	l,a
-                            107 ;src/starfield/starfield.c:38: if(nColor & 1)
-   0038 78            [ 4]  108 	ld	a,b
-   0039 B7            [ 4]  109 	or	a, a
-   003A 28 02         [12]  110 	jr	Z,00102$
-                            111 ;src/starfield/starfield.c:39: nByte |= 128;
-   003C 2E 80         [ 7]  112 	ld	l,#0x80
-   003E                     113 00102$:
-                            114 ;src/starfield/starfield.c:41: if(nColor & 2)
-   003E 7A            [ 4]  115 	ld	a,d
-   003F B7            [ 4]  116 	or	a, a
-   0040 28 02         [12]  117 	jr	Z,00104$
-                            118 ;src/starfield/starfield.c:42: nByte |= 8;
-   0042 CB DD         [ 8]  119 	set	3, l
-   0044                     120 00104$:
-                            121 ;src/starfield/starfield.c:44: if(nColor & 4)
-   0044 FD 21 00 00   [14]  122 	ld	iy,#0
-   0048 FD 39         [15]  123 	add	iy,sp
-   004A FD 7E 00      [19]  124 	ld	a,0 (iy)
-   004D B7            [ 4]  125 	or	a, a
-   004E 28 02         [12]  126 	jr	Z,00106$
-                            127 ;src/starfield/starfield.c:45: nByte |= 32;
-   0050 CB ED         [ 8]  128 	set	5, l
-   0052                     129 00106$:
-                            130 ;src/starfield/starfield.c:47: if(nColor & 8)
-   0052 7B            [ 4]  131 	ld	a,e
-   0053 B7            [ 4]  132 	or	a, a
-   0054 28 26         [12]  133 	jr	Z,00119$
-                            134 ;src/starfield/starfield.c:48: nByte |= 2;
-   0056 CB CD         [ 8]  135 	set	1, l
-   0058 18 22         [12]  136 	jr	00119$
-   005A                     137 00118$:
-                            138 ;src/starfield/starfield.c:52: nByte &= 170;
-   005A 2E 00         [ 7]  139 	ld	l,#0x00
-                            140 ;src/starfield/starfield.c:54: if(nColor & 1)
-   005C 78            [ 4]  141 	ld	a,b
-   005D B7            [ 4]  142 	or	a, a
-   005E 28 02         [12]  143 	jr	Z,00110$
-                            144 ;src/starfield/starfield.c:55: nByte |= 64;
-   0060 2E 40         [ 7]  145 	ld	l,#0x40
-   0062                     146 00110$:
-                            147 ;src/starfield/starfield.c:57: if(nColor & 2)
-   0062 7A            [ 4]  148 	ld	a,d
-   0063 B7            [ 4]  149 	or	a, a
-   0064 28 02         [12]  150 	jr	Z,00112$
-                            151 ;src/starfield/starfield.c:58: nByte |= 4;
-   0066 CB D5         [ 8]  152 	set	2, l
-   0068                     153 00112$:
-                            154 ;src/starfield/starfield.c:60: if(nColor & 4)
-   0068 FD 21 00 00   [14]  155 	ld	iy,#0
-   006C FD 39         [15]  156 	add	iy,sp
-   006E FD 7E 00      [19]  157 	ld	a,0 (iy)
-   0071 B7            [ 4]  158 	or	a, a
-   0072 28 02         [12]  159 	jr	Z,00114$
-                            160 ;src/starfield/starfield.c:61: nByte |= 16;
-   0074 CB E5         [ 8]  161 	set	4, l
-   0076                     162 00114$:
-                            163 ;src/starfield/starfield.c:63: if(nColor & 8)
-   0076 7B            [ 4]  164 	ld	a,e
-   0077 B7            [ 4]  165 	or	a, a
-   0078 28 02         [12]  166 	jr	Z,00119$
-                            167 ;src/starfield/starfield.c:64: nByte |= 1;
-   007A CB C5         [ 8]  168 	set	0, l
-   007C                     169 00119$:
-                            170 ;src/starfield/starfield.c:67: return nByte;
-   007C 33            [ 6]  171 	inc	sp
-   007D C9            [10]  172 	ret
-                            173 ;src/starfield/starfield.c:74: void inicializarEstrellas(){
-                            174 ;	---------------------------------
-                            175 ; Function inicializarEstrellas
-                            176 ; ---------------------------------
-   007E                     177 _inicializarEstrellas::
-   007E DD E5         [15]  178 	push	ix
-   0080 DD 21 00 00   [14]  179 	ld	ix,#0
-   0084 DD 39         [15]  180 	add	ix,sp
-   0086 F5            [11]  181 	push	af
-   0087 F5            [11]  182 	push	af
-   0088 3B            [ 6]  183 	dec	sp
-                            184 ;src/starfield/starfield.c:78: for(nStar = 0; nStar < STARS_NUM; nStar++)
-   0089 DD 36 FB 00   [19]  185 	ld	-5 (ix),#0x00
-   008D                     186 00102$:
-                            187 ;src/starfield/starfield.c:81: aStars[nStar].nX = rand() % 160;
-   008D DD 6E FB      [19]  188 	ld	l,-5 (ix)
-   0090 26 00         [ 7]  189 	ld	h,#0x00
-   0092 29            [11]  190 	add	hl, hl
-   0093 29            [11]  191 	add	hl, hl
-   0094 29            [11]  192 	add	hl, hl
-   0095 3Er00         [ 7]  193 	ld	a,#<(_aStars)
-   0097 85            [ 4]  194 	add	a, l
-   0098 5F            [ 4]  195 	ld	e,a
-   0099 3Es00         [ 7]  196 	ld	a,#>(_aStars)
-   009B 8C            [ 4]  197 	adc	a, h
-   009C 57            [ 4]  198 	ld	d,a
-   009D D5            [11]  199 	push	de
-   009E CDr00r00      [17]  200 	call	_rand
-   00A1 01 A0 00      [10]  201 	ld	bc,#0x00A0
-   00A4 C5            [11]  202 	push	bc
-   00A5 E5            [11]  203 	push	hl
-   00A6 CDr00r00      [17]  204 	call	__modsint
-   00A9 F1            [10]  205 	pop	af
-   00AA F1            [10]  206 	pop	af
-   00AB D1            [10]  207 	pop	de
-   00AC 7D            [ 4]  208 	ld	a,l
-   00AD 12            [ 7]  209 	ld	(de),a
-                            210 ;src/starfield/starfield.c:83: aStars[nStar].nY = (rand() % 184)+16;
-   00AE 21 01 00      [10]  211 	ld	hl,#0x0001
-   00B1 19            [11]  212 	add	hl,de
-   00B2 DD 75 FE      [19]  213 	ld	-2 (ix),l
-   00B5 DD 74 FF      [19]  214 	ld	-1 (ix),h
-   00B8 D5            [11]  215 	push	de
-   00B9 CDr00r00      [17]  216 	call	_rand
-   00BC 01 B8 00      [10]  217 	ld	bc,#0x00B8
-   00BF C5            [11]  218 	push	bc
-   00C0 E5            [11]  219 	push	hl
-   00C1 CDr00r00      [17]  220 	call	__modsint
-   00C4 F1            [10]  221 	pop	af
-   00C5 F1            [10]  222 	pop	af
-   00C6 D1            [10]  223 	pop	de
-   00C7 7D            [ 4]  224 	ld	a,l
-   00C8 C6 10         [ 7]  225 	add	a, #0x10
-   00CA DD 6E FE      [19]  226 	ld	l,-2 (ix)
-   00CD DD 66 FF      [19]  227 	ld	h,-1 (ix)
-   00D0 77            [ 7]  228 	ld	(hl),a
-                            229 ;src/starfield/starfield.c:85: aStars[nStar].nStarType = rand() % 3;
-   00D1 21 02 00      [10]  230 	ld	hl,#0x0002
-   00D4 19            [11]  231 	add	hl,de
-   00D5 DD 75 FC      [19]  232 	ld	-4 (ix),l
-   00D8 DD 74 FD      [19]  233 	ld	-3 (ix),h
-   00DB D5            [11]  234 	push	de
-   00DC CDr00r00      [17]  235 	call	_rand
-   00DF 01 03 00      [10]  236 	ld	bc,#0x0003
-   00E2 C5            [11]  237 	push	bc
-   00E3 E5            [11]  238 	push	hl
-   00E4 CDr00r00      [17]  239 	call	__modsint
-   00E7 F1            [10]  240 	pop	af
-   00E8 F1            [10]  241 	pop	af
-   00E9 D1            [10]  242 	pop	de
-   00EA 7D            [ 4]  243 	ld	a,l
-   00EB DD 6E FC      [19]  244 	ld	l,-4 (ix)
-   00EE DD 66 FD      [19]  245 	ld	h,-3 (ix)
-   00F1 77            [ 7]  246 	ld	(hl),a
-                            247 ;src/starfield/starfield.c:88: aStars[nStar].columnOffset = aStars[nStar].nY/2;
+                             49 ;--------------------------------------------------------
+                             50 ; code
+                             51 ;--------------------------------------------------------
+                             52 	.area _CODE
+                             53 ;src/starfield/starfield.c:13: u8 pixelEstrella(u8 nPixel){
+                             54 ;	---------------------------------
+                             55 ; Function pixelEstrella
+                             56 ; ---------------------------------
+   0000                      57 _pixelEstrella::
+                             58 ;src/starfield/starfield.c:16: if(nPixel == 0)
+   0000 21 02 00      [10]   59 	ld	hl, #2+0
+   0003 39            [11]   60 	add	hl, sp
+   0004 7E            [ 7]   61 	ld	a, (hl)
+   0005 B7            [ 4]   62 	or	a, a
+   0006 20 03         [12]   63 	jr	NZ,00102$
+                             64 ;src/starfield/starfield.c:18: nByte = 32;
+   0008 2E 20         [ 7]   65 	ld	l,#0x20
+   000A C9            [10]   66 	ret
+   000B                      67 00102$:
+                             68 ;src/starfield/starfield.c:21: nByte = 16;
+   000B 2E 10         [ 7]   69 	ld	l,#0x10
+                             70 ;src/starfield/starfield.c:24: return nByte;
+   000D C9            [10]   71 	ret
+                             72 ;src/starfield/starfield.c:30: u8 GetMode0PixelColorByte(u8 nColor, u8 nPixel)
+                             73 ;	---------------------------------
+                             74 ; Function GetMode0PixelColorByte
+                             75 ; ---------------------------------
+   000E                      76 _GetMode0PixelColorByte::
+   000E 3B            [ 6]   77 	dec	sp
+                             78 ;src/starfield/starfield.c:38: if(nColor & 1)
+   000F FD 21 03 00   [14]   79 	ld	iy,#3
+   0013 FD 39         [15]   80 	add	iy,sp
+   0015 FD 7E 00      [19]   81 	ld	a,0 (iy)
+   0018 E6 01         [ 7]   82 	and	a, #0x01
+   001A 47            [ 4]   83 	ld	b,a
+                             84 ;src/starfield/starfield.c:41: if(nColor & 2)
+   001B FD 7E 00      [19]   85 	ld	a,0 (iy)
+   001E E6 02         [ 7]   86 	and	a, #0x02
+   0020 57            [ 4]   87 	ld	d,a
+                             88 ;src/starfield/starfield.c:44: if(nColor & 4)
+   0021 FD 7E 00      [19]   89 	ld	a,0 (iy)
+   0024 E6 04         [ 7]   90 	and	a, #0x04
+   0026 33            [ 6]   91 	inc	sp
+   0027 F5            [11]   92 	push	af
+   0028 33            [ 6]   93 	inc	sp
+                             94 ;src/starfield/starfield.c:47: if(nColor & 8)
+   0029 FD 7E 00      [19]   95 	ld	a,0 (iy)
+   002C E6 08         [ 7]   96 	and	a, #0x08
+   002E 5F            [ 4]   97 	ld	e,a
+                             98 ;src/starfield/starfield.c:34: if(nPixel == 0)
+   002F 21 04 00      [10]   99 	ld	hl, #4+0
+   0032 39            [11]  100 	add	hl, sp
+   0033 7E            [ 7]  101 	ld	a, (hl)
+                            102 ;src/starfield/starfield.c:36: nByte &= 85;
+   0034 B7            [ 4]  103 	or	a,a
+   0035 20 23         [12]  104 	jr	NZ,00118$
+   0037 6F            [ 4]  105 	ld	l,a
+                            106 ;src/starfield/starfield.c:38: if(nColor & 1)
+   0038 78            [ 4]  107 	ld	a,b
+   0039 B7            [ 4]  108 	or	a, a
+   003A 28 02         [12]  109 	jr	Z,00102$
+                            110 ;src/starfield/starfield.c:39: nByte |= 128;
+   003C 2E 80         [ 7]  111 	ld	l,#0x80
+   003E                     112 00102$:
+                            113 ;src/starfield/starfield.c:41: if(nColor & 2)
+   003E 7A            [ 4]  114 	ld	a,d
+   003F B7            [ 4]  115 	or	a, a
+   0040 28 02         [12]  116 	jr	Z,00104$
+                            117 ;src/starfield/starfield.c:42: nByte |= 8;
+   0042 CB DD         [ 8]  118 	set	3, l
+   0044                     119 00104$:
+                            120 ;src/starfield/starfield.c:44: if(nColor & 4)
+   0044 FD 21 00 00   [14]  121 	ld	iy,#0
+   0048 FD 39         [15]  122 	add	iy,sp
+   004A FD 7E 00      [19]  123 	ld	a,0 (iy)
+   004D B7            [ 4]  124 	or	a, a
+   004E 28 02         [12]  125 	jr	Z,00106$
+                            126 ;src/starfield/starfield.c:45: nByte |= 32;
+   0050 CB ED         [ 8]  127 	set	5, l
+   0052                     128 00106$:
+                            129 ;src/starfield/starfield.c:47: if(nColor & 8)
+   0052 7B            [ 4]  130 	ld	a,e
+   0053 B7            [ 4]  131 	or	a, a
+   0054 28 26         [12]  132 	jr	Z,00119$
+                            133 ;src/starfield/starfield.c:48: nByte |= 2;
+   0056 CB CD         [ 8]  134 	set	1, l
+   0058 18 22         [12]  135 	jr	00119$
+   005A                     136 00118$:
+                            137 ;src/starfield/starfield.c:52: nByte &= 170;
+   005A 2E 00         [ 7]  138 	ld	l,#0x00
+                            139 ;src/starfield/starfield.c:54: if(nColor & 1)
+   005C 78            [ 4]  140 	ld	a,b
+   005D B7            [ 4]  141 	or	a, a
+   005E 28 02         [12]  142 	jr	Z,00110$
+                            143 ;src/starfield/starfield.c:55: nByte |= 64;
+   0060 2E 40         [ 7]  144 	ld	l,#0x40
+   0062                     145 00110$:
+                            146 ;src/starfield/starfield.c:57: if(nColor & 2)
+   0062 7A            [ 4]  147 	ld	a,d
+   0063 B7            [ 4]  148 	or	a, a
+   0064 28 02         [12]  149 	jr	Z,00112$
+                            150 ;src/starfield/starfield.c:58: nByte |= 4;
+   0066 CB D5         [ 8]  151 	set	2, l
+   0068                     152 00112$:
+                            153 ;src/starfield/starfield.c:60: if(nColor & 4)
+   0068 FD 21 00 00   [14]  154 	ld	iy,#0
+   006C FD 39         [15]  155 	add	iy,sp
+   006E FD 7E 00      [19]  156 	ld	a,0 (iy)
+   0071 B7            [ 4]  157 	or	a, a
+   0072 28 02         [12]  158 	jr	Z,00114$
+                            159 ;src/starfield/starfield.c:61: nByte |= 16;
+   0074 CB E5         [ 8]  160 	set	4, l
+   0076                     161 00114$:
+                            162 ;src/starfield/starfield.c:63: if(nColor & 8)
+   0076 7B            [ 4]  163 	ld	a,e
+   0077 B7            [ 4]  164 	or	a, a
+   0078 28 02         [12]  165 	jr	Z,00119$
+                            166 ;src/starfield/starfield.c:64: nByte |= 1;
+   007A CB C5         [ 8]  167 	set	0, l
+   007C                     168 00119$:
+                            169 ;src/starfield/starfield.c:67: return nByte;
+   007C 33            [ 6]  170 	inc	sp
+   007D C9            [10]  171 	ret
+                            172 ;src/starfield/starfield.c:74: void inicializarEstrellas(){
+                            173 ;	---------------------------------
+                            174 ; Function inicializarEstrellas
+                            175 ; ---------------------------------
+   007E                     176 _inicializarEstrellas::
+   007E DD E5         [15]  177 	push	ix
+   0080 DD 21 00 00   [14]  178 	ld	ix,#0
+   0084 DD 39         [15]  179 	add	ix,sp
+   0086 F5            [11]  180 	push	af
+   0087 F5            [11]  181 	push	af
+   0088 3B            [ 6]  182 	dec	sp
+                            183 ;src/starfield/starfield.c:78: for(nStar = 0; nStar < STARS_NUM; nStar++)
+   0089 DD 36 FB 00   [19]  184 	ld	-5 (ix),#0x00
+   008D                     185 00102$:
+                            186 ;src/starfield/starfield.c:80: aStars[nStar].nX = rand() % 160;
+   008D DD 6E FB      [19]  187 	ld	l,-5 (ix)
+   0090 26 00         [ 7]  188 	ld	h,#0x00
+   0092 29            [11]  189 	add	hl, hl
+   0093 29            [11]  190 	add	hl, hl
+   0094 29            [11]  191 	add	hl, hl
+   0095 3Er00         [ 7]  192 	ld	a,#<(_aStars)
+   0097 85            [ 4]  193 	add	a, l
+   0098 5F            [ 4]  194 	ld	e,a
+   0099 3Es00         [ 7]  195 	ld	a,#>(_aStars)
+   009B 8C            [ 4]  196 	adc	a, h
+   009C 57            [ 4]  197 	ld	d,a
+   009D D5            [11]  198 	push	de
+   009E CDr00r00      [17]  199 	call	_rand
+   00A1 01 A0 00      [10]  200 	ld	bc,#0x00A0
+   00A4 C5            [11]  201 	push	bc
+   00A5 E5            [11]  202 	push	hl
+   00A6 CDr00r00      [17]  203 	call	__modsint
+   00A9 F1            [10]  204 	pop	af
+   00AA F1            [10]  205 	pop	af
+   00AB D1            [10]  206 	pop	de
+   00AC 7D            [ 4]  207 	ld	a,l
+   00AD 12            [ 7]  208 	ld	(de),a
+                            209 ;src/starfield/starfield.c:81: aStars[nStar].nY = rand() % 199;
+   00AE 21 01 00      [10]  210 	ld	hl,#0x0001
+   00B1 19            [11]  211 	add	hl,de
+   00B2 DD 75 FE      [19]  212 	ld	-2 (ix),l
+   00B5 DD 74 FF      [19]  213 	ld	-1 (ix),h
+   00B8 D5            [11]  214 	push	de
+   00B9 CDr00r00      [17]  215 	call	_rand
+   00BC 01 C7 00      [10]  216 	ld	bc,#0x00C7
+   00BF C5            [11]  217 	push	bc
+   00C0 E5            [11]  218 	push	hl
+   00C1 CDr00r00      [17]  219 	call	__modsint
+   00C4 F1            [10]  220 	pop	af
+   00C5 F1            [10]  221 	pop	af
+   00C6 D1            [10]  222 	pop	de
+   00C7 7D            [ 4]  223 	ld	a,l
+   00C8 DD 6E FE      [19]  224 	ld	l,-2 (ix)
+   00CB DD 66 FF      [19]  225 	ld	h,-1 (ix)
+   00CE 77            [ 7]  226 	ld	(hl),a
+                            227 ;src/starfield/starfield.c:82: aStars[nStar].nStarType = rand() % 3;
+   00CF 21 02 00      [10]  228 	ld	hl,#0x0002
+   00D2 19            [11]  229 	add	hl,de
+   00D3 DD 75 FC      [19]  230 	ld	-4 (ix),l
+   00D6 DD 74 FD      [19]  231 	ld	-3 (ix),h
+   00D9 D5            [11]  232 	push	de
+   00DA CDr00r00      [17]  233 	call	_rand
+   00DD 01 03 00      [10]  234 	ld	bc,#0x0003
+   00E0 C5            [11]  235 	push	bc
+   00E1 E5            [11]  236 	push	hl
+   00E2 CDr00r00      [17]  237 	call	__modsint
+   00E5 F1            [10]  238 	pop	af
+   00E6 F1            [10]  239 	pop	af
+   00E7 D1            [10]  240 	pop	de
+   00E8 7D            [ 4]  241 	ld	a,l
+   00E9 DD 6E FC      [19]  242 	ld	l,-4 (ix)
+   00EC DD 66 FD      [19]  243 	ld	h,-3 (ix)
+   00EF 77            [ 7]  244 	ld	(hl),a
+                            245 ;src/starfield/starfield.c:83: aStars[nStar].columnOffset = aStars[nStar].nY/2;
+   00F0 13            [ 6]  246 	inc	de
+   00F1 13            [ 6]  247 	inc	de
    00F2 13            [ 6]  248 	inc	de
    00F3 13            [ 6]  249 	inc	de
    00F4 13            [ 6]  250 	inc	de
-   00F5 13            [ 6]  251 	inc	de
-   00F6 13            [ 6]  252 	inc	de
-   00F7 DD 6E FE      [19]  253 	ld	l,-2 (ix)
-   00FA DD 66 FF      [19]  254 	ld	h,-1 (ix)
-   00FD 7E            [ 7]  255 	ld	a,(hl)
-   00FE CB 3F         [ 8]  256 	srl	a
-   0100 12            [ 7]  257 	ld	(de),a
-                            258 ;src/starfield/starfield.c:78: for(nStar = 0; nStar < STARS_NUM; nStar++)
-   0101 DD 34 FB      [23]  259 	inc	-5 (ix)
-   0104 DD 7E FB      [19]  260 	ld	a,-5 (ix)
-   0107 D6 0A         [ 7]  261 	sub	a, #0x0A
-   0109 38 82         [12]  262 	jr	C,00102$
-   010B DD F9         [10]  263 	ld	sp, ix
-   010D DD E1         [14]  264 	pop	ix
-   010F C9            [10]  265 	ret
-                            266 ;src/starfield/starfield.c:96: void borrarEstrellas(){
-                            267 ;	---------------------------------
-                            268 ; Function borrarEstrellas
-                            269 ; ---------------------------------
-   0110                     270 _borrarEstrellas::
-   0110 DD E5         [15]  271 	push	ix
-   0112 DD 21 00 00   [14]  272 	ld	ix,#0
-   0116 DD 39         [15]  273 	add	ix,sp
-   0118 F5            [11]  274 	push	af
-   0119 3B            [ 6]  275 	dec	sp
-                            276 ;src/starfield/starfield.c:100: for(nStar = 0; nStar < STARS_NUM; nStar++)
-   011A 1E 00         [ 7]  277 	ld	e,#0x00
-   011C                     278 00102$:
-                            279 ;src/starfield/starfield.c:102: pStar = &aStars[nStar];
-   011C 6B            [ 4]  280 	ld	l,e
-   011D 26 00         [ 7]  281 	ld	h,#0x00
-   011F 29            [11]  282 	add	hl, hl
-   0120 29            [11]  283 	add	hl, hl
-   0121 29            [11]  284 	add	hl, hl
-   0122 01r00r00      [10]  285 	ld	bc,#_aStars
-   0125 09            [11]  286 	add	hl,bc
-   0126 4D            [ 4]  287 	ld	c, l
-   0127 44            [ 4]  288 	ld	b, h
-                            289 ;src/starfield/starfield.c:106: *pStar->pCurrentAddress ^= GetMode0PixelColorByte(pStar->nStarType + 1, pStar->nX % 2);
-   0128 C5            [11]  290 	push	bc
-   0129 FD E1         [14]  291 	pop	iy
-   012B FD 7E 06      [19]  292 	ld	a,6 (iy)
-   012E DD 77 FE      [19]  293 	ld	-2 (ix),a
-   0131 FD 7E 07      [19]  294 	ld	a,7 (iy)
-   0134 DD 77 FF      [19]  295 	ld	-1 (ix),a
-   0137 DD 6E FE      [19]  296 	ld	l,-2 (ix)
-   013A DD 66 FF      [19]  297 	ld	h,-1 (ix)
-   013D 7E            [ 7]  298 	ld	a,(hl)
-   013E DD 77 FD      [19]  299 	ld	-3 (ix),a
-   0141 0A            [ 7]  300 	ld	a,(bc)
-   0142 E6 01         [ 7]  301 	and	a, #0x01
-   0144 57            [ 4]  302 	ld	d,a
-   0145 69            [ 4]  303 	ld	l, c
-   0146 60            [ 4]  304 	ld	h, b
-   0147 23            [ 6]  305 	inc	hl
-   0148 23            [ 6]  306 	inc	hl
-   0149 46            [ 7]  307 	ld	b,(hl)
-   014A 04            [ 4]  308 	inc	b
-   014B D5            [11]  309 	push	de
-   014C D5            [11]  310 	push	de
-   014D 33            [ 6]  311 	inc	sp
-   014E C5            [11]  312 	push	bc
-   014F 33            [ 6]  313 	inc	sp
-   0150 CDr0Er00      [17]  314 	call	_GetMode0PixelColorByte
-   0153 F1            [10]  315 	pop	af
-   0154 7D            [ 4]  316 	ld	a,l
-   0155 D1            [10]  317 	pop	de
-   0156 DD AE FD      [19]  318 	xor	a, -3 (ix)
-   0159 DD 6E FE      [19]  319 	ld	l,-2 (ix)
-   015C DD 66 FF      [19]  320 	ld	h,-1 (ix)
-   015F 77            [ 7]  321 	ld	(hl),a
-                            322 ;src/starfield/starfield.c:100: for(nStar = 0; nStar < STARS_NUM; nStar++)
-   0160 1C            [ 4]  323 	inc	e
-   0161 7B            [ 4]  324 	ld	a,e
-   0162 D6 0A         [ 7]  325 	sub	a, #0x0A
-   0164 38 B6         [12]  326 	jr	C,00102$
-   0166 DD F9         [10]  327 	ld	sp, ix
-   0168 DD E1         [14]  328 	pop	ix
-   016A C9            [10]  329 	ret
-                            330 ;src/starfield/starfield.c:114: void pintarEstrellas(u8* screen){
-                            331 ;	---------------------------------
-                            332 ; Function pintarEstrellas
-                            333 ; ---------------------------------
-   016B                     334 _pintarEstrellas::
-   016B DD E5         [15]  335 	push	ix
-   016D DD 21 00 00   [14]  336 	ld	ix,#0
-   0171 DD 39         [15]  337 	add	ix,sp
-   0173 F5            [11]  338 	push	af
-   0174 F5            [11]  339 	push	af
-                            340 ;src/starfield/starfield.c:118: for(nStar = 0; nStar < STARS_NUM; nStar++)
-   0175 DD 36 FC 00   [19]  341 	ld	-4 (ix),#0x00
-   0179                     342 00102$:
-                            343 ;src/starfield/starfield.c:120: pStar = &aStars[nStar];
-   0179 DD 6E FC      [19]  344 	ld	l,-4 (ix)
-   017C 26 00         [ 7]  345 	ld	h,#0x00
-   017E 29            [11]  346 	add	hl, hl
-   017F 29            [11]  347 	add	hl, hl
-   0180 29            [11]  348 	add	hl, hl
-   0181 11r00r00      [10]  349 	ld	de,#_aStars
-   0184 19            [11]  350 	add	hl,de
-   0185 4D            [ 4]  351 	ld	c, l
-   0186 44            [ 4]  352 	ld	b, h
-                            353 ;src/starfield/starfield.c:124: pStar->pCurrentAddress = (u8 *) cpct_getScreenPtr(screen, pStar->nX, pStar->nY);
-   0187 21 06 00      [10]  354 	ld	hl,#0x0006
-   018A 09            [11]  355 	add	hl,bc
-   018B DD 75 FE      [19]  356 	ld	-2 (ix),l
-   018E DD 74 FF      [19]  357 	ld	-1 (ix),h
-   0191 69            [ 4]  358 	ld	l, c
-   0192 60            [ 4]  359 	ld	h, b
-   0193 23            [ 6]  360 	inc	hl
-   0194 5E            [ 7]  361 	ld	e,(hl)
-   0195 0A            [ 7]  362 	ld	a,(bc)
-   0196 67            [ 4]  363 	ld	h,a
-   0197 DD 6E 04      [19]  364 	ld	l,4 (ix)
-   019A DD 56 05      [19]  365 	ld	d,5 (ix)
-   019D C5            [11]  366 	push	bc
-   019E 7B            [ 4]  367 	ld	a,e
-   019F F5            [11]  368 	push	af
-   01A0 33            [ 6]  369 	inc	sp
-   01A1 E5            [11]  370 	push	hl
-   01A2 33            [ 6]  371 	inc	sp
-   01A3 62            [ 4]  372 	ld	h, d
-   01A4 E5            [11]  373 	push	hl
-   01A5 CDr00r00      [17]  374 	call	_cpct_getScreenPtr
-   01A8 F1            [10]  375 	pop	af
-   01A9 F1            [10]  376 	pop	af
-   01AA EB            [ 4]  377 	ex	de,hl
-   01AB C1            [10]  378 	pop	bc
-   01AC DD 6E FE      [19]  379 	ld	l,-2 (ix)
-   01AF DD 66 FF      [19]  380 	ld	h,-1 (ix)
-   01B2 73            [ 7]  381 	ld	(hl),e
-   01B3 23            [ 6]  382 	inc	hl
-   01B4 72            [ 7]  383 	ld	(hl),d
-                            384 ;src/starfield/starfield.c:126: *pStar->pCurrentAddress ^= GetMode0PixelColorByte(pStar->nStarType + 1, pStar->nX % 2);
-   01B5 1A            [ 7]  385 	ld	a,(de)
-   01B6 DD 77 FE      [19]  386 	ld	-2 (ix),a
-   01B9 0A            [ 7]  387 	ld	a,(bc)
-   01BA E6 01         [ 7]  388 	and	a, #0x01
-   01BC DD 77 FD      [19]  389 	ld	-3 (ix),a
-   01BF 69            [ 4]  390 	ld	l, c
-   01C0 60            [ 4]  391 	ld	h, b
-   01C1 23            [ 6]  392 	inc	hl
-   01C2 23            [ 6]  393 	inc	hl
-   01C3 46            [ 7]  394 	ld	b,(hl)
-   01C4 04            [ 4]  395 	inc	b
-   01C5 D5            [11]  396 	push	de
-   01C6 DD 7E FD      [19]  397 	ld	a,-3 (ix)
-   01C9 F5            [11]  398 	push	af
-   01CA 33            [ 6]  399 	inc	sp
-   01CB C5            [11]  400 	push	bc
-   01CC 33            [ 6]  401 	inc	sp
-   01CD CDr0Er00      [17]  402 	call	_GetMode0PixelColorByte
-   01D0 F1            [10]  403 	pop	af
-   01D1 7D            [ 4]  404 	ld	a,l
-   01D2 D1            [10]  405 	pop	de
-   01D3 DD AE FE      [19]  406 	xor	a, -2 (ix)
-   01D6 12            [ 7]  407 	ld	(de),a
-                            408 ;src/starfield/starfield.c:118: for(nStar = 0; nStar < STARS_NUM; nStar++)
-   01D7 DD 34 FC      [23]  409 	inc	-4 (ix)
-   01DA DD 7E FC      [19]  410 	ld	a,-4 (ix)
-   01DD D6 0A         [ 7]  411 	sub	a, #0x0A
-   01DF 38 98         [12]  412 	jr	C,00102$
-   01E1 DD F9         [10]  413 	ld	sp, ix
-   01E3 DD E1         [14]  414 	pop	ix
-   01E5 C9            [10]  415 	ret
-                            416 ;src/starfield/starfield.c:136: void moverEstrellas(){
-                            417 ;	---------------------------------
-                            418 ; Function moverEstrellas
-                            419 ; ---------------------------------
-   01E6                     420 _moverEstrellas::
-   01E6 DD E5         [15]  421 	push	ix
-   01E8 DD 21 00 00   [14]  422 	ld	ix,#0
-   01EC DD 39         [15]  423 	add	ix,sp
-   01EE 21 F9 FF      [10]  424 	ld	hl,#-7
-   01F1 39            [11]  425 	add	hl,sp
-   01F2 F9            [ 6]  426 	ld	sp,hl
-                            427 ;src/starfield/starfield.c:141: for(nStar = 0; nStar < STARS_NUM; nStar++)
-   01F3 DD 36 F9 00   [19]  428 	ld	-7 (ix),#0x00
-   01F7                     429 00108$:
-                            430 ;src/starfield/starfield.c:143: pStar = &aStars[nStar];
-   01F7 DD 6E F9      [19]  431 	ld	l,-7 (ix)
-   01FA 26 00         [ 7]  432 	ld	h,#0x00
-   01FC 29            [11]  433 	add	hl, hl
-   01FD 29            [11]  434 	add	hl, hl
-   01FE 29            [11]  435 	add	hl, hl
-   01FF 11r00r00      [10]  436 	ld	de,#_aStars
-   0202 19            [11]  437 	add	hl,de
-   0203 4D            [ 4]  438 	ld	c, l
-   0204 44            [ 4]  439 	ld	b, h
-                            440 ;src/starfield/starfield.c:145: switch(pStar->nStarType)
-   0205 21 02 00      [10]  441 	ld	hl,#0x0002
-   0208 09            [11]  442 	add	hl,bc
-   0209 DD 75 FA      [19]  443 	ld	-6 (ix),l
-   020C DD 74 FB      [19]  444 	ld	-5 (ix),h
-   020F DD 6E FA      [19]  445 	ld	l,-6 (ix)
-   0212 DD 66 FB      [19]  446 	ld	h,-5 (ix)
-   0215 7E            [ 7]  447 	ld	a,(hl)
-   0216 DD 77 FF      [19]  448 	ld	-1 (ix),a
-                            449 ;src/starfield/starfield.c:148: pStar->nY += 1;
-   0219 59            [ 4]  450 	ld	e, c
-   021A 50            [ 4]  451 	ld	d, b
-   021B 13            [ 6]  452 	inc	de
-                            453 ;src/starfield/starfield.c:145: switch(pStar->nStarType)
-   021C 3E 02         [ 7]  454 	ld	a,#0x02
-   021E DD 96 FF      [19]  455 	sub	a, -1 (ix)
-   0221 38 2C         [12]  456 	jr	C,00104$
-                            457 ;src/starfield/starfield.c:148: pStar->nY += 1;
-   0223 1A            [ 7]  458 	ld	a,(de)
-   0224 DD 77 FE      [19]  459 	ld	-2 (ix),a
-                            460 ;src/starfield/starfield.c:145: switch(pStar->nStarType)
-   0227 D5            [11]  461 	push	de
-   0228 DD 5E FF      [19]  462 	ld	e,-1 (ix)
-   022B 16 00         [ 7]  463 	ld	d,#0x00
-   022D 21r34r02      [10]  464 	ld	hl,#00125$
-   0230 19            [11]  465 	add	hl,de
-   0231 19            [11]  466 	add	hl,de
-                            467 ;src/starfield/starfield.c:147: case 0: //slow star
-   0232 D1            [10]  468 	pop	de
-   0233 E9            [ 4]  469 	jp	(hl)
-   0234                     470 00125$:
-   0234 18 04         [12]  471 	jr	00101$
-   0236 18 09         [12]  472 	jr	00102$
-   0238 18 0F         [12]  473 	jr	00103$
-   023A                     474 00101$:
-                            475 ;src/starfield/starfield.c:148: pStar->nY += 1;
-   023A DD 7E FE      [19]  476 	ld	a,-2 (ix)
-   023D 3C            [ 4]  477 	inc	a
-   023E 12            [ 7]  478 	ld	(de),a
-                            479 ;src/starfield/starfield.c:149: break;
-   023F 18 0E         [12]  480 	jr	00104$
-                            481 ;src/starfield/starfield.c:150: case 1: //medium star
-   0241                     482 00102$:
-                            483 ;src/starfield/starfield.c:151: pStar->nY += 3;
-   0241 DD 7E FE      [19]  484 	ld	a,-2 (ix)
-   0244 C6 03         [ 7]  485 	add	a, #0x03
-   0246 12            [ 7]  486 	ld	(de),a
-                            487 ;src/starfield/starfield.c:152: break;
-   0247 18 06         [12]  488 	jr	00104$
-                            489 ;src/starfield/starfield.c:153: case 2: //fast star
-   0249                     490 00103$:
-                            491 ;src/starfield/starfield.c:154: pStar->nY += 6;
-   0249 DD 7E FE      [19]  492 	ld	a,-2 (ix)
-   024C C6 06         [ 7]  493 	add	a, #0x06
-   024E 12            [ 7]  494 	ld	(de),a
-                            495 ;src/starfield/starfield.c:156: }
-   024F                     496 00104$:
-                            497 ;src/starfield/starfield.c:158: if(pStar->nY >= 200)
-   024F 1A            [ 7]  498 	ld	a,(de)
-   0250 D6 C8         [ 7]  499 	sub	a, #0xC8
-   0252 38 35         [12]  500 	jr	C,00109$
-                            501 ;src/starfield/starfield.c:160: pStar->nY = 16;
-   0254 3E 10         [ 7]  502 	ld	a,#0x10
-   0256 12            [ 7]  503 	ld	(de),a
-                            504 ;src/starfield/starfield.c:161: pStar->nX = rand() % 160;
-   0257 C5            [11]  505 	push	bc
-   0258 CDr00r00      [17]  506 	call	_rand
-   025B DD 74 FD      [19]  507 	ld	-3 (ix),h
-   025E DD 75 FC      [19]  508 	ld	-4 (ix),l
-   0261 21 A0 00      [10]  509 	ld	hl,#0x00A0
-   0264 E5            [11]  510 	push	hl
-   0265 DD 6E FC      [19]  511 	ld	l,-4 (ix)
-   0268 DD 66 FD      [19]  512 	ld	h,-3 (ix)
-   026B E5            [11]  513 	push	hl
-   026C CDr00r00      [17]  514 	call	__modsint
-   026F F1            [10]  515 	pop	af
-   0270 F1            [10]  516 	pop	af
-   0271 C1            [10]  517 	pop	bc
-   0272 7D            [ 4]  518 	ld	a,l
-   0273 02            [ 7]  519 	ld	(bc),a
-                            520 ;src/starfield/starfield.c:162: pStar->nStarType = rand() % 3;
-   0274 CDr00r00      [17]  521 	call	_rand
-   0277 01 03 00      [10]  522 	ld	bc,#0x0003
-   027A C5            [11]  523 	push	bc
-   027B E5            [11]  524 	push	hl
-   027C CDr00r00      [17]  525 	call	__modsint
-   027F F1            [10]  526 	pop	af
-   0280 F1            [10]  527 	pop	af
-   0281 7D            [ 4]  528 	ld	a,l
-   0282 DD 6E FA      [19]  529 	ld	l,-6 (ix)
-   0285 DD 66 FB      [19]  530 	ld	h,-5 (ix)
-   0288 77            [ 7]  531 	ld	(hl),a
-   0289                     532 00109$:
-                            533 ;src/starfield/starfield.c:141: for(nStar = 0; nStar < STARS_NUM; nStar++)
-   0289 DD 34 F9      [23]  534 	inc	-7 (ix)
-   028C DD 7E F9      [19]  535 	ld	a,-7 (ix)
-   028F D6 0A         [ 7]  536 	sub	a, #0x0A
-   0291 DArF7r01      [10]  537 	jp	C,00108$
-   0294 DD F9         [10]  538 	ld	sp, ix
-   0296 DD E1         [14]  539 	pop	ix
-   0298 C9            [10]  540 	ret
-                            541 	.area _CODE
-                            542 	.area _INITIALIZER
-                            543 	.area _CABS (ABS)
+   00F5 DD 6E FE      [19]  251 	ld	l,-2 (ix)
+   00F8 DD 66 FF      [19]  252 	ld	h,-1 (ix)
+   00FB 7E            [ 7]  253 	ld	a,(hl)
+   00FC CB 3F         [ 8]  254 	srl	a
+   00FE 12            [ 7]  255 	ld	(de),a
+                            256 ;src/starfield/starfield.c:78: for(nStar = 0; nStar < STARS_NUM; nStar++)
+   00FF DD 34 FB      [23]  257 	inc	-5 (ix)
+   0102 DD 7E FB      [19]  258 	ld	a,-5 (ix)
+   0105 D6 0F         [ 7]  259 	sub	a, #0x0F
+   0107 38 84         [12]  260 	jr	C,00102$
+   0109 DD F9         [10]  261 	ld	sp, ix
+   010B DD E1         [14]  262 	pop	ix
+   010D C9            [10]  263 	ret
+                            264 ;src/starfield/starfield.c:90: void pintarEstrellas(u8* screen){
+                            265 ;	---------------------------------
+                            266 ; Function pintarEstrellas
+                            267 ; ---------------------------------
+   010E                     268 _pintarEstrellas::
+   010E DD E5         [15]  269 	push	ix
+   0110 DD 21 00 00   [14]  270 	ld	ix,#0
+   0114 DD 39         [15]  271 	add	ix,sp
+   0116 F5            [11]  272 	push	af
+   0117 F5            [11]  273 	push	af
+                            274 ;src/starfield/starfield.c:94: for(nStar = 0; nStar < STARS_NUM; nStar++)
+   0118 DD 36 FC 00   [19]  275 	ld	-4 (ix),#0x00
+   011C                     276 00102$:
+                            277 ;src/starfield/starfield.c:96: pStar = &aStars[nStar];
+   011C DD 6E FC      [19]  278 	ld	l,-4 (ix)
+   011F 26 00         [ 7]  279 	ld	h,#0x00
+   0121 29            [11]  280 	add	hl, hl
+   0122 29            [11]  281 	add	hl, hl
+   0123 29            [11]  282 	add	hl, hl
+   0124 11r00r00      [10]  283 	ld	de,#_aStars
+   0127 19            [11]  284 	add	hl,de
+   0128 4D            [ 4]  285 	ld	c, l
+   0129 44            [ 4]  286 	ld	b, h
+                            287 ;src/starfield/starfield.c:98: pStar->pCurrentAddress = (u8 *) cpct_getScreenPtr(screen, pStar->nX, pStar->nY);
+   012A 21 06 00      [10]  288 	ld	hl,#0x0006
+   012D 09            [11]  289 	add	hl,bc
+   012E DD 75 FD      [19]  290 	ld	-3 (ix),l
+   0131 DD 74 FE      [19]  291 	ld	-2 (ix),h
+   0134 69            [ 4]  292 	ld	l, c
+   0135 60            [ 4]  293 	ld	h, b
+   0136 23            [ 6]  294 	inc	hl
+   0137 5E            [ 7]  295 	ld	e,(hl)
+   0138 0A            [ 7]  296 	ld	a,(bc)
+   0139 67            [ 4]  297 	ld	h,a
+   013A DD 6E 04      [19]  298 	ld	l,4 (ix)
+   013D DD 56 05      [19]  299 	ld	d,5 (ix)
+   0140 C5            [11]  300 	push	bc
+   0141 7B            [ 4]  301 	ld	a,e
+   0142 F5            [11]  302 	push	af
+   0143 33            [ 6]  303 	inc	sp
+   0144 E5            [11]  304 	push	hl
+   0145 33            [ 6]  305 	inc	sp
+   0146 62            [ 4]  306 	ld	h, d
+   0147 E5            [11]  307 	push	hl
+   0148 CDr00r00      [17]  308 	call	_cpct_getScreenPtr
+   014B F1            [10]  309 	pop	af
+   014C F1            [10]  310 	pop	af
+   014D EB            [ 4]  311 	ex	de,hl
+   014E C1            [10]  312 	pop	bc
+   014F DD 6E FD      [19]  313 	ld	l,-3 (ix)
+   0152 DD 66 FE      [19]  314 	ld	h,-2 (ix)
+   0155 73            [ 7]  315 	ld	(hl),e
+   0156 23            [ 6]  316 	inc	hl
+   0157 72            [ 7]  317 	ld	(hl),d
+                            318 ;src/starfield/starfield.c:99: *pStar->pCurrentAddress ^= GetMode0PixelColorByte(pStar->nStarType + 1, pStar->nX % 2);
+   0158 1A            [ 7]  319 	ld	a,(de)
+   0159 DD 77 FD      [19]  320 	ld	-3 (ix),a
+   015C 0A            [ 7]  321 	ld	a,(bc)
+   015D E6 01         [ 7]  322 	and	a, #0x01
+   015F DD 77 FF      [19]  323 	ld	-1 (ix),a
+   0162 69            [ 4]  324 	ld	l, c
+   0163 60            [ 4]  325 	ld	h, b
+   0164 23            [ 6]  326 	inc	hl
+   0165 23            [ 6]  327 	inc	hl
+   0166 46            [ 7]  328 	ld	b,(hl)
+   0167 04            [ 4]  329 	inc	b
+   0168 D5            [11]  330 	push	de
+   0169 DD 7E FF      [19]  331 	ld	a,-1 (ix)
+   016C F5            [11]  332 	push	af
+   016D 33            [ 6]  333 	inc	sp
+   016E C5            [11]  334 	push	bc
+   016F 33            [ 6]  335 	inc	sp
+   0170 CDr0Er00      [17]  336 	call	_GetMode0PixelColorByte
+   0173 F1            [10]  337 	pop	af
+   0174 7D            [ 4]  338 	ld	a,l
+   0175 D1            [10]  339 	pop	de
+   0176 DD AE FD      [19]  340 	xor	a, -3 (ix)
+   0179 12            [ 7]  341 	ld	(de),a
+                            342 ;src/starfield/starfield.c:94: for(nStar = 0; nStar < STARS_NUM; nStar++)
+   017A DD 34 FC      [23]  343 	inc	-4 (ix)
+   017D DD 7E FC      [19]  344 	ld	a,-4 (ix)
+   0180 D6 0F         [ 7]  345 	sub	a, #0x0F
+   0182 38 98         [12]  346 	jr	C,00102$
+   0184 DD F9         [10]  347 	ld	sp, ix
+   0186 DD E1         [14]  348 	pop	ix
+   0188 C9            [10]  349 	ret
+                            350 ;src/starfield/starfield.c:106: void moverEstrellas(){
+                            351 ;	---------------------------------
+                            352 ; Function moverEstrellas
+                            353 ; ---------------------------------
+   0189                     354 _moverEstrellas::
+   0189 DD E5         [15]  355 	push	ix
+   018B DD 21 00 00   [14]  356 	ld	ix,#0
+   018F DD 39         [15]  357 	add	ix,sp
+   0191 21 F9 FF      [10]  358 	ld	hl,#-7
+   0194 39            [11]  359 	add	hl,sp
+   0195 F9            [ 6]  360 	ld	sp,hl
+                            361 ;src/starfield/starfield.c:111: for(nStar = 0; nStar < STARS_NUM; nStar++)
+   0196 DD 36 F9 00   [19]  362 	ld	-7 (ix),#0x00
+   019A                     363 00108$:
+                            364 ;src/starfield/starfield.c:113: pStar = &aStars[nStar];
+   019A DD 6E F9      [19]  365 	ld	l,-7 (ix)
+   019D 26 00         [ 7]  366 	ld	h,#0x00
+   019F 29            [11]  367 	add	hl, hl
+   01A0 29            [11]  368 	add	hl, hl
+   01A1 29            [11]  369 	add	hl, hl
+   01A2 11r00r00      [10]  370 	ld	de,#_aStars
+   01A5 19            [11]  371 	add	hl,de
+   01A6 4D            [ 4]  372 	ld	c, l
+   01A7 44            [ 4]  373 	ld	b, h
+                            374 ;src/starfield/starfield.c:115: switch(pStar->nStarType)
+   01A8 21 02 00      [10]  375 	ld	hl,#0x0002
+   01AB 09            [11]  376 	add	hl,bc
+   01AC DD 75 FE      [19]  377 	ld	-2 (ix),l
+   01AF DD 74 FF      [19]  378 	ld	-1 (ix),h
+   01B2 DD 6E FE      [19]  379 	ld	l,-2 (ix)
+   01B5 DD 66 FF      [19]  380 	ld	h,-1 (ix)
+   01B8 7E            [ 7]  381 	ld	a,(hl)
+   01B9 DD 77 FD      [19]  382 	ld	-3 (ix),a
+                            383 ;src/starfield/starfield.c:118: pStar->nY += 1;
+   01BC 59            [ 4]  384 	ld	e, c
+   01BD 50            [ 4]  385 	ld	d, b
+   01BE 13            [ 6]  386 	inc	de
+                            387 ;src/starfield/starfield.c:115: switch(pStar->nStarType)
+   01BF 3E 02         [ 7]  388 	ld	a,#0x02
+   01C1 DD 96 FD      [19]  389 	sub	a, -3 (ix)
+   01C4 38 2C         [12]  390 	jr	C,00104$
+                            391 ;src/starfield/starfield.c:118: pStar->nY += 1;
+   01C6 1A            [ 7]  392 	ld	a,(de)
+   01C7 DD 77 FC      [19]  393 	ld	-4 (ix),a
+                            394 ;src/starfield/starfield.c:115: switch(pStar->nStarType)
+   01CA D5            [11]  395 	push	de
+   01CB DD 5E FD      [19]  396 	ld	e,-3 (ix)
+   01CE 16 00         [ 7]  397 	ld	d,#0x00
+   01D0 21rD7r01      [10]  398 	ld	hl,#00125$
+   01D3 19            [11]  399 	add	hl,de
+   01D4 19            [11]  400 	add	hl,de
+                            401 ;src/starfield/starfield.c:117: case 0: //slow star
+   01D5 D1            [10]  402 	pop	de
+   01D6 E9            [ 4]  403 	jp	(hl)
+   01D7                     404 00125$:
+   01D7 18 04         [12]  405 	jr	00101$
+   01D9 18 09         [12]  406 	jr	00102$
+   01DB 18 0F         [12]  407 	jr	00103$
+   01DD                     408 00101$:
+                            409 ;src/starfield/starfield.c:118: pStar->nY += 1;
+   01DD DD 7E FC      [19]  410 	ld	a,-4 (ix)
+   01E0 3C            [ 4]  411 	inc	a
+   01E1 12            [ 7]  412 	ld	(de),a
+                            413 ;src/starfield/starfield.c:119: break;
+   01E2 18 0E         [12]  414 	jr	00104$
+                            415 ;src/starfield/starfield.c:120: case 1: //medium star
+   01E4                     416 00102$:
+                            417 ;src/starfield/starfield.c:121: pStar->nY += 3;
+   01E4 DD 7E FC      [19]  418 	ld	a,-4 (ix)
+   01E7 C6 03         [ 7]  419 	add	a, #0x03
+   01E9 12            [ 7]  420 	ld	(de),a
+                            421 ;src/starfield/starfield.c:122: break;
+   01EA 18 06         [12]  422 	jr	00104$
+                            423 ;src/starfield/starfield.c:123: case 2: //fast star
+   01EC                     424 00103$:
+                            425 ;src/starfield/starfield.c:124: pStar->nY += 6;
+   01EC DD 7E FC      [19]  426 	ld	a,-4 (ix)
+   01EF C6 06         [ 7]  427 	add	a, #0x06
+   01F1 12            [ 7]  428 	ld	(de),a
+                            429 ;src/starfield/starfield.c:126: }
+   01F2                     430 00104$:
+                            431 ;src/starfield/starfield.c:128: if(pStar->nY >= 190)
+   01F2 1A            [ 7]  432 	ld	a,(de)
+   01F3 D6 BE         [ 7]  433 	sub	a, #0xBE
+   01F5 38 34         [12]  434 	jr	C,00109$
+                            435 ;src/starfield/starfield.c:130: pStar->nY = 0;
+   01F7 AF            [ 4]  436 	xor	a, a
+   01F8 12            [ 7]  437 	ld	(de),a
+                            438 ;src/starfield/starfield.c:131: pStar->nX = rand() % 160;
+   01F9 C5            [11]  439 	push	bc
+   01FA CDr00r00      [17]  440 	call	_rand
+   01FD DD 74 FB      [19]  441 	ld	-5 (ix),h
+   0200 DD 75 FA      [19]  442 	ld	-6 (ix),l
+   0203 21 A0 00      [10]  443 	ld	hl,#0x00A0
+   0206 E5            [11]  444 	push	hl
+   0207 DD 6E FA      [19]  445 	ld	l,-6 (ix)
+   020A DD 66 FB      [19]  446 	ld	h,-5 (ix)
+   020D E5            [11]  447 	push	hl
+   020E CDr00r00      [17]  448 	call	__modsint
+   0211 F1            [10]  449 	pop	af
+   0212 F1            [10]  450 	pop	af
+   0213 C1            [10]  451 	pop	bc
+   0214 7D            [ 4]  452 	ld	a,l
+   0215 02            [ 7]  453 	ld	(bc),a
+                            454 ;src/starfield/starfield.c:132: pStar->nStarType = rand() % 3;
+   0216 CDr00r00      [17]  455 	call	_rand
+   0219 01 03 00      [10]  456 	ld	bc,#0x0003
+   021C C5            [11]  457 	push	bc
+   021D E5            [11]  458 	push	hl
+   021E CDr00r00      [17]  459 	call	__modsint
+   0221 F1            [10]  460 	pop	af
+   0222 F1            [10]  461 	pop	af
+   0223 7D            [ 4]  462 	ld	a,l
+   0224 DD 6E FE      [19]  463 	ld	l,-2 (ix)
+   0227 DD 66 FF      [19]  464 	ld	h,-1 (ix)
+   022A 77            [ 7]  465 	ld	(hl),a
+   022B                     466 00109$:
+                            467 ;src/starfield/starfield.c:111: for(nStar = 0; nStar < STARS_NUM; nStar++)
+   022B DD 34 F9      [23]  468 	inc	-7 (ix)
+   022E DD 7E F9      [19]  469 	ld	a,-7 (ix)
+   0231 D6 0F         [ 7]  470 	sub	a, #0x0F
+   0233 DAr9Ar01      [10]  471 	jp	C,00108$
+   0236 DD F9         [10]  472 	ld	sp, ix
+   0238 DD E1         [14]  473 	pop	ix
+   023A C9            [10]  474 	ret
+                            475 	.area _CODE
+                            476 	.area _INITIALIZER
+                            477 	.area _CABS (ABS)
