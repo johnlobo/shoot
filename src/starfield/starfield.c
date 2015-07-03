@@ -5,29 +5,13 @@
 #include "../sprites/sprites.h"
 
 TIPO_ESTRELLA aStars[STARS_NUM];
+u8 pixelColors[3];
 
-//******************************************************************************
-// Función pixelEstrella()
-//
-//******************************************************************************
-u8 pixelEstrella(u8 nPixel){
-   unsigned char nByte = 0;
-   
-   if(nPixel == 0)
-   {
-      nByte = 32;
-   }
-   else{
-      nByte = 16;
-   }
-   
-   return nByte;
-}
 //******************************************************************************
 // Función GetMode0PixelColorByte(unsigned char nColor, unsigned char nPixel)
 //
 //******************************************************************************
-u8 GetMode0PixelColorByte(u8 nColor, u8 nPixel)
+u8 get_mode0_pixel_color_byte(u8 nColor, u8 nPixel)
 {
    unsigned char nByte = 0;
 
@@ -36,32 +20,32 @@ u8 GetMode0PixelColorByte(u8 nColor, u8 nPixel)
       nByte &= 85;
 
       if(nColor & 1)
-      nByte |= 128;
+         nByte |= 128;
 
       if(nColor & 2)
-      nByte |= 8;
+         nByte |= 8;
 
       if(nColor & 4)
-      nByte |= 32;
+         nByte |= 32;
 
       if(nColor & 8)
-      nByte |= 2;
+         nByte |= 2;
    }
    else
    {
       nByte &= 170;
 
       if(nColor & 1)
-      nByte |= 64;
+         nByte |= 64;
 
       if(nColor & 2)
-      nByte |= 4;
+         nByte |= 4;
 
       if(nColor & 4)
-      nByte |= 16;
+         nByte |= 16;
 
       if(nColor & 8)
-      nByte |= 1;
+         nByte |= 1;
    }
 
    return nByte;
@@ -71,7 +55,7 @@ u8 GetMode0PixelColorByte(u8 nColor, u8 nPixel)
 // Función inicializarEstrellas()
 //
 //******************************************************************************
-void inicializarEstrellas(){
+void init_stars(){
 	u8 randomNumber=0;
 	u8 nStar;
 	//Inicializar estrellas
@@ -80,14 +64,16 @@ void inicializarEstrellas(){
 		aStars[nStar].nX = rand() % 160;
 		aStars[nStar].nY = rand() % 199;
 		aStars[nStar].nStarType = rand() % 3;
-		aStars[nStar].columnOffset = aStars[nStar].nY/2;
 	}
+   pixelColors[0]=1;
+   pixelColors[1]=2;
+   pixelColors[2]=3;
 }
 //******************************************************************************
 // Función void pintarEstrellas()
 //
 //******************************************************************************
-void pintarEstrellas(u8* screen){
+void draw_stars(u8* screen){
    u8 nStar;
    TIPO_ESTRELLA *pStar;
 
@@ -96,14 +82,14 @@ void pintarEstrellas(u8* screen){
       pStar = &aStars[nStar];
       //paint star
       pStar->pCurrentAddress = (u8 *) cpct_getScreenPtr(screen, pStar->nX, pStar->nY);
-      *pStar->pCurrentAddress ^= GetMode0PixelColorByte(pStar->nStarType + 1, pStar->nX % 2);
+      *pStar->pCurrentAddress ^= get_mode0_pixel_color_byte(pStar->nStarType + 1, pStar->nX % 2);
    }
 }
 //******************************************************************************-
 // Función void moverEstrellas()
 //
 //******************************************************************************
-void moverEstrellas(){
+void update_stars(){
    u8 nStar;
    TIPO_ESTRELLA *pStar = NULL;
 
@@ -115,21 +101,21 @@ void moverEstrellas(){
       switch(pStar->nStarType)
       {
       case 0: //slow star
-         pStar->nY += 1;
-         break;
+      pStar->nY += 1;
+      break;
       case 1: //medium star
-         pStar->nY += 3;
-         break;
+      pStar->nY += 1;
+      break;
       case 2: //fast star
-         pStar->nY += 6;
-         break;
-      }
-      
-      if(pStar->nY >= 190)
-      {
-         pStar->nY = 0;
-         pStar->nX = rand() % 160;
-         pStar->nStarType = rand() % 3;
-      }
+      pStar->nY += 2;
+      break;
    }
+
+   if(pStar->nY >= 198)
+   {
+      pStar->nY = 0;
+      pStar->nX = rand() % 160;
+      pStar->nStarType = rand() % 3;
+   }
+}
 }

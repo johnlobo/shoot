@@ -35,8 +35,7 @@ typedef struct{
 //////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-void inicializarEstrellas();
-void borrarEstrellas();
-void pintarEstrellas(u8* screen);
-void moverEstrellas();
+void init_stars();
+void draw_stars(u8* screen);
+void update_stars();
 #endif

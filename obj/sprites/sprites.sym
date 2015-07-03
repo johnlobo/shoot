@@ -8,17 +8,23 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
   0 _G_palette                                                     0000 GR
-  0 _bullet01                                                      008F GR
-  0 _redFlag                                                       0021 GR
-  0 _ship01                                                        002F GR
+  0 _bullet01_0                                                    00A0 GR
+  0 _bullet01_1                                                    00A8 GR
+  0 _bullet02_0                                                    00B0 GR
+  0 _palette                                                       0021 GR
+  0 _redFlag                                                       0032 GR
+  0 _ship01                                                        0040 GR
+  0 _ship02                                                        00B4 GR
+  0 _ship03                                                        01A4 GR
   0 _tintas                                                        0010 GR
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size   9D   flags    0
+   0 _CODE                                      size  204   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

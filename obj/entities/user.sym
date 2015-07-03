@@ -8,14 +8,18 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
     __modsint                                                      **** GX
-  1 _aStars                                                        0000 GR
+    _cpct_drawSprite                                               **** GX
     _cpct_getScreenPtr                                             **** GX
-  0 _draw_stars                                                    00EF GR
-  0 _get_mode0_pixel_color_byte                                    0000 GR
-  0 _init_stars                                                    0070 GR
-  1 _pixelColors                                                   0078 GR
-    _rand                                                          **** GX
-  0 _update_stars                                                  016A GR
+    _cpct_isKeyPressed                                             **** GX
+    _cpct_scanKeyboard_f                                           **** GX
+    _create_shoot                                                  **** GX
+  0 _draw_user                                                     019D GR
+  0 _get_user_max_shoots                                           003A GR
+  0 _init_user                                                     0000 GR
+    _ship03                                                        **** GX
+  1 _shoot_type                                                    0012 GR
+  0 _update_user                                                   003F GR
+  1 _user                                                          0000 GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -23,8 +27,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  21D   flags    0
-   1 _DATA                                      size   7B   flags    0
+   0 _CODE                                      size  1E0   flags    0
+   1 _DATA                                      size   13   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

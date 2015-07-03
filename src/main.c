@@ -27,24 +27,21 @@
 #define SCR_VMEM  (u8*)0xC000
 #define SCR_BUFF  (u8*)0x8000
 
-// Background information
-// Starting screen coordinates of the top-left pixel (in bytes)
-// Width and Height of the background (in tiles)
-#define BACK_X  0
-#define BACK_Y  0
-#define BACK_W  64
-#define BACK_H  199
+#define MODE 0 
+#define SCREEN_WIDTH 160
+#define SCREEN_HEIGHT 200
 
+// Definiciones del disparo del prota 
+
+#define SONIDO_ACTIVADO 0
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Global variables
 //
 
 TBlock block01,block02;
-TEntity user;
 u8* pvmem;     // Pointer to video memory (or backbuffer) where to draw sprites
 u8 aux_txt[40];
-
 
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -70,15 +67,8 @@ u8* changeVideoMemoryPage() {
        }
        return screen;
      }
-/////////////////////////////////////////////////////////////////////////
-// Draws a sprite
-//
 
-     void draw_sprite(u8* screen){
-       u8* pscreen;
-       pscreen = cpct_getScreenPtr(screen, user.x, user.y);
-       cpct_drawSprite(ship01,pscreen,user.w,user.h);
-     }
+
 /////////////////////////////////////////////////////////////////////////
 // Draws a block
 //
@@ -102,7 +92,7 @@ u8* changeVideoMemoryPage() {
 // Update blocks position
 //
 
-     void updateBlock(){
+     void update_blocks(){
       if (block01.vx<128){
         if ((block01.x+block01.vx)<(80-block01.w)){
           block01.x = block01.x + block01.vx;
@@ -122,112 +112,96 @@ u8* changeVideoMemoryPage() {
       }
     }
 
-////////////////////////////////////////////////////////////////////////////////
-// Scan Keyboard and update user actions as requested by the user
+/////////////////////////////////////////////////////////////////////////
+// 
 //
-void updateUser() {
-   // Scan Keyboard
- cpct_scanKeyboard_f();
+    void letras_azules(){
+      //tintas para los textos
+      cpc_SetInkGphStr(0,0);
+      cpc_SetInkGphStr(1,42);
+      cpc_SetInkGphStr(2,34);
+      cpc_SetInkGphStr(3,42);
+    }
 
-   //
-   // Check possible keys to press, and do actions
-   //
+/////////////////////////////////////////////////////////////////////////
+// 
+//
+    void letras_rojas(){
+      //tintas para los textos
+      cpc_SetInkGphStr(0,0);
+      cpc_SetInkGphStr(1,40);
+      cpc_SetInkGphStr(2,10);
+      cpc_SetInkGphStr(3,40);
+    }
 
-   // KEY = Cursor Up
- if ((cpct_isKeyPressed(Key_CursorUp))){ 
-  if ((user.y-user.vy)>0)
-    user.y = user.y - user.vy;
-  else
-    user.y = 0;
-}
-   // KEY = Cursor Right
-if ((cpct_isKeyPressed(Key_CursorRight))){ 
-  if ((user.x+user.vx<(79-user.w)))
-    user.x = user.x + user.vx;
-  else     
-    user.x = 79-user.w;
-}
-   // KEY = Cursor Left
-if (cpct_isKeyPressed(Key_CursorLeft)){
-  if ((user.x-user.vx)>0) 
-    user.x = user.x - user.vx;    
-  else
-    user.x = 0;
-}
-   // KEY = Cursor Down
-if (cpct_isKeyPressed(Key_CursorDown)){
-  if ((user.y<(199-user.h) ))
-    user.y = user.y + user.vy;
-  else
-    user.y = 199-user.h;
-}
+/////////////////////////////////////////////////////////////////////////
+// 
+//
+//Valores que se ven bien --> 0, 2, 8, 10, 32, 34, 40, 42, 128, 130, 136, 138, 160, 162, 168, 170
+    void set_color (unsigned char fondo,unsigned char t){
+      cpc_SetInkGphStr(0,fondo);
+      cpc_SetInkGphStr(1,t);
+      cpc_SetInkGphStr(2,t);
+      cpc_SetInkGphStr(3,t);
+    }
 
-  // KEY = Space
-if (cpct_isKeyPressed(Key_Space)){
-  // Scan Keyboard
-  cpct_scanKeyboard_f();
-  
-  while(!cpct_isKeyPressed(Key_P)){
-    // Scan Keyboard
-    cpct_scanKeyboard_f();
-  }
-}
+/////////////////////////////////////////////////////////////////////////
+// Draw scoreboard
+//
 
-}
+    void draw_scoreboard(u8* screen){
+      if (MODE==0){
+      cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 4, 8));
+      cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 60, 8));
+      }
+    }
+
 
 /////////////////////////////////////////////////////////////////////////
 // Initialization
 //
 
-void initialization(){
+    void initialization(){
 
-  pvmem = SCR_BUFF;
+      pvmem = SCR_BUFF;
 
-  if (ESTRELLAS_ACTIVADAS)
-    inicializarEstrellas();
+      if (ESTRELLAS_ACTIVADAS)
+        init_stars();
 
-  block01.x = 50;
-  block01.y = 10;
-  block01.vx = 2;
-  block01.vy = 0;
-  block01.w = 20;
-  block01.h = 40;
+      init_user();
+      init_shoots();
 
-  block02.x = 15;
-  block02.y = 15;
-  block02.vx = 4;
-  block02.vy = 0;
-  block02.w = 25;
-  block02.h = 20;
-  
-  user.x = 39;
-  user.y = 183;
-  user.w = 6;
-  user.h = 16;
-  user.vx = 2;
-  user.vy = 4;
+      block01.x = 50;
+      block01.y = 10;
+      block01.vx = 2;
+      block01.vy = 0;
+      block01.w = 20;
+      block01.h = 40;
 
-    //tintas para los textos
-  cpc_SetInkGphStr(0,0);
-  cpc_SetInkGphStr(1,2);
-  cpc_SetInkGphStr(2,8);
-  cpc_SetInkGphStr(3,42);
+      block02.x = 15;
+      block02.y = 15;
+      block02.vx = 4;
+      block02.vy = 0;
+      block02.w = 25;
+      block02.h = 20;
 
-}
+      letras_azules();
+
+    }
 
 /////////////////////////////////////////////////////////////////////////
 // main
 //
 
-void main(void) {
+    void main(void) {
 
   // Reubico el stack
-  set_stack(0x1000);
+    set_stack(0x1000);
 
    cpct_disableFirmware();             // Disable firmware to prevent it from interfering
-   //cpct_fw2hw       (G_palette, 16);   // Convert Firmware colours to Hardware colours 
-   cpct_setPalette  (G_palette, 16);   // Set up palette using hardware colours
-   cpct_setBorder   (G_palette[1]);    // Set up the border to the background colour (white)
+   cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
+   cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
+   cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
    cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
 
    // Clean up Screen and BackBuffer filling them up with 0's
@@ -240,22 +214,29 @@ void main(void) {
    while (1){
 
     clear_screen(pvmem);
-      //#include <stdlib.h>drawFrame(pvmem);
-    updateUser();
-    updateBlock();
-    if (ESTRELLAS_ACTIVADAS){
-     moverEstrellas();
-     pintarEstrellas(pvmem);
-   }
-   
-   //draw_blocks(pvmem);
 
-   draw_sprite(pvmem);
+    update_user();
+    update_shoots();
+    update_blocks();
+
+    if (ESTRELLAS_ACTIVADAS)
+     update_stars();
+
+   // Synchronize next frame drawing with VSYNC
+   cpct_waitVSYNC();   
+
+   if (ESTRELLAS_ACTIVADAS)
+     draw_stars(pvmem);
+   
+   draw_blocks(pvmem);
+   draw_user(pvmem);
+   draw_shoots(pvmem); 
+
+   draw_scoreboard(pvmem);
 
    pvmem = changeVideoMemoryPage();
 
-      // Synchronize next frame drawing with VSYNC
-   cpct_waitVSYNC();
+
  } 
 
 }
