@@ -7,6 +7,10 @@
 #define SALTO_DISPARO_MALO 4
 #define MAX_SHOOTS 10
 
+#define MAX_ENEMIES 10
+
+#define MAX_WAYPOINTS 20
+
 //
 // Information for solid objects that occupy a rectangular space in the screen
 //
@@ -17,6 +21,19 @@ typedef struct {
    u8 colour;   // Colour pattern use for drawing
 } TBlock;
 
+typedef struct 
+{
+   u8 x;
+   u8 y;
+} TWaypoint;
+
+typedef struct
+{
+   u8 waypoints;
+   TWaypoint wp[MAX_WAYPOINTS];
+   u8 vx[MAX_WAYPOINTS];
+   u8 vy[MAX_WAYPOINTS];
+} TTrajectory;
 
 typedef struct  {
    u8	*pscreen;  // Pointer to Screen Video memory location where entity will be drawn
@@ -42,11 +59,29 @@ typedef  struct {    // minimun sprite structure
    u8 num_frames;
    u8 frame;
    u8 speed;
-   u8 new;
-   u8 dead;
    long lastmoved;
 // unsigned char objetivox;
 } TShoot;
+
+//ENEMY
+typedef  struct {    // minimun sprite structure
+   char *sprite[8];     //2 bytes   01
+   u8 x;
+   u8 y; 
+   u8 w;
+   u8 h;
+   u8 dir;
+   u8 active;
+   u8 num_frames;
+   u8 frame;
+   u8 speed;
+   u8 trajectory;
+   u8 trajectory_step;
+   long lastmoved;
+// unsigned char objetivox;
+} TEnemy;
+
+extern const TTrajectory trajectories[1];
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -73,6 +108,5 @@ void draw_user(u8* screen);
 //////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-
 
 #endif
