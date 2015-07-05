@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.4.3 #9207 (Jun 29 2015) (Mac OS X x86_64)
-; This file was generated Fri Jul  3 17:13:18 2015
+; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
+; This file was generated Sun Jul  5 16:22:13 2015
 ;--------------------------------------------------------
 	.module main
 	.optsdcc -mz80
@@ -28,6 +28,9 @@
 	.globl _draw_user
 	.globl _update_user
 	.globl _init_user
+	.globl _draw_enemies
+	.globl _update_enemies
+	.globl _init_enemies
 	.globl _draw_shoots
 	.globl _update_shoots
 	.globl _init_shoots
@@ -61,7 +64,7 @@ _pvmem::
 	.ds 2
 _aux_txt::
 	.ds 40
-_changeVideoMemoryPage_page_1_76:
+_changeVideoMemoryPage_page_1_78:
 	.ds 1
 ;--------------------------------------------------------
 ; ram data
@@ -79,7 +82,7 @@ _changeVideoMemoryPage_page_1_76:
 	.area _GSFINAL
 	.area _GSINIT
 ;src/main.c:54: static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
-	ld	iy,#_changeVideoMemoryPage_page_1_76
+	ld	iy,#_changeVideoMemoryPage_page_1_78
 	ld	0 (iy),#0x00
 ;--------------------------------------------------------
 ; Home
@@ -96,7 +99,7 @@ _changeVideoMemoryPage_page_1_76:
 ; ---------------------------------
 _changeVideoMemoryPage::
 ;src/main.c:59: if (page) {
-	ld	a,(#_changeVideoMemoryPage_page_1_76 + 0)
+	ld	a,(#_changeVideoMemoryPage_page_1_78 + 0)
 	or	a, a
 	jr	Z,00102$
 ;src/main.c:60: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
@@ -106,7 +109,7 @@ _changeVideoMemoryPage::
 	call	_cpct_setVideoMemoryPage
 	inc	sp
 ;src/main.c:61: page = 0;  
-	ld	hl,#_changeVideoMemoryPage_page_1_76 + 0
+	ld	hl,#_changeVideoMemoryPage_page_1_78 + 0
 	ld	(hl), #0x00
 ;src/main.c:62: screen = SCR_BUFF;                            // Next page = 0
 	ld	hl,#0x8000
@@ -119,7 +122,7 @@ _changeVideoMemoryPage::
 	call	_cpct_setVideoMemoryPage
 	inc	sp
 ;src/main.c:65: page = 1;                              // Next page = 1
-	ld	hl,#_changeVideoMemoryPage_page_1_76 + 0
+	ld	hl,#_changeVideoMemoryPage_page_1_78 + 0
 	ld	(hl), #0x01
 ;src/main.c:66: screen = SCR_VMEM;
 	ld	hl,#0xC000
@@ -452,57 +455,59 @@ _initialization::
 	call	_init_user
 ;src/main.c:172: init_shoots();
 	call	_init_shoots
-;src/main.c:174: block01.x = 50;
+;src/main.c:173: init_enemies();
+	call	_init_enemies
+;src/main.c:175: block01.x = 50;
 	ld	hl,#_block01+0
 	ld	(hl),#0x32
-;src/main.c:175: block01.y = 10;
+;src/main.c:176: block01.y = 10;
 	ld	hl,#_block01 + 1
 	ld	(hl),#0x0A
-;src/main.c:176: block01.vx = 2;
+;src/main.c:177: block01.vx = 2;
 	ld	hl,#_block01 + 2
 	ld	(hl),#0x02
-;src/main.c:177: block01.vy = 0;
+;src/main.c:178: block01.vy = 0;
 	ld	hl,#_block01 + 3
 	ld	(hl),#0x00
-;src/main.c:178: block01.w = 20;
+;src/main.c:179: block01.w = 20;
 	ld	hl,#_block01 + 4
 	ld	(hl),#0x14
-;src/main.c:179: block01.h = 40;
+;src/main.c:180: block01.h = 40;
 	ld	hl,#_block01 + 5
 	ld	(hl),#0x28
-;src/main.c:181: block02.x = 15;
+;src/main.c:182: block02.x = 15;
 	ld	hl,#_block02+0
 	ld	(hl),#0x0F
-;src/main.c:182: block02.y = 15;
+;src/main.c:183: block02.y = 15;
 	ld	hl,#_block02 + 1
 	ld	(hl),#0x0F
-;src/main.c:183: block02.vx = 4;
+;src/main.c:184: block02.vx = 4;
 	ld	hl,#_block02 + 2
 	ld	(hl),#0x04
-;src/main.c:184: block02.vy = 0;
+;src/main.c:185: block02.vy = 0;
 	ld	hl,#_block02 + 3
 	ld	(hl),#0x00
-;src/main.c:185: block02.w = 25;
+;src/main.c:186: block02.w = 25;
 	ld	hl,#_block02 + 4
 	ld	(hl),#0x19
-;src/main.c:186: block02.h = 20;
+;src/main.c:187: block02.h = 20;
 	ld	hl,#_block02 + 5
 	ld	(hl),#0x14
-;src/main.c:188: letras_azules();
+;src/main.c:189: letras_azules();
 	jp	_letras_azules
-;src/main.c:196: void main(void) {
+;src/main.c:197: void main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;src/main.c:199: set_stack(0x1000);
+;src/main.c:200: set_stack(0x1000);
 	ld	hl,#0x1000
 	push	hl
 	call	_set_stack
 	pop	af
-;src/main.c:201: cpct_disableFirmware();             // Disable firmware to prevent it from interfering
+;src/main.c:202: cpct_disableFirmware();             // Disable firmware to prevent it from interfering
 	call	_cpct_disableFirmware
-;src/main.c:202: cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
+;src/main.c:203: cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
 	ld	de,#_palette
 	ld	a,#0x10
 	push	af
@@ -511,7 +516,7 @@ _main::
 	call	_cpct_fw2hw
 	pop	af
 	inc	sp
-;src/main.c:203: cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
+;src/main.c:204: cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
 	ld	de,#_palette
 	ld	a,#0x10
 	push	af
@@ -520,20 +525,20 @@ _main::
 	call	_cpct_setPalette
 	pop	af
 	inc	sp
-;src/main.c:204: cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
+;src/main.c:205: cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
 	ld	a, (#_palette + 0)
 	ld	d,a
 	ld	e,#0x10
 	push	de
 	call	_cpct_setPALColour
 	pop	af
-;src/main.c:205: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
+;src/main.c:206: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
 	xor	a, a
 	push	af
 	inc	sp
 	call	_cpct_setVideoMode
 	inc	sp
-;src/main.c:208: cpct_memset(SCR_VMEM, 0x00, 0x4000);
+;src/main.c:209: cpct_memset(SCR_VMEM, 0x00, 0x4000);
 	ld	hl,#0x4000
 	push	hl
 	xor	a, a
@@ -545,7 +550,7 @@ _main::
 	pop	af
 	pop	af
 	inc	sp
-;src/main.c:209: cpct_memset(SCR_BUFF, 0x00, 0x4000);
+;src/main.c:210: cpct_memset(SCR_BUFF, 0x00, 0x4000);
 	ld	hl,#0x4000
 	push	hl
 	xor	a, a
@@ -557,51 +562,58 @@ _main::
 	pop	af
 	pop	af
 	inc	sp
-;src/main.c:211: initialization(); 
+;src/main.c:212: initialization(); 
 	call	_initialization
-;src/main.c:214: while (1){
+;src/main.c:215: while (1){
 00106$:
-;src/main.c:216: clear_screen(pvmem);
+;src/main.c:217: clear_screen(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_clear_screen
 	pop	af
-;src/main.c:218: update_user();
+;src/main.c:219: update_user();
 	call	_update_user
-;src/main.c:219: update_shoots();
+;src/main.c:220: update_shoots();
 	call	_update_shoots
-;src/main.c:220: update_blocks();
+;src/main.c:221: update_blocks();
 	call	_update_blocks
-;src/main.c:223: update_stars();
+;src/main.c:222: update_enemies();
+	call	_update_enemies
+;src/main.c:225: update_stars();
 	call	_update_stars
-;src/main.c:226: cpct_waitVSYNC();   
+;src/main.c:228: cpct_waitVSYNC();   
 	call	_cpct_waitVSYNC
-;src/main.c:229: draw_stars(pvmem);
+;src/main.c:231: draw_stars(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_stars
 	pop	af
-;src/main.c:231: draw_blocks(pvmem);
+;src/main.c:233: draw_blocks(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_blocks
 	pop	af
-;src/main.c:232: draw_user(pvmem);
+;src/main.c:234: draw_user(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_user
 	pop	af
-;src/main.c:233: draw_shoots(pvmem); 
+;src/main.c:235: draw_shoots(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_shoots
 	pop	af
-;src/main.c:235: draw_scoreboard(pvmem);
+;src/main.c:236: draw_enemies(pvmem); 
+	ld	hl,(_pvmem)
+	push	hl
+	call	_draw_enemies
+	pop	af
+;src/main.c:238: draw_scoreboard(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_scoreboard
 	pop	af
-;src/main.c:237: pvmem = changeVideoMemoryPage();
+;src/main.c:240: pvmem = changeVideoMemoryPage();
 	call	_changeVideoMemoryPage
 	ld	(_pvmem),hl
 	jr	00106$

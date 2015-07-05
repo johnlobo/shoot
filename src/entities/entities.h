@@ -95,6 +95,11 @@ void create_shoot(u8 x, u8 y, u8 type);
 void update_shoots();
 void draw_shoots(u8* screen);
 
+void init_enemies();
+void create_enemy(u8 x, u8 y, u8 type);
+void update_enemies();
+void draw_enemies(u8* screen);
+
 void init_user();
 u8 get_user_max_shoots();
 void update_user();

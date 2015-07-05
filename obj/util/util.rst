@@ -5,7 +5,7 @@ Hexadecimal [16-Bits]
 
                               1 .globl _cpc_memset
                               2 
-   3B8A                       3 _cpc_memset::
+   3D90                       3 _cpc_memset::
                               4 
                               5 ;; guardo la dirección de la pila
                               6 ;;	LD DE, SP  
@@ -24,14 +24,14 @@ Hexadecimal [16-Bits]
                              19 ;;  	DEC BC
                              20 ;;  	JNZ LOOP
                              21 ;;  	LD SP, DE
-   3B8A C9            [10]   22   	ret
+   3D90 C9            [10]   22   	ret
                              23 
                              24 .globl _set_stack
                              25 
-   3B8B                      26 _set_stack::
-   3B8B C1            [10]   27 	pop bc
-   3B8C E1            [10]   28 	pop hl
-   3B8D F9            [ 6]   29 	ld sp, hl
-   3B8E E5            [11]   30 	push hl
-   3B8F C5            [11]   31 	push bc
-   3B90 C9            [10]   32 	ret
+   3D91                      26 _set_stack::
+   3D91 C1            [10]   27 	pop bc
+   3D92 E1            [10]   28 	pop hl
+   3D93 F9            [ 6]   29 	ld sp, hl
+   3D94 E5            [11]   30 	push hl
+   3D95 C5            [11]   31 	push bc
+   3D96 C9            [10]   32 	ret

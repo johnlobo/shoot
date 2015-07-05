@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-; This file was generated Sun Jul  5 10:03:46 2015
+; This file was generated Sun Jul  5 16:12:44 2015
 ;--------------------------------------------------------
 	.module enemies
 	.optsdcc -mz80
@@ -257,7 +257,7 @@ _create_enemy::
 	ld	a,-1 (ix)
 	adc	a, #0x00
 	ld	-25 (ix),a
-;src/entities/enemies.c:55: enemies[k].trajectory=0;
+;src/entities/enemies.c:55: enemies[k].trajectory=1;
 	ld	a,-2 (ix)
 	add	a, #0x19
 	ld	-28 (ix),a
@@ -345,10 +345,10 @@ _create_enemy::
 	ld	(hl),#<(_G_baddie02_07)
 	inc	hl
 	ld	(hl),#>(_G_baddie02_07)
-;src/entities/enemies.c:55: enemies[k].trajectory=0;
+;src/entities/enemies.c:55: enemies[k].trajectory=1;
 	ld	l,-28 (ix)
 	ld	h,-27 (ix)
-	ld	(hl),#0x00
+	ld	(hl),#0x01
 ;src/entities/enemies.c:56: enemies[k].trajectory_step=0;
 	pop	hl
 	push	hl
@@ -427,10 +427,10 @@ _create_enemy::
 	ld	(hl),#<(_G_baddie01_07)
 	inc	hl
 	ld	(hl),#>(_G_baddie01_07)
-;src/entities/enemies.c:72: enemies[k].trajectory=0;
+;src/entities/enemies.c:72: enemies[k].trajectory=1;
 	ld	l,-28 (ix)
 	ld	h,-27 (ix)
-	ld	(hl),#0x00
+	ld	(hl),#0x01
 ;src/entities/enemies.c:73: enemies[k].trajectory_step=0;
 	pop	hl
 	push	hl
@@ -452,88 +452,335 @@ _update_enemies::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-	push	af
-	dec	sp
-;src/entities/enemies.c:88: if (active_enemies>0){
+	ld	hl,#-14
+	add	hl,sp
+	ld	sp,hl
+;src/entities/enemies.c:91: if (active_enemies>0){
 	ld	a,(#_active_enemies + 0)
 	or	a, a
-	jp	Z,00113$
-;src/entities/enemies.c:89: for (i=0;i<MAX_SHOOTS;i++){
-	ld	-3 (ix),#0x00
+	jp	Z,00126$
+;src/entities/enemies.c:92: for (i=0;i<MAX_SHOOTS;i++){
+	ld	-14 (ix),#0x00
+	ld	-2 (ix),#0x00
+	ld	-1 (ix),#0x00
 	ld	de,#0x0000
-00111$:
-;src/entities/enemies.c:90: if (enemies[i].active){
-	ld	hl,#_enemies
-	add	hl,de
-	ld	-2 (ix),l
-	ld	-1 (ix),h
-	ld	a,-2 (ix)
-	add	a, #0x15
+	ld	-4 (ix),#0x00
+	ld	-3 (ix),#0x00
+00124$:
+;src/entities/enemies.c:93: if (enemies[i].active){
+	ld	a,#<(_enemies)
+	add	a, -4 (ix)
+	ld	-6 (ix),a
+	ld	a,#>(_enemies)
+	adc	a, -3 (ix)
+	ld	-5 (ix),a
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
+	ld	bc, #0x0015
+	add	hl, bc
+	ld	a,(hl)
+	or	a, a
+	jp	Z,00125$
+;src/entities/enemies.c:94: if (enemies[i].trajectory>0){
+	ld	a,-6 (ix)
+	add	a, #0x19
+	ld	-8 (ix),a
+	ld	a,-5 (ix)
+	adc	a, #0x00
+	ld	-7 (ix),a
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
+	ld	b,(hl)
+	ld	a,b
+	or	a, a
+	jp	Z,00125$
+;src/entities/enemies.c:95: dx = enemies[i].x-trajectories[enemies[i].trajectory].wp[enemies[i].trajectory_step].x;
+	push	hl
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
+	push	hl
+	pop	iy
+	pop	hl
+	ld	a,16 (iy)
+	ld	-9 (ix),a
+	ld	c,b
+	ld	b,#0x00
+	ld	l, c
+	ld	h, b
+	add	hl, hl
+	add	hl, hl
+	add	hl, bc
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, bc
+	ld	a,#<(_trajectories)
+	add	a, l
+	ld	-11 (ix),a
+	ld	a,#>(_trajectories)
+	adc	a, h
+	ld	-10 (ix),a
+	ld	a,-11 (ix)
+	add	a, #0x01
+	ld	-13 (ix),a
+	ld	a,-10 (ix)
+	adc	a, #0x00
+	ld	-12 (ix),a
+	ld	a,-6 (ix)
+	add	a, #0x1A
 	ld	c,a
-	ld	a,-1 (ix)
+	ld	a,-5 (ix)
 	adc	a, #0x00
 	ld	b,a
 	ld	a,(bc)
-	or	a, a
-	jr	Z,00112$
-;src/entities/enemies.c:91: enemies[i].y-=SHOOT_JUMP;
-	ld	iy,#0x0011
-	push	bc
-	ld	c,-2 (ix)
-	ld	b,-1 (ix)
-	add	iy, bc
-	pop	bc
-	ld	a, 0 (iy)
-	add	a,#0xF6
+	ld	-6 (ix), a
+	add	a, a
 	ld	h,a
-	ld	0 (iy), h
-;src/entities/enemies.c:92: if (enemies[i].y<200){
-	ld	a,h
-	sub	a, #0xC8
-	jr	NC,00104$
-;src/entities/enemies.c:93: enemies[i].frame++;
-	ld	iy,#0x0017
-	ld	c,-2 (ix)
-	ld	b,-1 (ix)
-	add	iy, bc
-	inc	0 (iy)
-	ld	c, 0 (iy)
-;src/entities/enemies.c:94: if (enemies[i].frame==enemies[i].num_frames)
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
-	push	bc
-	ld	bc, #0x0016
-	add	hl, bc
-	pop	bc
-	ld	a,(hl)
-	ld	-2 (ix),a
-	ld	a,c
-	sub	a, -2 (ix)
-	jr	NZ,00112$
-;src/entities/enemies.c:95: enemies[i].frame=0;
-	ld	0 (iy), #0x00
-	jr	00112$
-00104$:
-;src/entities/enemies.c:98: enemies[i].active=0;
+	ld	a,-13 (ix)
+	add	a, h
+	ld	l,a
+	ld	a,-12 (ix)
+	adc	a, #0x00
+	ld	h,a
+	ld	a,-9 (ix)
+	sub	a,(hl)
+	ld	h,a
+	ld	l,h
+;src/entities/enemies.c:97: if ((dx==0) && (dy==0)){
+	ld	a,l
+	or	a,a
+	jr	NZ,00114$
+	or	a,h
+	jr	NZ,00114$
+;src/entities/enemies.c:98: if (enemies[i].trajectory_step<trajectories[enemies[i].trajectory].waypoints){
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
+	ld	a,-6 (ix)
+	sub	a,(hl)
+	jr	NC,00102$
+;src/entities/enemies.c:99: enemies[i].trajectory_step++;
+	ld	a,-6 (ix)
+	inc	a
+	ld	(bc),a
+	jp	00125$
+00102$:
+;src/entities/enemies.c:102: enemies[i].trajectory_step=0;
 	xor	a, a
 	ld	(bc),a
-;src/entities/enemies.c:99: active_enemies--;
-	ld	hl, #_active_enemies+0
-	dec	(hl)
-00112$:
-;src/entities/enemies.c:89: for (i=0;i<MAX_SHOOTS;i++){
+;src/entities/enemies.c:103: enemies[i].trajectory=0;
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
+	ld	(hl),#0x00
+	jp	00125$
+00114$:
+;src/entities/enemies.c:107: if (dx>0){
+	xor	a, a
+	sub	a, l
+	jp	PO, 00169$
+	xor	a, #0x80
+00169$:
+	jp	P,00111$
+;src/entities/enemies.c:108: if ((u8) dx>trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step]){
+	ld	-13 (ix),l
+	ld	a,#<(_enemies)
+	add	a, -2 (ix)
+	ld	c,a
+	ld	a,#>(_enemies)
+	adc	a, -1 (ix)
+	ld	b,a
+	push	bc
+	pop	iy
+	ld	a,25 (iy)
+	push	de
+	ld	e,a
+	ld	d,#0x00
+	ld	l, e
+	ld	h, d
+	add	hl, hl
+	add	hl, hl
+	add	hl, de
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, de
+	pop	de
+	ld	a,#<(_trajectories)
+	add	a, l
+	ld	-11 (ix),a
+	ld	a,#>(_trajectories)
+	adc	a, h
+	ld	-10 (ix),a
+	ld	a,-11 (ix)
+	add	a, #0x29
+	ld	-8 (ix),a
+	ld	a,-10 (ix)
+	adc	a, #0x00
+	ld	-7 (ix),a
+	push	bc
+	pop	iy
+	ld	a,26 (iy)
+	ld	-9 (ix), a
+	add	a, -8 (ix)
+	ld	l,a
+	ld	a,#0x00
+	adc	a, -7 (ix)
+	ld	h,a
+	ld	a,(hl)
+	ld	-8 (ix),a
+;src/entities/enemies.c:109: enemies[i].x+=trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step];
+	ld	hl,#0x0010
+	add	hl,bc
+	ld	c,l
+	ld	b,h
+;src/entities/enemies.c:108: if ((u8) dx>trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step]){
+	ld	a,-8 (ix)
+	sub	a, -13 (ix)
+	jr	NC,00105$
+;src/entities/enemies.c:109: enemies[i].x+=trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step];
+	ld	a,(bc)
+	add	a, -8 (ix)
+	ld	(bc),a
+	jp	00125$
+00105$:
+;src/entities/enemies.c:112: enemies[i].x=trajectories[enemies[i].trajectory].wp[enemies[i].trajectory_step].x;
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
+	inc	hl
+	ld	a,-9 (ix)
+	add	a, a
+	ld	-13 (ix),a
+	ld	a,l
+	add	a, -13 (ix)
+	ld	l,a
+	ld	a,h
+	adc	a, #0x00
+	ld	h,a
+	ld	a,(hl)
+	ld	(bc),a
+	jp	00125$
+00111$:
+;src/entities/enemies.c:115: if (-dx>trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step])
+	ld	a,l
+	rla
+	sbc	a, a
+	ld	h,a
+	xor	a, a
+	sub	a, l
+	ld	-13 (ix),a
+	ld	a, #0x00
+	sbc	a, h
+	ld	-12 (ix),a
+	ld	hl,#_enemies
+	add	hl,de
+	ld	c,l
+	ld	b,h
+	push	bc
+	pop	iy
+	ld	a,25 (iy)
+	push	de
+	ld	e,a
+	ld	d,#0x00
+	ld	l, e
+	ld	h, d
+	add	hl, hl
+	add	hl, hl
+	add	hl, de
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, de
+	pop	de
+	ld	a,#<(_trajectories)
+	add	a, l
+	ld	-11 (ix),a
+	ld	a,#>(_trajectories)
+	adc	a, h
+	ld	-10 (ix),a
+	ld	a,-11 (ix)
+	add	a, #0x29
+	ld	-8 (ix),a
+	ld	a,-10 (ix)
+	adc	a, #0x00
+	ld	-7 (ix),a
+	push	bc
+	pop	iy
+	ld	a,26 (iy)
+	ld	-9 (ix), a
+	add	a, -8 (ix)
+	ld	l,a
+	ld	a,#0x00
+	adc	a, -7 (ix)
+	ld	h,a
+	ld	a,(hl)
+	ld	-8 (ix), a
+	ld	l, a
+	ld	h,#0x00
+;src/entities/enemies.c:116: enemies[i].x-=trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step];
+	ld	a,c
+	add	a, #0x10
+	ld	c,a
+	ld	a,b
+	adc	a, #0x00
+	ld	b,a
+;src/entities/enemies.c:115: if (-dx>trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step])
+	ld	a,l
+	sub	a, -13 (ix)
+	ld	a,h
+	sbc	a, -12 (ix)
+	jp	PO, 00170$
+	xor	a, #0x80
+00170$:
+	jp	P,00108$
+;src/entities/enemies.c:116: enemies[i].x-=trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step];
+	ld	a,(bc)
+	sub	a, -8 (ix)
+	ld	(bc),a
+	jr	00125$
+00108$:
+;src/entities/enemies.c:118: enemies[i].x=trajectories[enemies[i].trajectory].wp[enemies[i].trajectory_step].x;
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
+	inc	hl
+	ld	a,-9 (ix)
+	add	a, a
+	ld	-13 (ix),a
+	ld	a,l
+	add	a, -13 (ix)
+	ld	l,a
+	ld	a,h
+	adc	a, #0x00
+	ld	h,a
+	ld	a,(hl)
+	ld	(bc),a
+00125$:
+;src/entities/enemies.c:92: for (i=0;i<MAX_SHOOTS;i++){
+	ld	a,-2 (ix)
+	add	a, #0x1F
+	ld	-2 (ix),a
+	ld	a,-1 (ix)
+	adc	a, #0x00
+	ld	-1 (ix),a
 	ld	hl,#0x001F
 	add	hl,de
 	ex	de,hl
-	inc	-3 (ix)
+	ld	a,-4 (ix)
+	add	a, #0x1F
+	ld	-4 (ix),a
 	ld	a,-3 (ix)
+	adc	a, #0x00
+	ld	-3 (ix),a
+	inc	-14 (ix)
+	ld	a,-14 (ix)
 	sub	a, #0x0A
-	jr	C,00111$
-00113$:
+	jp	C,00124$
+00126$:
 	ld	sp, ix
 	pop	ix
 	ret
-;src/entities/enemies.c:111: void draw_enemies(u8* screen){
+;src/entities/enemies.c:132: void draw_enemies(u8* screen){
 ;	---------------------------------
 ; Function draw_enemies
 ; ---------------------------------
@@ -544,34 +791,38 @@ _draw_enemies::
 	ld	hl,#-7
 	add	hl,sp
 	ld	sp,hl
-;src/entities/enemies.c:116: if (active_enemies>0){
+;src/entities/enemies.c:137: if (active_enemies>0){
 	ld	a,(#_active_enemies + 0)
 	or	a, a
 	jp	Z,00108$
-;src/entities/enemies.c:117: for (k=0;k<MAX_SHOOTS;k++){
+;src/entities/enemies.c:138: for (k=0;k<MAX_SHOOTS;k++){
 	ld	-7 (ix),#0x00
 	ld	de,#0x0000
 00106$:
-;src/entities/enemies.c:118: if (enemies[k].active){
+;src/entities/enemies.c:139: if (enemies[k].active){
 	ld	hl,#_enemies
 	add	hl,de
-	ld	-4 (ix),l
-	ld	-3 (ix),h
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	-5 (ix),l
+	ld	-4 (ix),h
+	pop	bc
+	pop	hl
+	push	hl
+	push	bc
 	ld	bc, #0x0015
 	add	hl, bc
 	ld	a,(hl)
 	or	a, a
 	jp	Z,00107$
-;src/entities/enemies.c:119: pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+;src/entities/enemies.c:140: pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
+	pop	bc
+	pop	hl
+	push	hl
+	push	bc
 	ld	bc, #0x0011
 	add	hl, bc
 	ld	b,(hl)
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	push	bc
 	ld	bc, #0x0010
 	add	hl, bc
@@ -592,45 +843,47 @@ _draw_enemies::
 	pop	de
 	ld	b,l
 	ld	c,h
-;src/entities/enemies.c:120: cpct_drawSprite(enemies[k].sprite[enemies[k].dirº],pscreen,enemies[k].w,enemies[k].h);
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+;src/entities/enemies.c:141: cpct_drawSprite(enemies[k].sprite[enemies[k].dir],pscreen,enemies[k].w,enemies[k].h);
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	push	bc
 	ld	bc, #0x0013
 	add	hl, bc
 	pop	bc
 	ld	a,(hl)
-	ld	-6 (ix),a
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	-1 (ix),a
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	push	bc
 	ld	bc, #0x0012
 	add	hl, bc
 	pop	bc
 	ld	a,(hl)
-	ld	-5 (ix),a
-	ld	-2 (ix),b
-	ld	-1 (ix),c
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	-6 (ix),a
+	ld	-3 (ix),b
+	ld	-2 (ix),c
+	pop	bc
+	pop	hl
+	push	hl
+	push	bc
 	ld	bc, #0x0014
 	add	hl, bc
 	ld	a,(hl)
 	add	a, a
 	ld	c,a
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	ld	b,#0x00
 	add	hl, bc
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
 	push	de
-	ld	h,-6 (ix)
-	ld	l,-5 (ix)
-	push	hl
-	ld	l,-2 (ix)
 	ld	h,-1 (ix)
+	ld	l,-6 (ix)
+	push	hl
+	ld	l,-3 (ix)
+	ld	h,-2 (ix)
 	push	hl
 	push	bc
 	call	_cpct_drawSprite
@@ -639,7 +892,7 @@ _draw_enemies::
 	ld	sp,hl
 	pop	de
 00107$:
-;src/entities/enemies.c:117: for (k=0;k<MAX_SHOOTS;k++){
+;src/entities/enemies.c:138: for (k=0;k<MAX_SHOOTS;k++){
 	ld	hl,#0x001F
 	add	hl,de
 	ex	de,hl

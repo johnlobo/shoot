@@ -27,19 +27,19 @@ Symbol Table
     _cpct_drawSprite                                               **** GX
     _cpct_getScreenPtr                                             **** GX
   0 _create_enemy                                                  0065 GR
-  0 _draw_enemies                                                  035A GR
+  0 _draw_enemies                                                  050F GR
   1 _enemies                                                       0000 GR
     _get_user_max_shoots                                           **** GX
   0 _init_enemies                                                  0000 GR
+    _trajectories                                                  **** GX
   0 _update_enemies                                                02C4 GR
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  42A   flags    0
+   0 _CODE                                      size  5D9   flags    0
    1 _DATA                                      size  137   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

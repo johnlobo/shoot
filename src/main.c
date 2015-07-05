@@ -170,6 +170,7 @@ u8* changeVideoMemoryPage() {
 
       init_user();
       init_shoots();
+      init_enemies();
 
       block01.x = 50;
       block01.y = 10;
@@ -218,6 +219,7 @@ u8* changeVideoMemoryPage() {
     update_user();
     update_shoots();
     update_blocks();
+    update_enemies();
 
     if (ESTRELLAS_ACTIVADAS)
      update_stars();
@@ -230,7 +232,8 @@ u8* changeVideoMemoryPage() {
    
    draw_blocks(pvmem);
    draw_user(pvmem);
-   draw_shoots(pvmem); 
+   draw_shoots(pvmem);
+   draw_enemies(pvmem); 
 
    draw_scoreboard(pvmem);
 

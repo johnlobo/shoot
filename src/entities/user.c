@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <cpctelera.h>
 #include "entities.h"
 #include "../sprites/sprites.h"
@@ -74,6 +75,10 @@ u8 get_user_max_shoots(){
     if (cpct_isKeyPressed(Key_D)){
         shoot_type=(shoot_type+1)%2;
       }
+    // KEY = H
+    if (cpct_isKeyPressed(Key_H)){
+        create_enemy((rand()%80),(rand()%199),(rand()%2));
+      }  
     // KEY = Space
     if (cpct_isKeyPressed(Key_Space)){
         create_shoot(user.x+3, user.y-1, shoot_type);
