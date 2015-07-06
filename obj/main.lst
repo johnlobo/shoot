@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-                              4 ; This file was generated Sun Jul  5 16:22:13 2015
+                              4 ; This file was generated Mon Jul  6 11:16:18 2015
                               5 ;--------------------------------------------------------
                               6 	.module main
                               7 	.optsdcc -mz80
@@ -81,7 +81,7 @@
                              81 	.area _GSINIT
                              82 	.area _GSFINAL
                              83 	.area _GSINIT
-                             84 ;src/main.c:54: static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
+                             84 ;src/main.c:51: static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
    0000 FD 21r38r00   [14]   85 	ld	iy,#_changeVideoMemoryPage_page_1_78
    0004 FD 36 00 00   [19]   86 	ld	0 (iy),#0x00
                              87 ;--------------------------------------------------------
@@ -93,42 +93,42 @@
                              93 ; code
                              94 ;--------------------------------------------------------
                              95 	.area _CODE
-                             96 ;src/main.c:53: u8* changeVideoMemoryPage() {
+                             96 ;src/main.c:50: u8* changeVideoMemoryPage() {
                              97 ;	---------------------------------
                              98 ; Function changeVideoMemoryPage
                              99 ; ---------------------------------
    0000                     100 _changeVideoMemoryPage::
-                            101 ;src/main.c:59: if (page) {
+                            101 ;src/main.c:56: if (page) {
    0000 3Ar38r00      [13]  102 	ld	a,(#_changeVideoMemoryPage_page_1_78 + 0)
    0003 B7            [ 4]  103 	or	a, a
    0004 28 11         [12]  104 	jr	Z,00102$
-                            105 ;src/main.c:60: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
+                            105 ;src/main.c:57: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
    0006 3E 30         [ 7]  106 	ld	a,#0x30
    0008 F5            [11]  107 	push	af
    0009 33            [ 6]  108 	inc	sp
    000A CDr00r00      [17]  109 	call	_cpct_setVideoMemoryPage
    000D 33            [ 6]  110 	inc	sp
-                            111 ;src/main.c:61: page = 0;  
+                            111 ;src/main.c:58: page = 0;  
    000E 21r38r00      [10]  112 	ld	hl,#_changeVideoMemoryPage_page_1_78 + 0
    0011 36 00         [10]  113 	ld	(hl), #0x00
-                            114 ;src/main.c:62: screen = SCR_BUFF;                            // Next page = 0
+                            114 ;src/main.c:59: screen = SCR_BUFF;                            // Next page = 0
    0013 21 00 80      [10]  115 	ld	hl,#0x8000
    0016 C9            [10]  116 	ret
    0017                     117 00102$:
-                            118 ;src/main.c:64: cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
+                            118 ;src/main.c:61: cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
    0017 3E 20         [ 7]  119 	ld	a,#0x20
    0019 F5            [11]  120 	push	af
    001A 33            [ 6]  121 	inc	sp
    001B CDr00r00      [17]  122 	call	_cpct_setVideoMemoryPage
    001E 33            [ 6]  123 	inc	sp
-                            124 ;src/main.c:65: page = 1;                              // Next page = 1
+                            124 ;src/main.c:62: page = 1;                              // Next page = 1
    001F 21r38r00      [10]  125 	ld	hl,#_changeVideoMemoryPage_page_1_78 + 0
    0022 36 01         [10]  126 	ld	(hl), #0x01
-                            127 ;src/main.c:66: screen = SCR_VMEM;
+                            127 ;src/main.c:63: screen = SCR_VMEM;
    0024 21 00 C0      [10]  128 	ld	hl,#0xC000
-                            129 ;src/main.c:68: return screen;
+                            129 ;src/main.c:65: return screen;
    0027 C9            [10]  130 	ret
-                            131 ;src/main.c:76: void draw_blocks(u8* screen){
+                            131 ;src/main.c:73: void draw_blocks(u8* screen){
                             132 ;	---------------------------------
                             133 ; Function draw_blocks
                             134 ; ---------------------------------
@@ -137,7 +137,7 @@
    002A DD 21 00 00   [14]  137 	ld	ix,#0
    002E DD 39         [15]  138 	add	ix,sp
    0030 3B            [ 6]  139 	dec	sp
-                            140 ;src/main.c:79: pscreen = cpct_getScreenPtr(screen, block01.x, block01.y);
+                            140 ;src/main.c:76: pscreen = cpct_getScreenPtr(screen, block01.x, block01.y);
    0031 21r01r00      [10]  141 	ld	hl, #_block01 + 1
    0034 4E            [ 7]  142 	ld	c,(hl)
    0035 21r00r00      [10]  143 	ld	hl, #_block01 + 0
@@ -155,7 +155,7 @@
    0049 F1            [10]  155 	pop	af
    004A 5D            [ 4]  156 	ld	e, l
    004B 54            [ 4]  157 	ld	d, h
-                            158 ;src/main.c:80: cpct_drawSolidBox(pscreen, cpct_px2byteM0(4, 4), block01.w, block01.h);
+                            158 ;src/main.c:77: cpct_drawSolidBox(pscreen, cpct_px2byteM0(4, 4), block01.w, block01.h);
    004C 21r05r00      [10]  159 	ld	hl, #_block01 + 5
    004F 4E            [ 7]  160 	ld	c,(hl)
    0050 21r04r00      [10]  161 	ld	hl, #_block01 + 4
@@ -185,12 +185,12 @@
    0074 33            [ 6]  185 	inc	sp
    0075 DD E1         [14]  186 	pop	ix
    0077 C9            [10]  187 	ret
-                            188 ;src/main.c:87: void clear_screen(u8* screen){
+                            188 ;src/main.c:84: void clear_screen(u8* screen){
                             189 ;	---------------------------------
                             190 ; Function clear_screen
                             191 ; ---------------------------------
    0078                     192 _clear_screen::
-                            193 ;src/main.c:88: cpct_memset(screen, 0x00, 0x4000);   
+                            193 ;src/main.c:85: cpct_memset(screen, 0x00, 0x4000);   
    0078 C1            [10]  194 	pop	bc
    0079 D1            [10]  195 	pop	de
    007A D5            [11]  196 	push	de
@@ -206,7 +206,7 @@
    0088 F1            [10]  206 	pop	af
    0089 33            [ 6]  207 	inc	sp
    008A C9            [10]  208 	ret
-                            209 ;src/main.c:95: void update_blocks(){
+                            209 ;src/main.c:92: void update_blocks(){
                             210 ;	---------------------------------
                             211 ; Function update_blocks
                             212 ; ---------------------------------
@@ -216,22 +216,22 @@
    0091 DD 39         [15]  216 	add	ix,sp
    0093 F5            [11]  217 	push	af
    0094 3B            [ 6]  218 	dec	sp
-                            219 ;src/main.c:96: if (block01.vx<128){
+                            219 ;src/main.c:93: if (block01.vx<128){
    0095 01r00r00      [10]  220 	ld	bc,#_block01+0
    0098 21r02r00      [10]  221 	ld	hl, #(_block01 + 0x0002) + 0
    009B 7E            [ 7]  222 	ld	a,(hl)
    009C DD 77 FF      [19]  223 	ld	-1 (ix),a
-                            224 ;src/main.c:97: if ((block01.x+block01.vx)<(80-block01.w)){
+                            224 ;src/main.c:94: if ((block01.x+block01.vx)<(80-block01.w)){
    009F 0A            [ 7]  225 	ld	a,(bc)
-                            226 ;src/main.c:98: block01.x = block01.x + block01.vx;
+                            226 ;src/main.c:95: block01.x = block01.x + block01.vx;
    00A0 57            [ 4]  227 	ld	d,a
    00A1 DD 86 FF      [19]  228 	add	a, -1 (ix)
    00A4 5F            [ 4]  229 	ld	e,a
-                            230 ;src/main.c:96: if (block01.vx<128){
+                            230 ;src/main.c:93: if (block01.vx<128){
    00A5 DD 7E FF      [19]  231 	ld	a,-1 (ix)
    00A8 D6 80         [ 7]  232 	sub	a, #0x80
    00AA 30 4E         [12]  233 	jr	NC,00108$
-                            234 ;src/main.c:97: if ((block01.x+block01.vx)<(80-block01.w)){
+                            234 ;src/main.c:94: if ((block01.x+block01.vx)<(80-block01.w)){
    00AC DD 72 FD      [19]  235 	ld	-3 (ix),d
    00AF DD 36 FE 00   [19]  236 	ld	-2 (ix),#0x00
    00B3 DD 66 FF      [19]  237 	ld	h,-1 (ix)
@@ -260,16 +260,16 @@
    00E0 EE 80         [ 7]  260 	xor	a, #0x80
    00E2                     261 00124$:
    00E2 F2rE9r00      [10]  262 	jp	P,00102$
-                            263 ;src/main.c:98: block01.x = block01.x + block01.vx;
+                            263 ;src/main.c:95: block01.x = block01.x + block01.vx;
    00E5 7B            [ 4]  264 	ld	a,e
    00E6 02            [ 7]  265 	ld	(bc),a
    00E7 18 2D         [12]  266 	jr	00110$
    00E9                     267 00102$:
-                            268 ;src/main.c:101: block01.x = 79-block01.w;
+                            268 ;src/main.c:98: block01.x = 79-block01.w;
    00E9 3E 4F         [ 7]  269 	ld	a,#0x4F
    00EB 94            [ 4]  270 	sub	a, h
    00EC 02            [ 7]  271 	ld	(bc),a
-                            272 ;src/main.c:102: block01.vx = - block01.vx;
+                            272 ;src/main.c:99: block01.vx = - block01.vx;
    00ED 21r02r00      [10]  273 	ld	hl, #(_block01 + 0x0002) + 0
    00F0 66            [ 7]  274 	ld	h,(hl)
    00F1 AF            [ 4]  275 	xor	a, a
@@ -279,7 +279,7 @@
    00F7 72            [ 7]  279 	ld	(hl),d
    00F8 18 1C         [12]  280 	jr	00110$
    00FA                     281 00108$:
-                            282 ;src/main.c:105: if (( (i8) (block01.x+block01.vx))>0){
+                            282 ;src/main.c:102: if (( (i8) (block01.x+block01.vx))>0){
    00FA 6B            [ 4]  283 	ld	l,e
    00FB AF            [ 4]  284 	xor	a, a
    00FC 95            [ 4]  285 	sub	a, l
@@ -287,15 +287,15 @@
    0100 EE 80         [ 7]  287 	xor	a, #0x80
    0102                     288 00125$:
    0102 F2r09r01      [10]  289 	jp	P,00105$
-                            290 ;src/main.c:106: block01.x = block01.x + block01.vx;
+                            290 ;src/main.c:103: block01.x = block01.x + block01.vx;
    0105 7B            [ 4]  291 	ld	a,e
    0106 02            [ 7]  292 	ld	(bc),a
    0107 18 0D         [12]  293 	jr	00110$
    0109                     294 00105$:
-                            295 ;src/main.c:109: block01.x = 0;
+                            295 ;src/main.c:106: block01.x = 0;
    0109 AF            [ 4]  296 	xor	a, a
    010A 02            [ 7]  297 	ld	(bc),a
-                            298 ;src/main.c:110: block01.vx = - block01.vx;
+                            298 ;src/main.c:107: block01.vx = - block01.vx;
    010B 21r02r00      [10]  299 	ld	hl, #(_block01 + 0x0002) + 0
    010E 66            [ 7]  300 	ld	h,(hl)
    010F AF            [ 4]  301 	xor	a, a
@@ -307,58 +307,58 @@
    0116 DD F9         [10]  307 	ld	sp, ix
    0118 DD E1         [14]  308 	pop	ix
    011A C9            [10]  309 	ret
-                            310 ;src/main.c:118: void letras_azules(){
+                            310 ;src/main.c:115: void letras_azules(){
                             311 ;	---------------------------------
                             312 ; Function letras_azules
                             313 ; ---------------------------------
    011B                     314 _letras_azules::
-                            315 ;src/main.c:120: cpc_SetInkGphStr(0,0);
+                            315 ;src/main.c:117: cpc_SetInkGphStr(0,0);
    011B 21 00 00      [10]  316 	ld	hl,#0x0000
    011E E5            [11]  317 	push	hl
    011F CDr00r00      [17]  318 	call	_cpc_SetInkGphStr
-                            319 ;src/main.c:121: cpc_SetInkGphStr(1,42);
+                            319 ;src/main.c:118: cpc_SetInkGphStr(1,42);
    0122 21 01 2A      [10]  320 	ld	hl, #0x2A01
    0125 E3            [19]  321 	ex	(sp),hl
    0126 CDr00r00      [17]  322 	call	_cpc_SetInkGphStr
-                            323 ;src/main.c:122: cpc_SetInkGphStr(2,34);
+                            323 ;src/main.c:119: cpc_SetInkGphStr(2,34);
    0129 21 02 22      [10]  324 	ld	hl, #0x2202
    012C E3            [19]  325 	ex	(sp),hl
    012D CDr00r00      [17]  326 	call	_cpc_SetInkGphStr
-                            327 ;src/main.c:123: cpc_SetInkGphStr(3,42);
+                            327 ;src/main.c:120: cpc_SetInkGphStr(3,42);
    0130 21 03 2A      [10]  328 	ld	hl, #0x2A03
    0133 E3            [19]  329 	ex	(sp),hl
    0134 CDr00r00      [17]  330 	call	_cpc_SetInkGphStr
    0137 F1            [10]  331 	pop	af
    0138 C9            [10]  332 	ret
-                            333 ;src/main.c:129: void letras_rojas(){
+                            333 ;src/main.c:126: void letras_rojas(){
                             334 ;	---------------------------------
                             335 ; Function letras_rojas
                             336 ; ---------------------------------
    0139                     337 _letras_rojas::
-                            338 ;src/main.c:131: cpc_SetInkGphStr(0,0);
+                            338 ;src/main.c:128: cpc_SetInkGphStr(0,0);
    0139 21 00 00      [10]  339 	ld	hl,#0x0000
    013C E5            [11]  340 	push	hl
    013D CDr00r00      [17]  341 	call	_cpc_SetInkGphStr
-                            342 ;src/main.c:132: cpc_SetInkGphStr(1,40);
+                            342 ;src/main.c:129: cpc_SetInkGphStr(1,40);
    0140 21 01 28      [10]  343 	ld	hl, #0x2801
    0143 E3            [19]  344 	ex	(sp),hl
    0144 CDr00r00      [17]  345 	call	_cpc_SetInkGphStr
-                            346 ;src/main.c:133: cpc_SetInkGphStr(2,10);
+                            346 ;src/main.c:130: cpc_SetInkGphStr(2,10);
    0147 21 02 0A      [10]  347 	ld	hl, #0x0A02
    014A E3            [19]  348 	ex	(sp),hl
    014B CDr00r00      [17]  349 	call	_cpc_SetInkGphStr
-                            350 ;src/main.c:134: cpc_SetInkGphStr(3,40);
+                            350 ;src/main.c:131: cpc_SetInkGphStr(3,40);
    014E 21 03 28      [10]  351 	ld	hl, #0x2803
    0151 E3            [19]  352 	ex	(sp),hl
    0152 CDr00r00      [17]  353 	call	_cpc_SetInkGphStr
    0155 F1            [10]  354 	pop	af
    0156 C9            [10]  355 	ret
-                            356 ;src/main.c:141: void set_color (unsigned char fondo,unsigned char t){
+                            356 ;src/main.c:138: void set_color (unsigned char fondo,unsigned char t){
                             357 ;	---------------------------------
                             358 ; Function set_color
                             359 ; ---------------------------------
    0157                     360 _set_color::
-                            361 ;src/main.c:142: cpc_SetInkGphStr(0,fondo);
+                            361 ;src/main.c:139: cpc_SetInkGphStr(0,fondo);
    0157 21 02 00      [10]  362 	ld	hl, #2+0
    015A 39            [11]  363 	add	hl, sp
    015B 7E            [ 7]  364 	ld	a, (hl)
@@ -369,7 +369,7 @@
    0160 33            [ 6]  369 	inc	sp
    0161 CDr00r00      [17]  370 	call	_cpc_SetInkGphStr
    0164 F1            [10]  371 	pop	af
-                            372 ;src/main.c:143: cpc_SetInkGphStr(1,t);
+                            372 ;src/main.c:140: cpc_SetInkGphStr(1,t);
    0165 21 03 00      [10]  373 	ld	hl, #3+0
    0168 39            [11]  374 	add	hl, sp
    0169 56            [ 7]  375 	ld	d, (hl)
@@ -377,7 +377,7 @@
    016C D5            [11]  377 	push	de
    016D CDr00r00      [17]  378 	call	_cpc_SetInkGphStr
    0170 F1            [10]  379 	pop	af
-                            380 ;src/main.c:144: cpc_SetInkGphStr(2,t);
+                            380 ;src/main.c:141: cpc_SetInkGphStr(2,t);
    0171 21 03 00      [10]  381 	ld	hl, #3+0
    0174 39            [11]  382 	add	hl, sp
    0175 56            [ 7]  383 	ld	d, (hl)
@@ -385,7 +385,7 @@
    0178 D5            [11]  385 	push	de
    0179 CDr00r00      [17]  386 	call	_cpc_SetInkGphStr
    017C F1            [10]  387 	pop	af
-                            388 ;src/main.c:145: cpc_SetInkGphStr(3,t);
+                            388 ;src/main.c:142: cpc_SetInkGphStr(3,t);
    017D 21 03 00      [10]  389 	ld	hl, #3+0
    0180 39            [11]  390 	add	hl, sp
    0181 56            [ 7]  391 	ld	d, (hl)
@@ -394,7 +394,7 @@
    0185 CDr00r00      [17]  394 	call	_cpc_SetInkGphStr
    0188 F1            [10]  395 	pop	af
    0189 C9            [10]  396 	ret
-                            397 ;src/main.c:152: void draw_scoreboard(u8* screen){
+                            397 ;src/main.c:149: void draw_scoreboard(u8* screen){
                             398 ;	---------------------------------
                             399 ; Function draw_scoreboard
                             400 ; ---------------------------------
@@ -402,7 +402,7 @@
    018A DD E5         [15]  402 	push	ix
    018C DD 21 00 00   [14]  403 	ld	ix,#0
    0190 DD 39         [15]  404 	add	ix,sp
-                            405 ;src/main.c:154: cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 4, 8));
+                            405 ;src/main.c:151: cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 4, 8));
    0192 DD 5E 04      [19]  406 	ld	e,4 (ix)
    0195 DD 56 05      [19]  407 	ld	d,5 (ix)
    0198 D5            [11]  408 	push	de
@@ -423,7 +423,7 @@
    01AF F1            [10]  423 	pop	af
    01B0 F1            [10]  424 	pop	af
    01B1 D1            [10]  425 	pop	de
-                            426 ;src/main.c:155: cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 60, 8));
+                            426 ;src/main.c:152: cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 60, 8));
    01B2 21 3C 08      [10]  427 	ld	hl,#0x083C
    01B5 E5            [11]  428 	push	hl
    01B6 D5            [11]  429 	push	de
@@ -442,73 +442,73 @@
    01C9 30 30 30 30 30 30   442 	.ascii "00000000"
         30 30
    01D1 00                  443 	.db 0x00
-                            444 ;src/main.c:164: void initialization(){
+                            444 ;src/main.c:161: void initialization(){
                             445 ;	---------------------------------
                             446 ; Function initialization
                             447 ; ---------------------------------
    01D2                     448 _initialization::
-                            449 ;src/main.c:166: pvmem = SCR_BUFF;
+                            449 ;src/main.c:163: pvmem = SCR_BUFF;
    01D2 21 00 80      [10]  450 	ld	hl,#0x8000
    01D5 22r0Er00      [16]  451 	ld	(_pvmem),hl
-                            452 ;src/main.c:169: init_stars();
+                            452 ;src/main.c:166: init_stars();
    01D8 CDr00r00      [17]  453 	call	_init_stars
-                            454 ;src/main.c:171: init_user();
+                            454 ;src/main.c:168: init_user();
    01DB CDr00r00      [17]  455 	call	_init_user
-                            456 ;src/main.c:172: init_shoots();
+                            456 ;src/main.c:169: init_shoots();
    01DE CDr00r00      [17]  457 	call	_init_shoots
-                            458 ;src/main.c:173: init_enemies();
+                            458 ;src/main.c:170: init_enemies();
    01E1 CDr00r00      [17]  459 	call	_init_enemies
-                            460 ;src/main.c:175: block01.x = 50;
+                            460 ;src/main.c:172: block01.x = 50;
    01E4 21r00r00      [10]  461 	ld	hl,#_block01+0
    01E7 36 32         [10]  462 	ld	(hl),#0x32
-                            463 ;src/main.c:176: block01.y = 10;
+                            463 ;src/main.c:173: block01.y = 10;
    01E9 21r01r00      [10]  464 	ld	hl,#_block01 + 1
    01EC 36 0A         [10]  465 	ld	(hl),#0x0A
-                            466 ;src/main.c:177: block01.vx = 2;
+                            466 ;src/main.c:174: block01.vx = 2;
    01EE 21r02r00      [10]  467 	ld	hl,#_block01 + 2
    01F1 36 02         [10]  468 	ld	(hl),#0x02
-                            469 ;src/main.c:178: block01.vy = 0;
+                            469 ;src/main.c:175: block01.vy = 0;
    01F3 21r03r00      [10]  470 	ld	hl,#_block01 + 3
    01F6 36 00         [10]  471 	ld	(hl),#0x00
-                            472 ;src/main.c:179: block01.w = 20;
+                            472 ;src/main.c:176: block01.w = 20;
    01F8 21r04r00      [10]  473 	ld	hl,#_block01 + 4
    01FB 36 14         [10]  474 	ld	(hl),#0x14
-                            475 ;src/main.c:180: block01.h = 40;
+                            475 ;src/main.c:177: block01.h = 40;
    01FD 21r05r00      [10]  476 	ld	hl,#_block01 + 5
    0200 36 28         [10]  477 	ld	(hl),#0x28
-                            478 ;src/main.c:182: block02.x = 15;
+                            478 ;src/main.c:179: block02.x = 15;
    0202 21r07r00      [10]  479 	ld	hl,#_block02+0
    0205 36 0F         [10]  480 	ld	(hl),#0x0F
-                            481 ;src/main.c:183: block02.y = 15;
+                            481 ;src/main.c:180: block02.y = 15;
    0207 21r08r00      [10]  482 	ld	hl,#_block02 + 1
    020A 36 0F         [10]  483 	ld	(hl),#0x0F
-                            484 ;src/main.c:184: block02.vx = 4;
+                            484 ;src/main.c:181: block02.vx = 4;
    020C 21r09r00      [10]  485 	ld	hl,#_block02 + 2
    020F 36 04         [10]  486 	ld	(hl),#0x04
-                            487 ;src/main.c:185: block02.vy = 0;
+                            487 ;src/main.c:182: block02.vy = 0;
    0211 21r0Ar00      [10]  488 	ld	hl,#_block02 + 3
    0214 36 00         [10]  489 	ld	(hl),#0x00
-                            490 ;src/main.c:186: block02.w = 25;
+                            490 ;src/main.c:183: block02.w = 25;
    0216 21r0Br00      [10]  491 	ld	hl,#_block02 + 4
    0219 36 19         [10]  492 	ld	(hl),#0x19
-                            493 ;src/main.c:187: block02.h = 20;
+                            493 ;src/main.c:184: block02.h = 20;
    021B 21r0Cr00      [10]  494 	ld	hl,#_block02 + 5
    021E 36 14         [10]  495 	ld	(hl),#0x14
-                            496 ;src/main.c:189: letras_azules();
+                            496 ;src/main.c:186: letras_azules();
    0220 C3r1Br01      [10]  497 	jp	_letras_azules
-                            498 ;src/main.c:197: void main(void) {
+                            498 ;src/main.c:194: void main(void) {
                             499 ;	---------------------------------
                             500 ; Function main
                             501 ; ---------------------------------
    0223                     502 _main::
-                            503 ;src/main.c:200: set_stack(0x1000);
+                            503 ;src/main.c:197: set_stack(0x1000);
    0223 21 00 10      [10]  504 	ld	hl,#0x1000
    0226 E5            [11]  505 	push	hl
    0227 CDr00r00      [17]  506 	call	_set_stack
    022A F1            [10]  507 	pop	af
-                            508 ;src/main.c:202: cpct_disableFirmware();             // Disable firmware to prevent it from interfering
+                            508 ;src/main.c:199: cpct_disableFirmware();             // Disable firmware to prevent it from interfering
    022B CDr00r00      [17]  509 	call	_cpct_disableFirmware
-                            510 ;src/main.c:203: cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
+                            510 ;src/main.c:200: cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
    022E 11r00r00      [10]  511 	ld	de,#_palette
    0231 3E 10         [ 7]  512 	ld	a,#0x10
    0233 F5            [11]  513 	push	af
@@ -517,7 +517,7 @@
    0236 CDr00r00      [17]  516 	call	_cpct_fw2hw
    0239 F1            [10]  517 	pop	af
    023A 33            [ 6]  518 	inc	sp
-                            519 ;src/main.c:204: cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
+                            519 ;src/main.c:201: cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
    023B 11r00r00      [10]  520 	ld	de,#_palette
    023E 3E 10         [ 7]  521 	ld	a,#0x10
    0240 F5            [11]  522 	push	af
@@ -526,20 +526,20 @@
    0243 CDr00r00      [17]  525 	call	_cpct_setPalette
    0246 F1            [10]  526 	pop	af
    0247 33            [ 6]  527 	inc	sp
-                            528 ;src/main.c:205: cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
+                            528 ;src/main.c:202: cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
    0248 3Ar00r00      [13]  529 	ld	a, (#_palette + 0)
    024B 57            [ 4]  530 	ld	d,a
    024C 1E 10         [ 7]  531 	ld	e,#0x10
    024E D5            [11]  532 	push	de
    024F CDr00r00      [17]  533 	call	_cpct_setPALColour
    0252 F1            [10]  534 	pop	af
-                            535 ;src/main.c:206: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
+                            535 ;src/main.c:203: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
    0253 AF            [ 4]  536 	xor	a, a
    0254 F5            [11]  537 	push	af
    0255 33            [ 6]  538 	inc	sp
    0256 CDr00r00      [17]  539 	call	_cpct_setVideoMode
    0259 33            [ 6]  540 	inc	sp
-                            541 ;src/main.c:209: cpct_memset(SCR_VMEM, 0x00, 0x4000);
+                            541 ;src/main.c:206: cpct_memset(SCR_VMEM, 0x00, 0x4000);
    025A 21 00 40      [10]  542 	ld	hl,#0x4000
    025D E5            [11]  543 	push	hl
    025E AF            [ 4]  544 	xor	a, a
@@ -551,7 +551,7 @@
    0267 F1            [10]  550 	pop	af
    0268 F1            [10]  551 	pop	af
    0269 33            [ 6]  552 	inc	sp
-                            553 ;src/main.c:210: cpct_memset(SCR_BUFF, 0x00, 0x4000);
+                            553 ;src/main.c:207: cpct_memset(SCR_BUFF, 0x00, 0x4000);
    026A 21 00 40      [10]  554 	ld	hl,#0x4000
    026D E5            [11]  555 	push	hl
    026E AF            [ 4]  556 	xor	a, a
@@ -563,58 +563,58 @@
    0277 F1            [10]  562 	pop	af
    0278 F1            [10]  563 	pop	af
    0279 33            [ 6]  564 	inc	sp
-                            565 ;src/main.c:212: initialization(); 
+                            565 ;src/main.c:209: initialization(); 
    027A CDrD2r01      [17]  566 	call	_initialization
-                            567 ;src/main.c:215: while (1){
+                            567 ;src/main.c:212: while (1){
    027D                     568 00106$:
-                            569 ;src/main.c:217: clear_screen(pvmem);
+                            569 ;src/main.c:214: clear_screen(pvmem);
    027D 2Ar0Er00      [16]  570 	ld	hl,(_pvmem)
    0280 E5            [11]  571 	push	hl
    0281 CDr78r00      [17]  572 	call	_clear_screen
    0284 F1            [10]  573 	pop	af
-                            574 ;src/main.c:219: update_user();
+                            574 ;src/main.c:216: update_user();
    0285 CDr00r00      [17]  575 	call	_update_user
-                            576 ;src/main.c:220: update_shoots();
+                            576 ;src/main.c:217: update_shoots();
    0288 CDr00r00      [17]  577 	call	_update_shoots
-                            578 ;src/main.c:221: update_blocks();
+                            578 ;src/main.c:218: update_blocks();
    028B CDr8Br00      [17]  579 	call	_update_blocks
-                            580 ;src/main.c:222: update_enemies();
+                            580 ;src/main.c:219: update_enemies();
    028E CDr00r00      [17]  581 	call	_update_enemies
-                            582 ;src/main.c:225: update_stars();
+                            582 ;src/main.c:222: update_stars();
    0291 CDr00r00      [17]  583 	call	_update_stars
-                            584 ;src/main.c:228: cpct_waitVSYNC();   
+                            584 ;src/main.c:225: cpct_waitVSYNC();   
    0294 CDr00r00      [17]  585 	call	_cpct_waitVSYNC
-                            586 ;src/main.c:231: draw_stars(pvmem);
+                            586 ;src/main.c:228: draw_stars(pvmem);
    0297 2Ar0Er00      [16]  587 	ld	hl,(_pvmem)
    029A E5            [11]  588 	push	hl
    029B CDr00r00      [17]  589 	call	_draw_stars
    029E F1            [10]  590 	pop	af
-                            591 ;src/main.c:233: draw_blocks(pvmem);
+                            591 ;src/main.c:230: draw_blocks(pvmem);
    029F 2Ar0Er00      [16]  592 	ld	hl,(_pvmem)
    02A2 E5            [11]  593 	push	hl
    02A3 CDr28r00      [17]  594 	call	_draw_blocks
    02A6 F1            [10]  595 	pop	af
-                            596 ;src/main.c:234: draw_user(pvmem);
+                            596 ;src/main.c:231: draw_user(pvmem);
    02A7 2Ar0Er00      [16]  597 	ld	hl,(_pvmem)
    02AA E5            [11]  598 	push	hl
    02AB CDr00r00      [17]  599 	call	_draw_user
    02AE F1            [10]  600 	pop	af
-                            601 ;src/main.c:235: draw_shoots(pvmem);
+                            601 ;src/main.c:232: draw_shoots(pvmem);
    02AF 2Ar0Er00      [16]  602 	ld	hl,(_pvmem)
    02B2 E5            [11]  603 	push	hl
    02B3 CDr00r00      [17]  604 	call	_draw_shoots
    02B6 F1            [10]  605 	pop	af
-                            606 ;src/main.c:236: draw_enemies(pvmem); 
+                            606 ;src/main.c:233: draw_enemies(pvmem); 
    02B7 2Ar0Er00      [16]  607 	ld	hl,(_pvmem)
    02BA E5            [11]  608 	push	hl
    02BB CDr00r00      [17]  609 	call	_draw_enemies
    02BE F1            [10]  610 	pop	af
-                            611 ;src/main.c:238: draw_scoreboard(pvmem);
+                            611 ;src/main.c:235: draw_scoreboard(pvmem);
    02BF 2Ar0Er00      [16]  612 	ld	hl,(_pvmem)
    02C2 E5            [11]  613 	push	hl
    02C3 CDr8Ar01      [17]  614 	call	_draw_scoreboard
    02C6 F1            [10]  615 	pop	af
-                            616 ;src/main.c:240: pvmem = changeVideoMemoryPage();
+                            616 ;src/main.c:237: pvmem = changeVideoMemoryPage();
    02C7 CDr00r00      [17]  617 	call	_changeVideoMemoryPage
    02CA 22r0Er00      [16]  618 	ld	(_pvmem),hl
    02CD 18 AE         [12]  619 	jr	00106$

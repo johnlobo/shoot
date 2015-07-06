@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-; This file was generated Sun Jul  5 16:23:35 2015
+; This file was generated Mon Jul  6 15:49:38 2015
 ;--------------------------------------------------------
 	.module user
 	.optsdcc -mz80
@@ -9,6 +9,7 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _create_enemy_group
 	.globl _create_enemy
 	.globl _create_shoot
 	.globl _cpct_getScreenPtr
@@ -112,10 +113,11 @@ _update_user::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
+	push	af
 	dec	sp
-;src/entities/user.c:40: cpct_scanKeyboard_f();
+;src/entities/user.c:41: cpct_scanKeyboard_f();
 	call	_cpct_scanKeyboard_f
-;src/entities/user.c:47: if ((cpct_isKeyPressed(Key_Q))){ 
+;src/entities/user.c:48: if ((cpct_isKeyPressed(Key_Q))){ 
 	ld	hl,#0x0808
 	push	hl
 	call	_cpct_isKeyPressed
@@ -123,7 +125,7 @@ _update_user::
 	ld	a,l
 	or	a, a
 	jr	Z,00105$
-;src/entities/user.c:48: if ((user.y-user.vy)>0)
+;src/entities/user.c:49: if ((user.y-user.vy)>0)
 	ld	hl, #(_user + 0x0007) + 0
 	ld	e,(hl)
 	ld	c,e
@@ -144,21 +146,21 @@ _update_user::
 	xor	a, a
 	cp	a, l
 	sbc	a, h
-	jp	PO, 00173$
+	jp	PO, 00185$
 	xor	a, #0x80
-00173$:
+00185$:
 	jp	P,00102$
-;src/entities/user.c:49: user.y = user.y - user.vy;
+;src/entities/user.c:50: user.y = user.y - user.vy;
 	ld	a,e
 	sub	a, d
 	ld	(#(_user + 0x0007)),a
 	jr	00105$
 00102$:
-;src/entities/user.c:51: user.y = 0;
+;src/entities/user.c:52: user.y = 0;
 	ld	hl,#(_user + 0x0007)
 	ld	(hl),#0x00
 00105$:
-;src/entities/user.c:54: if ((cpct_isKeyPressed(Key_P))){ 
+;src/entities/user.c:55: if ((cpct_isKeyPressed(Key_P))){ 
 	ld	hl,#0x0803
 	push	hl
 	call	_cpct_isKeyPressed
@@ -166,7 +168,7 @@ _update_user::
 	ld	a,l
 	or	a, a
 	jr	Z,00110$
-;src/entities/user.c:55: if ((user.x+user.vx<(79-user.w)))
+;src/entities/user.c:56: if ((user.x+user.vx<(79-user.w)))
 	ld	hl, #(_user + 0x0006) + 0
 	ld	e,(hl)
 	ld	c,e
@@ -195,22 +197,22 @@ _update_user::
 	sub	a, l
 	ld	a,b
 	sbc	a, h
-	jp	PO, 00174$
+	jp	PO, 00186$
 	xor	a, #0x80
-00174$:
+00186$:
 	jp	P,00107$
-;src/entities/user.c:56: user.x = user.x + user.vx;
+;src/entities/user.c:57: user.x = user.x + user.vx;
 	ld	a,e
 	add	a, d
 	ld	(#(_user + 0x0006)),a
 	jr	00110$
 00107$:
-;src/entities/user.c:58: user.x = 79-user.w;
+;src/entities/user.c:59: user.x = 79-user.w;
 	ld	a,#0x4F
 	sub	a, -1 (ix)
 	ld	(#(_user + 0x0006)),a
 00110$:
-;src/entities/user.c:61: if (cpct_isKeyPressed(Key_O)){
+;src/entities/user.c:62: if (cpct_isKeyPressed(Key_O)){
 	ld	hl,#0x0404
 	push	hl
 	call	_cpct_isKeyPressed
@@ -218,7 +220,7 @@ _update_user::
 	ld	a,l
 	or	a, a
 	jr	Z,00115$
-;src/entities/user.c:62: if ((user.x-user.vx)>0) 
+;src/entities/user.c:63: if ((user.x-user.vx)>0) 
 	ld	hl, #(_user + 0x0006) + 0
 	ld	e,(hl)
 	ld	c,e
@@ -239,21 +241,21 @@ _update_user::
 	xor	a, a
 	cp	a, l
 	sbc	a, h
-	jp	PO, 00175$
+	jp	PO, 00187$
 	xor	a, #0x80
-00175$:
+00187$:
 	jp	P,00112$
-;src/entities/user.c:63: user.x = user.x - user.vx;    
+;src/entities/user.c:64: user.x = user.x - user.vx;    
 	ld	a,e
 	sub	a, d
 	ld	(#(_user + 0x0006)),a
 	jr	00115$
 00112$:
-;src/entities/user.c:65: user.x = 0;
+;src/entities/user.c:66: user.x = 0;
 	ld	hl,#(_user + 0x0006)
 	ld	(hl),#0x00
 00115$:
-;src/entities/user.c:68: if (cpct_isKeyPressed(Key_A)){
+;src/entities/user.c:69: if (cpct_isKeyPressed(Key_A)){
 	ld	hl,#0x2008
 	push	hl
 	call	_cpct_isKeyPressed
@@ -261,7 +263,7 @@ _update_user::
 	ld	a,l
 	or	a, a
 	jr	Z,00120$
-;src/entities/user.c:69: if ((user.y<(199-user.h) ))
+;src/entities/user.c:70: if ((user.y<(199-user.h) ))
 	ld	hl, #(_user + 0x0007) + 0
 	ld	e,(hl)
 	ld	a,(#_user + 9)
@@ -280,11 +282,11 @@ _update_user::
 	sub	a, l
 	ld	a,d
 	sbc	a, h
-	jp	PO, 00176$
+	jp	PO, 00188$
 	xor	a, #0x80
-00176$:
+00188$:
 	jp	P,00117$
-;src/entities/user.c:70: user.y = user.y + user.vy;
+;src/entities/user.c:71: user.y = user.y + user.vy;
 	ld	hl, #_user + 15
 	ld	l,(hl)
 	ld	a,e
@@ -292,12 +294,12 @@ _update_user::
 	ld	(#(_user + 0x0007)),a
 	jr	00120$
 00117$:
-;src/entities/user.c:72: user.y = 199-user.h;
+;src/entities/user.c:73: user.y = 199-user.h;
 	ld	a,#0xC7
 	sub	a, -1 (ix)
 	ld	(#(_user + 0x0007)),a
 00120$:
-;src/entities/user.c:75: if (cpct_isKeyPressed(Key_D)){
+;src/entities/user.c:76: if (cpct_isKeyPressed(Key_D)){
 	ld	hl,#0x2007
 	push	hl
 	call	_cpct_isKeyPressed
@@ -305,7 +307,7 @@ _update_user::
 	ld	a,l
 	or	a, a
 	jr	Z,00122$
-;src/entities/user.c:76: shoot_type=(shoot_type+1)%2;
+;src/entities/user.c:77: shoot_type=(shoot_type+1)%2;
 	ld	iy,#_shoot_type
 	ld	l,0 (iy)
 	ld	h,#0x00
@@ -319,7 +321,7 @@ _update_user::
 	ld	iy,#_shoot_type
 	ld	0 (iy),l
 00122$:
-;src/entities/user.c:79: if (cpct_isKeyPressed(Key_H)){
+;src/entities/user.c:80: if (cpct_isKeyPressed(Key_H)){
 	ld	hl,#0x1005
 	push	hl
 	call	_cpct_isKeyPressed
@@ -327,7 +329,7 @@ _update_user::
 	ld	a,l
 	or	a, a
 	jr	Z,00124$
-;src/entities/user.c:80: create_enemy((rand()%80),(rand()%199),(rand()%2));
+;src/entities/user.c:81: create_enemy((rand()%80),(rand()%199),(rand()%2));
 	call	_rand
 	ld	bc,#0x0002
 	push	bc
@@ -366,15 +368,171 @@ _update_user::
 	pop	af
 	inc	sp
 00124$:
-;src/entities/user.c:83: if (cpct_isKeyPressed(Key_Space)){
+;src/entities/user.c:83: if (cpct_isKeyPressed(Key_J)){
+	ld	hl,#0x2005
+	push	hl
+	call	_cpct_isKeyPressed
+	pop	af
+	ld	a,l
+	or	a, a
+	jp	Z,00126$
+;src/entities/user.c:84: x=rand()%80;
+	call	_rand
+	ld	bc,#0x0050
+	push	bc
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	ld	-2 (ix),l
+;src/entities/user.c:85: y=rand()%199;
+	call	_rand
+	ld	bc,#0x00C7
+	push	bc
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	ld	-3 (ix),l
+;src/entities/user.c:86: create_enemy(x,y,(rand()%2));
+	call	_rand
+	ld	bc,#0x0002
+	push	bc
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	ld	h,l
+	push	hl
+	inc	sp
+	ld	h,-3 (ix)
+	ld	l,-2 (ix)
+	push	hl
+	call	_create_enemy
+	pop	af
+	inc	sp
+;src/entities/user.c:87: create_enemy(x+8,y,(rand()%2));
+	call	_rand
+	ld	bc,#0x0002
+	push	bc
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	ld	h,l
+	ld	a,-2 (ix)
+	add	a, #0x08
+	ld	d,a
+	push	hl
+	inc	sp
+	ld	a,-3 (ix)
+	push	af
+	inc	sp
+	push	de
+	inc	sp
+	call	_create_enemy
+	pop	af
+	inc	sp
+;src/entities/user.c:88: create_enemy(x+16,y,(rand()%2));
+	call	_rand
+	ld	bc,#0x0002
+	push	bc
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	ld	h,l
+	ld	a,-2 (ix)
+	add	a, #0x10
+	ld	d,a
+	push	hl
+	inc	sp
+	ld	a,-3 (ix)
+	push	af
+	inc	sp
+	push	de
+	inc	sp
+	call	_create_enemy
+	pop	af
+	inc	sp
+;src/entities/user.c:89: create_enemy(x+24,y,(rand()%2));
+	call	_rand
+	ld	bc,#0x0002
+	push	bc
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	ld	h,l
+	ld	a,-2 (ix)
+	add	a, #0x18
+	ld	d,a
+	push	hl
+	inc	sp
+	ld	a,-3 (ix)
+	push	af
+	inc	sp
+	push	de
+	inc	sp
+	call	_create_enemy
+	pop	af
+	inc	sp
+00126$:
+;src/entities/user.c:91: if (cpct_isKeyPressed(Key_K)){
+	ld	hl,#0x2004
+	push	hl
+	call	_cpct_isKeyPressed
+	pop	af
+	ld	a,l
+	or	a, a
+	jr	Z,00128$
+;src/entities/user.c:92: create_enemy_group((rand()%80),(rand()%199),(rand()%2),4);
+	call	_rand
+	ld	bc,#0x0002
+	push	bc
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	ld	-1 (ix),l
+	call	_rand
+	ld	bc,#0x00C7
+	push	bc
+	push	hl
+	call	__modsint
+	pop	af
+	ex	(sp),hl
+	call	_rand
+	ld	de,#0x0050
+	push	de
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	ex	de,hl
+	pop	bc
+	ld	a,#0x04
+	push	af
+	inc	sp
+	ld	a,-1 (ix)
+	push	af
+	inc	sp
+	push	bc
+	push	de
+	call	_create_enemy_group
+	ld	hl,#6
+	add	hl,sp
+	ld	sp,hl
+00128$:
+;src/entities/user.c:95: if (cpct_isKeyPressed(Key_Space)){
 	ld	hl,#0x8005
 	push	hl
 	call	_cpct_isKeyPressed
 	pop	af
 	ld	a,l
 	or	a, a
-	jr	Z,00127$
-;src/entities/user.c:84: create_shoot(user.x+3, user.y-1, shoot_type);
+	jr	Z,00131$
+;src/entities/user.c:96: create_shoot(user.x+3, user.y-1, shoot_type);
 	ld	a, (#_user + 7)
 	ld	e,a
 	dec	e
@@ -394,11 +552,11 @@ _update_user::
 	call	_create_shoot
 	pop	af
 	inc	sp
-00127$:
-	inc	sp
+00131$:
+	ld	sp, ix
 	pop	ix
 	ret
-;src/entities/user.c:89: void draw_user(u8* screen){
+;src/entities/user.c:101: void draw_user(u8* screen){
 ;	---------------------------------
 ; Function draw_user
 ; ---------------------------------
@@ -406,7 +564,7 @@ _draw_user::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;src/entities/user.c:91: pscreen = cpct_getScreenPtr(screen, user.x, user.y);
+;src/entities/user.c:103: pscreen = cpct_getScreenPtr(screen, user.x, user.y);
 	ld	hl, #_user + 7
 	ld	c,(hl)
 	ld	hl, #_user + 6
@@ -423,7 +581,7 @@ _draw_user::
 	pop	af
 	pop	af
 	ex	de,hl
-;src/entities/user.c:92: cpct_drawSprite( (u8*) user.sprite,pscreen,user.w,user.h);
+;src/entities/user.c:104: cpct_drawSprite( (u8*) user.sprite,pscreen,user.w,user.h);
 	ld	hl, #_user + 9
 	ld	c,(hl)
 	ld	hl, #_user + 8

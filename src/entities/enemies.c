@@ -5,6 +5,8 @@
 
 TEnemy enemies[MAX_ENEMIES];
 u8 active_enemies;
+TEnemy_group groups [MAX_ENEMY_GROUPS];
+u8 active_groups;
 //******************************************************************************
 // Función: inicializarDisparos()
 //
@@ -23,13 +25,15 @@ void init_enemies(){
 	}
 	active_enemies=0;
 }
+
+
 //******************************************************************************
-// Función: 
-//
+// Función: create_enemy
+//	basado en trayectorias
 //******************************************************************************
 void create_enemy(u8 x, u8 y, u8 type){
 	u8 k;
-	if (active_enemies < get_user_max_shoots()){
+	if (active_enemies < MAX_ENEMIES){
 		k=0;
 		while (enemies[k].active){
 			k++;
@@ -52,8 +56,9 @@ void create_enemy(u8 x, u8 y, u8 type){
 			enemies[k].sprite[5]= (u8*) G_baddie02_05;
 			enemies[k].sprite[6]= (u8*) G_baddie02_06;
 			enemies[k].sprite[7]= (u8*) G_baddie02_07;
-			enemies[k].trajectory=1;
-			enemies[k].trajectory_step=0;
+			enemies[k].movement=0;
+			enemies[k].stage=0;
+			enemies[k].stage_step=0;
 			break;
 			default:
 			enemies[k].x=x;
@@ -69,8 +74,9 @@ void create_enemy(u8 x, u8 y, u8 type){
 			enemies[k].sprite[5]= (u8*) G_baddie01_05;
 			enemies[k].sprite[6]= (u8*) G_baddie01_06;
 			enemies[k].sprite[7]= (u8*) G_baddie01_07;
-			enemies[k].trajectory=1;
-			enemies[k].trajectory_step=0;
+			enemies[k].movement=1;
+			enemies[k].stage=0;
+			enemies[k].stage_step=0;
 			break;
 		}
 		active_enemies++;
@@ -78,51 +84,78 @@ void create_enemy(u8 x, u8 y, u8 type){
 	//if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 	}
 }
+
+void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies ){
+	u8 k;
+	if (active_groups < MAX_ENEMY_GROUPS){
+		k=0;
+		while (groups[k].active){
+			k++;
+		}
+		groups[k].active=1;
+		groups[k].x=x;
+		groups[k].y=y;
+		groups[k].enemy_type=type;
+		groups[k].num_enemies=num_enemies;
+		groups[k].sleep=ENEMY_GAP;
+		active_groups++;
+	}
+}
+
 //******************************************************************************
-// Función: moverDisparos()
-//
+// Función: update_enemies()
+//	Basado en movimientos
 //******************************************************************************
 void update_enemies(){
 	u8 i;
-	i8 dx;
-	i8 dy;
 
 	i=0;
 	if (active_enemies>0){
-		for (i=0;i<MAX_SHOOTS;i++){
+		for (i=0;i<MAX_ENEMIES;i++){
 			if (enemies[i].active){
-				if (enemies[i].trajectory>0){
-					dx = enemies[i].x-trajectories[enemies[i].trajectory].wp[enemies[i].trajectory_step].x;
-					dy = enemies[i].x-trajectories[enemies[i].trajectory].wp[enemies[i].trajectory_step].x;
-					if ((dx==0) && (dy==0)){
-						if (enemies[i].trajectory_step<trajectories[enemies[i].trajectory].waypoints){
-							enemies[i].trajectory_step++;
+				if (enemies[i].movement<99){
+					if (enemies[i].stage_step<movements[enemies[i].movement].stages[enemies[i].stage].num_steps){
+						enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
+						enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
+						enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
+						enemies[i].stage_step++;
+					} else {
+						enemies[i].stage++;
+						enemies[i].stage_step=0;
+						if (enemies[i].stage>=movements[enemies[i].movement].num_stages){
+							enemies[i].stage=0;
 						}
-						else{
-							enemies[i].trajectory_step=0;
-							enemies[i].trajectory=0;
-						}
+					}
 
-					}else{
-						if (dx>0){
-							if ((u8) dx>trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step]){
-								enemies[i].x+=trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step];
-							}
-							else {
-								enemies[i].x=trajectories[enemies[i].trajectory].wp[enemies[i].trajectory_step].x;
-							}
-						} else{
-							if (-dx>trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step])
-								enemies[i].x-=trajectories[enemies[i].trajectory].vx[enemies[i].trajectory_step];
-							else 
-								enemies[i].x=trajectories[enemies[i].trajectory].wp[enemies[i].trajectory_step].x;
-						}
-					} 
 				}
 			}
 		}
 	}
 
+	if (active_groups>0){
+		i=0;
+		for (i=0;i<MAX_ENEMY_GROUPS;i++){
+			if (groups[i].active){
+				if (groups[i].sleep==0){
+					groups[i].sleep=ENEMY_GAP;
+					create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
+					if (groups[i].num_enemies==0){
+						groups[i].active=0;
+						active_groups--;
+					}else{
+						groups[i].num_enemies--;
+					}
+				}else{
+					groups[i].sleep--;
+				}
+
+			}
+		}
+	}
+}
+
+u8 inside_screen(i8 x, i8 y, u8 w, u8 h){
+	return ((x>=0) && ((x+w)<SCREEN_WIDTH) && (y>=0) && ((y+h)<SCREEN_HEIGHT));
 }
 
 //******************************************************************************
@@ -136,7 +169,7 @@ void draw_enemies(u8* screen){
 	k=0;
 	if (active_enemies>0){
 		for (k=0;k<MAX_SHOOTS;k++){
-			if (enemies[k].active){
+			if ((enemies[k].active) && inside_screen(enemies[k].x,enemies[k].y,enemies[k].w,enemies[k].h)){
 				pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
 				cpct_drawSprite(enemies[k].sprite[enemies[k].dir],pscreen,enemies[k].w,enemies[k].h);
 			}

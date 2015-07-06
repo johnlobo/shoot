@@ -13,8 +13,9 @@ Symbol Table
     _cpct_isKeyPressed                                             **** GX
     _cpct_scanKeyboard_f                                           **** GX
     _create_enemy                                                  **** GX
+    _create_enemy_group                                            **** GX
     _create_shoot                                                  **** GX
-  0 _draw_user                                                     01E6 GR
+  0 _draw_user                                                     02E2 GR
   0 _get_user_max_shoots                                           003A GR
   0 _init_user                                                     0000 GR
     _rand                                                          **** GX
@@ -29,7 +30,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  229   flags    0
+   0 _CODE                                      size  325   flags    0
    1 _DATA                                      size   13   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

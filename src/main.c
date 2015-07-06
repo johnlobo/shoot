@@ -27,9 +27,6 @@
 #define SCR_VMEM  (u8*)0xC000
 #define SCR_BUFF  (u8*)0x8000
 
-#define MODE 0 
-#define SCREEN_WIDTH 160
-#define SCREEN_HEIGHT 200
 
 // Definiciones del disparo del prota 
 

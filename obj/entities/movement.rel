@@ -1,0 +1,27 @@
+XL2
+H 9 areas 2 global symbols
+M movement
+O -mz80
+S .__.ABS. Def0000
+A _CODE size 42 flags 0 addr 0
+S _movements Def0000
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00
+R 00 00 00 00
+T 00 00 06 02 FE 00 0A 03 FE FC 05 05 02 FC 05 06
+R 00 00 00 00
+T 0E 00 02 00 0A 07 02 04 05 01 FE 04 05 00 00 00
+R 00 00 00 00
+T 1C 00 00 00 00 00 00 04 00 00 04 19 06 02 00 14
+R 00 00 00 00
+T 2A 00 04 00 FC 19 02 FE 00 14 00 00 00 00 00 00
+R 00 00 00 00
+T 38 00 00 00 00 00 00 00 00 00 00 00
+R 00 00 00 00

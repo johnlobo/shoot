@@ -3,11 +3,17 @@
 
 #include <types.h>
 
+#define MODE 0 
+#define SCREEN_WIDTH 160
+#define SCREEN_HEIGHT 200
+
 #define SHOOT_JUMP 10
 #define SALTO_DISPARO_MALO 4
 #define MAX_SHOOTS 10
 
 #define MAX_ENEMIES 10
+#define MAX_ENEMY_GROUPS 2
+#define ENEMY_GAP 4
 
 #define MAX_WAYPOINTS 20
 
@@ -27,6 +33,19 @@ typedef struct
    u8 y;
 } TWaypoint;
 
+typedef struct 
+{
+   u8 dir;
+   i8 vx,vy;
+   u8 num_steps;
+} TStage;
+
+typedef struct 
+{
+   u8 num_stages;
+   TStage stages[8];
+} TMovement;
+
 typedef struct
 {
    u8 waypoints;
@@ -34,6 +53,15 @@ typedef struct
    u8 vx[MAX_WAYPOINTS];
    u8 vy[MAX_WAYPOINTS];
 } TTrajectory;
+
+typedef struct 
+{
+   u8 active;
+   i16 x,y;
+   u8 enemy_type;
+   u8 num_enemies;
+   u8 sleep;
+}TEnemy_group;
 
 typedef struct  {
    u8	*pscreen;  // Pointer to Screen Video memory location where entity will be drawn
@@ -66,8 +94,7 @@ typedef  struct {    // minimun sprite structure
 //ENEMY
 typedef  struct {    // minimun sprite structure
    char *sprite[8];     //2 bytes   01
-   u8 x;
-   u8 y; 
+   i16 x,y;
    u8 w;
    u8 h;
    u8 dir;
@@ -77,11 +104,15 @@ typedef  struct {    // minimun sprite structure
    u8 speed;
    u8 trajectory;
    u8 trajectory_step;
+   u8 movement;
+   u8 stage;
+   u8 stage_step;
    long lastmoved;
 // unsigned char objetivox;
 } TEnemy;
 
 extern const TTrajectory trajectories[1];
+extern const TMovement movements[2];
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -97,6 +128,7 @@ void draw_shoots(u8* screen);
 
 void init_enemies();
 void create_enemy(u8 x, u8 y, u8 type);
+void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void update_enemies();
 void draw_enemies(u8* screen);
 

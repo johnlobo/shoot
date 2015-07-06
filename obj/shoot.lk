@@ -9,6 +9,7 @@
 -l z80
 obj/main.rel
 obj/entities/enemies.rel
+obj/entities/movement.rel
 obj/entities/shoots.rel
 obj/entities/trajectories.rel
 obj/entities/user.rel

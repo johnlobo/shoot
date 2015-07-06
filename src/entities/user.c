@@ -35,6 +35,7 @@ u8 get_user_max_shoots(){
 // Scan Keyboard and update user actions as requested by the user
 //
     void update_user() {
+      u8 x,y;
 
    // Scan Keyboard
      cpct_scanKeyboard_f();
@@ -78,7 +79,18 @@ u8 get_user_max_shoots(){
     // KEY = H
     if (cpct_isKeyPressed(Key_H)){
         create_enemy((rand()%80),(rand()%199),(rand()%2));
+      }
+    if (cpct_isKeyPressed(Key_J)){
+        x=rand()%80;
+        y=rand()%199;
+        create_enemy(x,y,(rand()%2));
+        create_enemy(x+8,y,(rand()%2));
+        create_enemy(x+16,y,(rand()%2));
+        create_enemy(x+24,y,(rand()%2));
       }  
+    if (cpct_isKeyPressed(Key_K)){
+        create_enemy_group((rand()%80),(rand()%199),(rand()%2),4);
+      }
     // KEY = Space
     if (cpct_isKeyPressed(Key_Space)){
         create_shoot(user.x+3, user.y-1, shoot_type);

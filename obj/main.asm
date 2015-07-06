@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-; This file was generated Sun Jul  5 16:22:13 2015
+; This file was generated Mon Jul  6 11:16:18 2015
 ;--------------------------------------------------------
 	.module main
 	.optsdcc -mz80
@@ -81,7 +81,7 @@ _changeVideoMemoryPage_page_1_78:
 	.area _GSINIT
 	.area _GSFINAL
 	.area _GSINIT
-;src/main.c:54: static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
+;src/main.c:51: static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
 	ld	iy,#_changeVideoMemoryPage_page_1_78
 	ld	0 (iy),#0x00
 ;--------------------------------------------------------
@@ -93,42 +93,42 @@ _changeVideoMemoryPage_page_1_78:
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/main.c:53: u8* changeVideoMemoryPage() {
+;src/main.c:50: u8* changeVideoMemoryPage() {
 ;	---------------------------------
 ; Function changeVideoMemoryPage
 ; ---------------------------------
 _changeVideoMemoryPage::
-;src/main.c:59: if (page) {
+;src/main.c:56: if (page) {
 	ld	a,(#_changeVideoMemoryPage_page_1_78 + 0)
 	or	a, a
 	jr	Z,00102$
-;src/main.c:60: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
+;src/main.c:57: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
 	ld	a,#0x30
 	push	af
 	inc	sp
 	call	_cpct_setVideoMemoryPage
 	inc	sp
-;src/main.c:61: page = 0;  
+;src/main.c:58: page = 0;  
 	ld	hl,#_changeVideoMemoryPage_page_1_78 + 0
 	ld	(hl), #0x00
-;src/main.c:62: screen = SCR_BUFF;                            // Next page = 0
+;src/main.c:59: screen = SCR_BUFF;                            // Next page = 0
 	ld	hl,#0x8000
 	ret
 00102$:
-;src/main.c:64: cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
+;src/main.c:61: cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
 	ld	a,#0x20
 	push	af
 	inc	sp
 	call	_cpct_setVideoMemoryPage
 	inc	sp
-;src/main.c:65: page = 1;                              // Next page = 1
+;src/main.c:62: page = 1;                              // Next page = 1
 	ld	hl,#_changeVideoMemoryPage_page_1_78 + 0
 	ld	(hl), #0x01
-;src/main.c:66: screen = SCR_VMEM;
+;src/main.c:63: screen = SCR_VMEM;
 	ld	hl,#0xC000
-;src/main.c:68: return screen;
+;src/main.c:65: return screen;
 	ret
-;src/main.c:76: void draw_blocks(u8* screen){
+;src/main.c:73: void draw_blocks(u8* screen){
 ;	---------------------------------
 ; Function draw_blocks
 ; ---------------------------------
@@ -137,7 +137,7 @@ _draw_blocks::
 	ld	ix,#0
 	add	ix,sp
 	dec	sp
-;src/main.c:79: pscreen = cpct_getScreenPtr(screen, block01.x, block01.y);
+;src/main.c:76: pscreen = cpct_getScreenPtr(screen, block01.x, block01.y);
 	ld	hl, #_block01 + 1
 	ld	c,(hl)
 	ld	hl, #_block01 + 0
@@ -155,7 +155,7 @@ _draw_blocks::
 	pop	af
 	ld	e, l
 	ld	d, h
-;src/main.c:80: cpct_drawSolidBox(pscreen, cpct_px2byteM0(4, 4), block01.w, block01.h);
+;src/main.c:77: cpct_drawSolidBox(pscreen, cpct_px2byteM0(4, 4), block01.w, block01.h);
 	ld	hl, #_block01 + 5
 	ld	c,(hl)
 	ld	hl, #_block01 + 4
@@ -185,12 +185,12 @@ _draw_blocks::
 	inc	sp
 	pop	ix
 	ret
-;src/main.c:87: void clear_screen(u8* screen){
+;src/main.c:84: void clear_screen(u8* screen){
 ;	---------------------------------
 ; Function clear_screen
 ; ---------------------------------
 _clear_screen::
-;src/main.c:88: cpct_memset(screen, 0x00, 0x4000);   
+;src/main.c:85: cpct_memset(screen, 0x00, 0x4000);   
 	pop	bc
 	pop	de
 	push	de
@@ -206,7 +206,7 @@ _clear_screen::
 	pop	af
 	inc	sp
 	ret
-;src/main.c:95: void update_blocks(){
+;src/main.c:92: void update_blocks(){
 ;	---------------------------------
 ; Function update_blocks
 ; ---------------------------------
@@ -216,22 +216,22 @@ _update_blocks::
 	add	ix,sp
 	push	af
 	dec	sp
-;src/main.c:96: if (block01.vx<128){
+;src/main.c:93: if (block01.vx<128){
 	ld	bc,#_block01+0
 	ld	hl, #(_block01 + 0x0002) + 0
 	ld	a,(hl)
 	ld	-1 (ix),a
-;src/main.c:97: if ((block01.x+block01.vx)<(80-block01.w)){
+;src/main.c:94: if ((block01.x+block01.vx)<(80-block01.w)){
 	ld	a,(bc)
-;src/main.c:98: block01.x = block01.x + block01.vx;
+;src/main.c:95: block01.x = block01.x + block01.vx;
 	ld	d,a
 	add	a, -1 (ix)
 	ld	e,a
-;src/main.c:96: if (block01.vx<128){
+;src/main.c:93: if (block01.vx<128){
 	ld	a,-1 (ix)
 	sub	a, #0x80
 	jr	NC,00108$
-;src/main.c:97: if ((block01.x+block01.vx)<(80-block01.w)){
+;src/main.c:94: if ((block01.x+block01.vx)<(80-block01.w)){
 	ld	-3 (ix),d
 	ld	-2 (ix),#0x00
 	ld	h,-1 (ix)
@@ -260,16 +260,16 @@ _update_blocks::
 	xor	a, #0x80
 00124$:
 	jp	P,00102$
-;src/main.c:98: block01.x = block01.x + block01.vx;
+;src/main.c:95: block01.x = block01.x + block01.vx;
 	ld	a,e
 	ld	(bc),a
 	jr	00110$
 00102$:
-;src/main.c:101: block01.x = 79-block01.w;
+;src/main.c:98: block01.x = 79-block01.w;
 	ld	a,#0x4F
 	sub	a, h
 	ld	(bc),a
-;src/main.c:102: block01.vx = - block01.vx;
+;src/main.c:99: block01.vx = - block01.vx;
 	ld	hl, #(_block01 + 0x0002) + 0
 	ld	h,(hl)
 	xor	a, a
@@ -279,7 +279,7 @@ _update_blocks::
 	ld	(hl),d
 	jr	00110$
 00108$:
-;src/main.c:105: if (( (i8) (block01.x+block01.vx))>0){
+;src/main.c:102: if (( (i8) (block01.x+block01.vx))>0){
 	ld	l,e
 	xor	a, a
 	sub	a, l
@@ -287,15 +287,15 @@ _update_blocks::
 	xor	a, #0x80
 00125$:
 	jp	P,00105$
-;src/main.c:106: block01.x = block01.x + block01.vx;
+;src/main.c:103: block01.x = block01.x + block01.vx;
 	ld	a,e
 	ld	(bc),a
 	jr	00110$
 00105$:
-;src/main.c:109: block01.x = 0;
+;src/main.c:106: block01.x = 0;
 	xor	a, a
 	ld	(bc),a
-;src/main.c:110: block01.vx = - block01.vx;
+;src/main.c:107: block01.vx = - block01.vx;
 	ld	hl, #(_block01 + 0x0002) + 0
 	ld	h,(hl)
 	xor	a, a
@@ -307,58 +307,58 @@ _update_blocks::
 	ld	sp, ix
 	pop	ix
 	ret
-;src/main.c:118: void letras_azules(){
+;src/main.c:115: void letras_azules(){
 ;	---------------------------------
 ; Function letras_azules
 ; ---------------------------------
 _letras_azules::
-;src/main.c:120: cpc_SetInkGphStr(0,0);
+;src/main.c:117: cpc_SetInkGphStr(0,0);
 	ld	hl,#0x0000
 	push	hl
 	call	_cpc_SetInkGphStr
-;src/main.c:121: cpc_SetInkGphStr(1,42);
+;src/main.c:118: cpc_SetInkGphStr(1,42);
 	ld	hl, #0x2A01
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;src/main.c:122: cpc_SetInkGphStr(2,34);
+;src/main.c:119: cpc_SetInkGphStr(2,34);
 	ld	hl, #0x2202
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;src/main.c:123: cpc_SetInkGphStr(3,42);
+;src/main.c:120: cpc_SetInkGphStr(3,42);
 	ld	hl, #0x2A03
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
 	pop	af
 	ret
-;src/main.c:129: void letras_rojas(){
+;src/main.c:126: void letras_rojas(){
 ;	---------------------------------
 ; Function letras_rojas
 ; ---------------------------------
 _letras_rojas::
-;src/main.c:131: cpc_SetInkGphStr(0,0);
+;src/main.c:128: cpc_SetInkGphStr(0,0);
 	ld	hl,#0x0000
 	push	hl
 	call	_cpc_SetInkGphStr
-;src/main.c:132: cpc_SetInkGphStr(1,40);
+;src/main.c:129: cpc_SetInkGphStr(1,40);
 	ld	hl, #0x2801
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;src/main.c:133: cpc_SetInkGphStr(2,10);
+;src/main.c:130: cpc_SetInkGphStr(2,10);
 	ld	hl, #0x0A02
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;src/main.c:134: cpc_SetInkGphStr(3,40);
+;src/main.c:131: cpc_SetInkGphStr(3,40);
 	ld	hl, #0x2803
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
 	pop	af
 	ret
-;src/main.c:141: void set_color (unsigned char fondo,unsigned char t){
+;src/main.c:138: void set_color (unsigned char fondo,unsigned char t){
 ;	---------------------------------
 ; Function set_color
 ; ---------------------------------
 _set_color::
-;src/main.c:142: cpc_SetInkGphStr(0,fondo);
+;src/main.c:139: cpc_SetInkGphStr(0,fondo);
 	ld	hl, #2+0
 	add	hl, sp
 	ld	a, (hl)
@@ -369,7 +369,7 @@ _set_color::
 	inc	sp
 	call	_cpc_SetInkGphStr
 	pop	af
-;src/main.c:143: cpc_SetInkGphStr(1,t);
+;src/main.c:140: cpc_SetInkGphStr(1,t);
 	ld	hl, #3+0
 	add	hl, sp
 	ld	d, (hl)
@@ -377,7 +377,7 @@ _set_color::
 	push	de
 	call	_cpc_SetInkGphStr
 	pop	af
-;src/main.c:144: cpc_SetInkGphStr(2,t);
+;src/main.c:141: cpc_SetInkGphStr(2,t);
 	ld	hl, #3+0
 	add	hl, sp
 	ld	d, (hl)
@@ -385,7 +385,7 @@ _set_color::
 	push	de
 	call	_cpc_SetInkGphStr
 	pop	af
-;src/main.c:145: cpc_SetInkGphStr(3,t);
+;src/main.c:142: cpc_SetInkGphStr(3,t);
 	ld	hl, #3+0
 	add	hl, sp
 	ld	d, (hl)
@@ -394,7 +394,7 @@ _set_color::
 	call	_cpc_SetInkGphStr
 	pop	af
 	ret
-;src/main.c:152: void draw_scoreboard(u8* screen){
+;src/main.c:149: void draw_scoreboard(u8* screen){
 ;	---------------------------------
 ; Function draw_scoreboard
 ; ---------------------------------
@@ -402,7 +402,7 @@ _draw_scoreboard::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;src/main.c:154: cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 4, 8));
+;src/main.c:151: cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 4, 8));
 	ld	e,4 (ix)
 	ld	d,5 (ix)
 	push	de
@@ -423,7 +423,7 @@ _draw_scoreboard::
 	pop	af
 	pop	af
 	pop	de
-;src/main.c:155: cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 60, 8));
+;src/main.c:152: cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 60, 8));
 	ld	hl,#0x083C
 	push	hl
 	push	de
@@ -441,73 +441,73 @@ _draw_scoreboard::
 ___str_0:
 	.ascii "00000000"
 	.db 0x00
-;src/main.c:164: void initialization(){
+;src/main.c:161: void initialization(){
 ;	---------------------------------
 ; Function initialization
 ; ---------------------------------
 _initialization::
-;src/main.c:166: pvmem = SCR_BUFF;
+;src/main.c:163: pvmem = SCR_BUFF;
 	ld	hl,#0x8000
 	ld	(_pvmem),hl
-;src/main.c:169: init_stars();
+;src/main.c:166: init_stars();
 	call	_init_stars
-;src/main.c:171: init_user();
+;src/main.c:168: init_user();
 	call	_init_user
-;src/main.c:172: init_shoots();
+;src/main.c:169: init_shoots();
 	call	_init_shoots
-;src/main.c:173: init_enemies();
+;src/main.c:170: init_enemies();
 	call	_init_enemies
-;src/main.c:175: block01.x = 50;
+;src/main.c:172: block01.x = 50;
 	ld	hl,#_block01+0
 	ld	(hl),#0x32
-;src/main.c:176: block01.y = 10;
+;src/main.c:173: block01.y = 10;
 	ld	hl,#_block01 + 1
 	ld	(hl),#0x0A
-;src/main.c:177: block01.vx = 2;
+;src/main.c:174: block01.vx = 2;
 	ld	hl,#_block01 + 2
 	ld	(hl),#0x02
-;src/main.c:178: block01.vy = 0;
+;src/main.c:175: block01.vy = 0;
 	ld	hl,#_block01 + 3
 	ld	(hl),#0x00
-;src/main.c:179: block01.w = 20;
+;src/main.c:176: block01.w = 20;
 	ld	hl,#_block01 + 4
 	ld	(hl),#0x14
-;src/main.c:180: block01.h = 40;
+;src/main.c:177: block01.h = 40;
 	ld	hl,#_block01 + 5
 	ld	(hl),#0x28
-;src/main.c:182: block02.x = 15;
+;src/main.c:179: block02.x = 15;
 	ld	hl,#_block02+0
 	ld	(hl),#0x0F
-;src/main.c:183: block02.y = 15;
+;src/main.c:180: block02.y = 15;
 	ld	hl,#_block02 + 1
 	ld	(hl),#0x0F
-;src/main.c:184: block02.vx = 4;
+;src/main.c:181: block02.vx = 4;
 	ld	hl,#_block02 + 2
 	ld	(hl),#0x04
-;src/main.c:185: block02.vy = 0;
+;src/main.c:182: block02.vy = 0;
 	ld	hl,#_block02 + 3
 	ld	(hl),#0x00
-;src/main.c:186: block02.w = 25;
+;src/main.c:183: block02.w = 25;
 	ld	hl,#_block02 + 4
 	ld	(hl),#0x19
-;src/main.c:187: block02.h = 20;
+;src/main.c:184: block02.h = 20;
 	ld	hl,#_block02 + 5
 	ld	(hl),#0x14
-;src/main.c:189: letras_azules();
+;src/main.c:186: letras_azules();
 	jp	_letras_azules
-;src/main.c:197: void main(void) {
+;src/main.c:194: void main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;src/main.c:200: set_stack(0x1000);
+;src/main.c:197: set_stack(0x1000);
 	ld	hl,#0x1000
 	push	hl
 	call	_set_stack
 	pop	af
-;src/main.c:202: cpct_disableFirmware();             // Disable firmware to prevent it from interfering
+;src/main.c:199: cpct_disableFirmware();             // Disable firmware to prevent it from interfering
 	call	_cpct_disableFirmware
-;src/main.c:203: cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
+;src/main.c:200: cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
 	ld	de,#_palette
 	ld	a,#0x10
 	push	af
@@ -516,7 +516,7 @@ _main::
 	call	_cpct_fw2hw
 	pop	af
 	inc	sp
-;src/main.c:204: cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
+;src/main.c:201: cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
 	ld	de,#_palette
 	ld	a,#0x10
 	push	af
@@ -525,20 +525,20 @@ _main::
 	call	_cpct_setPalette
 	pop	af
 	inc	sp
-;src/main.c:205: cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
+;src/main.c:202: cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
 	ld	a, (#_palette + 0)
 	ld	d,a
 	ld	e,#0x10
 	push	de
 	call	_cpct_setPALColour
 	pop	af
-;src/main.c:206: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
+;src/main.c:203: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
 	xor	a, a
 	push	af
 	inc	sp
 	call	_cpct_setVideoMode
 	inc	sp
-;src/main.c:209: cpct_memset(SCR_VMEM, 0x00, 0x4000);
+;src/main.c:206: cpct_memset(SCR_VMEM, 0x00, 0x4000);
 	ld	hl,#0x4000
 	push	hl
 	xor	a, a
@@ -550,7 +550,7 @@ _main::
 	pop	af
 	pop	af
 	inc	sp
-;src/main.c:210: cpct_memset(SCR_BUFF, 0x00, 0x4000);
+;src/main.c:207: cpct_memset(SCR_BUFF, 0x00, 0x4000);
 	ld	hl,#0x4000
 	push	hl
 	xor	a, a
@@ -562,58 +562,58 @@ _main::
 	pop	af
 	pop	af
 	inc	sp
-;src/main.c:212: initialization(); 
+;src/main.c:209: initialization(); 
 	call	_initialization
-;src/main.c:215: while (1){
+;src/main.c:212: while (1){
 00106$:
-;src/main.c:217: clear_screen(pvmem);
+;src/main.c:214: clear_screen(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_clear_screen
 	pop	af
-;src/main.c:219: update_user();
+;src/main.c:216: update_user();
 	call	_update_user
-;src/main.c:220: update_shoots();
+;src/main.c:217: update_shoots();
 	call	_update_shoots
-;src/main.c:221: update_blocks();
+;src/main.c:218: update_blocks();
 	call	_update_blocks
-;src/main.c:222: update_enemies();
+;src/main.c:219: update_enemies();
 	call	_update_enemies
-;src/main.c:225: update_stars();
+;src/main.c:222: update_stars();
 	call	_update_stars
-;src/main.c:228: cpct_waitVSYNC();   
+;src/main.c:225: cpct_waitVSYNC();   
 	call	_cpct_waitVSYNC
-;src/main.c:231: draw_stars(pvmem);
+;src/main.c:228: draw_stars(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_stars
 	pop	af
-;src/main.c:233: draw_blocks(pvmem);
+;src/main.c:230: draw_blocks(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_blocks
 	pop	af
-;src/main.c:234: draw_user(pvmem);
+;src/main.c:231: draw_user(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_user
 	pop	af
-;src/main.c:235: draw_shoots(pvmem);
+;src/main.c:232: draw_shoots(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_shoots
 	pop	af
-;src/main.c:236: draw_enemies(pvmem); 
+;src/main.c:233: draw_enemies(pvmem); 
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_enemies
 	pop	af
-;src/main.c:238: draw_scoreboard(pvmem);
+;src/main.c:235: draw_scoreboard(pvmem);
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_scoreboard
 	pop	af
-;src/main.c:240: pvmem = changeVideoMemoryPage();
+;src/main.c:237: pvmem = changeVideoMemoryPage();
 	call	_changeVideoMemoryPage
 	ld	(_pvmem),hl
 	jr	00106$
