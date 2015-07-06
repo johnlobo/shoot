@@ -13,7 +13,7 @@
 
 #define MAX_ENEMIES 10
 #define MAX_ENEMY_GROUPS 2
-#define ENEMY_GAP 4
+#define ENEMY_GAP 5
 
 #define MAX_WAYPOINTS 20
 
@@ -127,7 +127,7 @@ void update_shoots();
 void draw_shoots(u8* screen);
 
 void init_enemies();
-void create_enemy(u8 x, u8 y, u8 type);
+void create_enemy(i16 x, i16 y, u8 type);
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void update_enemies();
 void draw_enemies(u8* screen);

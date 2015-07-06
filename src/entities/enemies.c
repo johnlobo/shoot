@@ -31,7 +31,7 @@ void init_enemies(){
 // Función: create_enemy
 //	basado en trayectorias
 //******************************************************************************
-void create_enemy(u8 x, u8 y, u8 type){
+void create_enemy(i16 x, i16 y, u8 type){
 	u8 k;
 	if (active_enemies < MAX_ENEMIES){
 		k=0;
@@ -154,7 +154,7 @@ void update_enemies(){
 	}
 }
 
-u8 inside_screen(i8 x, i8 y, u8 w, u8 h){
+u8 inside_screen(i16 x, i16 y, u8 w, u8 h){
 	return ((x>=0) && ((x+w)<SCREEN_WIDTH) && (y>=0) && ((y+h)<SCREEN_HEIGHT));
 }
 

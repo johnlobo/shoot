@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-                              4 ; This file was generated Mon Jul  6 15:49:38 2015
+                              4 ; This file was generated Mon Jul  6 16:34:53 2015
                               5 ;--------------------------------------------------------
                               6 	.module user
                               7 	.optsdcc -mz80
@@ -114,7 +114,7 @@
    0041 DD 21 00 00   [14]  114 	ld	ix,#0
    0045 DD 39         [15]  115 	add	ix,sp
    0047 F5            [11]  116 	push	af
-   0048 3B            [ 6]  117 	dec	sp
+   0048 F5            [11]  117 	push	af
                             118 ;src/entities/user.c:41: cpct_scanKeyboard_f();
    0049 CDr00r00      [17]  119 	call	_cpct_scanKeyboard_f
                             120 ;src/entities/user.c:48: if ((cpct_isKeyPressed(Key_Q))){ 
@@ -328,7 +328,7 @@
    017A F1            [10]  328 	pop	af
    017B 7D            [ 4]  329 	ld	a,l
    017C B7            [ 4]  330 	or	a, a
-   017D 28 3D         [12]  331 	jr	Z,00124$
+   017D 28 39         [12]  331 	jr	Z,00124$
                             332 ;src/entities/user.c:81: create_enemy((rand()%80),(rand()%199),(rand()%2));
    017F CDr00r00      [17]  333 	call	_rand
    0182 01 02 00      [10]  334 	ld	bc,#0x0002
@@ -344,264 +344,262 @@
    0196 E5            [11]  344 	push	hl
    0197 CDr00r00      [17]  345 	call	__modsint
    019A F1            [10]  346 	pop	af
-   019B F1            [10]  347 	pop	af
-   019C 5D            [ 4]  348 	ld	e,l
-   019D D5            [11]  349 	push	de
-   019E CDr00r00      [17]  350 	call	_rand
-   01A1 01 50 00      [10]  351 	ld	bc,#0x0050
-   01A4 C5            [11]  352 	push	bc
-   01A5 E5            [11]  353 	push	hl
-   01A6 CDr00r00      [17]  354 	call	__modsint
-   01A9 F1            [10]  355 	pop	af
-   01AA F1            [10]  356 	pop	af
-   01AB D1            [10]  357 	pop	de
-   01AC 55            [ 4]  358 	ld	d,l
-   01AD DD 7E FF      [19]  359 	ld	a,-1 (ix)
-   01B0 F5            [11]  360 	push	af
-   01B1 33            [ 6]  361 	inc	sp
-   01B2 7B            [ 4]  362 	ld	a,e
-   01B3 F5            [11]  363 	push	af
-   01B4 33            [ 6]  364 	inc	sp
-   01B5 D5            [11]  365 	push	de
-   01B6 33            [ 6]  366 	inc	sp
-   01B7 CDr00r00      [17]  367 	call	_create_enemy
-   01BA F1            [10]  368 	pop	af
-   01BB 33            [ 6]  369 	inc	sp
-   01BC                     370 00124$:
-                            371 ;src/entities/user.c:83: if (cpct_isKeyPressed(Key_J)){
-   01BC 21 05 20      [10]  372 	ld	hl,#0x2005
-   01BF E5            [11]  373 	push	hl
-   01C0 CDr00r00      [17]  374 	call	_cpct_isKeyPressed
-   01C3 F1            [10]  375 	pop	af
-   01C4 7D            [ 4]  376 	ld	a,l
-   01C5 B7            [ 4]  377 	or	a, a
-   01C6 CAr6Br02      [10]  378 	jp	Z,00126$
-                            379 ;src/entities/user.c:84: x=rand()%80;
-   01C9 CDr00r00      [17]  380 	call	_rand
-   01CC 01 50 00      [10]  381 	ld	bc,#0x0050
-   01CF C5            [11]  382 	push	bc
-   01D0 E5            [11]  383 	push	hl
-   01D1 CDr00r00      [17]  384 	call	__modsint
-   01D4 F1            [10]  385 	pop	af
-   01D5 F1            [10]  386 	pop	af
-   01D6 DD 75 FE      [19]  387 	ld	-2 (ix),l
-                            388 ;src/entities/user.c:85: y=rand()%199;
-   01D9 CDr00r00      [17]  389 	call	_rand
-   01DC 01 C7 00      [10]  390 	ld	bc,#0x00C7
-   01DF C5            [11]  391 	push	bc
-   01E0 E5            [11]  392 	push	hl
-   01E1 CDr00r00      [17]  393 	call	__modsint
-   01E4 F1            [10]  394 	pop	af
-   01E5 F1            [10]  395 	pop	af
-   01E6 DD 75 FD      [19]  396 	ld	-3 (ix),l
-                            397 ;src/entities/user.c:86: create_enemy(x,y,(rand()%2));
-   01E9 CDr00r00      [17]  398 	call	_rand
-   01EC 01 02 00      [10]  399 	ld	bc,#0x0002
-   01EF C5            [11]  400 	push	bc
-   01F0 E5            [11]  401 	push	hl
-   01F1 CDr00r00      [17]  402 	call	__modsint
-   01F4 F1            [10]  403 	pop	af
-   01F5 F1            [10]  404 	pop	af
-   01F6 65            [ 4]  405 	ld	h,l
-   01F7 E5            [11]  406 	push	hl
-   01F8 33            [ 6]  407 	inc	sp
-   01F9 DD 66 FD      [19]  408 	ld	h,-3 (ix)
-   01FC DD 6E FE      [19]  409 	ld	l,-2 (ix)
-   01FF E5            [11]  410 	push	hl
-   0200 CDr00r00      [17]  411 	call	_create_enemy
-   0203 F1            [10]  412 	pop	af
-   0204 33            [ 6]  413 	inc	sp
-                            414 ;src/entities/user.c:87: create_enemy(x+8,y,(rand()%2));
-   0205 CDr00r00      [17]  415 	call	_rand
-   0208 01 02 00      [10]  416 	ld	bc,#0x0002
-   020B C5            [11]  417 	push	bc
-   020C E5            [11]  418 	push	hl
-   020D CDr00r00      [17]  419 	call	__modsint
-   0210 F1            [10]  420 	pop	af
-   0211 F1            [10]  421 	pop	af
-   0212 65            [ 4]  422 	ld	h,l
-   0213 DD 7E FE      [19]  423 	ld	a,-2 (ix)
-   0216 C6 08         [ 7]  424 	add	a, #0x08
-   0218 57            [ 4]  425 	ld	d,a
-   0219 E5            [11]  426 	push	hl
-   021A 33            [ 6]  427 	inc	sp
-   021B DD 7E FD      [19]  428 	ld	a,-3 (ix)
-   021E F5            [11]  429 	push	af
-   021F 33            [ 6]  430 	inc	sp
-   0220 D5            [11]  431 	push	de
-   0221 33            [ 6]  432 	inc	sp
-   0222 CDr00r00      [17]  433 	call	_create_enemy
-   0225 F1            [10]  434 	pop	af
-   0226 33            [ 6]  435 	inc	sp
-                            436 ;src/entities/user.c:88: create_enemy(x+16,y,(rand()%2));
-   0227 CDr00r00      [17]  437 	call	_rand
-   022A 01 02 00      [10]  438 	ld	bc,#0x0002
-   022D C5            [11]  439 	push	bc
-   022E E5            [11]  440 	push	hl
-   022F CDr00r00      [17]  441 	call	__modsint
-   0232 F1            [10]  442 	pop	af
-   0233 F1            [10]  443 	pop	af
-   0234 65            [ 4]  444 	ld	h,l
-   0235 DD 7E FE      [19]  445 	ld	a,-2 (ix)
-   0238 C6 10         [ 7]  446 	add	a, #0x10
-   023A 57            [ 4]  447 	ld	d,a
-   023B E5            [11]  448 	push	hl
-   023C 33            [ 6]  449 	inc	sp
-   023D DD 7E FD      [19]  450 	ld	a,-3 (ix)
-   0240 F5            [11]  451 	push	af
-   0241 33            [ 6]  452 	inc	sp
-   0242 D5            [11]  453 	push	de
-   0243 33            [ 6]  454 	inc	sp
-   0244 CDr00r00      [17]  455 	call	_create_enemy
-   0247 F1            [10]  456 	pop	af
-   0248 33            [ 6]  457 	inc	sp
-                            458 ;src/entities/user.c:89: create_enemy(x+24,y,(rand()%2));
-   0249 CDr00r00      [17]  459 	call	_rand
-   024C 01 02 00      [10]  460 	ld	bc,#0x0002
-   024F C5            [11]  461 	push	bc
-   0250 E5            [11]  462 	push	hl
-   0251 CDr00r00      [17]  463 	call	__modsint
-   0254 F1            [10]  464 	pop	af
-   0255 F1            [10]  465 	pop	af
-   0256 65            [ 4]  466 	ld	h,l
-   0257 DD 7E FE      [19]  467 	ld	a,-2 (ix)
-   025A C6 18         [ 7]  468 	add	a, #0x18
-   025C 57            [ 4]  469 	ld	d,a
-   025D E5            [11]  470 	push	hl
-   025E 33            [ 6]  471 	inc	sp
-   025F DD 7E FD      [19]  472 	ld	a,-3 (ix)
-   0262 F5            [11]  473 	push	af
-   0263 33            [ 6]  474 	inc	sp
-   0264 D5            [11]  475 	push	de
-   0265 33            [ 6]  476 	inc	sp
-   0266 CDr00r00      [17]  477 	call	_create_enemy
-   0269 F1            [10]  478 	pop	af
-   026A 33            [ 6]  479 	inc	sp
-   026B                     480 00126$:
-                            481 ;src/entities/user.c:91: if (cpct_isKeyPressed(Key_K)){
-   026B 21 04 20      [10]  482 	ld	hl,#0x2004
-   026E E5            [11]  483 	push	hl
-   026F CDr00r00      [17]  484 	call	_cpct_isKeyPressed
-   0272 F1            [10]  485 	pop	af
-   0273 7D            [ 4]  486 	ld	a,l
-   0274 B7            [ 4]  487 	or	a, a
-   0275 28 3F         [12]  488 	jr	Z,00128$
-                            489 ;src/entities/user.c:92: create_enemy_group((rand()%80),(rand()%199),(rand()%2),4);
-   0277 CDr00r00      [17]  490 	call	_rand
-   027A 01 02 00      [10]  491 	ld	bc,#0x0002
-   027D C5            [11]  492 	push	bc
-   027E E5            [11]  493 	push	hl
-   027F CDr00r00      [17]  494 	call	__modsint
-   0282 F1            [10]  495 	pop	af
-   0283 F1            [10]  496 	pop	af
-   0284 DD 75 FF      [19]  497 	ld	-1 (ix),l
-   0287 CDr00r00      [17]  498 	call	_rand
-   028A 01 C7 00      [10]  499 	ld	bc,#0x00C7
-   028D C5            [11]  500 	push	bc
-   028E E5            [11]  501 	push	hl
-   028F CDr00r00      [17]  502 	call	__modsint
-   0292 F1            [10]  503 	pop	af
-   0293 E3            [19]  504 	ex	(sp),hl
-   0294 CDr00r00      [17]  505 	call	_rand
-   0297 11 50 00      [10]  506 	ld	de,#0x0050
-   029A D5            [11]  507 	push	de
-   029B E5            [11]  508 	push	hl
-   029C CDr00r00      [17]  509 	call	__modsint
-   029F F1            [10]  510 	pop	af
-   02A0 F1            [10]  511 	pop	af
-   02A1 EB            [ 4]  512 	ex	de,hl
-   02A2 C1            [10]  513 	pop	bc
-   02A3 3E 04         [ 7]  514 	ld	a,#0x04
-   02A5 F5            [11]  515 	push	af
-   02A6 33            [ 6]  516 	inc	sp
-   02A7 DD 7E FF      [19]  517 	ld	a,-1 (ix)
-   02AA F5            [11]  518 	push	af
-   02AB 33            [ 6]  519 	inc	sp
-   02AC C5            [11]  520 	push	bc
-   02AD D5            [11]  521 	push	de
-   02AE CDr00r00      [17]  522 	call	_create_enemy_group
-   02B1 21 06 00      [10]  523 	ld	hl,#6
-   02B4 39            [11]  524 	add	hl,sp
-   02B5 F9            [ 6]  525 	ld	sp,hl
-   02B6                     526 00128$:
-                            527 ;src/entities/user.c:95: if (cpct_isKeyPressed(Key_Space)){
-   02B6 21 05 80      [10]  528 	ld	hl,#0x8005
-   02B9 E5            [11]  529 	push	hl
-   02BA CDr00r00      [17]  530 	call	_cpct_isKeyPressed
-   02BD F1            [10]  531 	pop	af
-   02BE 7D            [ 4]  532 	ld	a,l
-   02BF B7            [ 4]  533 	or	a, a
-   02C0 28 1B         [12]  534 	jr	Z,00131$
-                            535 ;src/entities/user.c:96: create_shoot(user.x+3, user.y-1, shoot_type);
-   02C2 3Ar07r00      [13]  536 	ld	a, (#_user + 7)
-   02C5 5F            [ 4]  537 	ld	e,a
-   02C6 1D            [ 4]  538 	dec	e
-   02C7 3Ar06r00      [13]  539 	ld	a, (#_user + 6)
-   02CA 57            [ 4]  540 	ld	d,a
-   02CB 14            [ 4]  541 	inc	d
-   02CC 14            [ 4]  542 	inc	d
-   02CD 14            [ 4]  543 	inc	d
-   02CE 3Ar12r00      [13]  544 	ld	a,(_shoot_type)
-   02D1 F5            [11]  545 	push	af
-   02D2 33            [ 6]  546 	inc	sp
-   02D3 7B            [ 4]  547 	ld	a,e
-   02D4 F5            [11]  548 	push	af
-   02D5 33            [ 6]  549 	inc	sp
-   02D6 D5            [11]  550 	push	de
-   02D7 33            [ 6]  551 	inc	sp
-   02D8 CDr00r00      [17]  552 	call	_create_shoot
-   02DB F1            [10]  553 	pop	af
-   02DC 33            [ 6]  554 	inc	sp
-   02DD                     555 00131$:
-   02DD DD F9         [10]  556 	ld	sp, ix
-   02DF DD E1         [14]  557 	pop	ix
-   02E1 C9            [10]  558 	ret
-                            559 ;src/entities/user.c:101: void draw_user(u8* screen){
-                            560 ;	---------------------------------
-                            561 ; Function draw_user
-                            562 ; ---------------------------------
-   02E2                     563 _draw_user::
-   02E2 DD E5         [15]  564 	push	ix
-   02E4 DD 21 00 00   [14]  565 	ld	ix,#0
-   02E8 DD 39         [15]  566 	add	ix,sp
-                            567 ;src/entities/user.c:103: pscreen = cpct_getScreenPtr(screen, user.x, user.y);
-   02EA 21r07r00      [10]  568 	ld	hl, #_user + 7
-   02ED 4E            [ 7]  569 	ld	c,(hl)
-   02EE 21r06r00      [10]  570 	ld	hl, #_user + 6
-   02F1 66            [ 7]  571 	ld	h,(hl)
-   02F2 DD 5E 04      [19]  572 	ld	e,4 (ix)
-   02F5 DD 56 05      [19]  573 	ld	d,5 (ix)
-   02F8 79            [ 4]  574 	ld	a,c
-   02F9 F5            [11]  575 	push	af
-   02FA 33            [ 6]  576 	inc	sp
-   02FB E5            [11]  577 	push	hl
-   02FC 33            [ 6]  578 	inc	sp
-   02FD D5            [11]  579 	push	de
-   02FE CDr00r00      [17]  580 	call	_cpct_getScreenPtr
-   0301 F1            [10]  581 	pop	af
-   0302 F1            [10]  582 	pop	af
-   0303 EB            [ 4]  583 	ex	de,hl
-                            584 ;src/entities/user.c:104: cpct_drawSprite( (u8*) user.sprite,pscreen,user.w,user.h);
-   0304 21r09r00      [10]  585 	ld	hl, #_user + 9
-   0307 4E            [ 7]  586 	ld	c,(hl)
-   0308 21r08r00      [10]  587 	ld	hl, #_user + 8
-   030B 46            [ 7]  588 	ld	b,(hl)
-   030C 2Ar04r00      [16]  589 	ld	hl, (#_user + 4)
-   030F E5            [11]  590 	push	hl
-   0310 FD E1         [14]  591 	pop	iy
-   0312 79            [ 4]  592 	ld	a,c
-   0313 F5            [11]  593 	push	af
-   0314 33            [ 6]  594 	inc	sp
-   0315 C5            [11]  595 	push	bc
-   0316 33            [ 6]  596 	inc	sp
-   0317 D5            [11]  597 	push	de
-   0318 FD E5         [15]  598 	push	iy
-   031A CDr00r00      [17]  599 	call	_cpct_drawSprite
-   031D 21 06 00      [10]  600 	ld	hl,#6
-   0320 39            [11]  601 	add	hl,sp
-   0321 F9            [ 6]  602 	ld	sp,hl
-   0322 DD E1         [14]  603 	pop	ix
-   0324 C9            [10]  604 	ret
-                            605 	.area _CODE
-                            606 	.area _INITIALIZER
-                            607 	.area _CABS (ABS)
+   019B E3            [19]  347 	ex	(sp),hl
+   019C CDr00r00      [17]  348 	call	_rand
+   019F 11 50 00      [10]  349 	ld	de,#0x0050
+   01A2 D5            [11]  350 	push	de
+   01A3 E5            [11]  351 	push	hl
+   01A4 CDr00r00      [17]  352 	call	__modsint
+   01A7 F1            [10]  353 	pop	af
+   01A8 F1            [10]  354 	pop	af
+   01A9 EB            [ 4]  355 	ex	de,hl
+   01AA C1            [10]  356 	pop	bc
+   01AB DD 7E FF      [19]  357 	ld	a,-1 (ix)
+   01AE F5            [11]  358 	push	af
+   01AF 33            [ 6]  359 	inc	sp
+   01B0 C5            [11]  360 	push	bc
+   01B1 D5            [11]  361 	push	de
+   01B2 CDr00r00      [17]  362 	call	_create_enemy
+   01B5 F1            [10]  363 	pop	af
+   01B6 F1            [10]  364 	pop	af
+   01B7 33            [ 6]  365 	inc	sp
+   01B8                     366 00124$:
+                            367 ;src/entities/user.c:83: if (cpct_isKeyPressed(Key_J)){
+   01B8 21 05 20      [10]  368 	ld	hl,#0x2005
+   01BB E5            [11]  369 	push	hl
+   01BC CDr00r00      [17]  370 	call	_cpct_isKeyPressed
+   01BF F1            [10]  371 	pop	af
+   01C0 7D            [ 4]  372 	ld	a,l
+   01C1 B7            [ 4]  373 	or	a, a
+   01C2 CAr7Dr02      [10]  374 	jp	Z,00126$
+                            375 ;src/entities/user.c:84: x=rand()%80;
+   01C5 CDr00r00      [17]  376 	call	_rand
+   01C8 01 50 00      [10]  377 	ld	bc,#0x0050
+   01CB C5            [11]  378 	push	bc
+   01CC E5            [11]  379 	push	hl
+   01CD CDr00r00      [17]  380 	call	__modsint
+   01D0 F1            [10]  381 	pop	af
+   01D1 F1            [10]  382 	pop	af
+   01D2 DD 75 FC      [19]  383 	ld	-4 (ix),l
+                            384 ;src/entities/user.c:85: y=rand()%199;
+   01D5 CDr00r00      [17]  385 	call	_rand
+   01D8 01 C7 00      [10]  386 	ld	bc,#0x00C7
+   01DB C5            [11]  387 	push	bc
+   01DC E5            [11]  388 	push	hl
+   01DD CDr00r00      [17]  389 	call	__modsint
+   01E0 F1            [10]  390 	pop	af
+   01E1 F1            [10]  391 	pop	af
+   01E2 4D            [ 4]  392 	ld	c,l
+                            393 ;src/entities/user.c:86: create_enemy(x,y,(rand()%2));
+   01E3 C5            [11]  394 	push	bc
+   01E4 CDr00r00      [17]  395 	call	_rand
+   01E7 11 02 00      [10]  396 	ld	de,#0x0002
+   01EA D5            [11]  397 	push	de
+   01EB E5            [11]  398 	push	hl
+   01EC CDr00r00      [17]  399 	call	__modsint
+   01EF F1            [10]  400 	pop	af
+   01F0 F1            [10]  401 	pop	af
+   01F1 C1            [10]  402 	pop	bc
+   01F2 5D            [ 4]  403 	ld	e,l
+   01F3 DD 71 FD      [19]  404 	ld	-3 (ix),c
+   01F6 DD 36 FE 00   [19]  405 	ld	-2 (ix),#0x00
+   01FA DD 4E FC      [19]  406 	ld	c,-4 (ix)
+   01FD 06 00         [ 7]  407 	ld	b,#0x00
+   01FF C5            [11]  408 	push	bc
+   0200 7B            [ 4]  409 	ld	a,e
+   0201 F5            [11]  410 	push	af
+   0202 33            [ 6]  411 	inc	sp
+   0203 DD 6E FD      [19]  412 	ld	l,-3 (ix)
+   0206 DD 66 FE      [19]  413 	ld	h,-2 (ix)
+   0209 E5            [11]  414 	push	hl
+   020A C5            [11]  415 	push	bc
+   020B CDr00r00      [17]  416 	call	_create_enemy
+   020E F1            [10]  417 	pop	af
+   020F F1            [10]  418 	pop	af
+   0210 33            [ 6]  419 	inc	sp
+   0211 CDr00r00      [17]  420 	call	_rand
+   0214 11 02 00      [10]  421 	ld	de,#0x0002
+   0217 D5            [11]  422 	push	de
+   0218 E5            [11]  423 	push	hl
+   0219 CDr00r00      [17]  424 	call	__modsint
+   021C F1            [10]  425 	pop	af
+   021D F1            [10]  426 	pop	af
+   021E C1            [10]  427 	pop	bc
+   021F 5D            [ 4]  428 	ld	e,l
+   0220 21 08 00      [10]  429 	ld	hl,#0x0008
+   0223 09            [11]  430 	add	hl,bc
+   0224 C5            [11]  431 	push	bc
+   0225 7B            [ 4]  432 	ld	a,e
+   0226 F5            [11]  433 	push	af
+   0227 33            [ 6]  434 	inc	sp
+   0228 DD 5E FD      [19]  435 	ld	e,-3 (ix)
+   022B DD 56 FE      [19]  436 	ld	d,-2 (ix)
+   022E D5            [11]  437 	push	de
+   022F E5            [11]  438 	push	hl
+   0230 CDr00r00      [17]  439 	call	_create_enemy
+   0233 F1            [10]  440 	pop	af
+   0234 F1            [10]  441 	pop	af
+   0235 33            [ 6]  442 	inc	sp
+   0236 CDr00r00      [17]  443 	call	_rand
+   0239 11 02 00      [10]  444 	ld	de,#0x0002
+   023C D5            [11]  445 	push	de
+   023D E5            [11]  446 	push	hl
+   023E CDr00r00      [17]  447 	call	__modsint
+   0241 F1            [10]  448 	pop	af
+   0242 F1            [10]  449 	pop	af
+   0243 C1            [10]  450 	pop	bc
+   0244 5D            [ 4]  451 	ld	e,l
+   0245 21 10 00      [10]  452 	ld	hl,#0x0010
+   0248 09            [11]  453 	add	hl,bc
+   0249 C5            [11]  454 	push	bc
+   024A 7B            [ 4]  455 	ld	a,e
+   024B F5            [11]  456 	push	af
+   024C 33            [ 6]  457 	inc	sp
+   024D DD 5E FD      [19]  458 	ld	e,-3 (ix)
+   0250 DD 56 FE      [19]  459 	ld	d,-2 (ix)
+   0253 D5            [11]  460 	push	de
+   0254 E5            [11]  461 	push	hl
+   0255 CDr00r00      [17]  462 	call	_create_enemy
+   0258 F1            [10]  463 	pop	af
+   0259 F1            [10]  464 	pop	af
+   025A 33            [ 6]  465 	inc	sp
+   025B CDr00r00      [17]  466 	call	_rand
+   025E 11 02 00      [10]  467 	ld	de,#0x0002
+   0261 D5            [11]  468 	push	de
+   0262 E5            [11]  469 	push	hl
+   0263 CDr00r00      [17]  470 	call	__modsint
+   0266 F1            [10]  471 	pop	af
+   0267 F1            [10]  472 	pop	af
+   0268 C1            [10]  473 	pop	bc
+   0269 5D            [ 4]  474 	ld	e,l
+   026A 21 18 00      [10]  475 	ld	hl,#0x0018
+   026D 09            [11]  476 	add	hl,bc
+   026E 7B            [ 4]  477 	ld	a,e
+   026F F5            [11]  478 	push	af
+   0270 33            [ 6]  479 	inc	sp
+   0271 D1            [10]  480 	pop	de
+   0272 C1            [10]  481 	pop	bc
+   0273 C5            [11]  482 	push	bc
+   0274 D5            [11]  483 	push	de
+   0275 C5            [11]  484 	push	bc
+   0276 E5            [11]  485 	push	hl
+   0277 CDr00r00      [17]  486 	call	_create_enemy
+   027A F1            [10]  487 	pop	af
+   027B F1            [10]  488 	pop	af
+   027C 33            [ 6]  489 	inc	sp
+   027D                     490 00126$:
+                            491 ;src/entities/user.c:91: if (cpct_isKeyPressed(Key_K)){
+   027D 21 04 20      [10]  492 	ld	hl,#0x2004
+   0280 E5            [11]  493 	push	hl
+   0281 CDr00r00      [17]  494 	call	_cpct_isKeyPressed
+   0284 F1            [10]  495 	pop	af
+   0285 7D            [ 4]  496 	ld	a,l
+   0286 B7            [ 4]  497 	or	a, a
+   0287 28 2A         [12]  498 	jr	Z,00128$
+                            499 ;src/entities/user.c:92: create_enemy_group((rand()%80),(rand()%199),0,4);
+   0289 CDr00r00      [17]  500 	call	_rand
+   028C 01 C7 00      [10]  501 	ld	bc,#0x00C7
+   028F C5            [11]  502 	push	bc
+   0290 E5            [11]  503 	push	hl
+   0291 CDr00r00      [17]  504 	call	__modsint
+   0294 F1            [10]  505 	pop	af
+   0295 E3            [19]  506 	ex	(sp),hl
+   0296 CDr00r00      [17]  507 	call	_rand
+   0299 11 50 00      [10]  508 	ld	de,#0x0050
+   029C D5            [11]  509 	push	de
+   029D E5            [11]  510 	push	hl
+   029E CDr00r00      [17]  511 	call	__modsint
+   02A1 F1            [10]  512 	pop	af
+   02A2 F1            [10]  513 	pop	af
+   02A3 EB            [ 4]  514 	ex	de,hl
+   02A4 C1            [10]  515 	pop	bc
+   02A5 21 00 04      [10]  516 	ld	hl,#0x0400
+   02A8 E5            [11]  517 	push	hl
+   02A9 C5            [11]  518 	push	bc
+   02AA D5            [11]  519 	push	de
+   02AB CDr00r00      [17]  520 	call	_create_enemy_group
+   02AE 21 06 00      [10]  521 	ld	hl,#6
+   02B1 39            [11]  522 	add	hl,sp
+   02B2 F9            [ 6]  523 	ld	sp,hl
+   02B3                     524 00128$:
+                            525 ;src/entities/user.c:95: if (cpct_isKeyPressed(Key_Space)){
+   02B3 21 05 80      [10]  526 	ld	hl,#0x8005
+   02B6 E5            [11]  527 	push	hl
+   02B7 CDr00r00      [17]  528 	call	_cpct_isKeyPressed
+   02BA F1            [10]  529 	pop	af
+   02BB 7D            [ 4]  530 	ld	a,l
+   02BC B7            [ 4]  531 	or	a, a
+   02BD 28 1B         [12]  532 	jr	Z,00131$
+                            533 ;src/entities/user.c:96: create_shoot(user.x+3, user.y-1, shoot_type);
+   02BF 3Ar07r00      [13]  534 	ld	a, (#_user + 7)
+   02C2 5F            [ 4]  535 	ld	e,a
+   02C3 1D            [ 4]  536 	dec	e
+   02C4 3Ar06r00      [13]  537 	ld	a, (#_user + 6)
+   02C7 57            [ 4]  538 	ld	d,a
+   02C8 14            [ 4]  539 	inc	d
+   02C9 14            [ 4]  540 	inc	d
+   02CA 14            [ 4]  541 	inc	d
+   02CB 3Ar12r00      [13]  542 	ld	a,(_shoot_type)
+   02CE F5            [11]  543 	push	af
+   02CF 33            [ 6]  544 	inc	sp
+   02D0 7B            [ 4]  545 	ld	a,e
+   02D1 F5            [11]  546 	push	af
+   02D2 33            [ 6]  547 	inc	sp
+   02D3 D5            [11]  548 	push	de
+   02D4 33            [ 6]  549 	inc	sp
+   02D5 CDr00r00      [17]  550 	call	_create_shoot
+   02D8 F1            [10]  551 	pop	af
+   02D9 33            [ 6]  552 	inc	sp
+   02DA                     553 00131$:
+   02DA DD F9         [10]  554 	ld	sp, ix
+   02DC DD E1         [14]  555 	pop	ix
+   02DE C9            [10]  556 	ret
+                            557 ;src/entities/user.c:101: void draw_user(u8* screen){
+                            558 ;	---------------------------------
+                            559 ; Function draw_user
+                            560 ; ---------------------------------
+   02DF                     561 _draw_user::
+   02DF DD E5         [15]  562 	push	ix
+   02E1 DD 21 00 00   [14]  563 	ld	ix,#0
+   02E5 DD 39         [15]  564 	add	ix,sp
+                            565 ;src/entities/user.c:103: pscreen = cpct_getScreenPtr(screen, user.x, user.y);
+   02E7 21r07r00      [10]  566 	ld	hl, #_user + 7
+   02EA 4E            [ 7]  567 	ld	c,(hl)
+   02EB 21r06r00      [10]  568 	ld	hl, #_user + 6
+   02EE 66            [ 7]  569 	ld	h,(hl)
+   02EF DD 5E 04      [19]  570 	ld	e,4 (ix)
+   02F2 DD 56 05      [19]  571 	ld	d,5 (ix)
+   02F5 79            [ 4]  572 	ld	a,c
+   02F6 F5            [11]  573 	push	af
+   02F7 33            [ 6]  574 	inc	sp
+   02F8 E5            [11]  575 	push	hl
+   02F9 33            [ 6]  576 	inc	sp
+   02FA D5            [11]  577 	push	de
+   02FB CDr00r00      [17]  578 	call	_cpct_getScreenPtr
+   02FE F1            [10]  579 	pop	af
+   02FF F1            [10]  580 	pop	af
+   0300 EB            [ 4]  581 	ex	de,hl
+                            582 ;src/entities/user.c:104: cpct_drawSprite( (u8*) user.sprite,pscreen,user.w,user.h);
+   0301 21r09r00      [10]  583 	ld	hl, #_user + 9
+   0304 4E            [ 7]  584 	ld	c,(hl)
+   0305 21r08r00      [10]  585 	ld	hl, #_user + 8
+   0308 46            [ 7]  586 	ld	b,(hl)
+   0309 2Ar04r00      [16]  587 	ld	hl, (#_user + 4)
+   030C E5            [11]  588 	push	hl
+   030D FD E1         [14]  589 	pop	iy
+   030F 79            [ 4]  590 	ld	a,c
+   0310 F5            [11]  591 	push	af
+   0311 33            [ 6]  592 	inc	sp
+   0312 C5            [11]  593 	push	bc
+   0313 33            [ 6]  594 	inc	sp
+   0314 D5            [11]  595 	push	de
+   0315 FD E5         [15]  596 	push	iy
+   0317 CDr00r00      [17]  597 	call	_cpct_drawSprite
+   031A 21 06 00      [10]  598 	ld	hl,#6
+   031D 39            [11]  599 	add	hl,sp
+   031E F9            [ 6]  600 	ld	sp,hl
+   031F DD E1         [14]  601 	pop	ix
+   0321 C9            [10]  602 	ret
+                            603 	.area _CODE
+                            604 	.area _INITIALIZER
+                            605 	.area _CABS (ABS)

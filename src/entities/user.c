@@ -89,7 +89,7 @@ u8 get_user_max_shoots(){
         create_enemy(x+24,y,(rand()%2));
       }  
     if (cpct_isKeyPressed(Key_K)){
-        create_enemy_group((rand()%80),(rand()%199),(rand()%2),4);
+        create_enemy_group((rand()%80),(rand()%199),0,4);
       }
     // KEY = Space
     if (cpct_isKeyPressed(Key_Space)){

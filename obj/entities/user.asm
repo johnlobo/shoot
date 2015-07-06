@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-; This file was generated Mon Jul  6 15:49:38 2015
+; This file was generated Mon Jul  6 16:34:53 2015
 ;--------------------------------------------------------
 	.module user
 	.optsdcc -mz80
@@ -114,7 +114,7 @@ _update_user::
 	ld	ix,#0
 	add	ix,sp
 	push	af
-	dec	sp
+	push	af
 ;src/entities/user.c:41: cpct_scanKeyboard_f();
 	call	_cpct_scanKeyboard_f
 ;src/entities/user.c:48: if ((cpct_isKeyPressed(Key_Q))){ 
@@ -344,27 +344,23 @@ _update_user::
 	push	hl
 	call	__modsint
 	pop	af
-	pop	af
-	ld	e,l
-	push	de
+	ex	(sp),hl
 	call	_rand
-	ld	bc,#0x0050
-	push	bc
+	ld	de,#0x0050
+	push	de
 	push	hl
 	call	__modsint
 	pop	af
 	pop	af
-	pop	de
-	ld	d,l
+	ex	de,hl
+	pop	bc
 	ld	a,-1 (ix)
 	push	af
 	inc	sp
-	ld	a,e
-	push	af
-	inc	sp
+	push	bc
 	push	de
-	inc	sp
 	call	_create_enemy
+	pop	af
 	pop	af
 	inc	sp
 00124$:
@@ -384,7 +380,7 @@ _update_user::
 	call	__modsint
 	pop	af
 	pop	af
-	ld	-2 (ix),l
+	ld	-4 (ix),l
 ;src/entities/user.c:85: y=rand()%199;
 	call	_rand
 	ld	bc,#0x00C7
@@ -393,88 +389,102 @@ _update_user::
 	call	__modsint
 	pop	af
 	pop	af
-	ld	-3 (ix),l
+	ld	c,l
 ;src/entities/user.c:86: create_enemy(x,y,(rand()%2));
-	call	_rand
-	ld	bc,#0x0002
 	push	bc
+	call	_rand
+	ld	de,#0x0002
+	push	de
 	push	hl
 	call	__modsint
 	pop	af
 	pop	af
-	ld	h,l
-	push	hl
-	inc	sp
-	ld	h,-3 (ix)
-	ld	l,-2 (ix)
-	push	hl
-	call	_create_enemy
-	pop	af
-	inc	sp
-;src/entities/user.c:87: create_enemy(x+8,y,(rand()%2));
-	call	_rand
-	ld	bc,#0x0002
+	pop	bc
+	ld	e,l
+	ld	-3 (ix),c
+	ld	-2 (ix),#0x00
+	ld	c,-4 (ix)
+	ld	b,#0x00
 	push	bc
-	push	hl
-	call	__modsint
-	pop	af
-	pop	af
-	ld	h,l
-	ld	a,-2 (ix)
-	add	a, #0x08
-	ld	d,a
-	push	hl
-	inc	sp
-	ld	a,-3 (ix)
+	ld	a,e
 	push	af
 	inc	sp
-	push	de
-	inc	sp
+	ld	l,-3 (ix)
+	ld	h,-2 (ix)
+	push	hl
+	push	bc
 	call	_create_enemy
 	pop	af
+	pop	af
 	inc	sp
-;src/entities/user.c:88: create_enemy(x+16,y,(rand()%2));
 	call	_rand
-	ld	bc,#0x0002
-	push	bc
+	ld	de,#0x0002
+	push	de
 	push	hl
 	call	__modsint
 	pop	af
 	pop	af
-	ld	h,l
-	ld	a,-2 (ix)
-	add	a, #0x10
-	ld	d,a
-	push	hl
-	inc	sp
-	ld	a,-3 (ix)
+	pop	bc
+	ld	e,l
+	ld	hl,#0x0008
+	add	hl,bc
+	push	bc
+	ld	a,e
 	push	af
 	inc	sp
+	ld	e,-3 (ix)
+	ld	d,-2 (ix)
 	push	de
-	inc	sp
+	push	hl
 	call	_create_enemy
 	pop	af
+	pop	af
 	inc	sp
-;src/entities/user.c:89: create_enemy(x+24,y,(rand()%2));
 	call	_rand
-	ld	bc,#0x0002
-	push	bc
+	ld	de,#0x0002
+	push	de
 	push	hl
 	call	__modsint
 	pop	af
 	pop	af
-	ld	h,l
-	ld	a,-2 (ix)
-	add	a, #0x18
-	ld	d,a
-	push	hl
-	inc	sp
-	ld	a,-3 (ix)
+	pop	bc
+	ld	e,l
+	ld	hl,#0x0010
+	add	hl,bc
+	push	bc
+	ld	a,e
 	push	af
 	inc	sp
+	ld	e,-3 (ix)
+	ld	d,-2 (ix)
 	push	de
-	inc	sp
+	push	hl
 	call	_create_enemy
+	pop	af
+	pop	af
+	inc	sp
+	call	_rand
+	ld	de,#0x0002
+	push	de
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	pop	bc
+	ld	e,l
+	ld	hl,#0x0018
+	add	hl,bc
+	ld	a,e
+	push	af
+	inc	sp
+	pop	de
+	pop	bc
+	push	bc
+	push	de
+	push	bc
+	push	hl
+	call	_create_enemy
+	pop	af
 	pop	af
 	inc	sp
 00126$:
@@ -486,15 +496,7 @@ _update_user::
 	ld	a,l
 	or	a, a
 	jr	Z,00128$
-;src/entities/user.c:92: create_enemy_group((rand()%80),(rand()%199),(rand()%2),4);
-	call	_rand
-	ld	bc,#0x0002
-	push	bc
-	push	hl
-	call	__modsint
-	pop	af
-	pop	af
-	ld	-1 (ix),l
+;src/entities/user.c:92: create_enemy_group((rand()%80),(rand()%199),0,4);
 	call	_rand
 	ld	bc,#0x00C7
 	push	bc
@@ -511,12 +513,8 @@ _update_user::
 	pop	af
 	ex	de,hl
 	pop	bc
-	ld	a,#0x04
-	push	af
-	inc	sp
-	ld	a,-1 (ix)
-	push	af
-	inc	sp
+	ld	hl,#0x0400
+	push	hl
 	push	bc
 	push	de
 	call	_create_enemy_group
