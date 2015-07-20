@@ -7,6 +7,7 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
+    _G_ship_00                                                     **** GX
     __modsint                                                      **** GX
     _cpct_drawSprite                                               **** GX
     _cpct_getScreenPtr                                             **** GX
@@ -15,13 +16,12 @@ Symbol Table
     _create_enemy                                                  **** GX
     _create_enemy_group                                            **** GX
     _create_shoot                                                  **** GX
-  0 _draw_user                                                     02DF GR
-  0 _get_user_max_shoots                                           003A GR
+  0 _draw_user                                                     0345 GR
+  0 _get_user_max_shoots                                           004E GR
   0 _init_user                                                     0000 GR
     _rand                                                          **** GX
-    _ship03                                                        **** GX
-  1 _shoot_type                                                    0012 GR
-  0 _update_user                                                   003F GR
+  1 _shoot_type                                                    0016 GR
+  0 _update_user                                                   0053 GR
   1 _user                                                          0000 GR
 
 
@@ -30,8 +30,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  322   flags    0
-   1 _DATA                                      size   13   flags    0
+   0 _CODE                                      size  383   flags    0
+   1 _DATA                                      size   17   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

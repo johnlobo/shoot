@@ -5,9 +5,7 @@
 
 TShoot shoots[MAX_SHOOTS];
 u8 active_shoots;
-TShoot baddie_shoots[4];
-u8 active_baddie_shoots;
-u8 max_baddie_shoots;
+
 //******************************************************************************
 // Función: inicializarDisparos()
 //
@@ -21,8 +19,6 @@ void init_shoots(){
 		shoots[k].w=0;
 		shoots[k].h=0;
 		shoots[k].frame=0;
-		shoots[k].new=0;
-		shoots[k].dead=0;
 		shoots[k].lastmoved=0;
 	}
 	active_shoots=0;

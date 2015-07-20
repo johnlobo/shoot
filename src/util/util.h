@@ -15,4 +15,8 @@ void    cpc_PrintGphStrStd(char color, char *cadena, int destino);
 void  	cpc_PrintGphStrStdXY(char color, char *cadena, char x, char y);
 void 	set_stack(int destino);
 
+void timer_on(void);
+void timer_off(void);
+unsigned long get_time();
+
 		#endif

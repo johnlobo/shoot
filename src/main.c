@@ -40,7 +40,6 @@ TBlock block01,block02;
 u8* pvmem;     // Pointer to video memory (or backbuffer) where to draw sprites
 u8 aux_txt[40];
 
-
 ///////////////////////////////////////////////////////////////////////////////////////
 // Change Video Memory Page
 //    This function changes what is drawn on screen by changing video memory page. 
@@ -168,6 +167,7 @@ u8* changeVideoMemoryPage() {
       init_user();
       init_shoots();
       init_enemies();
+      init_explosions();
 
       block01.x = 50;
       block01.y = 10;
@@ -196,7 +196,8 @@ u8* changeVideoMemoryPage() {
   // Reubico el stack
     set_stack(0x1000);
 
-   cpct_disableFirmware();             // Disable firmware to prevent it from interfering
+   //cpct_disableFirmware();             // Disable firmware to prevent it from interfering
+   timer_on();
    cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
    cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
    cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
@@ -217,12 +218,12 @@ u8* changeVideoMemoryPage() {
     update_shoots();
     update_blocks();
     update_enemies();
+    update_explosions();
 
     if (ESTRELLAS_ACTIVADAS)
      update_stars();
 
-   // Synchronize next frame drawing with VSYNC
-   cpct_waitVSYNC();   
+     
 
    if (ESTRELLAS_ACTIVADAS)
      draw_stars(pvmem);
@@ -230,13 +231,19 @@ u8* changeVideoMemoryPage() {
    draw_blocks(pvmem);
    draw_user(pvmem);
    draw_shoots(pvmem);
-   draw_enemies(pvmem); 
+   draw_enemies(pvmem);
+   draw_explosions(pvmem);
 
    draw_scoreboard(pvmem);
+
+// Synchronize next frame drawing with VSYNC
+   cpct_waitVSYNC(); 
 
    pvmem = changeVideoMemoryPage();
 
 
  } 
+
+ timer_off();
 
 }

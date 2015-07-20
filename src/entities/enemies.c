@@ -1,6 +1,8 @@
+#include <stdio.h>
 #include <cpctelera.h>
 #include "entities.h"
 #include "../sprites/sprites.h"
+#include "../util/util.h"
 
 
 TEnemy enemies[MAX_ENEMIES];
@@ -13,7 +15,7 @@ u8 active_groups;
 //******************************************************************************
 void init_enemies(){
 	u8 k;
-	for (k=0;k<MAX_SHOOTS;k++){
+	for (k=0;k<MAX_ENEMIES;k++){
 		enemies[k].active=0;
 		enemies[k].x=0;
 		enemies[k].y=0;
@@ -56,6 +58,24 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].sprite[5]= (u8*) G_baddie02_05;
 			enemies[k].sprite[6]= (u8*) G_baddie02_06;
 			enemies[k].sprite[7]= (u8*) G_baddie02_07;
+			enemies[k].movement=0;
+			enemies[k].stage=0;
+			enemies[k].stage_step=0;
+			break;
+			case 2:
+			enemies[k].x=x;
+			enemies[k].y=y;
+			enemies[k].w=4;
+			enemies[k].h=8;
+			enemies[k].num_frames=0;
+			enemies[k].sprite[0]= (u8*) G_baddie03_00;
+			enemies[k].sprite[1]= (u8*) G_baddie03_01;
+			enemies[k].sprite[2]= (u8*) G_baddie03_02;
+			enemies[k].sprite[3]= (u8*) G_baddie03_03;
+			enemies[k].sprite[4]= (u8*) G_baddie03_04;
+			enemies[k].sprite[5]= (u8*) G_baddie03_05;
+			enemies[k].sprite[6]= (u8*) G_baddie03_06;
+			enemies[k].sprite[7]= (u8*) G_baddie03_07;
 			enemies[k].movement=0;
 			enemies[k].stage=0;
 			enemies[k].stage_step=0;
@@ -107,7 +127,7 @@ void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies ){
 //	Basado en movimientos
 //******************************************************************************
 void update_enemies(){
-	u8 i;
+	u8 i; 
 
 	i=0;
 	if (active_enemies>0){
@@ -125,6 +145,10 @@ void update_enemies(){
 						if (enemies[i].stage>=movements[enemies[i].movement].num_stages){
 							enemies[i].stage=0;
 						}
+						enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
+						enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
+						enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
+						enemies[i].stage_step++;
 					}
 
 				}
@@ -138,11 +162,11 @@ void update_enemies(){
 			if (groups[i].active){
 				if (groups[i].sleep==0){
 					groups[i].sleep=ENEMY_GAP;
-					create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
 					if (groups[i].num_enemies==0){
 						groups[i].active=0;
 						active_groups--;
 					}else{
+						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
 						groups[i].num_enemies--;
 					}
 				}else{
@@ -155,6 +179,7 @@ void update_enemies(){
 }
 
 u8 inside_screen(i16 x, i16 y, u8 w, u8 h){
+	
 	return ((x>=0) && ((x+w)<SCREEN_WIDTH) && (y>=0) && ((y+h)<SCREEN_HEIGHT));
 }
 
@@ -168,7 +193,7 @@ void draw_enemies(u8* screen){
 
 	k=0;
 	if (active_enemies>0){
-		for (k=0;k<MAX_SHOOTS;k++){
+		for (k=0;k<MAX_ENEMIES;k++){
 			if ((enemies[k].active) && inside_screen(enemies[k].x,enemies[k].y,enemies[k].w,enemies[k].h)){
 				pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
 				cpct_drawSprite(enemies[k].sprite[enemies[k].dir],pscreen,enemies[k].w,enemies[k].h);

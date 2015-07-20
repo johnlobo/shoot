@@ -4,16 +4,18 @@
 #include <types.h>
 
 #define MODE 0 
-#define SCREEN_WIDTH 160
+#define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 200
 
 #define SHOOT_JUMP 10
 #define SALTO_DISPARO_MALO 4
 #define MAX_SHOOTS 10
 
-#define MAX_ENEMIES 10
-#define MAX_ENEMY_GROUPS 2
-#define ENEMY_GAP 5
+#define MAX_ENEMIES 30
+#define MAX_ENEMY_GROUPS 4
+#define ENEMY_GAP 3
+
+#define MAX_EXPLOSIONES 30
 
 #define MAX_WAYPOINTS 20
 
@@ -67,12 +69,15 @@ typedef struct  {
    u8	*pscreen;  // Pointer to Screen Video memory location where entity will be drawn
    u8 *npscreen;  // Pointer the next Screen Video memory location where entity will be drawn
    u8 *sprite;
-   u8   x, y;  // X, Y coordinates of entity in the screen (in bytes)
-   u8   w, h;
-   u8   nx, ny;  // Next X, Y coordinates of entity in the screen (in bytes)
-   u8   pw, ph;  // Previous Width and height of the entity (depending on animation). Used to erase it
-   i8	   vx, vy;
-   u8   draw;  // Flag to be set when the entity needs to be drawn again
+   i8 x; 
+   u8 y;  // X, Y coordinates of entity in the screen (in bytes)
+   i8 vx,vy;
+   i8 topvx, topvy;
+   i8 ax,ay;
+   u8 w, h;
+   u8 nx, ny;  // Next X, Y coordinates of entity in the screen (in bytes)
+   u8 pw, ph;  // Previous Width and height of the entity (depending on animation). Used to erase it
+   u8 draw;  // Flag to be set when the entity needs to be drawn again
    u8 max_shoots;
 } TShip;
 
@@ -88,7 +93,7 @@ typedef  struct {    // minimun sprite structure
    u8 frame;
    u8 speed;
    long lastmoved;
-// unsigned char objetivox;
+// u8 objetivox;
 } TShoot;
 
 //ENEMY
@@ -108,8 +113,22 @@ typedef  struct {    // minimun sprite structure
    u8 stage;
    u8 stage_step;
    long lastmoved;
-// unsigned char objetivox;
+// u8 objetivox;
 } TEnemy;
+
+//EXPLOSION
+typedef struct {
+   u8 tipo;
+   u8 fase;
+   u8 activo;
+   u8 x;
+   u8 y; //2 bytes 89   current coordinates
+   u8 h;
+   u8 w;
+   u8* memoriaPantalla[2];
+   u8 speed;
+   long lastmoved;
+} TIPO_EXPLOSION;
 
 extern const TTrajectory trajectories[1];
 extern const TMovement movements[2];
@@ -121,22 +140,28 @@ extern const TMovement movements[2];
 //////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
+
+//SHOOTS
 void init_shoots();
 void create_shoot(u8 x, u8 y, u8 type);
 void update_shoots();
 void draw_shoots(u8* screen);
-
+//ENEMIES
 void init_enemies();
 void create_enemy(i16 x, i16 y, u8 type);
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void update_enemies();
 void draw_enemies(u8* screen);
-
+//USER
 void init_user();
 u8 get_user_max_shoots();
 void update_user();
 void draw_user(u8* screen);
-
+//EXPLOSIONES
+void init_explosions();
+void create_explosion(u8 tipo, u8 x, u8 y);
+void update_explosions();
+void draw_explosions(u8* screen);
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

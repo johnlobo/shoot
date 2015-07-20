@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.4.3 #9207 (Jun 29 2015) (Mac OS X x86_64)
-; This file was generated Wed Jul  1 00:32:44 2015
+; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
+; This file was generated Mon Jul 20 03:16:37 2015
 ;--------------------------------------------------------
 	.module starfield
 	.optsdcc -mz80
@@ -350,10 +350,10 @@ _update_stars::
 ;src/starfield/starfield.c:101: switch(pStar->nStarType)
 	ld	hl,#0x0002
 	add	hl,bc
-	ld	-2 (ix),l
-	ld	-1 (ix),h
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	-7 (ix),l
+	ld	-6 (ix),h
+	ld	l,-7 (ix)
+	ld	h,-6 (ix)
 	ld	a,(hl)
 	ld	-3 (ix),a
 ;src/starfield/starfield.c:104: pStar->nY += 1;
@@ -366,9 +366,9 @@ _update_stars::
 	jr	C,00104$
 ;src/starfield/starfield.c:104: pStar->nY += 1;
 	ld	a,(de)
-	ld	-4 (ix), a
+	ld	-2 (ix), a
 	inc	a
-	ld	-5 (ix),a
+	ld	-1 (ix),a
 ;src/starfield/starfield.c:101: switch(pStar->nStarType)
 	push	de
 	ld	e,-3 (ix)
@@ -385,21 +385,21 @@ _update_stars::
 	jr	00103$
 00101$:
 ;src/starfield/starfield.c:104: pStar->nY += 1;
-	ld	a,-5 (ix)
+	ld	a,-1 (ix)
 	ld	(de),a
 ;src/starfield/starfield.c:105: break;
 	jr	00104$
 ;src/starfield/starfield.c:106: case 1: //medium star
 00102$:
 ;src/starfield/starfield.c:107: pStar->nY += 1;
-	ld	a,-5 (ix)
+	ld	a,-1 (ix)
 	ld	(de),a
 ;src/starfield/starfield.c:108: break;
 	jr	00104$
 ;src/starfield/starfield.c:109: case 2: //fast star
 00103$:
 ;src/starfield/starfield.c:110: pStar->nY += 2;
-	ld	a,-4 (ix)
+	ld	a,-2 (ix)
 	add	a, #0x02
 	ld	(de),a
 ;src/starfield/starfield.c:112: }
@@ -414,12 +414,12 @@ _update_stars::
 ;src/starfield/starfield.c:117: pStar->nX = rand() % 160;
 	push	bc
 	call	_rand
-	ld	-6 (ix),h
-	ld	-7 (ix),l
+	ld	-4 (ix),h
+	ld	-5 (ix),l
 	ld	hl,#0x00A0
 	push	hl
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	push	hl
 	call	__modsint
 	pop	af
@@ -436,8 +436,8 @@ _update_stars::
 	pop	af
 	pop	af
 	ld	a,l
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-7 (ix)
+	ld	h,-6 (ix)
 	ld	(hl),a
 00109$:
 ;src/starfield/starfield.c:97: for(nStar = 0; nStar < STARS_NUM; nStar++)

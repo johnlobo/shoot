@@ -23,27 +23,36 @@ Symbol Table
     _G_baddie02_05                                                 **** GX
     _G_baddie02_06                                                 **** GX
     _G_baddie02_07                                                 **** GX
-  1 _active_enemies                                                0168 GR
-  1 _active_groups                                                 0179 GR
+    _G_baddie03_00                                                 **** GX
+    _G_baddie03_01                                                 **** GX
+    _G_baddie03_02                                                 **** GX
+    _G_baddie03_03                                                 **** GX
+    _G_baddie03_04                                                 **** GX
+    _G_baddie03_05                                                 **** GX
+    _G_baddie03_06                                                 **** GX
+    _G_baddie03_07                                                 **** GX
+  1 _active_enemies                                                0438 GR
+  1 _active_groups                                                 0459 GR
     _cpct_drawSprite                                               **** GX
     _cpct_getScreenPtr                                             **** GX
   0 _create_enemy                                                  0069 GR
-  0 _create_enemy_group                                            02F9 GR
-  0 _draw_enemies                                                  061F GR
+  0 _create_enemy_group                                            03A8 GR
+  0 _draw_enemies                                                  09A7 GR
   1 _enemies                                                       0000 GR
-  1 _groups                                                        0169 GR
+  1 _groups                                                        0439 GR
   0 _init_enemies                                                  0000 GR
-  0 _inside_screen                                                 05CE GR
+  0 _inside_screen                                                 0956 GR
     _movements                                                     **** GX
-  0 _update_enemies                                                0359 GR
+  0 _update_enemies                                                0408 GR
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  76A   flags    0
-   1 _DATA                                      size  17A   flags    0
+   0 _CODE                                      size  AED   flags    0
+   1 _DATA                                      size  45A   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

@@ -7,16 +7,45 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
+  0 _G_baddie03_00                                                 0270 GR
+  0 _G_baddie03_01                                                 0290 GR
+  0 _G_baddie03_02                                                 02B0 GR
+  0 _G_baddie03_03                                                 02D0 GR
+  0 _G_baddie03_04                                                 02F0 GR
+  0 _G_baddie03_05                                                 0310 GR
+  0 _G_baddie03_06                                                 0330 GR
+  0 _G_baddie03_07                                                 0350 GR
   0 _G_palette                                                     0000 GR
+  0 _G_ship_00                                                     0204 GR
+  0 _G_ship_01                                                     0224 GR
+  0 _G_ship_02                                                     0244 GR
+  0 _G_shoot_00                                                    0264 GR
+  0 _G_shoot_01                                                    0268 GR
+  0 _G_shoot_02                                                    026C GR
+  0 _G_star_00                                                     0370 GR
+  0 _G_star_01                                                     0390 GR
+  0 _G_star_02                                                     03B0 GR
+  0 _G_star_03                                                     03D0 GR
+  0 _G_star_04                                                     03F0 GR
   0 _bullet01_0                                                    00A0 GR
   0 _bullet01_1                                                    00A8 GR
   0 _bullet02_0                                                    00B0 GR
+  0 _explosion02000                                                0410 GR
+  0 _explosion02001                                                0452 GR
+  0 _explosion02002                                                0494 GR
+  0 _explosion02003                                                04D6 GR
+  0 _explosion02004                                                0518 GR
   0 _palette                                                       0021 GR
   0 _redFlag                                                       0032 GR
   0 _ship01                                                        0040 GR
   0 _ship02                                                        00B4 GR
   0 _ship03                                                        01A4 GR
   0 _tintas                                                        0010 GR
+  0 _toque000                                                      055A GR
+  0 _toque001                                                      056C GR
+  0 _toque002                                                      057E GR
+  0 _toque003                                                      0590 GR
+  0 _toque004                                                      05A2 GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -24,7 +53,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  204   flags    0
+   0 _CODE                                      size  5B4   flags    0
    1 _DATA                                      size    0   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

@@ -7,16 +7,15 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       01C9 R
+  0 ___str_0                                                       01C6 R
   1 _aux_txt                                                       0010 GR
   1 _block01                                                       0000 GR
   1 _block02                                                       0007 GR
   0 _changeVideoMemoryPage                                         0000 GR
-  1 _changeVideoMemoryPage_page_1_78                               0038 R
+  1 _changeVideoMemoryPage_page_1_83                               0038 R
   0 _clear_screen                                                  0078 GR
     _cpc_PrintGphStr                                               **** GX
     _cpc_SetInkGphStr                                              **** GX
-    _cpct_disableFirmware                                          **** GX
     _cpct_drawSolidBox                                             **** GX
     _cpct_fw2hw                                                    **** GX
     _cpct_getScreenPtr                                             **** GX
@@ -29,24 +28,28 @@ Symbol Table
     _cpct_waitVSYNC                                                **** GX
   0 _draw_blocks                                                   0028 GR
     _draw_enemies                                                  **** GX
-  0 _draw_scoreboard                                               018A GR
+    _draw_explosions                                               **** GX
+  0 _draw_scoreboard                                               0187 GR
     _draw_shoots                                                   **** GX
     _draw_stars                                                    **** GX
     _draw_user                                                     **** GX
     _init_enemies                                                  **** GX
+    _init_explosions                                               **** GX
     _init_shoots                                                   **** GX
     _init_stars                                                    **** GX
     _init_user                                                     **** GX
-  0 _initialization                                                01D2 GR
-  0 _letras_azules                                                 011B GR
-  0 _letras_rojas                                                  0139 GR
+  0 _initialization                                                01CF GR
+  0 _letras_azules                                                 0118 GR
+  0 _letras_rojas                                                  0136 GR
   0 _main                                                          0223 GR
     _palette                                                       **** GX
   1 _pvmem                                                         000E GR
-  0 _set_color                                                     0157 GR
+  0 _set_color                                                     0154 GR
     _set_stack                                                     **** GX
-  0 _update_blocks                                                 008B GR
+    _timer_on                                                      **** GX
+  0 _update_blocks                                                 0088 GR
     _update_enemies                                                **** GX
+    _update_explosions                                             **** GX
     _update_shoots                                                 **** GX
     _update_stars                                                  **** GX
     _update_user                                                   **** GX
@@ -57,7 +60,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  2CF   flags    0
+   0 _CODE                                      size  2D4   flags    0
    1 _DATA                                      size   39   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

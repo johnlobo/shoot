@@ -1,28 +1,25 @@
 #include <stdlib.h>
 #include <cpctelera.h>
 #include "entities.h"
-#include "../sprites/sprites.h"
+#include "../sprites/sprites.h" 
 
 TShip user;
 u8 shoot_type;
 
 void init_user(){
-/*
-	user.x = 39;
-    user.y = 183;
-    user.w = 6;
-    user.h = 16;
-    user.sprite = (u8*) ship01;
-*/
 
-    user.w = 6;
-    user.h = 16;
+    user.w = 4;
+    user.h = 8;
     user.x = 39-(user.w/2);
     user.y = 199-(user.h);
-    user.sprite = (u8*) ship03;
+    user.vx = 0;
+    user.vy = 0;
+    user.topvx = 4;
+    user.topvy = 5;
+    user.ax=0;
+    user.ay=0;
+    user.sprite = (u8*) G_ship_00;
 
-    user.vx = 2;
-    user.vy = 4;
     user.max_shoots = 10;
     shoot_type = 1;
 }
@@ -31,11 +28,10 @@ u8 get_user_max_shoots(){
 	return user.max_shoots;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// Scan Keyboard and update user actions as requested by the user
-//
-    void update_user() {
+void update_user() {
       u8 x,y;
+
+      user.ax=0;
 
    // Scan Keyboard
      cpct_scanKeyboard_f();
@@ -46,31 +42,19 @@ u8 get_user_max_shoots(){
 
    // KEY = Cursor Up
      if ((cpct_isKeyPressed(Key_Q))){ 
-      if ((user.y-user.vy)>0)
-        user.y = user.y - user.vy;
-      else
-        user.y = 0;
+        user.ay = -2;
     }
    // KEY = Cursor Right
     if ((cpct_isKeyPressed(Key_P))){ 
-      if ((user.x+user.vx<(79-user.w)))
-        user.x = user.x + user.vx;
-      else     
-        user.x = 79-user.w;
+        user.ax = 2;
     }
    // KEY = Cursor Left
     if (cpct_isKeyPressed(Key_O)){
-      if ((user.x-user.vx)>0) 
-        user.x = user.x - user.vx;    
-      else
-        user.x = 0;
+        user.ax=-2;    
     }
    // KEY = Cursor Down
     if (cpct_isKeyPressed(Key_A)){
-      if ((user.y<(199-user.h) ))
-        user.y = user.y + user.vy;
-      else
-        user.y = 199-user.h;
+        user.ay=2;    
     }
     // KEY = D
     if (cpct_isKeyPressed(Key_D)){
@@ -78,24 +62,49 @@ u8 get_user_max_shoots(){
       }
     // KEY = H
     if (cpct_isKeyPressed(Key_H)){
-        create_enemy((rand()%80),(rand()%199),(rand()%2));
+        create_enemy((rand()%80),(rand()%199),(rand()%3));
       }
+    // KEY = J
     if (cpct_isKeyPressed(Key_J)){
         x=rand()%80;
         y=rand()%199;
-        create_enemy(x,y,(rand()%2));
-        create_enemy(x+8,y,(rand()%2));
-        create_enemy(x+16,y,(rand()%2));
-        create_enemy(x+24,y,(rand()%2));
+        create_enemy(x,y,(rand()%3));
+        create_enemy(x+8,y,(rand()%3));
+        create_enemy(x+16,y,(rand()%3));
       }  
+    // KEY = K
     if (cpct_isKeyPressed(Key_K)){
-        create_enemy_group((rand()%80),(rand()%199),0,4);
+        create_enemy_group((rand()%10)+5,rand()%40,rand()%3,12);
       }
     // KEY = Space
     if (cpct_isKeyPressed(Key_Space)){
-        create_shoot(user.x+3, user.y-1, shoot_type);
+        create_shoot(user.x+2, user.y, shoot_type);
       }
 
+    // KEY = L
+    if (cpct_isKeyPressed(Key_L)){
+        create_explosion(user.x+2, user.y, shoot_type);
+      }
+
+    if (user.ax!=0){
+      if ((( user.vx >= 0 ) && (user.vx < user.topvx)) || ((user.vx <= 0 ) && (user.vx > -user.topvx))){
+        user.vx+=user.ax;
+      }
+    }
+
+    if (user.vx>0){
+      user.vx--;
+    } else if (user.vx<0){
+      user.vx++;
+    }
+
+    user.x+=user.vx;
+
+    if (user.x<0)
+      user.x=0;
+    else if (user.x> 79-user.w){
+      user.x = 79-user.w;
+    }
   }
 
 void draw_user(u8* screen){

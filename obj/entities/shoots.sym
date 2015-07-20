@@ -7,21 +7,18 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  1 _active_baddie_shoots                                          00FD GR
-  1 _active_shoots                                                 00B4 GR
-  1 _baddie_shoots                                                 00B5 GR
+  1 _active_shoots                                                 00A0 GR
     _bullet01_0                                                    **** GX
     _bullet01_1                                                    **** GX
     _bullet02_0                                                    **** GX
     _cpct_drawSprite                                               **** GX
     _cpct_getScreenPtr                                             **** GX
-  0 _create_shoot                                                  006B GR
-  0 _draw_shoots                                                   022B GR
+  0 _create_shoot                                                  004E GR
+  0 _draw_shoots                                                   01FD GR
     _get_user_max_shoots                                           **** GX
   0 _init_shoots                                                   0000 GR
-  1 _max_baddie_shoots                                             00FE GR
   1 _shoots                                                        0000 GR
-  0 _update_shoots                                                 0195 GR
+  0 _update_shoots                                                 017D GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -29,8 +26,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  2F9   flags    0
-   1 _DATA                                      size   FF   flags    0
+   0 _CODE                                      size  29C   flags    0
+   1 _DATA                                      size   A1   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

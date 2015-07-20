@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-; This file was generated Mon Jul  6 16:11:50 2015
+; This file was generated Mon Jul 20 03:16:35 2015
 ;--------------------------------------------------------
 	.module movement
 	.optsdcc -mz80
@@ -44,55 +44,55 @@
 	.area _CODE
 _movements:
 	.db #0x06	; 6
-	.db #0x02	; 2
-	.db #0xFE	; -2
-	.db #0x00	;  0
-	.db #0x0A	; 10
-	.db #0x03	; 3
-	.db #0xFE	; -2
-	.db #0xFC	; -4
-	.db #0x05	; 5
-	.db #0x05	; 5
-	.db #0x02	;  2
-	.db #0xFC	; -4
-	.db #0x05	; 5
 	.db #0x06	; 6
-	.db #0x02	;  2
+	.db #0x03	;  3
 	.db #0x00	;  0
 	.db #0x0A	; 10
 	.db #0x07	; 7
-	.db #0x02	;  2
-	.db #0x04	;  4
-	.db #0x05	; 5
+	.db #0x03	;  3
+	.db #0x06	;  6
+	.db #0x07	; 7
 	.db #0x01	; 1
-	.db #0xFE	; -2
-	.db #0x04	;  4
-	.db #0x05	; 5
-	.db #0x00	; 0
-	.db #0x00	;  0
-	.db #0x00	;  0
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x00	;  0
-	.db #0x00	;  0
-	.db #0x00	; 0
-	.db #0x04	; 4
-	.db #0x00	; 0
-	.db #0x00	;  0
-	.db #0x04	;  4
-	.db #0x19	; 25
-	.db #0x06	; 6
-	.db #0x02	;  2
-	.db #0x00	;  0
-	.db #0x14	; 20
-	.db #0x04	; 4
-	.db #0x00	;  0
-	.db #0xFC	; -4
-	.db #0x19	; 25
+	.db #0xFD	; -3
+	.db #0x06	;  6
+	.db #0x07	; 7
 	.db #0x02	; 2
-	.db #0xFE	; -2
+	.db #0xFD	; -3
 	.db #0x00	;  0
-	.db #0x14	; 20
+	.db #0x0A	; 10
+	.db #0x03	; 3
+	.db #0xFD	; -3
+	.db #0xFA	; -6
+	.db #0x07	; 7
+	.db #0x05	; 5
+	.db #0x03	;  3
+	.db #0xFA	; -6
+	.db #0x07	; 7
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x04	; 4
+	.db #0x00	; 0
+	.db #0x00	;  0
+	.db #0x08	;  8
+	.db #0x0F	; 15
+	.db #0x06	; 6
+	.db #0x04	;  4
+	.db #0x00	;  0
+	.db #0x0A	; 10
+	.db #0x04	; 4
+	.db #0x00	;  0
+	.db #0xF8	; -8
+	.db #0x0F	; 15
+	.db #0x02	; 2
+	.db #0xFC	; -4
+	.db #0x00	;  0
+	.db #0x0A	; 10
 	.db #0x00	; 0
 	.db #0x00	;  0
 	.db #0x00	;  0

@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
-                              3 ; Version 3.4.3 #9207 (Jun 29 2015) (Mac OS X x86_64)
-                              4 ; This file was generated Wed Jul  1 00:32:44 2015
+                              3 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
+                              4 ; This file was generated Mon Jul 20 03:16:37 2015
                               5 ;--------------------------------------------------------
                               6 	.module starfield
                               7 	.optsdcc -mz80
@@ -350,10 +350,10 @@
                             350 ;src/starfield/starfield.c:101: switch(pStar->nStarType)
    0189 21 02 00      [10]  351 	ld	hl,#0x0002
    018C 09            [11]  352 	add	hl,bc
-   018D DD 75 FE      [19]  353 	ld	-2 (ix),l
-   0190 DD 74 FF      [19]  354 	ld	-1 (ix),h
-   0193 DD 6E FE      [19]  355 	ld	l,-2 (ix)
-   0196 DD 66 FF      [19]  356 	ld	h,-1 (ix)
+   018D DD 75 F9      [19]  353 	ld	-7 (ix),l
+   0190 DD 74 FA      [19]  354 	ld	-6 (ix),h
+   0193 DD 6E F9      [19]  355 	ld	l,-7 (ix)
+   0196 DD 66 FA      [19]  356 	ld	h,-6 (ix)
    0199 7E            [ 7]  357 	ld	a,(hl)
    019A DD 77 FD      [19]  358 	ld	-3 (ix),a
                             359 ;src/starfield/starfield.c:104: pStar->nY += 1;
@@ -366,9 +366,9 @@
    01A5 38 2D         [12]  366 	jr	C,00104$
                             367 ;src/starfield/starfield.c:104: pStar->nY += 1;
    01A7 1A            [ 7]  368 	ld	a,(de)
-   01A8 DD 77 FC      [19]  369 	ld	-4 (ix), a
+   01A8 DD 77 FE      [19]  369 	ld	-2 (ix), a
    01AB 3C            [ 4]  370 	inc	a
-   01AC DD 77 FB      [19]  371 	ld	-5 (ix),a
+   01AC DD 77 FF      [19]  371 	ld	-1 (ix),a
                             372 ;src/starfield/starfield.c:101: switch(pStar->nStarType)
    01AF D5            [11]  373 	push	de
    01B0 DD 5E FD      [19]  374 	ld	e,-3 (ix)
@@ -385,21 +385,21 @@
    01C0 18 0C         [12]  385 	jr	00103$
    01C2                     386 00101$:
                             387 ;src/starfield/starfield.c:104: pStar->nY += 1;
-   01C2 DD 7E FB      [19]  388 	ld	a,-5 (ix)
+   01C2 DD 7E FF      [19]  388 	ld	a,-1 (ix)
    01C5 12            [ 7]  389 	ld	(de),a
                             390 ;src/starfield/starfield.c:105: break;
    01C6 18 0C         [12]  391 	jr	00104$
                             392 ;src/starfield/starfield.c:106: case 1: //medium star
    01C8                     393 00102$:
                             394 ;src/starfield/starfield.c:107: pStar->nY += 1;
-   01C8 DD 7E FB      [19]  395 	ld	a,-5 (ix)
+   01C8 DD 7E FF      [19]  395 	ld	a,-1 (ix)
    01CB 12            [ 7]  396 	ld	(de),a
                             397 ;src/starfield/starfield.c:108: break;
    01CC 18 06         [12]  398 	jr	00104$
                             399 ;src/starfield/starfield.c:109: case 2: //fast star
    01CE                     400 00103$:
                             401 ;src/starfield/starfield.c:110: pStar->nY += 2;
-   01CE DD 7E FC      [19]  402 	ld	a,-4 (ix)
+   01CE DD 7E FE      [19]  402 	ld	a,-2 (ix)
    01D1 C6 02         [ 7]  403 	add	a, #0x02
    01D3 12            [ 7]  404 	ld	(de),a
                             405 ;src/starfield/starfield.c:112: }
@@ -414,12 +414,12 @@
                             414 ;src/starfield/starfield.c:117: pStar->nX = rand() % 160;
    01DB C5            [11]  415 	push	bc
    01DC CDr00r00      [17]  416 	call	_rand
-   01DF DD 74 FA      [19]  417 	ld	-6 (ix),h
-   01E2 DD 75 F9      [19]  418 	ld	-7 (ix),l
+   01DF DD 74 FC      [19]  417 	ld	-4 (ix),h
+   01E2 DD 75 FB      [19]  418 	ld	-5 (ix),l
    01E5 21 A0 00      [10]  419 	ld	hl,#0x00A0
    01E8 E5            [11]  420 	push	hl
-   01E9 DD 6E F9      [19]  421 	ld	l,-7 (ix)
-   01EC DD 66 FA      [19]  422 	ld	h,-6 (ix)
+   01E9 DD 6E FB      [19]  421 	ld	l,-5 (ix)
+   01EC DD 66 FC      [19]  422 	ld	h,-4 (ix)
    01EF E5            [11]  423 	push	hl
    01F0 CDr00r00      [17]  424 	call	__modsint
    01F3 F1            [10]  425 	pop	af
@@ -436,8 +436,8 @@
    0203 F1            [10]  436 	pop	af
    0204 F1            [10]  437 	pop	af
    0205 7D            [ 4]  438 	ld	a,l
-   0206 DD 6E FE      [19]  439 	ld	l,-2 (ix)
-   0209 DD 66 FF      [19]  440 	ld	h,-1 (ix)
+   0206 DD 6E F9      [19]  439 	ld	l,-7 (ix)
+   0209 DD 66 FA      [19]  440 	ld	h,-6 (ix)
    020C 77            [ 7]  441 	ld	(hl),a
    020D                     442 00109$:
                             443 ;src/starfield/starfield.c:97: for(nStar = 0; nStar < STARS_NUM; nStar++)
