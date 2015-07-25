@@ -44,7 +44,7 @@ void init_explosions(){
 // Función: crearExplosion(u8 tipo, u8 x, u8 y)
 //
 //******************************************************************************
-void create_explosion(u8 tipo, u8 x, u8 y){
+void create_explosion(u8 x, u8 y, u8 tipo){
 	u8 i;
 	i=0;
 	while (explosiones[i].activo==1) { 

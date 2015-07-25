@@ -1,5 +1,5 @@
-		#ifndef  __util_h__
-		#define __util_h__
+#ifndef  __util_h__
+#define __util_h__
 
 void	cpc_PrintGphStr(char *text, int destino);
 void	cpc_PrintGphStrM1(char *text, int destino);
@@ -19,4 +19,6 @@ void timer_on(void);
 void timer_off(void);
 unsigned long get_time();
 
-		#endif
+unsigned char fast_collision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2);
+unsigned char detect_collision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2);
+#endif

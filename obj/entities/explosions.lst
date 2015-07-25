@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
-                              3 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-                              4 ; This file was generated Mon Jul 20 23:41:04 2015
+                              3 ; Version 3.5.0 #9253 (Jul 21 2015) (Mac OS X x86_64)
+                              4 ; This file was generated Thu Jul 23 01:06:49 2015
                               5 ;--------------------------------------------------------
                               6 	.module explosions
                               7 	.optsdcc -mz80
@@ -156,7 +156,7 @@
    0079 21r00r00      [10]  156 	ld	hl,#_toque003
    007C 22rEFr01      [16]  157 	ld	((_explosion_sprite + 0x000e)), hl
    007F C9            [10]  158 	ret
-                            159 ;src/entities/explosions.c:47: void create_explosion(u8 tipo, u8 x, u8 y){
+                            159 ;src/entities/explosions.c:47: void create_explosion(u8 x, u8 y, u8 tipo){
                             160 ;	---------------------------------
                             161 ; Function create_explosion
                             162 ; ---------------------------------
@@ -193,7 +193,7 @@
                             193 ;src/entities/explosions.c:54: explosiones[i].tipo=tipo;
    00A4 E1            [10]  194 	pop	hl
    00A5 E5            [11]  195 	push	hl
-   00A6 DD 7E 04      [19]  196 	ld	a,4 (ix)
+   00A6 DD 7E 06      [19]  196 	ld	a,6 (ix)
    00A9 77            [ 7]  197 	ld	(hl),a
                             198 ;src/entities/explosions.c:55: explosiones[i].fase=0;
    00AA E1            [10]  199 	pop	hl
@@ -206,7 +206,7 @@
    00B1 23            [ 6]  206 	inc	hl
    00B2 23            [ 6]  207 	inc	hl
    00B3 23            [ 6]  208 	inc	hl
-   00B4 DD 7E 05      [19]  209 	ld	a,5 (ix)
+   00B4 DD 7E 04      [19]  209 	ld	a,4 (ix)
    00B7 77            [ 7]  210 	ld	(hl),a
                             211 ;src/entities/explosions.c:57: explosiones[i].y=y;
    00B8 DD 7E FE      [19]  212 	ld	a,-2 (ix)
@@ -215,7 +215,7 @@
    00BE DD 7E FF      [19]  215 	ld	a,-1 (ix)
    00C1 CE 00         [ 7]  216 	adc	a, #0x00
    00C3 67            [ 4]  217 	ld	h,a
-   00C4 DD 7E 06      [19]  218 	ld	a,6 (ix)
+   00C4 DD 7E 05      [19]  218 	ld	a,5 (ix)
    00C7 77            [ 7]  219 	ld	(hl),a
                             220 ;src/entities/explosions.c:60: explosiones[i].h=16;
    00C8 DD 7E FE      [19]  221 	ld	a,-2 (ix)
@@ -232,7 +232,7 @@
    00DD CE 00         [ 7]  232 	adc	a, #0x00
    00DF 57            [ 4]  233 	ld	d,a
                             234 ;src/entities/explosions.c:59: if (!tipo){
-   00E0 DD 7E 04      [19]  235 	ld	a,4 (ix)
+   00E0 DD 7E 06      [19]  235 	ld	a,6 (ix)
    00E3 B7            [ 4]  236 	or	a, a
    00E4 20 07         [12]  237 	jr	NZ,00105$
                             238 ;src/entities/explosions.c:60: explosiones[i].h=16;
@@ -332,7 +332,7 @@
                             332 ;src/entities/explosions.c:103: if (explosiones_activas>0){
    014F 3ArE0r01      [13]  333 	ld	a,(#_explosiones_activas + 0)
    0152 B7            [ 4]  334 	or	a, a
-   0153 CArDAr01      [10]  335 	jp	Z,00108$
+   0153 CArF6r01      [10]  335 	jp	Z,00108$
                             336 ;src/entities/explosions.c:104: for (i=0;i<MAX_EXPLOSIONES;i++){
    0156 0E 00         [ 7]  337 	ld	c,#0x00
    0158                     338 00106$:
@@ -345,101 +345,101 @@
    015E 29            [11]  345 	add	hl, hl
    015F 3Er00         [ 7]  346 	ld	a,#<(_explosiones)
    0161 85            [ 4]  347 	add	a, l
-   0162 DD 77 FD      [19]  348 	ld	-3 (ix),a
+   0162 DD 77 FE      [19]  348 	ld	-2 (ix),a
    0165 3Es00         [ 7]  349 	ld	a,#>(_explosiones)
    0167 8C            [ 4]  350 	adc	a, h
-   0168 DD 77 FE      [19]  351 	ld	-2 (ix),a
-   016B E1            [10]  352 	pop	hl
-   016C E5            [11]  353 	push	hl
-   016D 23            [ 6]  354 	inc	hl
-   016E 23            [ 6]  355 	inc	hl
-   016F 7E            [ 7]  356 	ld	a,(hl)
-   0170 3D            [ 4]  357 	dec	a
-   0171 20 60         [12]  358 	jr	NZ,00107$
+   0168 DD 77 FF      [19]  351 	ld	-1 (ix),a
+   016B DD 6E FE      [19]  352 	ld	l,-2 (ix)
+   016E DD 66 FF      [19]  353 	ld	h,-1 (ix)
+   0171 23            [ 6]  354 	inc	hl
+   0172 23            [ 6]  355 	inc	hl
+   0173 7E            [ 7]  356 	ld	a,(hl)
+   0174 3D            [ 4]  357 	dec	a
+   0175 20 78         [12]  358 	jr	NZ,00107$
                             359 ;src/entities/explosions.c:106: pscreen = cpct_getScreenPtr(screen, explosiones[i].x, explosiones[i].y);
-   0173 E1            [10]  360 	pop	hl
-   0174 E5            [11]  361 	push	hl
-   0175 11 04 00      [10]  362 	ld	de, #0x0004
-   0178 19            [11]  363 	add	hl, de
-   0179 5E            [ 7]  364 	ld	e,(hl)
-   017A E1            [10]  365 	pop	hl
-   017B E5            [11]  366 	push	hl
-   017C 23            [ 6]  367 	inc	hl
-   017D 23            [ 6]  368 	inc	hl
-   017E 23            [ 6]  369 	inc	hl
-   017F 66            [ 7]  370 	ld	h,(hl)
-   0180 DD 6E 04      [19]  371 	ld	l,4 (ix)
-   0183 DD 56 05      [19]  372 	ld	d,5 (ix)
-   0186 C5            [11]  373 	push	bc
-   0187 7B            [ 4]  374 	ld	a,e
-   0188 F5            [11]  375 	push	af
-   0189 33            [ 6]  376 	inc	sp
-   018A E5            [11]  377 	push	hl
-   018B 33            [ 6]  378 	inc	sp
-   018C 62            [ 4]  379 	ld	h, d
-   018D E5            [11]  380 	push	hl
-   018E CDr00r00      [17]  381 	call	_cpct_getScreenPtr
-   0191 F1            [10]  382 	pop	af
-   0192 F1            [10]  383 	pop	af
-   0193 C1            [10]  384 	pop	bc
-   0194 E5            [11]  385 	push	hl
-   0195 FD E1         [14]  386 	pop	iy
+   0177 DD 6E FE      [19]  360 	ld	l,-2 (ix)
+   017A DD 66 FF      [19]  361 	ld	h,-1 (ix)
+   017D 11 04 00      [10]  362 	ld	de, #0x0004
+   0180 19            [11]  363 	add	hl, de
+   0181 5E            [ 7]  364 	ld	e,(hl)
+   0182 DD 6E FE      [19]  365 	ld	l,-2 (ix)
+   0185 DD 66 FF      [19]  366 	ld	h,-1 (ix)
+   0188 23            [ 6]  367 	inc	hl
+   0189 23            [ 6]  368 	inc	hl
+   018A 23            [ 6]  369 	inc	hl
+   018B 66            [ 7]  370 	ld	h,(hl)
+   018C DD 6E 04      [19]  371 	ld	l,4 (ix)
+   018F DD 56 05      [19]  372 	ld	d,5 (ix)
+   0192 C5            [11]  373 	push	bc
+   0193 7B            [ 4]  374 	ld	a,e
+   0194 F5            [11]  375 	push	af
+   0195 33            [ 6]  376 	inc	sp
+   0196 E5            [11]  377 	push	hl
+   0197 33            [ 6]  378 	inc	sp
+   0198 62            [ 4]  379 	ld	h, d
+   0199 E5            [11]  380 	push	hl
+   019A CDr00r00      [17]  381 	call	_cpct_getScreenPtr
+   019D F1            [10]  382 	pop	af
+   019E F1            [10]  383 	pop	af
+   019F C1            [10]  384 	pop	bc
+   01A0 E5            [11]  385 	push	hl
+   01A1 FD E1         [14]  386 	pop	iy
                             387 ;src/entities/explosions.c:107: cpct_drawSprite(explosion_sprite[explosiones[i].tipo][explosiones[i].fase],pscreen,explosiones[i].w,explosiones[i].h);
-   0197 E1            [10]  388 	pop	hl
-   0198 E5            [11]  389 	push	hl
-   0199 11 05 00      [10]  390 	ld	de, #0x0005
-   019C 19            [11]  391 	add	hl, de
-   019D 46            [ 7]  392 	ld	b,(hl)
-   019E E1            [10]  393 	pop	hl
-   019F E5            [11]  394 	push	hl
-   01A0 11 06 00      [10]  395 	ld	de, #0x0006
-   01A3 19            [11]  396 	add	hl, de
-   01A4 7E            [ 7]  397 	ld	a,(hl)
-   01A5 DD 77 FF      [19]  398 	ld	-1 (ix),a
-   01A8 E1            [10]  399 	pop	hl
-   01A9 E5            [11]  400 	push	hl
-   01AA 6E            [ 7]  401 	ld	l,(hl)
-   01AB 26 00         [ 7]  402 	ld	h,#0x00
-   01AD 29            [11]  403 	add	hl, hl
-   01AE 29            [11]  404 	add	hl, hl
-   01AF 29            [11]  405 	add	hl, hl
-   01B0 3ErE1         [ 7]  406 	ld	a,#<(_explosion_sprite)
-   01B2 85            [ 4]  407 	add	a, l
-   01B3 5F            [ 4]  408 	ld	e,a
-   01B4 3Es01         [ 7]  409 	ld	a,#>(_explosion_sprite)
-   01B6 8C            [ 4]  410 	adc	a, h
-   01B7 57            [ 4]  411 	ld	d,a
-   01B8 E1            [10]  412 	pop	hl
-   01B9 E5            [11]  413 	push	hl
-   01BA 23            [ 6]  414 	inc	hl
-   01BB 7E            [ 7]  415 	ld	a,(hl)
-   01BC 87            [ 4]  416 	add	a, a
-   01BD 6F            [ 4]  417 	ld	l,a
-   01BE 26 00         [ 7]  418 	ld	h,#0x00
-   01C0 19            [11]  419 	add	hl,de
-   01C1 5E            [ 7]  420 	ld	e,(hl)
-   01C2 23            [ 6]  421 	inc	hl
-   01C3 56            [ 7]  422 	ld	d,(hl)
-   01C4 C5            [11]  423 	push	bc
-   01C5 C5            [11]  424 	push	bc
-   01C6 33            [ 6]  425 	inc	sp
-   01C7 DD 7E FF      [19]  426 	ld	a,-1 (ix)
-   01CA F5            [11]  427 	push	af
-   01CB 33            [ 6]  428 	inc	sp
-   01CC FD E5         [15]  429 	push	iy
-   01CE D5            [11]  430 	push	de
-   01CF CDr00r00      [17]  431 	call	_cpct_drawSprite
-   01D2 C1            [10]  432 	pop	bc
-   01D3                     433 00107$:
+   01A3 DD 6E FE      [19]  388 	ld	l,-2 (ix)
+   01A6 DD 66 FF      [19]  389 	ld	h,-1 (ix)
+   01A9 11 05 00      [10]  390 	ld	de, #0x0005
+   01AC 19            [11]  391 	add	hl, de
+   01AD 46            [ 7]  392 	ld	b,(hl)
+   01AE DD 6E FE      [19]  393 	ld	l,-2 (ix)
+   01B1 DD 66 FF      [19]  394 	ld	h,-1 (ix)
+   01B4 11 06 00      [10]  395 	ld	de, #0x0006
+   01B7 19            [11]  396 	add	hl, de
+   01B8 7E            [ 7]  397 	ld	a,(hl)
+   01B9 DD 77 FD      [19]  398 	ld	-3 (ix),a
+   01BC DD 6E FE      [19]  399 	ld	l,-2 (ix)
+   01BF DD 66 FF      [19]  400 	ld	h,-1 (ix)
+   01C2 6E            [ 7]  401 	ld	l,(hl)
+   01C3 26 00         [ 7]  402 	ld	h,#0x00
+   01C5 29            [11]  403 	add	hl, hl
+   01C6 29            [11]  404 	add	hl, hl
+   01C7 29            [11]  405 	add	hl, hl
+   01C8 3ErE1         [ 7]  406 	ld	a,#<(_explosion_sprite)
+   01CA 85            [ 4]  407 	add	a, l
+   01CB 5F            [ 4]  408 	ld	e,a
+   01CC 3Es01         [ 7]  409 	ld	a,#>(_explosion_sprite)
+   01CE 8C            [ 4]  410 	adc	a, h
+   01CF 57            [ 4]  411 	ld	d,a
+   01D0 DD 6E FE      [19]  412 	ld	l,-2 (ix)
+   01D3 DD 66 FF      [19]  413 	ld	h,-1 (ix)
+   01D6 23            [ 6]  414 	inc	hl
+   01D7 7E            [ 7]  415 	ld	a,(hl)
+   01D8 87            [ 4]  416 	add	a, a
+   01D9 6F            [ 4]  417 	ld	l,a
+   01DA 26 00         [ 7]  418 	ld	h,#0x00
+   01DC 19            [11]  419 	add	hl,de
+   01DD 5E            [ 7]  420 	ld	e,(hl)
+   01DE 23            [ 6]  421 	inc	hl
+   01DF 56            [ 7]  422 	ld	d,(hl)
+   01E0 C5            [11]  423 	push	bc
+   01E1 C5            [11]  424 	push	bc
+   01E2 33            [ 6]  425 	inc	sp
+   01E3 DD 7E FD      [19]  426 	ld	a,-3 (ix)
+   01E6 F5            [11]  427 	push	af
+   01E7 33            [ 6]  428 	inc	sp
+   01E8 FD E5         [15]  429 	push	iy
+   01EA D5            [11]  430 	push	de
+   01EB CDr00r00      [17]  431 	call	_cpct_drawSprite
+   01EE C1            [10]  432 	pop	bc
+   01EF                     433 00107$:
                             434 ;src/entities/explosions.c:104: for (i=0;i<MAX_EXPLOSIONES;i++){
-   01D3 0C            [ 4]  435 	inc	c
-   01D4 79            [ 4]  436 	ld	a,c
-   01D5 D6 1E         [ 7]  437 	sub	a, #0x1E
-   01D7 DAr58r01      [10]  438 	jp	C,00106$
-   01DA                     439 00108$:
-   01DA DD F9         [10]  440 	ld	sp, ix
-   01DC DD E1         [14]  441 	pop	ix
-   01DE C9            [10]  442 	ret
+   01EF 0C            [ 4]  435 	inc	c
+   01F0 79            [ 4]  436 	ld	a,c
+   01F1 D6 1E         [ 7]  437 	sub	a, #0x1E
+   01F3 DAr58r01      [10]  438 	jp	C,00106$
+   01F6                     439 00108$:
+   01F6 DD F9         [10]  440 	ld	sp, ix
+   01F8 DD E1         [14]  441 	pop	ix
+   01FA C9            [10]  442 	ret
                             443 	.area _CODE
                             444 	.area _INITIALIZER
                             445 	.area _CABS (ABS)

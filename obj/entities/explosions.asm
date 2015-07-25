@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-; This file was generated Mon Jul 20 23:41:04 2015
+; Version 3.5.0 #9253 (Jul 21 2015) (Mac OS X x86_64)
+; This file was generated Thu Jul 23 01:06:49 2015
 ;--------------------------------------------------------
 	.module explosions
 	.optsdcc -mz80
@@ -156,7 +156,7 @@ _init_explosions::
 	ld	hl,#_toque003
 	ld	((_explosion_sprite + 0x000e)), hl
 	ret
-;src/entities/explosions.c:47: void create_explosion(u8 tipo, u8 x, u8 y){
+;src/entities/explosions.c:47: void create_explosion(u8 x, u8 y, u8 tipo){
 ;	---------------------------------
 ; Function create_explosion
 ; ---------------------------------
@@ -193,7 +193,7 @@ _create_explosion::
 ;src/entities/explosions.c:54: explosiones[i].tipo=tipo;
 	pop	hl
 	push	hl
-	ld	a,4 (ix)
+	ld	a,6 (ix)
 	ld	(hl),a
 ;src/entities/explosions.c:55: explosiones[i].fase=0;
 	pop	hl
@@ -206,7 +206,7 @@ _create_explosion::
 	inc	hl
 	inc	hl
 	inc	hl
-	ld	a,5 (ix)
+	ld	a,4 (ix)
 	ld	(hl),a
 ;src/entities/explosions.c:57: explosiones[i].y=y;
 	ld	a,-2 (ix)
@@ -215,7 +215,7 @@ _create_explosion::
 	ld	a,-1 (ix)
 	adc	a, #0x00
 	ld	h,a
-	ld	a,6 (ix)
+	ld	a,5 (ix)
 	ld	(hl),a
 ;src/entities/explosions.c:60: explosiones[i].h=16;
 	ld	a,-2 (ix)
@@ -232,7 +232,7 @@ _create_explosion::
 	adc	a, #0x00
 	ld	d,a
 ;src/entities/explosions.c:59: if (!tipo){
-	ld	a,4 (ix)
+	ld	a,6 (ix)
 	or	a, a
 	jr	NZ,00105$
 ;src/entities/explosions.c:60: explosiones[i].h=16;
@@ -345,25 +345,25 @@ _draw_explosions::
 	add	hl, hl
 	ld	a,#<(_explosiones)
 	add	a, l
-	ld	-3 (ix),a
+	ld	-2 (ix),a
 	ld	a,#>(_explosiones)
 	adc	a, h
-	ld	-2 (ix),a
-	pop	hl
-	push	hl
+	ld	-1 (ix),a
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	inc	hl
 	inc	hl
 	ld	a,(hl)
 	dec	a
 	jr	NZ,00107$
 ;src/entities/explosions.c:106: pscreen = cpct_getScreenPtr(screen, explosiones[i].x, explosiones[i].y);
-	pop	hl
-	push	hl
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	de, #0x0004
 	add	hl, de
 	ld	e,(hl)
-	pop	hl
-	push	hl
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	inc	hl
 	inc	hl
 	inc	hl
@@ -385,19 +385,19 @@ _draw_explosions::
 	push	hl
 	pop	iy
 ;src/entities/explosions.c:107: cpct_drawSprite(explosion_sprite[explosiones[i].tipo][explosiones[i].fase],pscreen,explosiones[i].w,explosiones[i].h);
-	pop	hl
-	push	hl
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	de, #0x0005
 	add	hl, de
 	ld	b,(hl)
-	pop	hl
-	push	hl
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	de, #0x0006
 	add	hl, de
 	ld	a,(hl)
-	ld	-1 (ix),a
-	pop	hl
-	push	hl
+	ld	-3 (ix),a
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	l,(hl)
 	ld	h,#0x00
 	add	hl, hl
@@ -409,8 +409,8 @@ _draw_explosions::
 	ld	a,#>(_explosion_sprite)
 	adc	a, h
 	ld	d,a
-	pop	hl
-	push	hl
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	inc	hl
 	ld	a,(hl)
 	add	a, a
@@ -423,7 +423,7 @@ _draw_explosions::
 	push	bc
 	push	bc
 	inc	sp
-	ld	a,-1 (ix)
+	ld	a,-3 (ix)
 	push	af
 	inc	sp
 	push	iy

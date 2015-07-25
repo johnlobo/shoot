@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-; This file was generated Mon Jul 20 23:41:04 2015
+; Version 3.5.0 #9253 (Jul 21 2015) (Mac OS X x86_64)
+; This file was generated Thu Jul 23 01:06:52 2015
 ;--------------------------------------------------------
 	.module timer
 	.optsdcc -mz80
@@ -21,10 +21,6 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _DATA
-;--------------------------------------------------------
-; ram data
-;--------------------------------------------------------
-	.area _INITIALIZED
 _timer0:
 	.ds 2
 _timer1:
@@ -33,6 +29,10 @@ _nFPS::
 	.ds 1
 _nTimeLast::
 	.ds 4
+;--------------------------------------------------------
+; ram data
+;--------------------------------------------------------
+	.area _INITIALIZED
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -53,12 +53,12 @@ _nTimeLast::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;src/util/timer.c:10: void timer_on(void) {
+;src/util/timer.c:12: void timer_on(void) {
 ;	---------------------------------
 ; Function timer_on
 ; ---------------------------------
 _timer_on::
-;src/util/timer.c:39: __endasm;
+;src/util/timer.c:41: __endasm;
 	DI
 	IM 1
 	PUSH HL
@@ -87,12 +87,12 @@ _timer_on::
 	RET
 	term:
 	ret
-;src/util/timer.c:45: void timer_off(void) {
+;src/util/timer.c:47: void timer_off(void) {
 ;	---------------------------------
 ; Function timer_off
 ; ---------------------------------
 _timer_off::
-;src/util/timer.c:54: __endasm;
+;src/util/timer.c:56: __endasm;
 	DI
 	IM 1
 	LD HL,#0X0038
@@ -101,28 +101,20 @@ _timer_off::
 	LD (HL),#0XC9 ;RET
 	EI
 	ret
-;src/util/timer.c:60: unsigned long get_time()
+;src/util/timer.c:62: unsigned long get_time()
 ;	---------------------------------
 ; Function get_time
 ; ---------------------------------
 _get_time::
-;src/util/timer.c:63: nTime = (timer1 << 8) + timer0;
+;src/util/timer.c:65: nTime = (timer1 << 8) + timer0;
 	ld	hl,#_timer1 + 0
 	ld	d, (hl)
 	ld	e,#0x00
 	ld	hl,(_timer0)
 	add	hl,de
 	ld	de,#0x0000
-;src/util/timer.c:64: return nTime;
+;src/util/timer.c:66: return nTime;
 	ret
 	.area _CODE
 	.area _INITIALIZER
-__xinit__timer0:
-	.dw #0x0000
-__xinit__timer1:
-	.dw #0x0000
-__xinit__nFPS:
-	.db #0x00	; 0
-__xinit__nTimeLast:
-	.byte #0x00,#0x00,#0x00,#0x00	; 0
 	.area _CABS (ABS)

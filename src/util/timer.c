@@ -1,7 +1,9 @@
-static unsigned int timer0 = 0;
-static unsigned int timer1 = 0;
-unsigned char nFPS = 0;
-unsigned long nTimeLast = 0;
+#include <types.h>
+
+static unsigned int timer0;
+static unsigned int timer1;
+u8 nFPS;
+unsigned long nTimeLast;
 
 //******************************************************************************
 // Función timerOn()

@@ -9,6 +9,35 @@ TEnemy enemies[MAX_ENEMIES];
 u8 active_enemies;
 TEnemy_group groups [MAX_ENEMY_GROUPS];
 u8 active_groups;
+
+
+u8 detectColision(u8 x1,u8 y1,u8 w1,u8 h1,u8 x2,u8 y2,u8 w2,u8 h2){
+	return ((x1 < x2 + w2) && (x1 + w1 > x2) && (y1 < y2 + h2) && (h1 + y1 > y2));
+}
+
+//******************************************************************************
+// Función: check_collision_enemies(u8 x, u8 y, u8 w, u8 h)
+//
+//******************************************************************************
+u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h){
+	u8 i;
+	u8 collision;
+
+	i=0;
+	collision = 0;
+
+	for (i=0;i<MAX_ENEMIES;i++){
+		if ((enemies[i].active) && (enemies[i].x>0) && (enemies[i].y>0)){
+			if (detectColision(x,y,w,h,(u8) enemies[i].x,(u8) enemies[i].y, enemies[i].w, enemies[i].h)){
+				collision = 1;
+				enemies[i].active = 0;
+				active_enemies--;
+			}
+		}
+	}
+	return collision;
+}
+
 //******************************************************************************
 // Función: inicializarDisparos()
 //

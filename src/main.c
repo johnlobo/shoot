@@ -36,6 +36,8 @@
 // Global variables
 //
 
+
+
 TBlock block01,block02;
 u8* pvmem;     // Pointer to video memory (or backbuffer) where to draw sprites
 u8 aux_txt[40];
@@ -237,13 +239,11 @@ u8* changeVideoMemoryPage() {
    draw_scoreboard(pvmem);
 
 // Synchronize next frame drawing with VSYNC
-   cpct_waitVSYNC(); 
+   //cpct_waitVSYNC(); 
 
    pvmem = changeVideoMemoryPage();
 
 
  } 
-
- timer_off();
 
 }

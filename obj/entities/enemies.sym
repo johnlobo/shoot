@@ -33,17 +33,19 @@ Symbol Table
     _G_baddie03_07                                                 **** GX
   1 _active_enemies                                                0438 GR
   1 _active_groups                                                 0459 GR
+  0 _check_collision_enemies                                       006D GR
     _cpct_drawSprite                                               **** GX
     _cpct_getScreenPtr                                             **** GX
-  0 _create_enemy                                                  0069 GR
-  0 _create_enemy_group                                            03A8 GR
-  0 _draw_enemies                                                  09A7 GR
+  0 _create_enemy                                                  01A8 GR
+  0 _create_enemy_group                                            04E7 GR
+  0 _detectColision                                                0000 GR
+  0 _draw_enemies                                                  0AE6 GR
   1 _enemies                                                       0000 GR
   1 _groups                                                        0439 GR
-  0 _init_enemies                                                  0000 GR
-  0 _inside_screen                                                 0956 GR
+  0 _init_enemies                                                  013F GR
+  0 _inside_screen                                                 0A95 GR
     _movements                                                     **** GX
-  0 _update_enemies                                                0408 GR
+  0 _update_enemies                                                0547 GR
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -51,7 +53,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  AED   flags    0
+   0 _CODE                                      size  C2C   flags    0
    1 _DATA                                      size  45A   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

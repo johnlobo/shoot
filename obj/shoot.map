@@ -13,26 +13,26 @@ Area                                    Addr        Size        Decimal Bytes (A
      00000000  l__GSFINAL                      
      00000000  s__CABS                         
      00000000  s__DABS                         
+     00000004  l__INITIALIZED                  
+     00000004  l__INITIALIZER                  
      00000008  l__GSINIT                       
-     0000000D  l__INITIALIZED                  
-     0000000D  l__INITIALIZER                  
-     00000184  l__HOME                         
-     000007BC  l__DATA                         
+     0000017E  l__HOME                         
+     000007C5  l__DATA                         
      00002000  s__CODE                         
-     00002E76  l__CODE                         
-     00004E76  s__DATA                         
-     00005632  s__INITIALIZED                  
-     0000563F  s__HOME                         
-     000057C3  s__GSINIT                       
-     000057CB  s__GSFINAL                      
-     000057CB  s__INITIALIZER                  
+     000031C1  l__CODE                         
+     000051C1  s__DATA                         
+     00005986  s__INITIALIZED                  
+     0000598A  s__HOME                         
+     00005B08  s__GSINIT                       
+     00005B10  s__GSFINAL                      
+     00005B10  s__INITIALIZER                  
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002000    00002E76 =       11894. bytes (REL,CON)
+_CODE                               00002000    000031C1 =       12737. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -46,243 +46,241 @@ _CODE                               00002000    00002E76 =       11894. bytes (R
      00002187  _draw_scoreboard                   main
      000021CF  _initialization                    main
      00002223  _main                              main
-     000022D4  _init_enemies                      enemies
-     0000233D  _create_enemy                      enemies
-     0000267C  _create_enemy_group                enemies
-     000026DC  _update_enemies                    enemies
-     00002C2A  _inside_screen                     enemies
-     00002C7B  _draw_enemies                      enemies
-     00002DC1  _init_explosions                   explosions
-     00002E41  _create_explosion                  explosions
-     00002EBC  _update_explosions                 explosions
-     00002F06  _draw_explosions                   explosions
-     00002FA0  _movements                         movement
-     00002FE2  _init_shoots                       shoots
-     00003030  _create_shoot                      shoots
-     0000315F  _update_shoots                     shoots
-     000031DF  _draw_shoots                       shoots
-     0000327E  _trajectories                      trajectories
-     000032CF  _init_user                         user
-     0000331D  _get_user_max_shoots               user
-     00003322  _update_user                       user
-     00003614  _draw_user                         user
-     00003652  _getRandomUniform                  random
-     0000366D  _g_randUnif                        random
-     0000376D  _cpc_random                        random
-     0000377D  _G_baddie01_00                     new_sprites
-     000037CD  _G_baddie01_01                     new_sprites
-     0000381D  _G_baddie01_02                     new_sprites
-     0000386D  _G_baddie01_03                     new_sprites
-     000038BD  _G_baddie01_04                     new_sprites
-     0000390D  _G_baddie01_05                     new_sprites
-     0000395D  _G_baddie01_06                     new_sprites
-     000039AD  _G_baddie01_07                     new_sprites
-     000039FD  _G_baddie02_00                     new_sprites
-     00003A45  _G_baddie02_01                     new_sprites
-     00003A8D  _G_baddie02_02                     new_sprites
-     00003AD5  _G_baddie02_03                     new_sprites
-     00003B1D  _G_baddie02_04                     new_sprites
-     00003B65  _G_baddie02_05                     new_sprites
-     00003BAD  _G_baddie02_06                     new_sprites
-     00003BF5  _G_baddie02_07                     new_sprites
-     00003C3D  _G_N_0                             new_sprites
+     000022D1  _detectColision                    enemies
+     0000233E  _check_collision_enemies           enemies
+     00002410  _init_enemies                      enemies
+     00002479  _create_enemy                      enemies
+     000027B8  _create_enemy_group                enemies
+     00002818  _update_enemies                    enemies
+     00002D66  _inside_screen                     enemies
+     00002DB7  _draw_enemies                      enemies
+     00002EFD  _init_explosions                   explosions
+     00002F7D  _create_explosion                  explosions
+     00002FF8  _update_explosions                 explosions
+     00003042  _draw_explosions                   explosions
+     000030F8  _movements                         movement
+     0000313A  _init_shoots                       shoots
+     00003188  _create_shoot                      shoots
+     000032B4  _update_shoots                     shoots
+     000033C9  _draw_shoots                       shoots
+     00003468  _trajectories                      trajectories
+     000034B9  _init_user                         user
+     00003507  _get_user_max_shoots               user
+     0000350C  _update_user                       user
+     00003856  _draw_user                         user
+     00003894  _getRandomUniform                  random
+     000038AF  _g_randUnif                        random
+     000039AF  _cpc_random                        random
+     000039BF  _G_baddie01_00                     new_sprites
+     00003A0F  _G_baddie01_01                     new_sprites
+     00003A5F  _G_baddie01_02                     new_sprites
+     00003AAF  _G_baddie01_03                     new_sprites
+     00003AFF  _G_baddie01_04                     new_sprites
+     00003B4F  _G_baddie01_05                     new_sprites
+     00003B9F  _G_baddie01_06                     new_sprites
+     00003BEF  _G_baddie01_07                     new_sprites
+     00003C3F  _G_baddie02_00                     new_sprites
+     00003C87  _G_baddie02_01                     new_sprites
+     00003CCF  _G_baddie02_02                     new_sprites
+     00003D17  _G_baddie02_03                     new_sprites
+     00003D5F  _G_baddie02_04                     new_sprites
+     00003DA7  _G_baddie02_05                     new_sprites
+     00003DEF  _G_baddie02_06                     new_sprites
 ASxxxx Linker V03.00 + NoICE + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002000    00002E76 =       11894. bytes (REL,CON)
+_CODE                               00002000    000031C1 =       12737. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00003C49  _G_N_1                             new_sprites
-     00003C55  _G_N_2                             new_sprites
-     00003C61  _G_N_3                             new_sprites
-     00003C6D  _G_N_4                             new_sprites
-     00003C79  _G_N_5                             new_sprites
-     00003C85  _G_palette                         sprites
-     00003C95  _tintas                            sprites
-     00003CA6  _palette                           sprites
-     00003CB7  _redFlag                           sprites
-     00003CC5  _ship01                            sprites
-     00003D25  _bullet01_0                        sprites
-     00003D2D  _bullet01_1                        sprites
-     00003D35  _bullet02_0                        sprites
-     00003D39  _ship02                            sprites
-     00003E29  _ship03                            sprites
-     00003E89  _G_ship_00                         sprites
-     00003EA9  _G_ship_01                         sprites
-     00003EC9  _G_ship_02                         sprites
-     00003EE9  _G_shoot_00                        sprites
-     00003EED  _G_shoot_01                        sprites
-     00003EF1  _G_shoot_02                        sprites
-     00003EF5  _G_baddie03_00                     sprites
-     00003F15  _G_baddie03_01                     sprites
-     00003F35  _G_baddie03_02                     sprites
-     00003F55  _G_baddie03_03                     sprites
-     00003F75  _G_baddie03_04                     sprites
-     00003F95  _G_baddie03_05                     sprites
-     00003FB5  _G_baddie03_06                     sprites
-     00003FD5  _G_baddie03_07                     sprites
-     00003FF5  _G_star_00                         sprites
-     00004015  _G_star_01                         sprites
-     00004035  _G_star_02                         sprites
-     00004055  _G_star_03                         sprites
-     00004075  _G_star_04                         sprites
-     00004095  _explosion02000                    sprites
-     000040D7  _explosion02001                    sprites
-     00004119  _explosion02002                    sprites
-     0000415B  _explosion02003                    sprites
-     0000419D  _explosion02004                    sprites
-     000041DF  _toque000                          sprites
-     000041F1  _toque001                          sprites
-     00004203  _toque002                          sprites
-     00004215  _toque003                          sprites
-     00004227  _toque004                          sprites
-     00004239  _get_mode0_pixel_color_byte        starfield
-     000042A9  _init_stars                        starfield
-     00004328  _draw_stars                        starfield
-     000043A3  _update_stars                      starfield
-     00004456  _timer_on                          timer
-     0000447F  _timer_off                         timer
-     0000448C  _get_time                          timer
+     00003E37  _G_baddie02_07                     new_sprites
+     00003E7F  _G_N_0                             new_sprites
+     00003E8B  _G_N_1                             new_sprites
+     00003E97  _G_N_2                             new_sprites
+     00003EA3  _G_N_3                             new_sprites
+     00003EAF  _G_N_4                             new_sprites
+     00003EBB  _G_N_5                             new_sprites
+     00003EC7  _G_palette                         sprites
+     00003ED7  _tintas                            sprites
+     00003EE8  _palette                           sprites
+     00003EF9  _redFlag                           sprites
+     00003F07  _ship01                            sprites
+     00003F67  _bullet01_0                        sprites
+     00003F6F  _bullet01_1                        sprites
+     00003F77  _bullet02_0                        sprites
+     00003F7B  _ship02                            sprites
+     0000406B  _ship03                            sprites
+     000040CB  _G_ship_00                         sprites
+     000040EB  _G_ship_01                         sprites
+     0000410B  _G_ship_02                         sprites
+     0000412B  _G_shoot_00                        sprites
+     0000412F  _G_shoot_01                        sprites
+     00004133  _G_shoot_02                        sprites
+     00004137  _G_baddie03_00                     sprites
+     00004157  _G_baddie03_01                     sprites
+     00004177  _G_baddie03_02                     sprites
+     00004197  _G_baddie03_03                     sprites
+     000041B7  _G_baddie03_04                     sprites
+     000041D7  _G_baddie03_05                     sprites
+     000041F7  _G_baddie03_06                     sprites
+     00004217  _G_baddie03_07                     sprites
+     00004237  _G_star_00                         sprites
+     00004257  _G_star_01                         sprites
+     00004277  _G_star_02                         sprites
+     00004297  _G_star_03                         sprites
+     000042B7  _G_star_04                         sprites
+     000042D7  _explosion02000                    sprites
+     00004319  _explosion02001                    sprites
+     0000435B  _explosion02002                    sprites
+     0000439D  _explosion02003                    sprites
+     000043DF  _explosion02004                    sprites
+     00004421  _toque000                          sprites
+     00004433  _toque001                          sprites
+     00004445  _toque002                          sprites
+     00004457  _toque003                          sprites
+     00004469  _toque004                          sprites
+     0000447B  _get_mode0_pixel_color_byte        starfield
+     000044EB  _init_stars                        starfield
+     0000456A  _draw_stars                        starfield
+     000045E5  _update_stars                      starfield
+     00004698  _timer_on                          timer
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002000    00002E76 =       11894. bytes (REL,CON)
+_CODE                               00002000    000031C1 =       12737. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000449A  _cpc_Random                        
-     00004513  _cpc_PrintGphStr2X                 
-     0000452A  _cpc_PrintGphStrXY2X               
-     00004544  _cpc_PrintGphStrXY                 
-     0000455C  _cpc_PrintGphStr                   
-     000046AE  _cpc_SetInkGphStr                  
-     000046C2  _cpc_PrintGphStrXYM1               
-     000046DB  _cpc_PrintGphStrXYM12X             
-     000046F5  _cpc_PrintGphStrM12X               
-     0000470C  _cpc_PrintGphStrM1                 
-     00004802  _cpc_SetInkGphStrM1                
-     000049BB  _cpc_memset                        
-     000049BC  _set_stack                         
-     000049C2  _cpct_isKeyPressed                 cpct_keyboard
-     000049D3  _cpct_scanKeyboard_f               cpct_keyboard
-     000049D3  cpct_scanKeyboard_f_asm            cpct_keyboard
-     00004A3D  _cpct_setPalette                   cpct_video
-     00004A46  cpct_setPalette_asm                cpct_video
-     00004A61  _rand                              rand
-     00004ABD  _srand                             rand
-     00004AD8  _cpct_setPALColour                 cpct_video
-     00004ADF  cpct_setPALColour_asm              cpct_video
-     00004AE8  _cpct_drawSprite                   cpct_sprites
-     00004AF0  cpct_drawSprite_asm                cpct_sprites
-     00004B90  _cpct_fw2hw                        cpct_video
-     00004BAA  _cpct_keyboardStatusBuffer         cpct_keyboard
-     00004BB4  _cpct_setVideoMemoryPage           cpct_video
-     00004BB9  cpct_setVideoMemoryPage_asm        cpct_video
-     00004BC2  cpct_firmware2hw_colour            
-     00004BDD  _cpct_waitVSYNC                    cpct_video
-     00004BDD  cpct_waitVSYNC_asm                 cpct_video
-     00004BE5  _cpct_setVideoMode                 cpct_video
-     00004BEA  cpct_setVideoMode_asm              cpct_video
-     00004BF7  _cpct_px2byteM0                    cpct_sprites
-     00004C16  _cpct_memset                       cpct_memutils
-     00004C24  cpct_drawSolidBox_asm              cpct_sprites
-     00004C2B  _cpct_drawSolidBox                 cpct_sprites
-     00004CE4  __modschar                         
-     00004CF1  __modsint                          
-     00004CFD  _cpct_mode_rom_status              cpct_firmware
-     00004CFE  _cpct_firmware_address             cpct_firmware
-     00004D00  _cpct_disableFirmware              cpct_firmware
-     00004D00  cpct_disableFirmware_asm           cpct_firmware
-     00004D11  _cpct_getScreenPtr                 cpct_video
-     00004D17  cpct_getScreenPtr_asm              cpct_video
-     00004D34  __divsint                          
-     00004D3D  __divschar                         
-     00004D44  __div8                             
-     00004D48  __div_signexte                     
-     00004D4C  __div16                            
-     00004D72  __get_remainder                    
+     000046C1  _timer_off                         timer
+     000046CE  _get_time                          timer
+     000046DC  _cpc_Random                        
+     00004755  _cpc_PrintGphStr2X                 
+     0000476C  _cpc_PrintGphStrXY2X               
+     00004786  _cpc_PrintGphStrXY                 
+     0000479E  _cpc_PrintGphStr                   
+     000048F0  _cpc_SetInkGphStr                  
+     00004904  _cpc_PrintGphStrXYM1               
+     0000491D  _cpc_PrintGphStrXYM12X             
+     00004937  _cpc_PrintGphStrM12X               
+     0000494E  _cpc_PrintGphStrM1                 
+     00004A44  _cpc_SetInkGphStrM1                
+     00004BFD  _cpc_memset                        
+     00004BFE  _set_stack                         
+     00004C04  _fast_collision                    
+     00004C4A  _detect_collision                  
+     00004D20  _cpct_isKeyPressed                 cpct_keyboard
+     00004D31  _cpct_scanKeyboard_f               cpct_keyboard
+     00004D31  cpct_scanKeyboard_f_asm            cpct_keyboard
+     00004D9B  _cpct_setPalette                   cpct_video
+     00004DA4  cpct_setPalette_asm                cpct_video
+     00004DBF  _rand                              rand
+     00004E1B  _srand                             rand
+     00004E36  _cpct_setPALColour                 cpct_video
+     00004E3D  cpct_setPALColour_asm              cpct_video
+     00004E46  _cpct_drawSprite                   cpct_sprites
+     00004EEB  _cpct_fw2hw                        cpct_video
+     00004F05  _cpct_keyboardStatusBuffer         cpct_keyboard
+     00004F0F  _cpct_setVideoMemoryPage           cpct_video
+     00004F14  cpct_setVideoMemoryPage_asm        cpct_video
+     00004F1D  cpct_firmware2hw_colour            
+     00004F38  _cpct_setVideoMode                 cpct_video
+     00004F3D  cpct_setVideoMode_asm              cpct_video
+     00004F4A  _cpct_px2byteM0                    cpct_sprites
+     00004F69  _cpct_memset                       cpct_memutils
+     00004F77  _cpct_drawSolidBox                 cpct_sprites
+     0000502F  __modschar                         
+     0000503C  __modsint                          
+     00005048  _cpct_mode_rom_status              cpct_firmware
+     00005049  _cpct_firmware_address             cpct_firmware
+     0000504B  _cpct_disableFirmware              cpct_firmware
+     0000504B  cpct_disableFirmware_asm           cpct_firmware
+     0000505C  _cpct_getScreenPtr                 cpct_video
+     00005062  cpct_getScreenPtr_asm              cpct_video
+     0000507F  __divsint                          
+     00005088  __divschar                         
+     0000508F  __div8                             
+     00005093  __div_signexte                     
+     00005097  __div16                            
+     000050BD  __get_remainder                    
 ASxxxx Linker V03.00 + NoICE + sdld,  page 5.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_CODE                               00002000    00002E76 =       11894. bytes (REL,CON)
+_CODE                               00002000    000031C1 =       12737. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004D7C  __mulint                           
-     00004D84  __mul16                            
-     00004D98  __divuint                          
-     00004DA0  __divuchar                         
-     00004DA7  __divu8                            
-     00004DAA  __divu16                           
-     00004DD9  dc_mode0_ct                        cpct_strings
-     00004DE9  _cpct_drawCharM0                   cpct_strings
-     00004DF6  cpct_drawCharM0_asm                cpct_strings
+     000050C7  __mulint                           
+     000050CF  __mul16                            
+     000050E3  __divuint                          
+     000050EB  __divuchar                         
+     000050F2  __divu8                            
+     000050F5  __divu16                           
+     00005124  dc_mode0_ct                        cpct_strings
+     00005134  _cpct_drawCharM0                   cpct_strings
+     00005141  cpct_drawCharM0_asm                cpct_strings
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 6.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_DATA                               00004E76    000007BC =        1980. bytes (REL,CON)
+_DATA                               000051C1    000007C5 =        1989. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00004E76  _block01                           main
-     00004E7D  _block02                           main
-     00004E84  _pvmem                             main
-     00004E86  _aux_txt                           main
-     00004EAF  _enemies                           enemies
-     000052E7  _active_enemies                    enemies
-     000052E8  _groups                            enemies
-     00005308  _active_groups                     enemies
-     00005309  _explosiones                       explosions
-     000054E9  _explosiones_activas               explosions
-     000054EA  _explosion_sprite                  explosions
-     000054FA  _explosiones_lastUpdated           explosions
-     000054FE  _shoots                            shoots
-     0000559E  _active_shoots                     shoots
-     0000559F  _user                              user
-     000055B5  _shoot_type                        user
-     000055B6  _g_nextRand                        random
-     000055B7  _aStars                            starfield
-     0000562F  _pixelColors                       starfield
-
+     000051C1  _block01                           main
+     000051C8  _block02                           main
+     000051CF  _pvmem                             main
+     000051D1  _aux_txt                           main
+     000051FA  _enemies                           enemies
+     00005632  _active_enemies                    enemies
+     00005633  _groups                            enemies
+     00005653  _active_groups                     enemies
+     00005654  _explosiones                       explosions
+     00005834  _explosiones_activas               explosions
+     00005835  _explosion_sprite                  explosions
+     00005845  _explosiones_lastUpdated           explosions
+     00005849  _shoots                            shoots
+     000058E9  _active_shoots                     shoots
+     000058EA  _user                              user
+     00005900  _shoot_type                        user
+     00005901  _g_nextRand                        random
+     00005902  _aStars                            starfield
+     0000597A  _pixelColors                       starfield
+     00005981  _nFPS                              timer
+     00005982  _nTimeLast                         timer
 ASxxxx Linker V03.00 + NoICE + sdld,  page 7.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZED                        00005632    0000000D =          13. bytes (REL,CON)
+_INITIALIZED                        00005986    00000004 =           4. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00005636  _nFPS                              timer
-     00005637  _nTimeLast                         timer
-
 ASxxxx Linker V03.00 + NoICE + sdld,  page 8.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_HOME                               0000563F    00000184 =         388. bytes (REL,CON)
+_HOME                               0000598A    0000017E =         382. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     0000563F  __mullong                          _mullong
+     0000598A  __mullong                          _mullong
 
 ASxxxx Linker V03.00 + NoICE + sdld,  page 9.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_GSINIT                             000057C3    00000008 =           8. bytes (REL,CON)
+_GSINIT                             00005B08    00000008 =           8. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -291,7 +289,7 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-_INITIALIZER                        000057CB    0000000D =          13. bytes (REL,CON)
+_INITIALIZER                        00005B10    00000004 =           4. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
@@ -329,7 +327,7 @@ Libraries Linked                          [ object file ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setPALColour.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
-                                          [ cpct_drawSprite.rel ]
+                                          [ cpct_drawSprite_cbindings.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_fw2hw.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
@@ -339,15 +337,13 @@ Libraries Linked                          [ object file ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_firmware2hw_colour_table.re ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
-                                          [ cpct_waitVSYNC.rel ]
-/Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_setVideoMode.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
-                                          [ cpct_px2byteM0.rel ]
+                                          [ cpct_px2byteM0_cbindings.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
                                           [ cpct_memset_cbinding.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/cpctelera.lib
-                                          [ cpct_drawSolidBox.rel ]
+                                          [ cpct_drawSolidBox_cbindings.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/tools/sdcc-3.5.0/bin/../share/sdcc/lib/z80/z80.lib
                                           [ _mullong.rel ]
 /Users/david/Documents/retro/proyectos/cpctelera/cpctelera/tools/sdcc-3.5.0/bin/../share/sdcc/lib/z80/z80.lib

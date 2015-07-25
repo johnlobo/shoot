@@ -83,7 +83,7 @@ void update_user() {
 
     // KEY = L
     if (cpct_isKeyPressed(Key_L)){
-        create_explosion(user.x+2, user.y, shoot_type);
+        create_explosion((rand()%20)+5,(rand()%80)+20,rand()%2);
       }
 
     if (user.ax!=0){

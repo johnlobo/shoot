@@ -66,16 +66,23 @@ void create_shoot(u8 x, u8 y, u8 type){
 //
 //******************************************************************************
 void update_shoots(){
-	u8 i;
+	u8 i,j;
 	i=0;
+	j=0;
 	if (active_shoots>0){
 		for (i=0;i<MAX_SHOOTS;i++){
 			if (shoots[i].active){
 				shoots[i].y-=SHOOT_JUMP;
 				if (shoots[i].y<200){
-					shoots[i].frame++;
-					if (shoots[i].frame==shoots[i].num_frames)
-						shoots[i].frame=0;
+					if (check_collision_enemies(shoots[i].x,shoots[i].y,shoots[i].w,shoots[i].h)){
+						create_explosion(shoots[i].x,shoots[i].y,0);
+						shoots[i].active=0;
+						active_shoots--;
+					} else {
+						shoots[i].frame++;
+						if (shoots[i].frame==shoots[i].num_frames)
+							shoots[i].frame=0;
+						}
 				} else {
 					//Borro Disparo
 					shoots[i].active=0;

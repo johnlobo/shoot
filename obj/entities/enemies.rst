@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
-                              3 ; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-                              4 ; This file was generated Mon Jul 20 03:16:35 2015
+                              3 ; Version 3.5.0 #9253 (Jul 21 2015) (Mac OS X x86_64)
+                              4 ; This file was generated Thu Jul 23 01:06:49 2015
                               5 ;--------------------------------------------------------
                               6 	.module enemies
                               7 	.optsdcc -mz80
@@ -10,1546 +10,1728 @@
                              10 ; Public variables in this module
                              11 ;--------------------------------------------------------
                              12 	.globl _inside_screen
-                             13 	.globl _cpct_getScreenPtr
-                             14 	.globl _cpct_drawSprite
-                             15 	.globl _active_groups
-                             16 	.globl _groups
-                             17 	.globl _active_enemies
-                             18 	.globl _enemies
-                             19 	.globl _init_enemies
-                             20 	.globl _create_enemy
-                             21 	.globl _create_enemy_group
-                             22 	.globl _update_enemies
-                             23 	.globl _draw_enemies
-                             24 ;--------------------------------------------------------
-                             25 ; special function registers
+                             13 	.globl _detectColision
+                             14 	.globl _cpct_getScreenPtr
+                             15 	.globl _cpct_drawSprite
+                             16 	.globl _active_groups
+                             17 	.globl _groups
+                             18 	.globl _active_enemies
+                             19 	.globl _enemies
+                             20 	.globl _check_collision_enemies
+                             21 	.globl _init_enemies
+                             22 	.globl _create_enemy
+                             23 	.globl _create_enemy_group
+                             24 	.globl _update_enemies
+                             25 	.globl _draw_enemies
                              26 ;--------------------------------------------------------
-                             27 ;--------------------------------------------------------
-                             28 ; ram data
+                             27 ; special function registers
+                             28 ;--------------------------------------------------------
                              29 ;--------------------------------------------------------
-                             30 	.area _DATA
-   4EAF                      31 _enemies::
-   4EAF                      32 	.ds 1080
-   52E7                      33 _active_enemies::
-   52E7                      34 	.ds 1
-   52E8                      35 _groups::
-   52E8                      36 	.ds 32
-   5308                      37 _active_groups::
-   5308                      38 	.ds 1
-                             39 ;--------------------------------------------------------
-                             40 ; ram data
+                             30 ; ram data
+                             31 ;--------------------------------------------------------
+                             32 	.area _DATA
+   51FA                      33 _enemies::
+   51FA                      34 	.ds 1080
+   5632                      35 _active_enemies::
+   5632                      36 	.ds 1
+   5633                      37 _groups::
+   5633                      38 	.ds 32
+   5653                      39 _active_groups::
+   5653                      40 	.ds 1
                              41 ;--------------------------------------------------------
-                             42 	.area _INITIALIZED
+                             42 ; ram data
                              43 ;--------------------------------------------------------
-                             44 ; absolute external ram data
+                             44 	.area _INITIALIZED
                              45 ;--------------------------------------------------------
-                             46 	.area _DABS (ABS)
+                             46 ; absolute external ram data
                              47 ;--------------------------------------------------------
-                             48 ; global & static initialisations
+                             48 	.area _DABS (ABS)
                              49 ;--------------------------------------------------------
-                             50 	.area _HOME
-                             51 	.area _GSINIT
-                             52 	.area _GSFINAL
+                             50 ; global & static initialisations
+                             51 ;--------------------------------------------------------
+                             52 	.area _HOME
                              53 	.area _GSINIT
-                             54 ;--------------------------------------------------------
-                             55 ; Home
+                             54 	.area _GSFINAL
+                             55 	.area _GSINIT
                              56 ;--------------------------------------------------------
-                             57 	.area _HOME
-                             58 	.area _HOME
-                             59 ;--------------------------------------------------------
-                             60 ; code
+                             57 ; Home
+                             58 ;--------------------------------------------------------
+                             59 	.area _HOME
+                             60 	.area _HOME
                              61 ;--------------------------------------------------------
-                             62 	.area _CODE
-                             63 ;src/entities/enemies.c:16: void init_enemies(){
-                             64 ;	---------------------------------
-                             65 ; Function init_enemies
-                             66 ; ---------------------------------
-   22D4                      67 _init_enemies::
-   22D4 DD E5         [15]   68 	push	ix
-   22D6 DD 21 00 00   [14]   69 	ld	ix,#0
-   22DA DD 39         [15]   70 	add	ix,sp
-   22DC 3B            [ 6]   71 	dec	sp
-                             72 ;src/entities/enemies.c:18: for (k=0;k<MAX_ENEMIES;k++){
-   22DD DD 36 FF 00   [19]   73 	ld	-1 (ix),#0x00
-   22E1 11 00 00      [10]   74 	ld	de,#0x0000
-   22E4                      75 00102$:
-                             76 ;src/entities/enemies.c:19: enemies[k].active=0;
-   22E4 21 AF 4E      [10]   77 	ld	hl,#_enemies
-   22E7 19            [11]   78 	add	hl,de
-   22E8 4D            [ 4]   79 	ld	c,l
-   22E9 44            [ 4]   80 	ld	b,h
-   22EA 21 17 00      [10]   81 	ld	hl,#0x0017
-   22ED 09            [11]   82 	add	hl,bc
-   22EE 36 00         [10]   83 	ld	(hl),#0x00
-                             84 ;src/entities/enemies.c:20: enemies[k].x=0;
-   22F0 21 10 00      [10]   85 	ld	hl,#0x0010
-   22F3 09            [11]   86 	add	hl,bc
-   22F4 AF            [ 4]   87 	xor	a, a
-   22F5 77            [ 7]   88 	ld	(hl), a
-   22F6 23            [ 6]   89 	inc	hl
-   22F7 77            [ 7]   90 	ld	(hl), a
-                             91 ;src/entities/enemies.c:21: enemies[k].y=0;
-   22F8 21 12 00      [10]   92 	ld	hl,#0x0012
-   22FB 09            [11]   93 	add	hl,bc
-   22FC AF            [ 4]   94 	xor	a, a
-   22FD 77            [ 7]   95 	ld	(hl), a
-   22FE 23            [ 6]   96 	inc	hl
-   22FF 77            [ 7]   97 	ld	(hl), a
-                             98 ;src/entities/enemies.c:22: enemies[k].w=0;
-   2300 21 14 00      [10]   99 	ld	hl,#0x0014
-   2303 09            [11]  100 	add	hl,bc
-   2304 36 00         [10]  101 	ld	(hl),#0x00
-                            102 ;src/entities/enemies.c:23: enemies[k].h=0;
-   2306 21 15 00      [10]  103 	ld	hl,#0x0015
-   2309 09            [11]  104 	add	hl,bc
-   230A 36 00         [10]  105 	ld	(hl),#0x00
-                            106 ;src/entities/enemies.c:24: enemies[k].dir=0;
-   230C 21 16 00      [10]  107 	ld	hl,#0x0016
-   230F 09            [11]  108 	add	hl,bc
-   2310 36 00         [10]  109 	ld	(hl),#0x00
-                            110 ;src/entities/enemies.c:25: enemies[k].frame=0;
-   2312 21 19 00      [10]  111 	ld	hl,#0x0019
-   2315 09            [11]  112 	add	hl,bc
-   2316 36 00         [10]  113 	ld	(hl),#0x00
-                            114 ;src/entities/enemies.c:26: enemies[k].lastmoved=0;
-   2318 21 20 00      [10]  115 	ld	hl,#0x0020
-   231B 09            [11]  116 	add	hl,bc
-   231C AF            [ 4]  117 	xor	a, a
-   231D 77            [ 7]  118 	ld	(hl), a
-   231E 23            [ 6]  119 	inc	hl
-   231F 77            [ 7]  120 	ld	(hl), a
-   2320 23            [ 6]  121 	inc	hl
-   2321 AF            [ 4]  122 	xor	a, a
-   2322 77            [ 7]  123 	ld	(hl), a
-   2323 23            [ 6]  124 	inc	hl
-   2324 77            [ 7]  125 	ld	(hl), a
-                            126 ;src/entities/enemies.c:18: for (k=0;k<MAX_ENEMIES;k++){
-   2325 21 24 00      [10]  127 	ld	hl,#0x0024
-   2328 19            [11]  128 	add	hl,de
-   2329 EB            [ 4]  129 	ex	de,hl
-   232A DD 34 FF      [23]  130 	inc	-1 (ix)
-   232D DD 7E FF      [19]  131 	ld	a,-1 (ix)
-   2330 D6 1E         [ 7]  132 	sub	a, #0x1E
-   2332 38 B0         [12]  133 	jr	C,00102$
-                            134 ;src/entities/enemies.c:28: active_enemies=0;
-   2334 21 E7 52      [10]  135 	ld	hl,#_active_enemies + 0
-   2337 36 00         [10]  136 	ld	(hl), #0x00
-   2339 33            [ 6]  137 	inc	sp
-   233A DD E1         [14]  138 	pop	ix
-   233C C9            [10]  139 	ret
-                            140 ;src/entities/enemies.c:36: void create_enemy(i16 x, i16 y, u8 type){
-                            141 ;	---------------------------------
-                            142 ; Function create_enemy
-                            143 ; ---------------------------------
-   233D                     144 _create_enemy::
-   233D DD E5         [15]  145 	push	ix
-   233F DD 21 00 00   [14]  146 	ld	ix,#0
-   2343 DD 39         [15]  147 	add	ix,sp
-   2345 21 E0 FF      [10]  148 	ld	hl,#-32
-   2348 39            [11]  149 	add	hl,sp
-   2349 F9            [ 6]  150 	ld	sp,hl
-                            151 ;src/entities/enemies.c:38: if (active_enemies < MAX_ENEMIES){
-   234A 3A E7 52      [13]  152 	ld	a,(#_active_enemies + 0)
-   234D D6 1E         [ 7]  153 	sub	a, #0x1E
-   234F D2 77 26      [10]  154 	jp	NC,00110$
-                            155 ;src/entities/enemies.c:40: while (enemies[k].active){
-   2352 11 00 00      [10]  156 	ld	de,#0x0000
-   2355                     157 00101$:
-   2355 21 AF 4E      [10]  158 	ld	hl,#_enemies
-   2358 19            [11]  159 	add	hl,de
-   2359 DD 75 FE      [19]  160 	ld	-2 (ix),l
-   235C DD 74 FF      [19]  161 	ld	-1 (ix),h
-   235F DD 7E FE      [19]  162 	ld	a,-2 (ix)
-   2362 C6 17         [ 7]  163 	add	a, #0x17
-   2364 6F            [ 4]  164 	ld	l,a
-   2365 DD 7E FF      [19]  165 	ld	a,-1 (ix)
-   2368 CE 00         [ 7]  166 	adc	a, #0x00
-   236A 67            [ 4]  167 	ld	h,a
-   236B 7E            [ 7]  168 	ld	a,(hl)
-   236C B7            [ 4]  169 	or	a, a
-   236D 28 07         [12]  170 	jr	Z,00103$
-                            171 ;src/entities/enemies.c:41: k++;
-   236F 21 24 00      [10]  172 	ld	hl,#0x0024
-   2372 19            [11]  173 	add	hl,de
-   2373 EB            [ 4]  174 	ex	de,hl
-   2374 18 DF         [12]  175 	jr	00101$
-   2376                     176 00103$:
-                            177 ;src/entities/enemies.c:43: enemies[k].active=1;
-   2376 36 01         [10]  178 	ld	(hl),#0x01
-                            179 ;src/entities/enemies.c:44: enemies[k].frame=0;
-   2378 DD 7E FE      [19]  180 	ld	a,-2 (ix)
-   237B C6 19         [ 7]  181 	add	a, #0x19
-   237D 6F            [ 4]  182 	ld	l,a
-   237E DD 7E FF      [19]  183 	ld	a,-1 (ix)
-   2381 CE 00         [ 7]  184 	adc	a, #0x00
-   2383 67            [ 4]  185 	ld	h,a
-   2384 36 00         [10]  186 	ld	(hl),#0x00
-                            187 ;src/entities/enemies.c:48: enemies[k].x=x;
-   2386 DD 7E FE      [19]  188 	ld	a,-2 (ix)
-   2389 C6 10         [ 7]  189 	add	a, #0x10
-   238B DD 77 FC      [19]  190 	ld	-4 (ix),a
-   238E DD 7E FF      [19]  191 	ld	a,-1 (ix)
-   2391 CE 00         [ 7]  192 	adc	a, #0x00
-   2393 DD 77 FD      [19]  193 	ld	-3 (ix),a
-                            194 ;src/entities/enemies.c:49: enemies[k].y=y;
-   2396 DD 7E FE      [19]  195 	ld	a,-2 (ix)
-   2399 C6 12         [ 7]  196 	add	a, #0x12
-   239B DD 77 FA      [19]  197 	ld	-6 (ix),a
-   239E DD 7E FF      [19]  198 	ld	a,-1 (ix)
-   23A1 CE 00         [ 7]  199 	adc	a, #0x00
-   23A3 DD 77 FB      [19]  200 	ld	-5 (ix),a
-                            201 ;src/entities/enemies.c:50: enemies[k].w=6;
-   23A6 DD 7E FE      [19]  202 	ld	a,-2 (ix)
-   23A9 C6 14         [ 7]  203 	add	a, #0x14
-   23AB DD 77 F8      [19]  204 	ld	-8 (ix),a
-   23AE DD 7E FF      [19]  205 	ld	a,-1 (ix)
-   23B1 CE 00         [ 7]  206 	adc	a, #0x00
-   23B3 DD 77 F9      [19]  207 	ld	-7 (ix),a
-                            208 ;src/entities/enemies.c:51: enemies[k].h=12;
-   23B6 DD 7E FE      [19]  209 	ld	a,-2 (ix)
-   23B9 C6 15         [ 7]  210 	add	a, #0x15
-   23BB DD 77 F6      [19]  211 	ld	-10 (ix),a
-   23BE DD 7E FF      [19]  212 	ld	a,-1 (ix)
-   23C1 CE 00         [ 7]  213 	adc	a, #0x00
-   23C3 DD 77 F7      [19]  214 	ld	-9 (ix),a
-                            215 ;src/entities/enemies.c:52: enemies[k].num_frames=0;
-   23C6 DD 7E FE      [19]  216 	ld	a,-2 (ix)
-   23C9 C6 18         [ 7]  217 	add	a, #0x18
-   23CB DD 77 F4      [19]  218 	ld	-12 (ix),a
-   23CE DD 7E FF      [19]  219 	ld	a,-1 (ix)
-   23D1 CE 00         [ 7]  220 	adc	a, #0x00
-   23D3 DD 77 F5      [19]  221 	ld	-11 (ix),a
-                            222 ;src/entities/enemies.c:54: enemies[k].sprite[1]= (u8*) G_baddie02_01;
-   23D6 DD 7E FE      [19]  223 	ld	a,-2 (ix)
-   23D9 C6 02         [ 7]  224 	add	a, #0x02
-   23DB DD 77 F2      [19]  225 	ld	-14 (ix),a
-   23DE DD 7E FF      [19]  226 	ld	a,-1 (ix)
-   23E1 CE 00         [ 7]  227 	adc	a, #0x00
-   23E3 DD 77 F3      [19]  228 	ld	-13 (ix),a
-                            229 ;src/entities/enemies.c:55: enemies[k].sprite[2]= (u8*) G_baddie02_02;
-   23E6 DD 7E FE      [19]  230 	ld	a,-2 (ix)
-   23E9 C6 04         [ 7]  231 	add	a, #0x04
-   23EB DD 77 F0      [19]  232 	ld	-16 (ix),a
-   23EE DD 7E FF      [19]  233 	ld	a,-1 (ix)
-   23F1 CE 00         [ 7]  234 	adc	a, #0x00
-   23F3 DD 77 F1      [19]  235 	ld	-15 (ix),a
-                            236 ;src/entities/enemies.c:56: enemies[k].sprite[3]= (u8*) G_baddie02_03;
-   23F6 DD 7E FE      [19]  237 	ld	a,-2 (ix)
-   23F9 C6 06         [ 7]  238 	add	a, #0x06
-   23FB DD 77 EE      [19]  239 	ld	-18 (ix),a
-   23FE DD 7E FF      [19]  240 	ld	a,-1 (ix)
-   2401 CE 00         [ 7]  241 	adc	a, #0x00
-   2403 DD 77 EF      [19]  242 	ld	-17 (ix),a
-                            243 ;src/entities/enemies.c:57: enemies[k].sprite[4]= (u8*) G_baddie02_04;
-   2406 DD 7E FE      [19]  244 	ld	a,-2 (ix)
-   2409 C6 08         [ 7]  245 	add	a, #0x08
-   240B DD 77 EC      [19]  246 	ld	-20 (ix),a
-   240E DD 7E FF      [19]  247 	ld	a,-1 (ix)
-   2411 CE 00         [ 7]  248 	adc	a, #0x00
-   2413 DD 77 ED      [19]  249 	ld	-19 (ix),a
-                            250 ;src/entities/enemies.c:58: enemies[k].sprite[5]= (u8*) G_baddie02_05;
-   2416 DD 7E FE      [19]  251 	ld	a,-2 (ix)
-   2419 C6 0A         [ 7]  252 	add	a, #0x0A
-   241B DD 77 EA      [19]  253 	ld	-22 (ix),a
-   241E DD 7E FF      [19]  254 	ld	a,-1 (ix)
-   2421 CE 00         [ 7]  255 	adc	a, #0x00
-   2423 DD 77 EB      [19]  256 	ld	-21 (ix),a
-                            257 ;src/entities/enemies.c:59: enemies[k].sprite[6]= (u8*) G_baddie02_06;
-   2426 DD 7E FE      [19]  258 	ld	a,-2 (ix)
-   2429 C6 0C         [ 7]  259 	add	a, #0x0C
-   242B DD 77 E8      [19]  260 	ld	-24 (ix),a
-   242E DD 7E FF      [19]  261 	ld	a,-1 (ix)
-   2431 CE 00         [ 7]  262 	adc	a, #0x00
-   2433 DD 77 E9      [19]  263 	ld	-23 (ix),a
-                            264 ;src/entities/enemies.c:60: enemies[k].sprite[7]= (u8*) G_baddie02_07;
-   2436 DD 7E FE      [19]  265 	ld	a,-2 (ix)
-   2439 C6 0E         [ 7]  266 	add	a, #0x0E
-   243B DD 77 E6      [19]  267 	ld	-26 (ix),a
-   243E DD 7E FF      [19]  268 	ld	a,-1 (ix)
-   2441 CE 00         [ 7]  269 	adc	a, #0x00
-   2443 DD 77 E7      [19]  270 	ld	-25 (ix),a
-                            271 ;src/entities/enemies.c:61: enemies[k].movement=0;
-   2446 DD 7E FE      [19]  272 	ld	a,-2 (ix)
-   2449 C6 1D         [ 7]  273 	add	a, #0x1D
-   244B DD 77 E4      [19]  274 	ld	-28 (ix),a
-   244E DD 7E FF      [19]  275 	ld	a,-1 (ix)
-   2451 CE 00         [ 7]  276 	adc	a, #0x00
-   2453 DD 77 E5      [19]  277 	ld	-27 (ix),a
-                            278 ;src/entities/enemies.c:62: enemies[k].stage=0;
-   2456 DD 7E FE      [19]  279 	ld	a,-2 (ix)
-   2459 C6 1E         [ 7]  280 	add	a, #0x1E
-   245B DD 77 E2      [19]  281 	ld	-30 (ix),a
-   245E DD 7E FF      [19]  282 	ld	a,-1 (ix)
-   2461 CE 00         [ 7]  283 	adc	a, #0x00
-   2463 DD 77 E3      [19]  284 	ld	-29 (ix),a
-                            285 ;src/entities/enemies.c:63: enemies[k].stage_step=0;
-   2466 DD 7E FE      [19]  286 	ld	a,-2 (ix)
-   2469 C6 1F         [ 7]  287 	add	a, #0x1F
-   246B DD 77 E0      [19]  288 	ld	-32 (ix),a
-   246E DD 7E FF      [19]  289 	ld	a,-1 (ix)
-   2471 CE 00         [ 7]  290 	adc	a, #0x00
-   2473 DD 77 E1      [19]  291 	ld	-31 (ix),a
-                            292 ;src/entities/enemies.c:45: switch (type){
-   2476 DD 7E 08      [19]  293 	ld	a,8 (ix)
-   2479 3D            [ 4]  294 	dec	a
-   247A 28 0B         [12]  295 	jr	Z,00104$
-   247C DD 7E 08      [19]  296 	ld	a,8 (ix)
-   247F D6 02         [ 7]  297 	sub	a, #0x02
-   2481 CA 2C 25      [10]  298 	jp	Z,00105$
-   2484 C3 D1 25      [10]  299 	jp	00106$
-                            300 ;src/entities/enemies.c:47: case 1:
-   2487                     301 00104$:
-                            302 ;src/entities/enemies.c:48: enemies[k].x=x;
-   2487 DD 6E FC      [19]  303 	ld	l,-4 (ix)
-   248A DD 66 FD      [19]  304 	ld	h,-3 (ix)
-   248D DD 7E 04      [19]  305 	ld	a,4 (ix)
-   2490 77            [ 7]  306 	ld	(hl),a
-   2491 23            [ 6]  307 	inc	hl
-   2492 DD 7E 05      [19]  308 	ld	a,5 (ix)
-   2495 77            [ 7]  309 	ld	(hl),a
-                            310 ;src/entities/enemies.c:49: enemies[k].y=y;
-   2496 DD 6E FA      [19]  311 	ld	l,-6 (ix)
-   2499 DD 66 FB      [19]  312 	ld	h,-5 (ix)
-   249C DD 7E 06      [19]  313 	ld	a,6 (ix)
-   249F 77            [ 7]  314 	ld	(hl),a
-   24A0 23            [ 6]  315 	inc	hl
-   24A1 DD 7E 07      [19]  316 	ld	a,7 (ix)
-   24A4 77            [ 7]  317 	ld	(hl),a
-                            318 ;src/entities/enemies.c:50: enemies[k].w=6;
-   24A5 DD 6E F8      [19]  319 	ld	l,-8 (ix)
-   24A8 DD 66 F9      [19]  320 	ld	h,-7 (ix)
-   24AB 36 06         [10]  321 	ld	(hl),#0x06
-                            322 ;src/entities/enemies.c:51: enemies[k].h=12;
-   24AD DD 6E F6      [19]  323 	ld	l,-10 (ix)
-   24B0 DD 66 F7      [19]  324 	ld	h,-9 (ix)
-   24B3 36 0C         [10]  325 	ld	(hl),#0x0C
-                            326 ;src/entities/enemies.c:52: enemies[k].num_frames=0;
-   24B5 DD 6E F4      [19]  327 	ld	l,-12 (ix)
-   24B8 DD 66 F5      [19]  328 	ld	h,-11 (ix)
-   24BB 36 00         [10]  329 	ld	(hl),#0x00
-                            330 ;src/entities/enemies.c:53: enemies[k].sprite[0]= (u8*) G_baddie02_00;
-   24BD DD 6E FE      [19]  331 	ld	l,-2 (ix)
-   24C0 DD 66 FF      [19]  332 	ld	h,-1 (ix)
-   24C3 36 FD         [10]  333 	ld	(hl),#<(_G_baddie02_00)
-   24C5 23            [ 6]  334 	inc	hl
-   24C6 36 39         [10]  335 	ld	(hl),#>(_G_baddie02_00)
-                            336 ;src/entities/enemies.c:54: enemies[k].sprite[1]= (u8*) G_baddie02_01;
-   24C8 DD 6E F2      [19]  337 	ld	l,-14 (ix)
-   24CB DD 66 F3      [19]  338 	ld	h,-13 (ix)
-   24CE 36 45         [10]  339 	ld	(hl),#<(_G_baddie02_01)
-   24D0 23            [ 6]  340 	inc	hl
-   24D1 36 3A         [10]  341 	ld	(hl),#>(_G_baddie02_01)
-                            342 ;src/entities/enemies.c:55: enemies[k].sprite[2]= (u8*) G_baddie02_02;
-   24D3 DD 6E F0      [19]  343 	ld	l,-16 (ix)
-   24D6 DD 66 F1      [19]  344 	ld	h,-15 (ix)
-   24D9 36 8D         [10]  345 	ld	(hl),#<(_G_baddie02_02)
-   24DB 23            [ 6]  346 	inc	hl
-   24DC 36 3A         [10]  347 	ld	(hl),#>(_G_baddie02_02)
-                            348 ;src/entities/enemies.c:56: enemies[k].sprite[3]= (u8*) G_baddie02_03;
-   24DE DD 6E EE      [19]  349 	ld	l,-18 (ix)
-   24E1 DD 66 EF      [19]  350 	ld	h,-17 (ix)
-   24E4 36 D5         [10]  351 	ld	(hl),#<(_G_baddie02_03)
-   24E6 23            [ 6]  352 	inc	hl
-   24E7 36 3A         [10]  353 	ld	(hl),#>(_G_baddie02_03)
-                            354 ;src/entities/enemies.c:57: enemies[k].sprite[4]= (u8*) G_baddie02_04;
-   24E9 DD 6E EC      [19]  355 	ld	l,-20 (ix)
-   24EC DD 66 ED      [19]  356 	ld	h,-19 (ix)
-   24EF 36 1D         [10]  357 	ld	(hl),#<(_G_baddie02_04)
-   24F1 23            [ 6]  358 	inc	hl
-   24F2 36 3B         [10]  359 	ld	(hl),#>(_G_baddie02_04)
-                            360 ;src/entities/enemies.c:58: enemies[k].sprite[5]= (u8*) G_baddie02_05;
-   24F4 DD 6E EA      [19]  361 	ld	l,-22 (ix)
-   24F7 DD 66 EB      [19]  362 	ld	h,-21 (ix)
-   24FA 36 65         [10]  363 	ld	(hl),#<(_G_baddie02_05)
-   24FC 23            [ 6]  364 	inc	hl
-   24FD 36 3B         [10]  365 	ld	(hl),#>(_G_baddie02_05)
-                            366 ;src/entities/enemies.c:59: enemies[k].sprite[6]= (u8*) G_baddie02_06;
-   24FF DD 6E E8      [19]  367 	ld	l,-24 (ix)
-   2502 DD 66 E9      [19]  368 	ld	h,-23 (ix)
-   2505 36 AD         [10]  369 	ld	(hl),#<(_G_baddie02_06)
-   2507 23            [ 6]  370 	inc	hl
-   2508 36 3B         [10]  371 	ld	(hl),#>(_G_baddie02_06)
-                            372 ;src/entities/enemies.c:60: enemies[k].sprite[7]= (u8*) G_baddie02_07;
-   250A DD 6E E6      [19]  373 	ld	l,-26 (ix)
-   250D DD 66 E7      [19]  374 	ld	h,-25 (ix)
-   2510 36 F5         [10]  375 	ld	(hl),#<(_G_baddie02_07)
-   2512 23            [ 6]  376 	inc	hl
-   2513 36 3B         [10]  377 	ld	(hl),#>(_G_baddie02_07)
-                            378 ;src/entities/enemies.c:61: enemies[k].movement=0;
-   2515 DD 6E E4      [19]  379 	ld	l,-28 (ix)
-   2518 DD 66 E5      [19]  380 	ld	h,-27 (ix)
-   251B 36 00         [10]  381 	ld	(hl),#0x00
-                            382 ;src/entities/enemies.c:62: enemies[k].stage=0;
-   251D DD 6E E2      [19]  383 	ld	l,-30 (ix)
-   2520 DD 66 E3      [19]  384 	ld	h,-29 (ix)
-   2523 36 00         [10]  385 	ld	(hl),#0x00
-                            386 ;src/entities/enemies.c:63: enemies[k].stage_step=0;
-   2525 E1            [10]  387 	pop	hl
-   2526 E5            [11]  388 	push	hl
-   2527 36 00         [10]  389 	ld	(hl),#0x00
-                            390 ;src/entities/enemies.c:64: break;
-   2529 C3 73 26      [10]  391 	jp	00107$
-                            392 ;src/entities/enemies.c:65: case 2:
-   252C                     393 00105$:
-                            394 ;src/entities/enemies.c:66: enemies[k].x=x;
-   252C DD 6E FC      [19]  395 	ld	l,-4 (ix)
-   252F DD 66 FD      [19]  396 	ld	h,-3 (ix)
-   2532 DD 7E 04      [19]  397 	ld	a,4 (ix)
-   2535 77            [ 7]  398 	ld	(hl),a
-   2536 23            [ 6]  399 	inc	hl
-   2537 DD 7E 05      [19]  400 	ld	a,5 (ix)
-   253A 77            [ 7]  401 	ld	(hl),a
-                            402 ;src/entities/enemies.c:67: enemies[k].y=y;
-   253B DD 6E FA      [19]  403 	ld	l,-6 (ix)
-   253E DD 66 FB      [19]  404 	ld	h,-5 (ix)
-   2541 DD 7E 06      [19]  405 	ld	a,6 (ix)
-   2544 77            [ 7]  406 	ld	(hl),a
-   2545 23            [ 6]  407 	inc	hl
-   2546 DD 7E 07      [19]  408 	ld	a,7 (ix)
-   2549 77            [ 7]  409 	ld	(hl),a
-                            410 ;src/entities/enemies.c:68: enemies[k].w=4;
-   254A DD 6E F8      [19]  411 	ld	l,-8 (ix)
-   254D DD 66 F9      [19]  412 	ld	h,-7 (ix)
-   2550 36 04         [10]  413 	ld	(hl),#0x04
-                            414 ;src/entities/enemies.c:69: enemies[k].h=8;
-   2552 DD 6E F6      [19]  415 	ld	l,-10 (ix)
-   2555 DD 66 F7      [19]  416 	ld	h,-9 (ix)
-   2558 36 08         [10]  417 	ld	(hl),#0x08
-                            418 ;src/entities/enemies.c:70: enemies[k].num_frames=0;
-   255A DD 6E F4      [19]  419 	ld	l,-12 (ix)
-   255D DD 66 F5      [19]  420 	ld	h,-11 (ix)
-   2560 36 00         [10]  421 	ld	(hl),#0x00
-                            422 ;src/entities/enemies.c:71: enemies[k].sprite[0]= (u8*) G_baddie03_00;
-   2562 DD 6E FE      [19]  423 	ld	l,-2 (ix)
-   2565 DD 66 FF      [19]  424 	ld	h,-1 (ix)
-   2568 36 F5         [10]  425 	ld	(hl),#<(_G_baddie03_00)
-   256A 23            [ 6]  426 	inc	hl
-   256B 36 3E         [10]  427 	ld	(hl),#>(_G_baddie03_00)
-                            428 ;src/entities/enemies.c:72: enemies[k].sprite[1]= (u8*) G_baddie03_01;
-   256D DD 6E F2      [19]  429 	ld	l,-14 (ix)
-   2570 DD 66 F3      [19]  430 	ld	h,-13 (ix)
-   2573 36 15         [10]  431 	ld	(hl),#<(_G_baddie03_01)
-   2575 23            [ 6]  432 	inc	hl
-   2576 36 3F         [10]  433 	ld	(hl),#>(_G_baddie03_01)
-                            434 ;src/entities/enemies.c:73: enemies[k].sprite[2]= (u8*) G_baddie03_02;
-   2578 DD 6E F0      [19]  435 	ld	l,-16 (ix)
-   257B DD 66 F1      [19]  436 	ld	h,-15 (ix)
-   257E 36 35         [10]  437 	ld	(hl),#<(_G_baddie03_02)
-   2580 23            [ 6]  438 	inc	hl
-   2581 36 3F         [10]  439 	ld	(hl),#>(_G_baddie03_02)
-                            440 ;src/entities/enemies.c:74: enemies[k].sprite[3]= (u8*) G_baddie03_03;
-   2583 DD 6E EE      [19]  441 	ld	l,-18 (ix)
-   2586 DD 66 EF      [19]  442 	ld	h,-17 (ix)
-   2589 36 55         [10]  443 	ld	(hl),#<(_G_baddie03_03)
-   258B 23            [ 6]  444 	inc	hl
-   258C 36 3F         [10]  445 	ld	(hl),#>(_G_baddie03_03)
-                            446 ;src/entities/enemies.c:75: enemies[k].sprite[4]= (u8*) G_baddie03_04;
-   258E DD 6E EC      [19]  447 	ld	l,-20 (ix)
-   2591 DD 66 ED      [19]  448 	ld	h,-19 (ix)
-   2594 36 75         [10]  449 	ld	(hl),#<(_G_baddie03_04)
-   2596 23            [ 6]  450 	inc	hl
-   2597 36 3F         [10]  451 	ld	(hl),#>(_G_baddie03_04)
-                            452 ;src/entities/enemies.c:76: enemies[k].sprite[5]= (u8*) G_baddie03_05;
-   2599 DD 6E EA      [19]  453 	ld	l,-22 (ix)
-   259C DD 66 EB      [19]  454 	ld	h,-21 (ix)
-   259F 36 95         [10]  455 	ld	(hl),#<(_G_baddie03_05)
-   25A1 23            [ 6]  456 	inc	hl
-   25A2 36 3F         [10]  457 	ld	(hl),#>(_G_baddie03_05)
-                            458 ;src/entities/enemies.c:77: enemies[k].sprite[6]= (u8*) G_baddie03_06;
-   25A4 DD 6E E8      [19]  459 	ld	l,-24 (ix)
-   25A7 DD 66 E9      [19]  460 	ld	h,-23 (ix)
-   25AA 36 B5         [10]  461 	ld	(hl),#<(_G_baddie03_06)
-   25AC 23            [ 6]  462 	inc	hl
-   25AD 36 3F         [10]  463 	ld	(hl),#>(_G_baddie03_06)
-                            464 ;src/entities/enemies.c:78: enemies[k].sprite[7]= (u8*) G_baddie03_07;
-   25AF DD 6E E6      [19]  465 	ld	l,-26 (ix)
-   25B2 DD 66 E7      [19]  466 	ld	h,-25 (ix)
-   25B5 36 D5         [10]  467 	ld	(hl),#<(_G_baddie03_07)
-   25B7 23            [ 6]  468 	inc	hl
-   25B8 36 3F         [10]  469 	ld	(hl),#>(_G_baddie03_07)
-                            470 ;src/entities/enemies.c:79: enemies[k].movement=0;
-   25BA DD 6E E4      [19]  471 	ld	l,-28 (ix)
-   25BD DD 66 E5      [19]  472 	ld	h,-27 (ix)
-   25C0 36 00         [10]  473 	ld	(hl),#0x00
-                            474 ;src/entities/enemies.c:80: enemies[k].stage=0;
-   25C2 DD 6E E2      [19]  475 	ld	l,-30 (ix)
-   25C5 DD 66 E3      [19]  476 	ld	h,-29 (ix)
-   25C8 36 00         [10]  477 	ld	(hl),#0x00
-                            478 ;src/entities/enemies.c:81: enemies[k].stage_step=0;
-   25CA E1            [10]  479 	pop	hl
-   25CB E5            [11]  480 	push	hl
-   25CC 36 00         [10]  481 	ld	(hl),#0x00
-                            482 ;src/entities/enemies.c:82: break;
-   25CE C3 73 26      [10]  483 	jp	00107$
-                            484 ;src/entities/enemies.c:83: default:
-   25D1                     485 00106$:
-                            486 ;src/entities/enemies.c:84: enemies[k].x=x;
-   25D1 DD 6E FC      [19]  487 	ld	l,-4 (ix)
-   25D4 DD 66 FD      [19]  488 	ld	h,-3 (ix)
-   25D7 DD 7E 04      [19]  489 	ld	a,4 (ix)
-   25DA 77            [ 7]  490 	ld	(hl),a
-   25DB 23            [ 6]  491 	inc	hl
-   25DC DD 7E 05      [19]  492 	ld	a,5 (ix)
-   25DF 77            [ 7]  493 	ld	(hl),a
-                            494 ;src/entities/enemies.c:85: enemies[k].y=y;
-   25E0 DD 6E FA      [19]  495 	ld	l,-6 (ix)
-   25E3 DD 66 FB      [19]  496 	ld	h,-5 (ix)
-   25E6 DD 7E 06      [19]  497 	ld	a,6 (ix)
-   25E9 77            [ 7]  498 	ld	(hl),a
-   25EA 23            [ 6]  499 	inc	hl
-   25EB DD 7E 07      [19]  500 	ld	a,7 (ix)
-   25EE 77            [ 7]  501 	ld	(hl),a
-                            502 ;src/entities/enemies.c:86: enemies[k].w=5;
-   25EF DD 6E F8      [19]  503 	ld	l,-8 (ix)
-   25F2 DD 66 F9      [19]  504 	ld	h,-7 (ix)
-   25F5 36 05         [10]  505 	ld	(hl),#0x05
-                            506 ;src/entities/enemies.c:87: enemies[k].h=16;
-   25F7 DD 6E F6      [19]  507 	ld	l,-10 (ix)
-   25FA DD 66 F7      [19]  508 	ld	h,-9 (ix)
-   25FD 36 10         [10]  509 	ld	(hl),#0x10
-                            510 ;src/entities/enemies.c:88: enemies[k].num_frames=0;
-   25FF DD 6E F4      [19]  511 	ld	l,-12 (ix)
-   2602 DD 66 F5      [19]  512 	ld	h,-11 (ix)
-   2605 36 00         [10]  513 	ld	(hl),#0x00
-                            514 ;src/entities/enemies.c:89: enemies[k].sprite[0]= (u8*) G_baddie01_00;
-   2607 DD 6E FE      [19]  515 	ld	l,-2 (ix)
-   260A DD 66 FF      [19]  516 	ld	h,-1 (ix)
-   260D 36 7D         [10]  517 	ld	(hl),#<(_G_baddie01_00)
-   260F 23            [ 6]  518 	inc	hl
-   2610 36 37         [10]  519 	ld	(hl),#>(_G_baddie01_00)
-                            520 ;src/entities/enemies.c:90: enemies[k].sprite[1]= (u8*) G_baddie01_01;
-   2612 DD 6E F2      [19]  521 	ld	l,-14 (ix)
-   2615 DD 66 F3      [19]  522 	ld	h,-13 (ix)
-   2618 36 CD         [10]  523 	ld	(hl),#<(_G_baddie01_01)
-   261A 23            [ 6]  524 	inc	hl
-   261B 36 37         [10]  525 	ld	(hl),#>(_G_baddie01_01)
-                            526 ;src/entities/enemies.c:91: enemies[k].sprite[2]= (u8*) G_baddie01_02;
-   261D DD 6E F0      [19]  527 	ld	l,-16 (ix)
-   2620 DD 66 F1      [19]  528 	ld	h,-15 (ix)
-   2623 36 1D         [10]  529 	ld	(hl),#<(_G_baddie01_02)
-   2625 23            [ 6]  530 	inc	hl
-   2626 36 38         [10]  531 	ld	(hl),#>(_G_baddie01_02)
-                            532 ;src/entities/enemies.c:92: enemies[k].sprite[3]= (u8*) G_baddie01_03;
-   2628 DD 6E EE      [19]  533 	ld	l,-18 (ix)
-   262B DD 66 EF      [19]  534 	ld	h,-17 (ix)
-   262E 36 6D         [10]  535 	ld	(hl),#<(_G_baddie01_03)
-   2630 23            [ 6]  536 	inc	hl
-   2631 36 38         [10]  537 	ld	(hl),#>(_G_baddie01_03)
-                            538 ;src/entities/enemies.c:93: enemies[k].sprite[4]= (u8*) G_baddie01_04;
-   2633 DD 6E EC      [19]  539 	ld	l,-20 (ix)
-   2636 DD 66 ED      [19]  540 	ld	h,-19 (ix)
-   2639 36 BD         [10]  541 	ld	(hl),#<(_G_baddie01_04)
-   263B 23            [ 6]  542 	inc	hl
-   263C 36 38         [10]  543 	ld	(hl),#>(_G_baddie01_04)
-                            544 ;src/entities/enemies.c:94: enemies[k].sprite[5]= (u8*) G_baddie01_05;
-   263E DD 6E EA      [19]  545 	ld	l,-22 (ix)
-   2641 DD 66 EB      [19]  546 	ld	h,-21 (ix)
-   2644 36 0D         [10]  547 	ld	(hl),#<(_G_baddie01_05)
-   2646 23            [ 6]  548 	inc	hl
-   2647 36 39         [10]  549 	ld	(hl),#>(_G_baddie01_05)
-                            550 ;src/entities/enemies.c:95: enemies[k].sprite[6]= (u8*) G_baddie01_06;
-   2649 DD 6E E8      [19]  551 	ld	l,-24 (ix)
-   264C DD 66 E9      [19]  552 	ld	h,-23 (ix)
-   264F 36 5D         [10]  553 	ld	(hl),#<(_G_baddie01_06)
-   2651 23            [ 6]  554 	inc	hl
-   2652 36 39         [10]  555 	ld	(hl),#>(_G_baddie01_06)
-                            556 ;src/entities/enemies.c:96: enemies[k].sprite[7]= (u8*) G_baddie01_07;
-   2654 DD 6E E6      [19]  557 	ld	l,-26 (ix)
-   2657 DD 66 E7      [19]  558 	ld	h,-25 (ix)
-   265A 36 AD         [10]  559 	ld	(hl),#<(_G_baddie01_07)
-   265C 23            [ 6]  560 	inc	hl
-   265D 36 39         [10]  561 	ld	(hl),#>(_G_baddie01_07)
-                            562 ;src/entities/enemies.c:97: enemies[k].movement=1;
-   265F DD 6E E4      [19]  563 	ld	l,-28 (ix)
-   2662 DD 66 E5      [19]  564 	ld	h,-27 (ix)
-   2665 36 01         [10]  565 	ld	(hl),#0x01
-                            566 ;src/entities/enemies.c:98: enemies[k].stage=0;
-   2667 DD 6E E2      [19]  567 	ld	l,-30 (ix)
-   266A DD 66 E3      [19]  568 	ld	h,-29 (ix)
-   266D 36 00         [10]  569 	ld	(hl),#0x00
-                            570 ;src/entities/enemies.c:99: enemies[k].stage_step=0;
-   266F E1            [10]  571 	pop	hl
-   2670 E5            [11]  572 	push	hl
-   2671 36 00         [10]  573 	ld	(hl),#0x00
-                            574 ;src/entities/enemies.c:101: }
-   2673                     575 00107$:
-                            576 ;src/entities/enemies.c:102: active_enemies++;
-   2673 21 E7 52      [10]  577 	ld	hl, #_active_enemies+0
-   2676 34            [11]  578 	inc	(hl)
-   2677                     579 00110$:
-   2677 DD F9         [10]  580 	ld	sp, ix
-   2679 DD E1         [14]  581 	pop	ix
-   267B C9            [10]  582 	ret
-                            583 ;src/entities/enemies.c:108: void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies ){
-                            584 ;	---------------------------------
-                            585 ; Function create_enemy_group
-                            586 ; ---------------------------------
-   267C                     587 _create_enemy_group::
-   267C DD E5         [15]  588 	push	ix
-   267E DD 21 00 00   [14]  589 	ld	ix,#0
-   2682 DD 39         [15]  590 	add	ix,sp
-                            591 ;src/entities/enemies.c:110: if (active_groups < MAX_ENEMY_GROUPS){
-   2684 3A 08 53      [13]  592 	ld	a,(#_active_groups + 0)
-   2687 D6 04         [ 7]  593 	sub	a, #0x04
-   2689 30 4E         [12]  594 	jr	NC,00106$
-                            595 ;src/entities/enemies.c:112: while (groups[k].active){
-   268B 16 00         [ 7]  596 	ld	d,#0x00
-   268D                     597 00101$:
-   268D 6A            [ 4]  598 	ld	l,d
-   268E 26 00         [ 7]  599 	ld	h,#0x00
-   2690 29            [11]  600 	add	hl, hl
-   2691 29            [11]  601 	add	hl, hl
-   2692 29            [11]  602 	add	hl, hl
-   2693 3E E8         [ 7]  603 	ld	a,#<(_groups)
-   2695 85            [ 4]  604 	add	a, l
-   2696 4F            [ 4]  605 	ld	c,a
-   2697 3E 52         [ 7]  606 	ld	a,#>(_groups)
-   2699 8C            [ 4]  607 	adc	a, h
-   269A 47            [ 4]  608 	ld	b,a
-   269B 0A            [ 7]  609 	ld	a,(bc)
-   269C B7            [ 4]  610 	or	a, a
-   269D 28 03         [12]  611 	jr	Z,00103$
-                            612 ;src/entities/enemies.c:113: k++;
-   269F 14            [ 4]  613 	inc	d
-   26A0 18 EB         [12]  614 	jr	00101$
-   26A2                     615 00103$:
-                            616 ;src/entities/enemies.c:115: groups[k].active=1;
-   26A2 3E 01         [ 7]  617 	ld	a,#0x01
-   26A4 02            [ 7]  618 	ld	(bc),a
-                            619 ;src/entities/enemies.c:116: groups[k].x=x;
-   26A5 69            [ 4]  620 	ld	l, c
-   26A6 60            [ 4]  621 	ld	h, b
-   26A7 23            [ 6]  622 	inc	hl
-   26A8 DD 7E 04      [19]  623 	ld	a,4 (ix)
-   26AB 77            [ 7]  624 	ld	(hl),a
-   26AC 23            [ 6]  625 	inc	hl
-   26AD DD 7E 05      [19]  626 	ld	a,5 (ix)
-   26B0 77            [ 7]  627 	ld	(hl),a
-                            628 ;src/entities/enemies.c:117: groups[k].y=y;
-   26B1 69            [ 4]  629 	ld	l, c
-   26B2 60            [ 4]  630 	ld	h, b
-   26B3 23            [ 6]  631 	inc	hl
-   26B4 23            [ 6]  632 	inc	hl
-   26B5 23            [ 6]  633 	inc	hl
-   26B6 DD 7E 06      [19]  634 	ld	a,6 (ix)
-   26B9 77            [ 7]  635 	ld	(hl),a
-   26BA 23            [ 6]  636 	inc	hl
-   26BB DD 7E 07      [19]  637 	ld	a,7 (ix)
-   26BE 77            [ 7]  638 	ld	(hl),a
-                            639 ;src/entities/enemies.c:118: groups[k].enemy_type=type;
-   26BF 21 05 00      [10]  640 	ld	hl,#0x0005
-   26C2 09            [11]  641 	add	hl,bc
-   26C3 DD 7E 08      [19]  642 	ld	a,8 (ix)
-   26C6 77            [ 7]  643 	ld	(hl),a
-                            644 ;src/entities/enemies.c:119: groups[k].num_enemies=num_enemies;
-   26C7 21 06 00      [10]  645 	ld	hl,#0x0006
-   26CA 09            [11]  646 	add	hl,bc
-   26CB DD 7E 09      [19]  647 	ld	a,9 (ix)
-   26CE 77            [ 7]  648 	ld	(hl),a
-                            649 ;src/entities/enemies.c:120: groups[k].sleep=ENEMY_GAP;
-   26CF 21 07 00      [10]  650 	ld	hl,#0x0007
-   26D2 09            [11]  651 	add	hl,bc
-   26D3 36 03         [10]  652 	ld	(hl),#0x03
-                            653 ;src/entities/enemies.c:121: active_groups++;
-   26D5 21 08 53      [10]  654 	ld	hl, #_active_groups+0
-   26D8 34            [11]  655 	inc	(hl)
-   26D9                     656 00106$:
-   26D9 DD E1         [14]  657 	pop	ix
-   26DB C9            [10]  658 	ret
-                            659 ;src/entities/enemies.c:129: void update_enemies(){
-                            660 ;	---------------------------------
-                            661 ; Function update_enemies
-                            662 ; ---------------------------------
-   26DC                     663 _update_enemies::
-   26DC DD E5         [15]  664 	push	ix
-   26DE DD 21 00 00   [14]  665 	ld	ix,#0
-   26E2 DD 39         [15]  666 	add	ix,sp
-   26E4 21 EB FF      [10]  667 	ld	hl,#-21
-   26E7 39            [11]  668 	add	hl,sp
-   26E8 F9            [ 6]  669 	ld	sp,hl
-                            670 ;src/entities/enemies.c:133: if (active_enemies>0){
-   26E9 3A E7 52      [13]  671 	ld	a,(#_active_enemies + 0)
-   26EC B7            [ 4]  672 	or	a, a
-   26ED CA A4 2B      [10]  673 	jp	Z,00112$
-                            674 ;src/entities/enemies.c:134: for (i=0;i<MAX_ENEMIES;i++){
-   26F0 DD 36 EB 00   [19]  675 	ld	-21 (ix),#0x00
-   26F4 DD 36 FC 00   [19]  676 	ld	-4 (ix),#0x00
-   26F8 DD 36 FD 00   [19]  677 	ld	-3 (ix),#0x00
-   26FC DD 36 FE 00   [19]  678 	ld	-2 (ix),#0x00
-   2700 DD 36 FF 00   [19]  679 	ld	-1 (ix),#0x00
-   2704                     680 00124$:
-                            681 ;src/entities/enemies.c:135: if (enemies[i].active){
-   2704 3E AF         [ 7]  682 	ld	a,#<(_enemies)
-   2706 DD 86 FE      [19]  683 	add	a, -2 (ix)
-   2709 DD 77 F8      [19]  684 	ld	-8 (ix),a
-   270C 3E 4E         [ 7]  685 	ld	a,#>(_enemies)
-   270E DD 8E FF      [19]  686 	adc	a, -1 (ix)
-   2711 DD 77 F9      [19]  687 	ld	-7 (ix),a
-   2714 DD 4E F8      [19]  688 	ld	c,-8 (ix)
-   2717 DD 46 F9      [19]  689 	ld	b,-7 (ix)
-   271A C5            [11]  690 	push	bc
-   271B FD E1         [14]  691 	pop	iy
-   271D FD 7E 17      [19]  692 	ld	a,23 (iy)
-   2720 DD 77 F7      [19]  693 	ld	-9 (ix), a
-   2723 B7            [ 4]  694 	or	a, a
-   2724 CA 79 2B      [10]  695 	jp	Z,00125$
-                            696 ;src/entities/enemies.c:136: if (enemies[i].movement<99){
-   2727 DD 7E F8      [19]  697 	ld	a,-8 (ix)
-   272A C6 1D         [ 7]  698 	add	a, #0x1D
-   272C DD 77 FA      [19]  699 	ld	-6 (ix),a
-   272F DD 7E F9      [19]  700 	ld	a,-7 (ix)
-   2732 CE 00         [ 7]  701 	adc	a, #0x00
-   2734 DD 77 FB      [19]  702 	ld	-5 (ix),a
-   2737 DD 6E FA      [19]  703 	ld	l,-6 (ix)
-   273A DD 66 FB      [19]  704 	ld	h,-5 (ix)
-   273D 56            [ 7]  705 	ld	d,(hl)
-   273E 7A            [ 4]  706 	ld	a,d
-   273F D6 63         [ 7]  707 	sub	a, #0x63
-   2741 D2 79 2B      [10]  708 	jp	NC,00125$
-                            709 ;src/entities/enemies.c:137: if (enemies[i].stage_step<movements[enemies[i].movement].stages[enemies[i].stage].num_steps){
-   2744 DD 7E F8      [19]  710 	ld	a,-8 (ix)
-   2747 C6 1F         [ 7]  711 	add	a, #0x1F
-   2749 DD 77 F5      [19]  712 	ld	-11 (ix),a
-   274C DD 7E F9      [19]  713 	ld	a,-7 (ix)
-   274F CE 00         [ 7]  714 	adc	a, #0x00
-   2751 DD 77 F6      [19]  715 	ld	-10 (ix),a
-   2754 DD 6E F5      [19]  716 	ld	l,-11 (ix)
-   2757 DD 66 F6      [19]  717 	ld	h,-10 (ix)
-   275A 5E            [ 7]  718 	ld	e,(hl)
-   275B 4A            [ 4]  719 	ld	c,d
-   275C 06 00         [ 7]  720 	ld	b,#0x00
-   275E 69            [ 4]  721 	ld	l, c
-   275F 60            [ 4]  722 	ld	h, b
-   2760 29            [11]  723 	add	hl, hl
-   2761 29            [11]  724 	add	hl, hl
-   2762 29            [11]  725 	add	hl, hl
-   2763 29            [11]  726 	add	hl, hl
-   2764 29            [11]  727 	add	hl, hl
-   2765 09            [11]  728 	add	hl, bc
-   2766 01 A0 2F      [10]  729 	ld	bc,#_movements
-   2769 09            [11]  730 	add	hl,bc
-   276A 23            [ 6]  731 	inc	hl
-   276B 45            [ 4]  732 	ld	b,l
-   276C 54            [ 4]  733 	ld	d,h
-   276D DD 7E F8      [19]  734 	ld	a,-8 (ix)
-   2770 C6 1E         [ 7]  735 	add	a, #0x1E
-   2772 DD 77 F3      [19]  736 	ld	-13 (ix),a
-   2775 DD 7E F9      [19]  737 	ld	a,-7 (ix)
-   2778 CE 00         [ 7]  738 	adc	a, #0x00
-   277A DD 77 F4      [19]  739 	ld	-12 (ix),a
-   277D DD 6E F3      [19]  740 	ld	l,-13 (ix)
-   2780 DD 66 F4      [19]  741 	ld	h,-12 (ix)
-   2783 7E            [ 7]  742 	ld	a,(hl)
-   2784 DD 77 F7      [19]  743 	ld	-9 (ix), a
-   2787 87            [ 4]  744 	add	a, a
-   2788 87            [ 4]  745 	add	a, a
-   2789 80            [ 4]  746 	add	a,b
-   278A DD 77 F1      [19]  747 	ld	-15 (ix),a
-   278D 7A            [ 4]  748 	ld	a,d
-   278E CE 00         [ 7]  749 	adc	a, #0x00
-   2790 DD 77 F2      [19]  750 	ld	-14 (ix),a
-   2793 DD 6E F1      [19]  751 	ld	l,-15 (ix)
-   2796 DD 66 F2      [19]  752 	ld	h,-14 (ix)
-   2799 23            [ 6]  753 	inc	hl
-   279A 23            [ 6]  754 	inc	hl
-   279B 23            [ 6]  755 	inc	hl
-   279C 66            [ 7]  756 	ld	h,(hl)
-   279D 7B            [ 4]  757 	ld	a,e
-   279E 94            [ 4]  758 	sub	a, h
-   279F D2 0F 29      [10]  759 	jp	NC,00104$
-                            760 ;src/entities/enemies.c:138: enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
-   27A2 DD 7E F8      [19]  761 	ld	a,-8 (ix)
-   27A5 C6 16         [ 7]  762 	add	a, #0x16
-   27A7 DD 77 EF      [19]  763 	ld	-17 (ix),a
-   27AA DD 7E F9      [19]  764 	ld	a,-7 (ix)
-   27AD CE 00         [ 7]  765 	adc	a, #0x00
-   27AF DD 77 F0      [19]  766 	ld	-16 (ix),a
-   27B2 DD 6E F1      [19]  767 	ld	l,-15 (ix)
-   27B5 DD 66 F2      [19]  768 	ld	h,-14 (ix)
-   27B8 7E            [ 7]  769 	ld	a,(hl)
-   27B9 DD 77 F1      [19]  770 	ld	-15 (ix),a
-   27BC DD 6E EF      [19]  771 	ld	l,-17 (ix)
-   27BF DD 66 F0      [19]  772 	ld	h,-16 (ix)
-   27C2 DD 7E F1      [19]  773 	ld	a,-15 (ix)
-   27C5 77            [ 7]  774 	ld	(hl),a
-                            775 ;src/entities/enemies.c:139: enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
-   27C6 DD 7E F8      [19]  776 	ld	a,-8 (ix)
-   27C9 C6 10         [ 7]  777 	add	a, #0x10
-   27CB DD 77 EF      [19]  778 	ld	-17 (ix),a
-   27CE DD 7E F9      [19]  779 	ld	a,-7 (ix)
-   27D1 CE 00         [ 7]  780 	adc	a, #0x00
-   27D3 DD 77 F0      [19]  781 	ld	-16 (ix),a
-   27D6 DD 6E EF      [19]  782 	ld	l,-17 (ix)
-   27D9 DD 66 F0      [19]  783 	ld	h,-16 (ix)
-   27DC 7E            [ 7]  784 	ld	a,(hl)
-   27DD DD 77 F1      [19]  785 	ld	-15 (ix),a
-   27E0 23            [ 6]  786 	inc	hl
-   27E1 7E            [ 7]  787 	ld	a,(hl)
-   27E2 DD 77 F2      [19]  788 	ld	-14 (ix),a
-   27E5 DD 6E FA      [19]  789 	ld	l,-6 (ix)
-   27E8 DD 66 FB      [19]  790 	ld	h,-5 (ix)
-   27EB 4E            [ 7]  791 	ld	c, (hl)
-   27EC 06 00         [ 7]  792 	ld	b,#0x00
-   27EE 69            [ 4]  793 	ld	l, c
-   27EF 60            [ 4]  794 	ld	h, b
-   27F0 29            [11]  795 	add	hl, hl
-   27F1 29            [11]  796 	add	hl, hl
-   27F2 29            [11]  797 	add	hl, hl
-   27F3 29            [11]  798 	add	hl, hl
-   27F4 29            [11]  799 	add	hl, hl
-   27F5 09            [11]  800 	add	hl, bc
-   27F6 3E A0         [ 7]  801 	ld	a,#<(_movements)
-   27F8 85            [ 4]  802 	add	a, l
-   27F9 DD 77 ED      [19]  803 	ld	-19 (ix),a
-   27FC 3E 2F         [ 7]  804 	ld	a,#>(_movements)
-   27FE 8C            [ 4]  805 	adc	a, h
-   27FF DD 77 EE      [19]  806 	ld	-18 (ix),a
-   2802 DD 34 ED      [23]  807 	inc	-19 (ix)
-   2805 20 03         [12]  808 	jr	NZ,00176$
-   2807 DD 34 EE      [23]  809 	inc	-18 (ix)
-   280A                     810 00176$:
-   280A DD 6E F3      [19]  811 	ld	l,-13 (ix)
-   280D DD 66 F4      [19]  812 	ld	h,-12 (ix)
-   2810 7E            [ 7]  813 	ld	a,(hl)
-   2811 DD 77 EC      [19]  814 	ld	-20 (ix), a
-   2814 87            [ 4]  815 	add	a, a
-   2815 87            [ 4]  816 	add	a, a
-   2816 67            [ 4]  817 	ld	h,a
-   2817 DD 7E ED      [19]  818 	ld	a,-19 (ix)
-   281A 84            [ 4]  819 	add	a, h
-   281B DD 77 ED      [19]  820 	ld	-19 (ix),a
-   281E DD 7E EE      [19]  821 	ld	a,-18 (ix)
-   2821 CE 00         [ 7]  822 	adc	a, #0x00
-   2823 DD 77 EE      [19]  823 	ld	-18 (ix),a
-   2826 DD 6E ED      [19]  824 	ld	l,-19 (ix)
-   2829 DD 66 EE      [19]  825 	ld	h,-18 (ix)
-   282C 23            [ 6]  826 	inc	hl
-   282D 7E            [ 7]  827 	ld	a,(hl)
-   282E DD 77 EC      [19]  828 	ld	-20 (ix), a
-   2831 DD 77 ED      [19]  829 	ld	-19 (ix),a
-   2834 DD 7E EC      [19]  830 	ld	a,-20 (ix)
-   2837 17            [ 4]  831 	rla
-   2838 9F            [ 4]  832 	sbc	a, a
-   2839 DD 77 EE      [19]  833 	ld	-18 (ix),a
-   283C DD 7E F1      [19]  834 	ld	a,-15 (ix)
-   283F DD 86 ED      [19]  835 	add	a, -19 (ix)
-   2842 DD 77 ED      [19]  836 	ld	-19 (ix),a
-   2845 DD 7E F2      [19]  837 	ld	a,-14 (ix)
-   2848 DD 8E EE      [19]  838 	adc	a, -18 (ix)
-   284B DD 77 EE      [19]  839 	ld	-18 (ix),a
-   284E DD 6E EF      [19]  840 	ld	l,-17 (ix)
-   2851 DD 66 F0      [19]  841 	ld	h,-16 (ix)
-   2854 DD 7E ED      [19]  842 	ld	a,-19 (ix)
-   2857 77            [ 7]  843 	ld	(hl),a
-   2858 23            [ 6]  844 	inc	hl
-   2859 DD 7E EE      [19]  845 	ld	a,-18 (ix)
-   285C 77            [ 7]  846 	ld	(hl),a
-                            847 ;src/entities/enemies.c:140: enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
-   285D DD 7E F8      [19]  848 	ld	a,-8 (ix)
-   2860 C6 12         [ 7]  849 	add	a, #0x12
-   2862 DD 77 ED      [19]  850 	ld	-19 (ix),a
-   2865 DD 7E F9      [19]  851 	ld	a,-7 (ix)
-   2868 CE 00         [ 7]  852 	adc	a, #0x00
-   286A DD 77 EE      [19]  853 	ld	-18 (ix),a
-   286D DD 6E ED      [19]  854 	ld	l,-19 (ix)
-   2870 DD 66 EE      [19]  855 	ld	h,-18 (ix)
-   2873 7E            [ 7]  856 	ld	a,(hl)
-   2874 DD 77 EF      [19]  857 	ld	-17 (ix),a
-   2877 23            [ 6]  858 	inc	hl
-   2878 7E            [ 7]  859 	ld	a,(hl)
-   2879 DD 77 F0      [19]  860 	ld	-16 (ix),a
-   287C DD 6E FA      [19]  861 	ld	l,-6 (ix)
-   287F DD 66 FB      [19]  862 	ld	h,-5 (ix)
-   2882 4E            [ 7]  863 	ld	c, (hl)
-   2883 06 00         [ 7]  864 	ld	b,#0x00
-   2885 69            [ 4]  865 	ld	l, c
-   2886 60            [ 4]  866 	ld	h, b
-   2887 29            [11]  867 	add	hl, hl
-   2888 29            [11]  868 	add	hl, hl
-   2889 29            [11]  869 	add	hl, hl
-   288A 29            [11]  870 	add	hl, hl
-   288B 29            [11]  871 	add	hl, hl
-   288C 09            [11]  872 	add	hl, bc
-   288D 3E A0         [ 7]  873 	ld	a,#<(_movements)
-   288F 85            [ 4]  874 	add	a, l
-   2890 DD 77 F1      [19]  875 	ld	-15 (ix),a
-   2893 3E 2F         [ 7]  876 	ld	a,#>(_movements)
-   2895 8C            [ 4]  877 	adc	a, h
-   2896 DD 77 F2      [19]  878 	ld	-14 (ix),a
-   2899 DD 34 F1      [23]  879 	inc	-15 (ix)
-   289C 20 03         [12]  880 	jr	NZ,00177$
-   289E DD 34 F2      [23]  881 	inc	-14 (ix)
-   28A1                     882 00177$:
-   28A1 DD 6E F3      [19]  883 	ld	l,-13 (ix)
-   28A4 DD 66 F4      [19]  884 	ld	h,-12 (ix)
-   28A7 7E            [ 7]  885 	ld	a,(hl)
-   28A8 DD 77 EC      [19]  886 	ld	-20 (ix), a
-   28AB 87            [ 4]  887 	add	a, a
-   28AC 87            [ 4]  888 	add	a, a
-   28AD 67            [ 4]  889 	ld	h,a
-   28AE DD 7E F1      [19]  890 	ld	a,-15 (ix)
-   28B1 84            [ 4]  891 	add	a, h
-   28B2 DD 77 F1      [19]  892 	ld	-15 (ix),a
-   28B5 DD 7E F2      [19]  893 	ld	a,-14 (ix)
-   28B8 CE 00         [ 7]  894 	adc	a, #0x00
-   28BA DD 77 F2      [19]  895 	ld	-14 (ix),a
-   28BD DD 6E F1      [19]  896 	ld	l,-15 (ix)
-   28C0 DD 66 F2      [19]  897 	ld	h,-14 (ix)
-   28C3 23            [ 6]  898 	inc	hl
-   28C4 23            [ 6]  899 	inc	hl
-   28C5 7E            [ 7]  900 	ld	a,(hl)
-   28C6 DD 77 EC      [19]  901 	ld	-20 (ix), a
-   28C9 DD 77 F1      [19]  902 	ld	-15 (ix),a
-   28CC DD 7E EC      [19]  903 	ld	a,-20 (ix)
-   28CF 17            [ 4]  904 	rla
-   28D0 9F            [ 4]  905 	sbc	a, a
-   28D1 DD 77 F2      [19]  906 	ld	-14 (ix),a
-   28D4 DD 7E EF      [19]  907 	ld	a,-17 (ix)
-   28D7 DD 86 F1      [19]  908 	add	a, -15 (ix)
-   28DA DD 77 EF      [19]  909 	ld	-17 (ix),a
-   28DD DD 7E F0      [19]  910 	ld	a,-16 (ix)
-   28E0 DD 8E F2      [19]  911 	adc	a, -14 (ix)
-   28E3 DD 77 F0      [19]  912 	ld	-16 (ix),a
-   28E6 DD 6E ED      [19]  913 	ld	l,-19 (ix)
-   28E9 DD 66 EE      [19]  914 	ld	h,-18 (ix)
-   28EC DD 7E EF      [19]  915 	ld	a,-17 (ix)
-   28EF 77            [ 7]  916 	ld	(hl),a
-   28F0 23            [ 6]  917 	inc	hl
-   28F1 DD 7E F0      [19]  918 	ld	a,-16 (ix)
-   28F4 77            [ 7]  919 	ld	(hl),a
-                            920 ;src/entities/enemies.c:141: enemies[i].stage_step++;
-   28F5 DD 6E F5      [19]  921 	ld	l,-11 (ix)
-   28F8 DD 66 F6      [19]  922 	ld	h,-10 (ix)
-   28FB 7E            [ 7]  923 	ld	a,(hl)
-   28FC DD 77 EC      [19]  924 	ld	-20 (ix),a
-   28FF DD 34 EC      [23]  925 	inc	-20 (ix)
-   2902 DD 6E F5      [19]  926 	ld	l,-11 (ix)
-   2905 DD 66 F6      [19]  927 	ld	h,-10 (ix)
-   2908 DD 7E EC      [19]  928 	ld	a,-20 (ix)
-   290B 77            [ 7]  929 	ld	(hl),a
-   290C C3 79 2B      [10]  930 	jp	00125$
-   290F                     931 00104$:
-                            932 ;src/entities/enemies.c:143: enemies[i].stage++;
-   290F DD 7E F7      [19]  933 	ld	a,-9 (ix)
-   2912 3C            [ 4]  934 	inc	a
-   2913 DD 77 EC      [19]  935 	ld	-20 (ix),a
-   2916 DD 6E F3      [19]  936 	ld	l,-13 (ix)
-   2919 DD 66 F4      [19]  937 	ld	h,-12 (ix)
-   291C DD 7E EC      [19]  938 	ld	a,-20 (ix)
-   291F 77            [ 7]  939 	ld	(hl),a
-                            940 ;src/entities/enemies.c:144: enemies[i].stage_step=0;
-   2920 DD 6E F5      [19]  941 	ld	l,-11 (ix)
-   2923 DD 66 F6      [19]  942 	ld	h,-10 (ix)
-   2926 36 00         [10]  943 	ld	(hl),#0x00
-                            944 ;src/entities/enemies.c:145: if (enemies[i].stage>=movements[enemies[i].movement].num_stages){
-   2928 DD 6E FA      [19]  945 	ld	l,-6 (ix)
-   292B DD 66 FB      [19]  946 	ld	h,-5 (ix)
-   292E 7E            [ 7]  947 	ld	a,(hl)
-   292F DD 77 ED      [19]  948 	ld	-19 (ix), a
-   2932 4F            [ 4]  949 	ld	c, a
-   2933 06 00         [ 7]  950 	ld	b,#0x00
-   2935 69            [ 4]  951 	ld	l, c
-   2936 60            [ 4]  952 	ld	h, b
-   2937 29            [11]  953 	add	hl, hl
-   2938 29            [11]  954 	add	hl, hl
-   2939 29            [11]  955 	add	hl, hl
-   293A 29            [11]  956 	add	hl, hl
-   293B 29            [11]  957 	add	hl, hl
-   293C 09            [11]  958 	add	hl, bc
-   293D DD 75 ED      [19]  959 	ld	-19 (ix),l
-   2940 DD 74 EE      [19]  960 	ld	-18 (ix),h
-   2943 3E A0         [ 7]  961 	ld	a,#<(_movements)
-   2945 DD 86 ED      [19]  962 	add	a, -19 (ix)
-   2948 DD 77 ED      [19]  963 	ld	-19 (ix),a
-   294B 3E 2F         [ 7]  964 	ld	a,#>(_movements)
-   294D DD 8E EE      [19]  965 	adc	a, -18 (ix)
-   2950 DD 77 EE      [19]  966 	ld	-18 (ix),a
-   2953 DD 6E ED      [19]  967 	ld	l,-19 (ix)
-   2956 DD 66 EE      [19]  968 	ld	h,-18 (ix)
-   2959 7E            [ 7]  969 	ld	a,(hl)
-   295A DD 77 ED      [19]  970 	ld	-19 (ix),a
-   295D DD 7E EC      [19]  971 	ld	a,-20 (ix)
-   2960 DD 96 ED      [19]  972 	sub	a, -19 (ix)
-   2963 38 08         [12]  973 	jr	C,00102$
-                            974 ;src/entities/enemies.c:146: enemies[i].stage=0;
-   2965 DD 6E F3      [19]  975 	ld	l,-13 (ix)
-   2968 DD 66 F4      [19]  976 	ld	h,-12 (ix)
-   296B 36 00         [10]  977 	ld	(hl),#0x00
-   296D                     978 00102$:
-                            979 ;src/entities/enemies.c:148: enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
-   296D 3E AF         [ 7]  980 	ld	a,#<(_enemies)
-   296F DD 86 FC      [19]  981 	add	a, -4 (ix)
-   2972 DD 77 ED      [19]  982 	ld	-19 (ix),a
-   2975 3E 4E         [ 7]  983 	ld	a,#>(_enemies)
-   2977 DD 8E FD      [19]  984 	adc	a, -3 (ix)
-   297A DD 77 EE      [19]  985 	ld	-18 (ix),a
-   297D DD 7E ED      [19]  986 	ld	a,-19 (ix)
-   2980 C6 16         [ 7]  987 	add	a, #0x16
-   2982 DD 77 EF      [19]  988 	ld	-17 (ix),a
-   2985 DD 7E EE      [19]  989 	ld	a,-18 (ix)
-   2988 CE 00         [ 7]  990 	adc	a, #0x00
-   298A DD 77 F0      [19]  991 	ld	-16 (ix),a
-   298D DD 7E ED      [19]  992 	ld	a,-19 (ix)
-   2990 C6 1D         [ 7]  993 	add	a, #0x1D
-   2992 DD 77 F1      [19]  994 	ld	-15 (ix),a
-   2995 DD 7E EE      [19]  995 	ld	a,-18 (ix)
-   2998 CE 00         [ 7]  996 	adc	a, #0x00
-   299A DD 77 F2      [19]  997 	ld	-14 (ix),a
-   299D DD 6E F1      [19]  998 	ld	l,-15 (ix)
-   29A0 DD 66 F2      [19]  999 	ld	h,-14 (ix)
-   29A3 4E            [ 7] 1000 	ld	c, (hl)
-   29A4 06 00         [ 7] 1001 	ld	b,#0x00
-   29A6 69            [ 4] 1002 	ld	l, c
-   29A7 60            [ 4] 1003 	ld	h, b
-   29A8 29            [11] 1004 	add	hl, hl
-   29A9 29            [11] 1005 	add	hl, hl
-   29AA 29            [11] 1006 	add	hl, hl
-   29AB 29            [11] 1007 	add	hl, hl
-   29AC 29            [11] 1008 	add	hl, hl
-   29AD 09            [11] 1009 	add	hl, bc
-   29AE DD 75 F3      [19] 1010 	ld	-13 (ix),l
-   29B1 DD 74 F4      [19] 1011 	ld	-12 (ix),h
-   29B4 3E A0         [ 7] 1012 	ld	a,#<(_movements)
-   29B6 DD 86 F3      [19] 1013 	add	a, -13 (ix)
-   29B9 DD 77 F3      [19] 1014 	ld	-13 (ix),a
-   29BC 3E 2F         [ 7] 1015 	ld	a,#>(_movements)
-   29BE DD 8E F4      [19] 1016 	adc	a, -12 (ix)
-   29C1 DD 77 F4      [19] 1017 	ld	-12 (ix),a
-   29C4 DD 34 F3      [23] 1018 	inc	-13 (ix)
-   29C7 20 03         [12] 1019 	jr	NZ,00178$
-   29C9 DD 34 F4      [23] 1020 	inc	-12 (ix)
-   29CC                    1021 00178$:
-   29CC DD 7E ED      [19] 1022 	ld	a,-19 (ix)
-   29CF C6 1E         [ 7] 1023 	add	a, #0x1E
-   29D1 DD 77 F5      [19] 1024 	ld	-11 (ix),a
-   29D4 DD 7E EE      [19] 1025 	ld	a,-18 (ix)
-   29D7 CE 00         [ 7] 1026 	adc	a, #0x00
-   29D9 DD 77 F6      [19] 1027 	ld	-10 (ix),a
-   29DC DD 6E F5      [19] 1028 	ld	l,-11 (ix)
-   29DF DD 66 F6      [19] 1029 	ld	h,-10 (ix)
-   29E2 7E            [ 7] 1030 	ld	a,(hl)
-   29E3 87            [ 4] 1031 	add	a, a
-   29E4 87            [ 4] 1032 	add	a, a
-   29E5 67            [ 4] 1033 	ld	h,a
-   29E6 DD 7E F3      [19] 1034 	ld	a,-13 (ix)
-   29E9 84            [ 4] 1035 	add	a, h
-   29EA DD 77 F3      [19] 1036 	ld	-13 (ix),a
-   29ED DD 7E F4      [19] 1037 	ld	a,-12 (ix)
-   29F0 CE 00         [ 7] 1038 	adc	a, #0x00
-   29F2 DD 77 F4      [19] 1039 	ld	-12 (ix),a
-   29F5 DD 6E F3      [19] 1040 	ld	l,-13 (ix)
-   29F8 DD 66 F4      [19] 1041 	ld	h,-12 (ix)
-   29FB 7E            [ 7] 1042 	ld	a,(hl)
-   29FC DD 77 EC      [19] 1043 	ld	-20 (ix),a
-   29FF DD 6E EF      [19] 1044 	ld	l,-17 (ix)
-   2A02 DD 66 F0      [19] 1045 	ld	h,-16 (ix)
-   2A05 DD 7E EC      [19] 1046 	ld	a,-20 (ix)
-   2A08 77            [ 7] 1047 	ld	(hl),a
-                           1048 ;src/entities/enemies.c:149: enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
-   2A09 DD 7E ED      [19] 1049 	ld	a,-19 (ix)
-   2A0C C6 10         [ 7] 1050 	add	a, #0x10
-   2A0E DD 77 EF      [19] 1051 	ld	-17 (ix),a
-   2A11 DD 7E EE      [19] 1052 	ld	a,-18 (ix)
-   2A14 CE 00         [ 7] 1053 	adc	a, #0x00
-   2A16 DD 77 F0      [19] 1054 	ld	-16 (ix),a
-   2A19 DD 6E EF      [19] 1055 	ld	l,-17 (ix)
-   2A1C DD 66 F0      [19] 1056 	ld	h,-16 (ix)
-   2A1F 7E            [ 7] 1057 	ld	a,(hl)
-   2A20 DD 77 F3      [19] 1058 	ld	-13 (ix),a
-   2A23 23            [ 6] 1059 	inc	hl
-   2A24 7E            [ 7] 1060 	ld	a,(hl)
-   2A25 DD 77 F4      [19] 1061 	ld	-12 (ix),a
-   2A28 DD 6E F1      [19] 1062 	ld	l,-15 (ix)
-   2A2B DD 66 F2      [19] 1063 	ld	h,-14 (ix)
-   2A2E 4E            [ 7] 1064 	ld	c, (hl)
-   2A2F 06 00         [ 7] 1065 	ld	b,#0x00
-   2A31 69            [ 4] 1066 	ld	l, c
-   2A32 60            [ 4] 1067 	ld	h, b
-   2A33 29            [11] 1068 	add	hl, hl
-   2A34 29            [11] 1069 	add	hl, hl
-   2A35 29            [11] 1070 	add	hl, hl
-   2A36 29            [11] 1071 	add	hl, hl
-   2A37 29            [11] 1072 	add	hl, hl
-   2A38 09            [11] 1073 	add	hl, bc
-   2A39 DD 75 FA      [19] 1074 	ld	-6 (ix),l
-   2A3C DD 74 FB      [19] 1075 	ld	-5 (ix),h
-   2A3F 3E A0         [ 7] 1076 	ld	a,#<(_movements)
-   2A41 DD 86 FA      [19] 1077 	add	a, -6 (ix)
-   2A44 DD 77 FA      [19] 1078 	ld	-6 (ix),a
-   2A47 3E 2F         [ 7] 1079 	ld	a,#>(_movements)
-   2A49 DD 8E FB      [19] 1080 	adc	a, -5 (ix)
-   2A4C DD 77 FB      [19] 1081 	ld	-5 (ix),a
-   2A4F DD 34 FA      [23] 1082 	inc	-6 (ix)
-   2A52 20 03         [12] 1083 	jr	NZ,00179$
-   2A54 DD 34 FB      [23] 1084 	inc	-5 (ix)
-   2A57                    1085 00179$:
-   2A57 DD 6E F5      [19] 1086 	ld	l,-11 (ix)
-   2A5A DD 66 F6      [19] 1087 	ld	h,-10 (ix)
-   2A5D 7E            [ 7] 1088 	ld	a,(hl)
-   2A5E DD 77 EC      [19] 1089 	ld	-20 (ix), a
-   2A61 87            [ 4] 1090 	add	a, a
-   2A62 87            [ 4] 1091 	add	a, a
-   2A63 67            [ 4] 1092 	ld	h,a
-   2A64 DD 7E FA      [19] 1093 	ld	a,-6 (ix)
-   2A67 84            [ 4] 1094 	add	a, h
-   2A68 DD 77 FA      [19] 1095 	ld	-6 (ix),a
-   2A6B DD 7E FB      [19] 1096 	ld	a,-5 (ix)
-   2A6E CE 00         [ 7] 1097 	adc	a, #0x00
-   2A70 DD 77 FB      [19] 1098 	ld	-5 (ix),a
-   2A73 DD 6E FA      [19] 1099 	ld	l,-6 (ix)
-   2A76 DD 66 FB      [19] 1100 	ld	h,-5 (ix)
-   2A79 23            [ 6] 1101 	inc	hl
-   2A7A 7E            [ 7] 1102 	ld	a,(hl)
-   2A7B DD 77 EC      [19] 1103 	ld	-20 (ix), a
-   2A7E DD 77 FA      [19] 1104 	ld	-6 (ix),a
-   2A81 DD 7E EC      [19] 1105 	ld	a,-20 (ix)
-   2A84 17            [ 4] 1106 	rla
-   2A85 9F            [ 4] 1107 	sbc	a, a
-   2A86 DD 77 FB      [19] 1108 	ld	-5 (ix),a
-   2A89 DD 7E F3      [19] 1109 	ld	a,-13 (ix)
-   2A8C DD 86 FA      [19] 1110 	add	a, -6 (ix)
-   2A8F DD 77 F3      [19] 1111 	ld	-13 (ix),a
-   2A92 DD 7E F4      [19] 1112 	ld	a,-12 (ix)
-   2A95 DD 8E FB      [19] 1113 	adc	a, -5 (ix)
-   2A98 DD 77 F4      [19] 1114 	ld	-12 (ix),a
-   2A9B DD 6E EF      [19] 1115 	ld	l,-17 (ix)
-   2A9E DD 66 F0      [19] 1116 	ld	h,-16 (ix)
-   2AA1 DD 7E F3      [19] 1117 	ld	a,-13 (ix)
-   2AA4 77            [ 7] 1118 	ld	(hl),a
-   2AA5 23            [ 6] 1119 	inc	hl
-   2AA6 DD 7E F4      [19] 1120 	ld	a,-12 (ix)
-   2AA9 77            [ 7] 1121 	ld	(hl),a
-                           1122 ;src/entities/enemies.c:150: enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
-   2AAA DD 7E ED      [19] 1123 	ld	a,-19 (ix)
-   2AAD C6 12         [ 7] 1124 	add	a, #0x12
-   2AAF DD 77 EF      [19] 1125 	ld	-17 (ix),a
-   2AB2 DD 7E EE      [19] 1126 	ld	a,-18 (ix)
-   2AB5 CE 00         [ 7] 1127 	adc	a, #0x00
-   2AB7 DD 77 F0      [19] 1128 	ld	-16 (ix),a
-   2ABA DD 6E EF      [19] 1129 	ld	l,-17 (ix)
-   2ABD DD 66 F0      [19] 1130 	ld	h,-16 (ix)
-   2AC0 7E            [ 7] 1131 	ld	a,(hl)
-   2AC1 DD 77 F3      [19] 1132 	ld	-13 (ix),a
-   2AC4 23            [ 6] 1133 	inc	hl
-   2AC5 7E            [ 7] 1134 	ld	a,(hl)
-   2AC6 DD 77 F4      [19] 1135 	ld	-12 (ix),a
-   2AC9 DD 6E F1      [19] 1136 	ld	l,-15 (ix)
-   2ACC DD 66 F2      [19] 1137 	ld	h,-14 (ix)
-   2ACF 7E            [ 7] 1138 	ld	a,(hl)
-   2AD0 DD 77 EC      [19] 1139 	ld	-20 (ix), a
-   2AD3 4F            [ 4] 1140 	ld	c, a
-   2AD4 06 00         [ 7] 1141 	ld	b,#0x00
-   2AD6 69            [ 4] 1142 	ld	l, c
-   2AD7 60            [ 4] 1143 	ld	h, b
-   2AD8 29            [11] 1144 	add	hl, hl
-   2AD9 29            [11] 1145 	add	hl, hl
-   2ADA 29            [11] 1146 	add	hl, hl
-   2ADB 29            [11] 1147 	add	hl, hl
-   2ADC 29            [11] 1148 	add	hl, hl
-   2ADD 09            [11] 1149 	add	hl, bc
-   2ADE DD 75 F1      [19] 1150 	ld	-15 (ix),l
-   2AE1 DD 74 F2      [19] 1151 	ld	-14 (ix),h
-   2AE4 3E A0         [ 7] 1152 	ld	a,#<(_movements)
-   2AE6 DD 86 F1      [19] 1153 	add	a, -15 (ix)
-   2AE9 DD 77 F1      [19] 1154 	ld	-15 (ix),a
-   2AEC 3E 2F         [ 7] 1155 	ld	a,#>(_movements)
-   2AEE DD 8E F2      [19] 1156 	adc	a, -14 (ix)
-   2AF1 DD 77 F2      [19] 1157 	ld	-14 (ix),a
-   2AF4 DD 34 F1      [23] 1158 	inc	-15 (ix)
-   2AF7 20 03         [12] 1159 	jr	NZ,00180$
-   2AF9 DD 34 F2      [23] 1160 	inc	-14 (ix)
-   2AFC                    1161 00180$:
-   2AFC DD 6E F5      [19] 1162 	ld	l,-11 (ix)
-   2AFF DD 66 F6      [19] 1163 	ld	h,-10 (ix)
-   2B02 7E            [ 7] 1164 	ld	a,(hl)
-   2B03 DD 77 EC      [19] 1165 	ld	-20 (ix),a
-   2B06 DD CB EC 26   [23] 1166 	sla	-20 (ix)
-   2B0A DD CB EC 26   [23] 1167 	sla	-20 (ix)
-   2B0E DD 7E F1      [19] 1168 	ld	a,-15 (ix)
-   2B11 DD 86 EC      [19] 1169 	add	a, -20 (ix)
-   2B14 DD 77 F1      [19] 1170 	ld	-15 (ix),a
-   2B17 DD 7E F2      [19] 1171 	ld	a,-14 (ix)
-   2B1A CE 00         [ 7] 1172 	adc	a, #0x00
-   2B1C DD 77 F2      [19] 1173 	ld	-14 (ix),a
-   2B1F DD 6E F1      [19] 1174 	ld	l,-15 (ix)
-   2B22 DD 66 F2      [19] 1175 	ld	h,-14 (ix)
-   2B25 23            [ 6] 1176 	inc	hl
-   2B26 23            [ 6] 1177 	inc	hl
-   2B27 7E            [ 7] 1178 	ld	a,(hl)
-   2B28 DD 77 EC      [19] 1179 	ld	-20 (ix), a
-   2B2B DD 77 F1      [19] 1180 	ld	-15 (ix),a
-   2B2E DD 7E EC      [19] 1181 	ld	a,-20 (ix)
-   2B31 17            [ 4] 1182 	rla
-   2B32 9F            [ 4] 1183 	sbc	a, a
-   2B33 DD 77 F2      [19] 1184 	ld	-14 (ix),a
-   2B36 DD 7E F3      [19] 1185 	ld	a,-13 (ix)
-   2B39 DD 86 F1      [19] 1186 	add	a, -15 (ix)
-   2B3C DD 77 F1      [19] 1187 	ld	-15 (ix),a
-   2B3F DD 7E F4      [19] 1188 	ld	a,-12 (ix)
-   2B42 DD 8E F2      [19] 1189 	adc	a, -14 (ix)
-   2B45 DD 77 F2      [19] 1190 	ld	-14 (ix),a
-   2B48 DD 6E EF      [19] 1191 	ld	l,-17 (ix)
-   2B4B DD 66 F0      [19] 1192 	ld	h,-16 (ix)
-   2B4E DD 7E F1      [19] 1193 	ld	a,-15 (ix)
-   2B51 77            [ 7] 1194 	ld	(hl),a
-   2B52 23            [ 6] 1195 	inc	hl
-   2B53 DD 7E F2      [19] 1196 	ld	a,-14 (ix)
-   2B56 77            [ 7] 1197 	ld	(hl),a
-                           1198 ;src/entities/enemies.c:151: enemies[i].stage_step++;
-   2B57 DD 7E ED      [19] 1199 	ld	a,-19 (ix)
-   2B5A C6 1F         [ 7] 1200 	add	a, #0x1F
-   2B5C DD 77 ED      [19] 1201 	ld	-19 (ix),a
-   2B5F DD 7E EE      [19] 1202 	ld	a,-18 (ix)
-   2B62 CE 00         [ 7] 1203 	adc	a, #0x00
-   2B64 DD 77 EE      [19] 1204 	ld	-18 (ix),a
-   2B67 DD 6E ED      [19] 1205 	ld	l,-19 (ix)
-   2B6A DD 66 EE      [19] 1206 	ld	h,-18 (ix)
-   2B6D 7E            [ 7] 1207 	ld	a,(hl)
-   2B6E DD 77 EC      [19] 1208 	ld	-20 (ix), a
-   2B71 3C            [ 4] 1209 	inc	a
-   2B72 DD 6E ED      [19] 1210 	ld	l,-19 (ix)
-   2B75 DD 66 EE      [19] 1211 	ld	h,-18 (ix)
-   2B78 77            [ 7] 1212 	ld	(hl),a
-   2B79                    1213 00125$:
-                           1214 ;src/entities/enemies.c:134: for (i=0;i<MAX_ENEMIES;i++){
-   2B79 DD 7E FC      [19] 1215 	ld	a,-4 (ix)
-   2B7C C6 24         [ 7] 1216 	add	a, #0x24
-   2B7E DD 77 FC      [19] 1217 	ld	-4 (ix),a
-   2B81 DD 7E FD      [19] 1218 	ld	a,-3 (ix)
-   2B84 CE 00         [ 7] 1219 	adc	a, #0x00
-   2B86 DD 77 FD      [19] 1220 	ld	-3 (ix),a
-   2B89 DD 7E FE      [19] 1221 	ld	a,-2 (ix)
-   2B8C C6 24         [ 7] 1222 	add	a, #0x24
-   2B8E DD 77 FE      [19] 1223 	ld	-2 (ix),a
-   2B91 DD 7E FF      [19] 1224 	ld	a,-1 (ix)
-   2B94 CE 00         [ 7] 1225 	adc	a, #0x00
-   2B96 DD 77 FF      [19] 1226 	ld	-1 (ix),a
-   2B99 DD 34 EB      [23] 1227 	inc	-21 (ix)
-   2B9C DD 7E EB      [19] 1228 	ld	a,-21 (ix)
-   2B9F D6 1E         [ 7] 1229 	sub	a, #0x1E
-   2BA1 DA 04 27      [10] 1230 	jp	C,00124$
-   2BA4                    1231 00112$:
-                           1232 ;src/entities/enemies.c:159: if (active_groups>0){
-   2BA4 3A 08 53      [13] 1233 	ld	a,(#_active_groups + 0)
-   2BA7 B7            [ 4] 1234 	or	a, a
-   2BA8 CA 25 2C      [10] 1235 	jp	Z,00128$
-                           1236 ;src/entities/enemies.c:161: for (i=0;i<MAX_ENEMY_GROUPS;i++){
-   2BAB DD 36 EB 00   [19] 1237 	ld	-21 (ix),#0x00
-   2BAF                    1238 00126$:
-                           1239 ;src/entities/enemies.c:162: if (groups[i].active){
-   2BAF DD 6E EB      [19] 1240 	ld	l,-21 (ix)
-   2BB2 26 00         [ 7] 1241 	ld	h,#0x00
-   2BB4 29            [11] 1242 	add	hl, hl
-   2BB5 29            [11] 1243 	add	hl, hl
-   2BB6 29            [11] 1244 	add	hl, hl
-   2BB7 3E E8         [ 7] 1245 	ld	a,#<(_groups)
-   2BB9 85            [ 4] 1246 	add	a, l
-   2BBA 5F            [ 4] 1247 	ld	e,a
-   2BBB 3E 52         [ 7] 1248 	ld	a,#>(_groups)
-   2BBD 8C            [ 4] 1249 	adc	a, h
-   2BBE 57            [ 4] 1250 	ld	d,a
-   2BBF 1A            [ 7] 1251 	ld	a,(de)
-   2BC0 B7            [ 4] 1252 	or	a, a
-   2BC1 28 58         [12] 1253 	jr	Z,00127$
-                           1254 ;src/entities/enemies.c:163: if (groups[i].sleep==0){
-   2BC3 21 07 00      [10] 1255 	ld	hl,#0x0007
-   2BC6 19            [11] 1256 	add	hl,de
-   2BC7 7E            [ 7] 1257 	ld	a,(hl)
-   2BC8 B7            [ 4] 1258 	or	a, a
-   2BC9 20 4D         [12] 1259 	jr	NZ,00117$
-                           1260 ;src/entities/enemies.c:164: groups[i].sleep=ENEMY_GAP;
-   2BCB 36 03         [10] 1261 	ld	(hl),#0x03
-                           1262 ;src/entities/enemies.c:165: if (groups[i].num_enemies==0){
-   2BCD 21 06 00      [10] 1263 	ld	hl,#0x0006
-   2BD0 19            [11] 1264 	add	hl,de
-   2BD1 4D            [ 4] 1265 	ld	c,l
-   2BD2 44            [ 4] 1266 	ld	b,h
-   2BD3 0A            [ 7] 1267 	ld	a,(bc)
-   2BD4 B7            [ 4] 1268 	or	a, a
-   2BD5 20 08         [12] 1269 	jr	NZ,00114$
-                           1270 ;src/entities/enemies.c:166: groups[i].active=0;
-   2BD7 AF            [ 4] 1271 	xor	a, a
-   2BD8 12            [ 7] 1272 	ld	(de),a
-                           1273 ;src/entities/enemies.c:167: active_groups--;
-   2BD9 21 08 53      [10] 1274 	ld	hl, #_active_groups+0
-   2BDC 35            [11] 1275 	dec	(hl)
-   2BDD 18 3C         [12] 1276 	jr	00127$
-   2BDF                    1277 00114$:
-                           1278 ;src/entities/enemies.c:169: create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
-   2BDF 6B            [ 4] 1279 	ld	l, e
-   2BE0 62            [ 4] 1280 	ld	h, d
-   2BE1 23            [ 6] 1281 	inc	hl
-   2BE2 23            [ 6] 1282 	inc	hl
-   2BE3 23            [ 6] 1283 	inc	hl
-   2BE4 23            [ 6] 1284 	inc	hl
-   2BE5 23            [ 6] 1285 	inc	hl
-   2BE6 7E            [ 7] 1286 	ld	a,(hl)
-   2BE7 DD 77 EC      [19] 1287 	ld	-20 (ix),a
-   2BEA 6B            [ 4] 1288 	ld	l, e
-   2BEB 62            [ 4] 1289 	ld	h, d
-   2BEC 23            [ 6] 1290 	inc	hl
-   2BED 23            [ 6] 1291 	inc	hl
-   2BEE 23            [ 6] 1292 	inc	hl
-   2BEF 7E            [ 7] 1293 	ld	a,(hl)
-   2BF0 DD 77 ED      [19] 1294 	ld	-19 (ix),a
-   2BF3 23            [ 6] 1295 	inc	hl
-   2BF4 7E            [ 7] 1296 	ld	a,(hl)
-   2BF5 DD 77 EE      [19] 1297 	ld	-18 (ix),a
-   2BF8 EB            [ 4] 1298 	ex	de,hl
-   2BF9 23            [ 6] 1299 	inc	hl
-   2BFA 5E            [ 7] 1300 	ld	e,(hl)
-   2BFB 23            [ 6] 1301 	inc	hl
-   2BFC 56            [ 7] 1302 	ld	d,(hl)
-   2BFD C5            [11] 1303 	push	bc
-   2BFE DD 7E EC      [19] 1304 	ld	a,-20 (ix)
-   2C01 F5            [11] 1305 	push	af
-   2C02 33            [ 6] 1306 	inc	sp
-   2C03 DD 6E ED      [19] 1307 	ld	l,-19 (ix)
-   2C06 DD 66 EE      [19] 1308 	ld	h,-18 (ix)
-   2C09 E5            [11] 1309 	push	hl
-   2C0A D5            [11] 1310 	push	de
-   2C0B CD 3D 23      [17] 1311 	call	_create_enemy
-   2C0E F1            [10] 1312 	pop	af
-   2C0F F1            [10] 1313 	pop	af
-   2C10 33            [ 6] 1314 	inc	sp
-   2C11 C1            [10] 1315 	pop	bc
-                           1316 ;src/entities/enemies.c:170: groups[i].num_enemies--;
-   2C12 0A            [ 7] 1317 	ld	a,(bc)
-   2C13 C6 FF         [ 7] 1318 	add	a,#0xFF
-   2C15 02            [ 7] 1319 	ld	(bc),a
-   2C16 18 03         [12] 1320 	jr	00127$
-   2C18                    1321 00117$:
-                           1322 ;src/entities/enemies.c:173: groups[i].sleep--;
-   2C18 C6 FF         [ 7] 1323 	add	a,#0xFF
-   2C1A 77            [ 7] 1324 	ld	(hl),a
-   2C1B                    1325 00127$:
-                           1326 ;src/entities/enemies.c:161: for (i=0;i<MAX_ENEMY_GROUPS;i++){
-   2C1B DD 34 EB      [23] 1327 	inc	-21 (ix)
-   2C1E DD 7E EB      [19] 1328 	ld	a,-21 (ix)
-   2C21 D6 04         [ 7] 1329 	sub	a, #0x04
-   2C23 38 8A         [12] 1330 	jr	C,00126$
-   2C25                    1331 00128$:
-   2C25 DD F9         [10] 1332 	ld	sp, ix
-   2C27 DD E1         [14] 1333 	pop	ix
-   2C29 C9            [10] 1334 	ret
-                           1335 ;src/entities/enemies.c:181: u8 inside_screen(i16 x, i16 y, u8 w, u8 h){
-                           1336 ;	---------------------------------
-                           1337 ; Function inside_screen
-                           1338 ; ---------------------------------
-   2C2A                    1339 _inside_screen::
-   2C2A DD E5         [15] 1340 	push	ix
-   2C2C DD 21 00 00   [14] 1341 	ld	ix,#0
-   2C30 DD 39         [15] 1342 	add	ix,sp
-   2C32 3B            [ 6] 1343 	dec	sp
-                           1344 ;src/entities/enemies.c:183: return ((x>=0) && ((x+w)<SCREEN_WIDTH) && (y>=0) && ((y+h)<SCREEN_HEIGHT));
-   2C33 DD CB 05 7E   [20] 1345 	bit	7, 5 (ix)
-   2C37 20 38         [12] 1346 	jr	NZ,00103$
-   2C39 DD 5E 08      [19] 1347 	ld	e,8 (ix)
-   2C3C 16 00         [ 7] 1348 	ld	d,#0x00
-   2C3E DD 6E 04      [19] 1349 	ld	l,4 (ix)
-   2C41 DD 66 05      [19] 1350 	ld	h,5 (ix)
-   2C44 19            [11] 1351 	add	hl,de
-   2C45 11 50 80      [10] 1352 	ld	de, #0x8050
-   2C48 29            [11] 1353 	add	hl, hl
-   2C49 3F            [ 4] 1354 	ccf
-   2C4A CB 1C         [ 8] 1355 	rr	h
-   2C4C CB 1D         [ 8] 1356 	rr	l
-   2C4E ED 52         [15] 1357 	sbc	hl, de
-   2C50 30 1F         [12] 1358 	jr	NC,00103$
-   2C52 DD CB 07 7E   [20] 1359 	bit	7, 7 (ix)
-   2C56 20 19         [12] 1360 	jr	NZ,00103$
-   2C58 DD 5E 09      [19] 1361 	ld	e,9 (ix)
-   2C5B 16 00         [ 7] 1362 	ld	d,#0x00
-   2C5D DD 6E 06      [19] 1363 	ld	l,6 (ix)
-   2C60 DD 66 07      [19] 1364 	ld	h,7 (ix)
-   2C63 19            [11] 1365 	add	hl,de
-   2C64 11 C8 80      [10] 1366 	ld	de, #0x80C8
-   2C67 29            [11] 1367 	add	hl, hl
-   2C68 3F            [ 4] 1368 	ccf
-   2C69 CB 1C         [ 8] 1369 	rr	h
-   2C6B CB 1D         [ 8] 1370 	rr	l
-   2C6D ED 52         [15] 1371 	sbc	hl, de
-   2C6F 38 04         [12] 1372 	jr	C,00104$
-   2C71                    1373 00103$:
-   2C71 2E 00         [ 7] 1374 	ld	l,#0x00
-   2C73 18 02         [12] 1375 	jr	00105$
-   2C75                    1376 00104$:
-   2C75 2E 01         [ 7] 1377 	ld	l,#0x01
-   2C77                    1378 00105$:
-   2C77 33            [ 6] 1379 	inc	sp
-   2C78 DD E1         [14] 1380 	pop	ix
-   2C7A C9            [10] 1381 	ret
-                           1382 ;src/entities/enemies.c:190: void draw_enemies(u8* screen){
-                           1383 ;	---------------------------------
-                           1384 ; Function draw_enemies
-                           1385 ; ---------------------------------
-   2C7B                    1386 _draw_enemies::
-   2C7B DD E5         [15] 1387 	push	ix
-   2C7D DD 21 00 00   [14] 1388 	ld	ix,#0
-   2C81 DD 39         [15] 1389 	add	ix,sp
-   2C83 21 F1 FF      [10] 1390 	ld	hl,#-15
-   2C86 39            [11] 1391 	add	hl,sp
-   2C87 F9            [ 6] 1392 	ld	sp,hl
-                           1393 ;src/entities/enemies.c:195: if (active_enemies>0){
-   2C88 3A E7 52      [13] 1394 	ld	a,(#_active_enemies + 0)
-   2C8B B7            [ 4] 1395 	or	a, a
-   2C8C CA BC 2D      [10] 1396 	jp	Z,00109$
-                           1397 ;src/entities/enemies.c:196: for (k=0;k<MAX_ENEMIES;k++){
-   2C8F DD 36 F1 00   [19] 1398 	ld	-15 (ix),#0x00
-   2C93 11 00 00      [10] 1399 	ld	de,#0x0000
-   2C96                    1400 00107$:
-                           1401 ;src/entities/enemies.c:197: if ((enemies[k].active) && inside_screen(enemies[k].x,enemies[k].y,enemies[k].w,enemies[k].h)){
-   2C96 21 AF 4E      [10] 1402 	ld	hl,#_enemies
-   2C99 19            [11] 1403 	add	hl,de
-   2C9A DD 75 FE      [19] 1404 	ld	-2 (ix),l
-   2C9D DD 74 FF      [19] 1405 	ld	-1 (ix),h
-   2CA0 DD 6E FE      [19] 1406 	ld	l,-2 (ix)
-   2CA3 DD 66 FF      [19] 1407 	ld	h,-1 (ix)
-   2CA6 01 17 00      [10] 1408 	ld	bc, #0x0017
-   2CA9 09            [11] 1409 	add	hl, bc
-   2CAA 7E            [ 7] 1410 	ld	a,(hl)
-   2CAB B7            [ 4] 1411 	or	a, a
-   2CAC CA AC 2D      [10] 1412 	jp	Z,00108$
-   2CAF DD 7E FE      [19] 1413 	ld	a,-2 (ix)
-   2CB2 C6 15         [ 7] 1414 	add	a, #0x15
-   2CB4 DD 77 FC      [19] 1415 	ld	-4 (ix),a
-   2CB7 DD 7E FF      [19] 1416 	ld	a,-1 (ix)
-   2CBA CE 00         [ 7] 1417 	adc	a, #0x00
-   2CBC DD 77 FD      [19] 1418 	ld	-3 (ix),a
-   2CBF DD 6E FC      [19] 1419 	ld	l,-4 (ix)
-   2CC2 DD 66 FD      [19] 1420 	ld	h,-3 (ix)
-   2CC5 46            [ 7] 1421 	ld	b,(hl)
-   2CC6 DD 7E FE      [19] 1422 	ld	a,-2 (ix)
-   2CC9 C6 14         [ 7] 1423 	add	a, #0x14
-   2CCB DD 77 FA      [19] 1424 	ld	-6 (ix),a
-   2CCE DD 7E FF      [19] 1425 	ld	a,-1 (ix)
-   2CD1 CE 00         [ 7] 1426 	adc	a, #0x00
-   2CD3 DD 77 FB      [19] 1427 	ld	-5 (ix),a
-   2CD6 DD 6E FA      [19] 1428 	ld	l,-6 (ix)
-   2CD9 DD 66 FB      [19] 1429 	ld	h,-5 (ix)
-   2CDC 4E            [ 7] 1430 	ld	c,(hl)
-   2CDD DD 7E FE      [19] 1431 	ld	a,-2 (ix)
-   2CE0 C6 12         [ 7] 1432 	add	a, #0x12
-   2CE2 DD 77 F8      [19] 1433 	ld	-8 (ix),a
-   2CE5 DD 7E FF      [19] 1434 	ld	a,-1 (ix)
-   2CE8 CE 00         [ 7] 1435 	adc	a, #0x00
-   2CEA DD 77 F9      [19] 1436 	ld	-7 (ix),a
-   2CED DD 6E F8      [19] 1437 	ld	l,-8 (ix)
-   2CF0 DD 66 F9      [19] 1438 	ld	h,-7 (ix)
-   2CF3 7E            [ 7] 1439 	ld	a,(hl)
-   2CF4 DD 77 F6      [19] 1440 	ld	-10 (ix),a
-   2CF7 23            [ 6] 1441 	inc	hl
-   2CF8 7E            [ 7] 1442 	ld	a,(hl)
-   2CF9 DD 77 F7      [19] 1443 	ld	-9 (ix),a
-   2CFC DD 7E FE      [19] 1444 	ld	a,-2 (ix)
-   2CFF C6 10         [ 7] 1445 	add	a, #0x10
-   2D01 DD 77 F4      [19] 1446 	ld	-12 (ix),a
-   2D04 DD 7E FF      [19] 1447 	ld	a,-1 (ix)
-   2D07 CE 00         [ 7] 1448 	adc	a, #0x00
-   2D09 DD 77 F5      [19] 1449 	ld	-11 (ix),a
-   2D0C DD 6E F4      [19] 1450 	ld	l,-12 (ix)
-   2D0F DD 66 F5      [19] 1451 	ld	h,-11 (ix)
-   2D12 7E            [ 7] 1452 	ld	a,(hl)
-   2D13 DD 77 F2      [19] 1453 	ld	-14 (ix),a
-   2D16 23            [ 6] 1454 	inc	hl
-   2D17 7E            [ 7] 1455 	ld	a,(hl)
-   2D18 DD 77 F3      [19] 1456 	ld	-13 (ix),a
-   2D1B D5            [11] 1457 	push	de
-   2D1C C5            [11] 1458 	push	bc
-   2D1D DD 6E F6      [19] 1459 	ld	l,-10 (ix)
-   2D20 DD 66 F7      [19] 1460 	ld	h,-9 (ix)
-   2D23 E5            [11] 1461 	push	hl
-   2D24 DD 6E F2      [19] 1462 	ld	l,-14 (ix)
-   2D27 DD 66 F3      [19] 1463 	ld	h,-13 (ix)
-   2D2A E5            [11] 1464 	push	hl
-   2D2B CD 2A 2C      [17] 1465 	call	_inside_screen
-   2D2E F1            [10] 1466 	pop	af
-   2D2F F1            [10] 1467 	pop	af
-   2D30 F1            [10] 1468 	pop	af
-   2D31 7D            [ 4] 1469 	ld	a,l
-   2D32 D1            [10] 1470 	pop	de
-   2D33 B7            [ 4] 1471 	or	a, a
-   2D34 28 76         [12] 1472 	jr	Z,00108$
-                           1473 ;src/entities/enemies.c:198: pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
-   2D36 DD 6E F8      [19] 1474 	ld	l,-8 (ix)
-   2D39 DD 66 F9      [19] 1475 	ld	h,-7 (ix)
-   2D3C 4E            [ 7] 1476 	ld	c,(hl)
-   2D3D 23            [ 6] 1477 	inc	hl
-   2D3E 46            [ 7] 1478 	ld	b,(hl)
-   2D3F DD 6E F4      [19] 1479 	ld	l,-12 (ix)
-   2D42 DD 66 F5      [19] 1480 	ld	h,-11 (ix)
-   2D45 7E            [ 7] 1481 	ld	a, (hl)
-   2D46 23            [ 6] 1482 	inc	hl
-   2D47 66            [ 7] 1483 	ld	h,(hl)
-   2D48 6F            [ 4] 1484 	ld	l,a
-   2D49 65            [ 4] 1485 	ld	h,l
-   2D4A E5            [11] 1486 	push	hl
-   2D4B DD 6E 04      [19] 1487 	ld	l,4 (ix)
-   2D4E DD 66 05      [19] 1488 	ld	h,5 (ix)
-   2D51 E5            [11] 1489 	push	hl
-   2D52 FD E1         [14] 1490 	pop	iy
-   2D54 E1            [10] 1491 	pop	hl
-   2D55 D5            [11] 1492 	push	de
-   2D56 79            [ 4] 1493 	ld	a,c
-   2D57 F5            [11] 1494 	push	af
-   2D58 33            [ 6] 1495 	inc	sp
-   2D59 E5            [11] 1496 	push	hl
-   2D5A 33            [ 6] 1497 	inc	sp
-   2D5B FD E5         [15] 1498 	push	iy
-   2D5D CD 11 4D      [17] 1499 	call	_cpct_getScreenPtr
-   2D60 F1            [10] 1500 	pop	af
-   2D61 F1            [10] 1501 	pop	af
-   2D62 D1            [10] 1502 	pop	de
-   2D63 4D            [ 4] 1503 	ld	c, l
-   2D64 44            [ 4] 1504 	ld	b, h
-                           1505 ;src/entities/enemies.c:199: cpct_drawSprite(enemies[k].sprite[enemies[k].dir],pscreen,enemies[k].w,enemies[k].h);
-   2D65 DD 6E FC      [19] 1506 	ld	l,-4 (ix)
-   2D68 DD 66 FD      [19] 1507 	ld	h,-3 (ix)
-   2D6B 7E            [ 7] 1508 	ld	a,(hl)
-   2D6C DD 77 F2      [19] 1509 	ld	-14 (ix),a
-   2D6F DD 6E FA      [19] 1510 	ld	l,-6 (ix)
-   2D72 DD 66 FB      [19] 1511 	ld	h,-5 (ix)
-   2D75 7E            [ 7] 1512 	ld	a,(hl)
-   2D76 DD 77 F4      [19] 1513 	ld	-12 (ix),a
-   2D79 DD 71 F6      [19] 1514 	ld	-10 (ix),c
-   2D7C DD 70 F7      [19] 1515 	ld	-9 (ix),b
-   2D7F DD 6E FE      [19] 1516 	ld	l,-2 (ix)
-   2D82 DD 66 FF      [19] 1517 	ld	h,-1 (ix)
-   2D85 01 16 00      [10] 1518 	ld	bc, #0x0016
-   2D88 09            [11] 1519 	add	hl, bc
-   2D89 7E            [ 7] 1520 	ld	a,(hl)
-   2D8A 87            [ 4] 1521 	add	a, a
-   2D8B 4F            [ 4] 1522 	ld	c,a
-   2D8C DD 6E FE      [19] 1523 	ld	l,-2 (ix)
-   2D8F DD 66 FF      [19] 1524 	ld	h,-1 (ix)
-   2D92 06 00         [ 7] 1525 	ld	b,#0x00
-   2D94 09            [11] 1526 	add	hl, bc
-   2D95 4E            [ 7] 1527 	ld	c,(hl)
-   2D96 23            [ 6] 1528 	inc	hl
-   2D97 46            [ 7] 1529 	ld	b,(hl)
-   2D98 D5            [11] 1530 	push	de
-   2D99 DD 66 F2      [19] 1531 	ld	h,-14 (ix)
-   2D9C DD 6E F4      [19] 1532 	ld	l,-12 (ix)
-   2D9F E5            [11] 1533 	push	hl
-   2DA0 DD 6E F6      [19] 1534 	ld	l,-10 (ix)
-   2DA3 DD 66 F7      [19] 1535 	ld	h,-9 (ix)
-   2DA6 E5            [11] 1536 	push	hl
-   2DA7 C5            [11] 1537 	push	bc
-   2DA8 CD E8 4A      [17] 1538 	call	_cpct_drawSprite
-   2DAB D1            [10] 1539 	pop	de
-   2DAC                    1540 00108$:
-                           1541 ;src/entities/enemies.c:196: for (k=0;k<MAX_ENEMIES;k++){
-   2DAC 21 24 00      [10] 1542 	ld	hl,#0x0024
-   2DAF 19            [11] 1543 	add	hl,de
-   2DB0 EB            [ 4] 1544 	ex	de,hl
-   2DB1 DD 34 F1      [23] 1545 	inc	-15 (ix)
-   2DB4 DD 7E F1      [19] 1546 	ld	a,-15 (ix)
-   2DB7 D6 1E         [ 7] 1547 	sub	a, #0x1E
-   2DB9 DA 96 2C      [10] 1548 	jp	C,00107$
-   2DBC                    1549 00109$:
-   2DBC DD F9         [10] 1550 	ld	sp, ix
-   2DBE DD E1         [14] 1551 	pop	ix
-   2DC0 C9            [10] 1552 	ret
-                           1553 	.area _CODE
-                           1554 	.area _INITIALIZER
-                           1555 	.area _CABS (ABS)
+                             62 ; code
+                             63 ;--------------------------------------------------------
+                             64 	.area _CODE
+                             65 ;src/entities/enemies.c:14: u8 detectColision(u8 x1,u8 y1,u8 w1,u8 h1,u8 x2,u8 y2,u8 w2,u8 h2){
+                             66 ;	---------------------------------
+                             67 ; Function detectColision
+                             68 ; ---------------------------------
+   22D1                      69 _detectColision::
+   22D1 DD E5         [15]   70 	push	ix
+   22D3 DD 21 00 00   [14]   71 	ld	ix,#0
+   22D7 DD 39         [15]   72 	add	ix,sp
+                             73 ;src/entities/enemies.c:15: return ((x1 < x2 + w2) && (x1 + w1 > x2) && (y1 < y2 + h2) && (h1 + y1 > y2));
+   22D9 DD 5E 08      [19]   74 	ld	e,8 (ix)
+   22DC 16 00         [ 7]   75 	ld	d,#0x00
+   22DE DD 6E 0A      [19]   76 	ld	l,10 (ix)
+   22E1 26 00         [ 7]   77 	ld	h,#0x00
+   22E3 19            [11]   78 	add	hl,de
+   22E4 DD 4E 04      [19]   79 	ld	c,4 (ix)
+   22E7 06 00         [ 7]   80 	ld	b,#0x00
+   22E9 79            [ 4]   81 	ld	a,c
+   22EA 95            [ 4]   82 	sub	a, l
+   22EB 78            [ 4]   83 	ld	a,b
+   22EC 9C            [ 4]   84 	sbc	a, h
+   22ED E2 F2 22      [10]   85 	jp	PO, 00122$
+   22F0 EE 80         [ 7]   86 	xor	a, #0x80
+   22F2                      87 00122$:
+   22F2 F2 35 23      [10]   88 	jp	P,00103$
+   22F5 DD 6E 06      [19]   89 	ld	l,6 (ix)
+   22F8 26 00         [ 7]   90 	ld	h,#0x00
+   22FA 09            [11]   91 	add	hl,bc
+   22FB 7B            [ 4]   92 	ld	a,e
+   22FC 95            [ 4]   93 	sub	a, l
+   22FD 7A            [ 4]   94 	ld	a,d
+   22FE 9C            [ 4]   95 	sbc	a, h
+   22FF E2 04 23      [10]   96 	jp	PO, 00123$
+   2302 EE 80         [ 7]   97 	xor	a, #0x80
+   2304                      98 00123$:
+   2304 F2 35 23      [10]   99 	jp	P,00103$
+   2307 DD 5E 09      [19]  100 	ld	e,9 (ix)
+   230A 16 00         [ 7]  101 	ld	d,#0x00
+   230C DD 6E 0B      [19]  102 	ld	l,11 (ix)
+   230F 26 00         [ 7]  103 	ld	h,#0x00
+   2311 19            [11]  104 	add	hl,de
+   2312 DD 4E 05      [19]  105 	ld	c,5 (ix)
+   2315 06 00         [ 7]  106 	ld	b,#0x00
+   2317 79            [ 4]  107 	ld	a,c
+   2318 95            [ 4]  108 	sub	a, l
+   2319 78            [ 4]  109 	ld	a,b
+   231A 9C            [ 4]  110 	sbc	a, h
+   231B E2 20 23      [10]  111 	jp	PO, 00124$
+   231E EE 80         [ 7]  112 	xor	a, #0x80
+   2320                     113 00124$:
+   2320 F2 35 23      [10]  114 	jp	P,00103$
+   2323 DD 6E 07      [19]  115 	ld	l,7 (ix)
+   2326 26 00         [ 7]  116 	ld	h,#0x00
+   2328 09            [11]  117 	add	hl,bc
+   2329 7B            [ 4]  118 	ld	a,e
+   232A 95            [ 4]  119 	sub	a, l
+   232B 7A            [ 4]  120 	ld	a,d
+   232C 9C            [ 4]  121 	sbc	a, h
+   232D E2 32 23      [10]  122 	jp	PO, 00125$
+   2330 EE 80         [ 7]  123 	xor	a, #0x80
+   2332                     124 00125$:
+   2332 FA 39 23      [10]  125 	jp	M,00104$
+   2335                     126 00103$:
+   2335 2E 00         [ 7]  127 	ld	l,#0x00
+   2337 18 02         [12]  128 	jr	00105$
+   2339                     129 00104$:
+   2339 2E 01         [ 7]  130 	ld	l,#0x01
+   233B                     131 00105$:
+   233B DD E1         [14]  132 	pop	ix
+   233D C9            [10]  133 	ret
+                            134 ;src/entities/enemies.c:22: u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h){
+                            135 ;	---------------------------------
+                            136 ; Function check_collision_enemies
+                            137 ; ---------------------------------
+   233E                     138 _check_collision_enemies::
+   233E DD E5         [15]  139 	push	ix
+   2340 DD 21 00 00   [14]  140 	ld	ix,#0
+   2344 DD 39         [15]  141 	add	ix,sp
+   2346 21 F6 FF      [10]  142 	ld	hl,#-10
+   2349 39            [11]  143 	add	hl,sp
+   234A F9            [ 6]  144 	ld	sp,hl
+                            145 ;src/entities/enemies.c:27: collision = 0;
+   234B DD 36 F6 00   [19]  146 	ld	-10 (ix),#0x00
+                            147 ;src/entities/enemies.c:29: for (i=0;i<MAX_ENEMIES;i++){
+   234F DD 36 F7 00   [19]  148 	ld	-9 (ix),#0x00
+   2353 01 00 00      [10]  149 	ld	bc,#0x0000
+   2356                     150 00108$:
+                            151 ;src/entities/enemies.c:30: if ((enemies[i].active) && (enemies[i].x>0) && (enemies[i].y>0)){
+   2356 21 FA 51      [10]  152 	ld	hl,#_enemies
+   2359 09            [11]  153 	add	hl,bc
+   235A EB            [ 4]  154 	ex	de,hl
+   235B 21 17 00      [10]  155 	ld	hl,#0x0017
+   235E 19            [11]  156 	add	hl,de
+   235F DD 75 F8      [19]  157 	ld	-8 (ix),l
+   2362 DD 74 F9      [19]  158 	ld	-7 (ix),h
+   2365 DD 6E F8      [19]  159 	ld	l,-8 (ix)
+   2368 DD 66 F9      [19]  160 	ld	h,-7 (ix)
+   236B 7E            [ 7]  161 	ld	a,(hl)
+   236C B7            [ 4]  162 	or	a, a
+   236D CA F7 23      [10]  163 	jp	Z,00109$
+   2370 D5            [11]  164 	push	de
+   2371 FD E1         [14]  165 	pop	iy
+   2373 FD 7E 10      [19]  166 	ld	a,16 (iy)
+   2376 DD 77 FB      [19]  167 	ld	-5 (ix),a
+   2379 FD 7E 11      [19]  168 	ld	a,17 (iy)
+   237C DD 77 FC      [19]  169 	ld	-4 (ix),a
+   237F AF            [ 4]  170 	xor	a, a
+   2380 DD BE FB      [19]  171 	cp	a, -5 (ix)
+   2383 DD 9E FC      [19]  172 	sbc	a, -4 (ix)
+   2386 E2 8B 23      [10]  173 	jp	PO, 00137$
+   2389 EE 80         [ 7]  174 	xor	a, #0x80
+   238B                     175 00137$:
+   238B F2 F7 23      [10]  176 	jp	P,00109$
+   238E D5            [11]  177 	push	de
+   238F FD E1         [14]  178 	pop	iy
+   2391 FD 7E 12      [19]  179 	ld	a,18 (iy)
+   2394 DD 77 FE      [19]  180 	ld	-2 (ix),a
+   2397 FD 7E 13      [19]  181 	ld	a,19 (iy)
+   239A DD 77 FF      [19]  182 	ld	-1 (ix),a
+   239D AF            [ 4]  183 	xor	a, a
+   239E DD BE FE      [19]  184 	cp	a, -2 (ix)
+   23A1 DD 9E FF      [19]  185 	sbc	a, -1 (ix)
+   23A4 E2 A9 23      [10]  186 	jp	PO, 00138$
+   23A7 EE 80         [ 7]  187 	xor	a, #0x80
+   23A9                     188 00138$:
+   23A9 F2 F7 23      [10]  189 	jp	P,00109$
+                            190 ;src/entities/enemies.c:31: if (detectColision(x,y,w,h,(u8) enemies[i].x,(u8) enemies[i].y, enemies[i].w, enemies[i].h)){
+   23AC D5            [11]  191 	push	de
+   23AD FD E1         [14]  192 	pop	iy
+   23AF FD 7E 15      [19]  193 	ld	a,21 (iy)
+   23B2 DD 77 FA      [19]  194 	ld	-6 (ix),a
+   23B5 D5            [11]  195 	push	de
+   23B6 FD E1         [14]  196 	pop	iy
+   23B8 FD 7E 14      [19]  197 	ld	a,20 (iy)
+   23BB DD 77 FD      [19]  198 	ld	-3 (ix),a
+   23BE DD 56 FE      [19]  199 	ld	d,-2 (ix)
+   23C1 DD 5E FB      [19]  200 	ld	e,-5 (ix)
+   23C4 C5            [11]  201 	push	bc
+   23C5 DD 66 FA      [19]  202 	ld	h,-6 (ix)
+   23C8 DD 6E FD      [19]  203 	ld	l,-3 (ix)
+   23CB E5            [11]  204 	push	hl
+   23CC D5            [11]  205 	push	de
+   23CD DD 66 07      [19]  206 	ld	h,7 (ix)
+   23D0 DD 6E 06      [19]  207 	ld	l,6 (ix)
+   23D3 E5            [11]  208 	push	hl
+   23D4 DD 66 05      [19]  209 	ld	h,5 (ix)
+   23D7 DD 6E 04      [19]  210 	ld	l,4 (ix)
+   23DA E5            [11]  211 	push	hl
+   23DB CD D1 22      [17]  212 	call	_detectColision
+   23DE F1            [10]  213 	pop	af
+   23DF F1            [10]  214 	pop	af
+   23E0 F1            [10]  215 	pop	af
+   23E1 F1            [10]  216 	pop	af
+   23E2 7D            [ 4]  217 	ld	a,l
+   23E3 C1            [10]  218 	pop	bc
+   23E4 B7            [ 4]  219 	or	a, a
+   23E5 28 10         [12]  220 	jr	Z,00109$
+                            221 ;src/entities/enemies.c:32: collision = 1;
+   23E7 DD 36 F6 01   [19]  222 	ld	-10 (ix),#0x01
+                            223 ;src/entities/enemies.c:33: enemies[i].active = 0;
+   23EB DD 6E F8      [19]  224 	ld	l,-8 (ix)
+   23EE DD 66 F9      [19]  225 	ld	h,-7 (ix)
+   23F1 36 00         [10]  226 	ld	(hl),#0x00
+                            227 ;src/entities/enemies.c:34: active_enemies--;
+   23F3 21 32 56      [10]  228 	ld	hl, #_active_enemies+0
+   23F6 35            [11]  229 	dec	(hl)
+   23F7                     230 00109$:
+                            231 ;src/entities/enemies.c:29: for (i=0;i<MAX_ENEMIES;i++){
+   23F7 21 24 00      [10]  232 	ld	hl,#0x0024
+   23FA 09            [11]  233 	add	hl,bc
+   23FB 4D            [ 4]  234 	ld	c,l
+   23FC 44            [ 4]  235 	ld	b,h
+   23FD DD 34 F7      [23]  236 	inc	-9 (ix)
+   2400 DD 7E F7      [19]  237 	ld	a,-9 (ix)
+   2403 D6 1E         [ 7]  238 	sub	a, #0x1E
+   2405 DA 56 23      [10]  239 	jp	C,00108$
+                            240 ;src/entities/enemies.c:38: return collision;
+   2408 DD 6E F6      [19]  241 	ld	l,-10 (ix)
+   240B DD F9         [10]  242 	ld	sp, ix
+   240D DD E1         [14]  243 	pop	ix
+   240F C9            [10]  244 	ret
+                            245 ;src/entities/enemies.c:45: void init_enemies(){
+                            246 ;	---------------------------------
+                            247 ; Function init_enemies
+                            248 ; ---------------------------------
+   2410                     249 _init_enemies::
+   2410 DD E5         [15]  250 	push	ix
+   2412 DD 21 00 00   [14]  251 	ld	ix,#0
+   2416 DD 39         [15]  252 	add	ix,sp
+   2418 3B            [ 6]  253 	dec	sp
+                            254 ;src/entities/enemies.c:47: for (k=0;k<MAX_ENEMIES;k++){
+   2419 DD 36 FF 00   [19]  255 	ld	-1 (ix),#0x00
+   241D 11 00 00      [10]  256 	ld	de,#0x0000
+   2420                     257 00102$:
+                            258 ;src/entities/enemies.c:48: enemies[k].active=0;
+   2420 21 FA 51      [10]  259 	ld	hl,#_enemies
+   2423 19            [11]  260 	add	hl,de
+   2424 4D            [ 4]  261 	ld	c,l
+   2425 44            [ 4]  262 	ld	b,h
+   2426 21 17 00      [10]  263 	ld	hl,#0x0017
+   2429 09            [11]  264 	add	hl,bc
+   242A 36 00         [10]  265 	ld	(hl),#0x00
+                            266 ;src/entities/enemies.c:49: enemies[k].x=0;
+   242C 21 10 00      [10]  267 	ld	hl,#0x0010
+   242F 09            [11]  268 	add	hl,bc
+   2430 AF            [ 4]  269 	xor	a, a
+   2431 77            [ 7]  270 	ld	(hl), a
+   2432 23            [ 6]  271 	inc	hl
+   2433 77            [ 7]  272 	ld	(hl), a
+                            273 ;src/entities/enemies.c:50: enemies[k].y=0;
+   2434 21 12 00      [10]  274 	ld	hl,#0x0012
+   2437 09            [11]  275 	add	hl,bc
+   2438 AF            [ 4]  276 	xor	a, a
+   2439 77            [ 7]  277 	ld	(hl), a
+   243A 23            [ 6]  278 	inc	hl
+   243B 77            [ 7]  279 	ld	(hl), a
+                            280 ;src/entities/enemies.c:51: enemies[k].w=0;
+   243C 21 14 00      [10]  281 	ld	hl,#0x0014
+   243F 09            [11]  282 	add	hl,bc
+   2440 36 00         [10]  283 	ld	(hl),#0x00
+                            284 ;src/entities/enemies.c:52: enemies[k].h=0;
+   2442 21 15 00      [10]  285 	ld	hl,#0x0015
+   2445 09            [11]  286 	add	hl,bc
+   2446 36 00         [10]  287 	ld	(hl),#0x00
+                            288 ;src/entities/enemies.c:53: enemies[k].dir=0;
+   2448 21 16 00      [10]  289 	ld	hl,#0x0016
+   244B 09            [11]  290 	add	hl,bc
+   244C 36 00         [10]  291 	ld	(hl),#0x00
+                            292 ;src/entities/enemies.c:54: enemies[k].frame=0;
+   244E 21 19 00      [10]  293 	ld	hl,#0x0019
+   2451 09            [11]  294 	add	hl,bc
+   2452 36 00         [10]  295 	ld	(hl),#0x00
+                            296 ;src/entities/enemies.c:55: enemies[k].lastmoved=0;
+   2454 21 20 00      [10]  297 	ld	hl,#0x0020
+   2457 09            [11]  298 	add	hl,bc
+   2458 AF            [ 4]  299 	xor	a, a
+   2459 77            [ 7]  300 	ld	(hl), a
+   245A 23            [ 6]  301 	inc	hl
+   245B 77            [ 7]  302 	ld	(hl), a
+   245C 23            [ 6]  303 	inc	hl
+   245D AF            [ 4]  304 	xor	a, a
+   245E 77            [ 7]  305 	ld	(hl), a
+   245F 23            [ 6]  306 	inc	hl
+   2460 77            [ 7]  307 	ld	(hl), a
+                            308 ;src/entities/enemies.c:47: for (k=0;k<MAX_ENEMIES;k++){
+   2461 21 24 00      [10]  309 	ld	hl,#0x0024
+   2464 19            [11]  310 	add	hl,de
+   2465 EB            [ 4]  311 	ex	de,hl
+   2466 DD 34 FF      [23]  312 	inc	-1 (ix)
+   2469 DD 7E FF      [19]  313 	ld	a,-1 (ix)
+   246C D6 1E         [ 7]  314 	sub	a, #0x1E
+   246E 38 B0         [12]  315 	jr	C,00102$
+                            316 ;src/entities/enemies.c:57: active_enemies=0;
+   2470 21 32 56      [10]  317 	ld	hl,#_active_enemies + 0
+   2473 36 00         [10]  318 	ld	(hl), #0x00
+   2475 33            [ 6]  319 	inc	sp
+   2476 DD E1         [14]  320 	pop	ix
+   2478 C9            [10]  321 	ret
+                            322 ;src/entities/enemies.c:65: void create_enemy(i16 x, i16 y, u8 type){
+                            323 ;	---------------------------------
+                            324 ; Function create_enemy
+                            325 ; ---------------------------------
+   2479                     326 _create_enemy::
+   2479 DD E5         [15]  327 	push	ix
+   247B DD 21 00 00   [14]  328 	ld	ix,#0
+   247F DD 39         [15]  329 	add	ix,sp
+   2481 21 E0 FF      [10]  330 	ld	hl,#-32
+   2484 39            [11]  331 	add	hl,sp
+   2485 F9            [ 6]  332 	ld	sp,hl
+                            333 ;src/entities/enemies.c:67: if (active_enemies < MAX_ENEMIES){
+   2486 3A 32 56      [13]  334 	ld	a,(#_active_enemies + 0)
+   2489 D6 1E         [ 7]  335 	sub	a, #0x1E
+   248B D2 B3 27      [10]  336 	jp	NC,00110$
+                            337 ;src/entities/enemies.c:69: while (enemies[k].active){
+   248E 11 00 00      [10]  338 	ld	de,#0x0000
+   2491                     339 00101$:
+   2491 21 FA 51      [10]  340 	ld	hl,#_enemies
+   2494 19            [11]  341 	add	hl,de
+   2495 DD 75 FE      [19]  342 	ld	-2 (ix),l
+   2498 DD 74 FF      [19]  343 	ld	-1 (ix),h
+   249B DD 7E FE      [19]  344 	ld	a,-2 (ix)
+   249E C6 17         [ 7]  345 	add	a, #0x17
+   24A0 6F            [ 4]  346 	ld	l,a
+   24A1 DD 7E FF      [19]  347 	ld	a,-1 (ix)
+   24A4 CE 00         [ 7]  348 	adc	a, #0x00
+   24A6 67            [ 4]  349 	ld	h,a
+   24A7 7E            [ 7]  350 	ld	a,(hl)
+   24A8 B7            [ 4]  351 	or	a, a
+   24A9 28 07         [12]  352 	jr	Z,00103$
+                            353 ;src/entities/enemies.c:70: k++;
+   24AB 21 24 00      [10]  354 	ld	hl,#0x0024
+   24AE 19            [11]  355 	add	hl,de
+   24AF EB            [ 4]  356 	ex	de,hl
+   24B0 18 DF         [12]  357 	jr	00101$
+   24B2                     358 00103$:
+                            359 ;src/entities/enemies.c:72: enemies[k].active=1;
+   24B2 36 01         [10]  360 	ld	(hl),#0x01
+                            361 ;src/entities/enemies.c:73: enemies[k].frame=0;
+   24B4 DD 7E FE      [19]  362 	ld	a,-2 (ix)
+   24B7 C6 19         [ 7]  363 	add	a, #0x19
+   24B9 6F            [ 4]  364 	ld	l,a
+   24BA DD 7E FF      [19]  365 	ld	a,-1 (ix)
+   24BD CE 00         [ 7]  366 	adc	a, #0x00
+   24BF 67            [ 4]  367 	ld	h,a
+   24C0 36 00         [10]  368 	ld	(hl),#0x00
+                            369 ;src/entities/enemies.c:77: enemies[k].x=x;
+   24C2 DD 7E FE      [19]  370 	ld	a,-2 (ix)
+   24C5 C6 10         [ 7]  371 	add	a, #0x10
+   24C7 DD 77 FC      [19]  372 	ld	-4 (ix),a
+   24CA DD 7E FF      [19]  373 	ld	a,-1 (ix)
+   24CD CE 00         [ 7]  374 	adc	a, #0x00
+   24CF DD 77 FD      [19]  375 	ld	-3 (ix),a
+                            376 ;src/entities/enemies.c:78: enemies[k].y=y;
+   24D2 DD 7E FE      [19]  377 	ld	a,-2 (ix)
+   24D5 C6 12         [ 7]  378 	add	a, #0x12
+   24D7 DD 77 FA      [19]  379 	ld	-6 (ix),a
+   24DA DD 7E FF      [19]  380 	ld	a,-1 (ix)
+   24DD CE 00         [ 7]  381 	adc	a, #0x00
+   24DF DD 77 FB      [19]  382 	ld	-5 (ix),a
+                            383 ;src/entities/enemies.c:79: enemies[k].w=6;
+   24E2 DD 7E FE      [19]  384 	ld	a,-2 (ix)
+   24E5 C6 14         [ 7]  385 	add	a, #0x14
+   24E7 DD 77 F8      [19]  386 	ld	-8 (ix),a
+   24EA DD 7E FF      [19]  387 	ld	a,-1 (ix)
+   24ED CE 00         [ 7]  388 	adc	a, #0x00
+   24EF DD 77 F9      [19]  389 	ld	-7 (ix),a
+                            390 ;src/entities/enemies.c:80: enemies[k].h=12;
+   24F2 DD 7E FE      [19]  391 	ld	a,-2 (ix)
+   24F5 C6 15         [ 7]  392 	add	a, #0x15
+   24F7 DD 77 F6      [19]  393 	ld	-10 (ix),a
+   24FA DD 7E FF      [19]  394 	ld	a,-1 (ix)
+   24FD CE 00         [ 7]  395 	adc	a, #0x00
+   24FF DD 77 F7      [19]  396 	ld	-9 (ix),a
+                            397 ;src/entities/enemies.c:81: enemies[k].num_frames=0;
+   2502 DD 7E FE      [19]  398 	ld	a,-2 (ix)
+   2505 C6 18         [ 7]  399 	add	a, #0x18
+   2507 DD 77 F4      [19]  400 	ld	-12 (ix),a
+   250A DD 7E FF      [19]  401 	ld	a,-1 (ix)
+   250D CE 00         [ 7]  402 	adc	a, #0x00
+   250F DD 77 F5      [19]  403 	ld	-11 (ix),a
+                            404 ;src/entities/enemies.c:83: enemies[k].sprite[1]= (u8*) G_baddie02_01;
+   2512 DD 7E FE      [19]  405 	ld	a,-2 (ix)
+   2515 C6 02         [ 7]  406 	add	a, #0x02
+   2517 DD 77 F2      [19]  407 	ld	-14 (ix),a
+   251A DD 7E FF      [19]  408 	ld	a,-1 (ix)
+   251D CE 00         [ 7]  409 	adc	a, #0x00
+   251F DD 77 F3      [19]  410 	ld	-13 (ix),a
+                            411 ;src/entities/enemies.c:84: enemies[k].sprite[2]= (u8*) G_baddie02_02;
+   2522 DD 7E FE      [19]  412 	ld	a,-2 (ix)
+   2525 C6 04         [ 7]  413 	add	a, #0x04
+   2527 DD 77 F0      [19]  414 	ld	-16 (ix),a
+   252A DD 7E FF      [19]  415 	ld	a,-1 (ix)
+   252D CE 00         [ 7]  416 	adc	a, #0x00
+   252F DD 77 F1      [19]  417 	ld	-15 (ix),a
+                            418 ;src/entities/enemies.c:85: enemies[k].sprite[3]= (u8*) G_baddie02_03;
+   2532 DD 7E FE      [19]  419 	ld	a,-2 (ix)
+   2535 C6 06         [ 7]  420 	add	a, #0x06
+   2537 DD 77 EE      [19]  421 	ld	-18 (ix),a
+   253A DD 7E FF      [19]  422 	ld	a,-1 (ix)
+   253D CE 00         [ 7]  423 	adc	a, #0x00
+   253F DD 77 EF      [19]  424 	ld	-17 (ix),a
+                            425 ;src/entities/enemies.c:86: enemies[k].sprite[4]= (u8*) G_baddie02_04;
+   2542 DD 7E FE      [19]  426 	ld	a,-2 (ix)
+   2545 C6 08         [ 7]  427 	add	a, #0x08
+   2547 DD 77 EC      [19]  428 	ld	-20 (ix),a
+   254A DD 7E FF      [19]  429 	ld	a,-1 (ix)
+   254D CE 00         [ 7]  430 	adc	a, #0x00
+   254F DD 77 ED      [19]  431 	ld	-19 (ix),a
+                            432 ;src/entities/enemies.c:87: enemies[k].sprite[5]= (u8*) G_baddie02_05;
+   2552 DD 7E FE      [19]  433 	ld	a,-2 (ix)
+   2555 C6 0A         [ 7]  434 	add	a, #0x0A
+   2557 DD 77 EA      [19]  435 	ld	-22 (ix),a
+   255A DD 7E FF      [19]  436 	ld	a,-1 (ix)
+   255D CE 00         [ 7]  437 	adc	a, #0x00
+   255F DD 77 EB      [19]  438 	ld	-21 (ix),a
+                            439 ;src/entities/enemies.c:88: enemies[k].sprite[6]= (u8*) G_baddie02_06;
+   2562 DD 7E FE      [19]  440 	ld	a,-2 (ix)
+   2565 C6 0C         [ 7]  441 	add	a, #0x0C
+   2567 DD 77 E8      [19]  442 	ld	-24 (ix),a
+   256A DD 7E FF      [19]  443 	ld	a,-1 (ix)
+   256D CE 00         [ 7]  444 	adc	a, #0x00
+   256F DD 77 E9      [19]  445 	ld	-23 (ix),a
+                            446 ;src/entities/enemies.c:89: enemies[k].sprite[7]= (u8*) G_baddie02_07;
+   2572 DD 7E FE      [19]  447 	ld	a,-2 (ix)
+   2575 C6 0E         [ 7]  448 	add	a, #0x0E
+   2577 DD 77 E6      [19]  449 	ld	-26 (ix),a
+   257A DD 7E FF      [19]  450 	ld	a,-1 (ix)
+   257D CE 00         [ 7]  451 	adc	a, #0x00
+   257F DD 77 E7      [19]  452 	ld	-25 (ix),a
+                            453 ;src/entities/enemies.c:90: enemies[k].movement=0;
+   2582 DD 7E FE      [19]  454 	ld	a,-2 (ix)
+   2585 C6 1D         [ 7]  455 	add	a, #0x1D
+   2587 DD 77 E4      [19]  456 	ld	-28 (ix),a
+   258A DD 7E FF      [19]  457 	ld	a,-1 (ix)
+   258D CE 00         [ 7]  458 	adc	a, #0x00
+   258F DD 77 E5      [19]  459 	ld	-27 (ix),a
+                            460 ;src/entities/enemies.c:91: enemies[k].stage=0;
+   2592 DD 7E FE      [19]  461 	ld	a,-2 (ix)
+   2595 C6 1E         [ 7]  462 	add	a, #0x1E
+   2597 DD 77 E2      [19]  463 	ld	-30 (ix),a
+   259A DD 7E FF      [19]  464 	ld	a,-1 (ix)
+   259D CE 00         [ 7]  465 	adc	a, #0x00
+   259F DD 77 E3      [19]  466 	ld	-29 (ix),a
+                            467 ;src/entities/enemies.c:92: enemies[k].stage_step=0;
+   25A2 DD 7E FE      [19]  468 	ld	a,-2 (ix)
+   25A5 C6 1F         [ 7]  469 	add	a, #0x1F
+   25A7 DD 77 E0      [19]  470 	ld	-32 (ix),a
+   25AA DD 7E FF      [19]  471 	ld	a,-1 (ix)
+   25AD CE 00         [ 7]  472 	adc	a, #0x00
+   25AF DD 77 E1      [19]  473 	ld	-31 (ix),a
+                            474 ;src/entities/enemies.c:74: switch (type){
+   25B2 DD 7E 08      [19]  475 	ld	a,8 (ix)
+   25B5 3D            [ 4]  476 	dec	a
+   25B6 28 0B         [12]  477 	jr	Z,00104$
+   25B8 DD 7E 08      [19]  478 	ld	a,8 (ix)
+   25BB D6 02         [ 7]  479 	sub	a, #0x02
+   25BD CA 68 26      [10]  480 	jp	Z,00105$
+   25C0 C3 0D 27      [10]  481 	jp	00106$
+                            482 ;src/entities/enemies.c:76: case 1:
+   25C3                     483 00104$:
+                            484 ;src/entities/enemies.c:77: enemies[k].x=x;
+   25C3 DD 6E FC      [19]  485 	ld	l,-4 (ix)
+   25C6 DD 66 FD      [19]  486 	ld	h,-3 (ix)
+   25C9 DD 7E 04      [19]  487 	ld	a,4 (ix)
+   25CC 77            [ 7]  488 	ld	(hl),a
+   25CD 23            [ 6]  489 	inc	hl
+   25CE DD 7E 05      [19]  490 	ld	a,5 (ix)
+   25D1 77            [ 7]  491 	ld	(hl),a
+                            492 ;src/entities/enemies.c:78: enemies[k].y=y;
+   25D2 DD 6E FA      [19]  493 	ld	l,-6 (ix)
+   25D5 DD 66 FB      [19]  494 	ld	h,-5 (ix)
+   25D8 DD 7E 06      [19]  495 	ld	a,6 (ix)
+   25DB 77            [ 7]  496 	ld	(hl),a
+   25DC 23            [ 6]  497 	inc	hl
+   25DD DD 7E 07      [19]  498 	ld	a,7 (ix)
+   25E0 77            [ 7]  499 	ld	(hl),a
+                            500 ;src/entities/enemies.c:79: enemies[k].w=6;
+   25E1 DD 6E F8      [19]  501 	ld	l,-8 (ix)
+   25E4 DD 66 F9      [19]  502 	ld	h,-7 (ix)
+   25E7 36 06         [10]  503 	ld	(hl),#0x06
+                            504 ;src/entities/enemies.c:80: enemies[k].h=12;
+   25E9 DD 6E F6      [19]  505 	ld	l,-10 (ix)
+   25EC DD 66 F7      [19]  506 	ld	h,-9 (ix)
+   25EF 36 0C         [10]  507 	ld	(hl),#0x0C
+                            508 ;src/entities/enemies.c:81: enemies[k].num_frames=0;
+   25F1 DD 6E F4      [19]  509 	ld	l,-12 (ix)
+   25F4 DD 66 F5      [19]  510 	ld	h,-11 (ix)
+   25F7 36 00         [10]  511 	ld	(hl),#0x00
+                            512 ;src/entities/enemies.c:82: enemies[k].sprite[0]= (u8*) G_baddie02_00;
+   25F9 DD 6E FE      [19]  513 	ld	l,-2 (ix)
+   25FC DD 66 FF      [19]  514 	ld	h,-1 (ix)
+   25FF 36 3F         [10]  515 	ld	(hl),#<(_G_baddie02_00)
+   2601 23            [ 6]  516 	inc	hl
+   2602 36 3C         [10]  517 	ld	(hl),#>(_G_baddie02_00)
+                            518 ;src/entities/enemies.c:83: enemies[k].sprite[1]= (u8*) G_baddie02_01;
+   2604 DD 6E F2      [19]  519 	ld	l,-14 (ix)
+   2607 DD 66 F3      [19]  520 	ld	h,-13 (ix)
+   260A 36 87         [10]  521 	ld	(hl),#<(_G_baddie02_01)
+   260C 23            [ 6]  522 	inc	hl
+   260D 36 3C         [10]  523 	ld	(hl),#>(_G_baddie02_01)
+                            524 ;src/entities/enemies.c:84: enemies[k].sprite[2]= (u8*) G_baddie02_02;
+   260F DD 6E F0      [19]  525 	ld	l,-16 (ix)
+   2612 DD 66 F1      [19]  526 	ld	h,-15 (ix)
+   2615 36 CF         [10]  527 	ld	(hl),#<(_G_baddie02_02)
+   2617 23            [ 6]  528 	inc	hl
+   2618 36 3C         [10]  529 	ld	(hl),#>(_G_baddie02_02)
+                            530 ;src/entities/enemies.c:85: enemies[k].sprite[3]= (u8*) G_baddie02_03;
+   261A DD 6E EE      [19]  531 	ld	l,-18 (ix)
+   261D DD 66 EF      [19]  532 	ld	h,-17 (ix)
+   2620 36 17         [10]  533 	ld	(hl),#<(_G_baddie02_03)
+   2622 23            [ 6]  534 	inc	hl
+   2623 36 3D         [10]  535 	ld	(hl),#>(_G_baddie02_03)
+                            536 ;src/entities/enemies.c:86: enemies[k].sprite[4]= (u8*) G_baddie02_04;
+   2625 DD 6E EC      [19]  537 	ld	l,-20 (ix)
+   2628 DD 66 ED      [19]  538 	ld	h,-19 (ix)
+   262B 36 5F         [10]  539 	ld	(hl),#<(_G_baddie02_04)
+   262D 23            [ 6]  540 	inc	hl
+   262E 36 3D         [10]  541 	ld	(hl),#>(_G_baddie02_04)
+                            542 ;src/entities/enemies.c:87: enemies[k].sprite[5]= (u8*) G_baddie02_05;
+   2630 DD 6E EA      [19]  543 	ld	l,-22 (ix)
+   2633 DD 66 EB      [19]  544 	ld	h,-21 (ix)
+   2636 36 A7         [10]  545 	ld	(hl),#<(_G_baddie02_05)
+   2638 23            [ 6]  546 	inc	hl
+   2639 36 3D         [10]  547 	ld	(hl),#>(_G_baddie02_05)
+                            548 ;src/entities/enemies.c:88: enemies[k].sprite[6]= (u8*) G_baddie02_06;
+   263B DD 6E E8      [19]  549 	ld	l,-24 (ix)
+   263E DD 66 E9      [19]  550 	ld	h,-23 (ix)
+   2641 36 EF         [10]  551 	ld	(hl),#<(_G_baddie02_06)
+   2643 23            [ 6]  552 	inc	hl
+   2644 36 3D         [10]  553 	ld	(hl),#>(_G_baddie02_06)
+                            554 ;src/entities/enemies.c:89: enemies[k].sprite[7]= (u8*) G_baddie02_07;
+   2646 DD 6E E6      [19]  555 	ld	l,-26 (ix)
+   2649 DD 66 E7      [19]  556 	ld	h,-25 (ix)
+   264C 36 37         [10]  557 	ld	(hl),#<(_G_baddie02_07)
+   264E 23            [ 6]  558 	inc	hl
+   264F 36 3E         [10]  559 	ld	(hl),#>(_G_baddie02_07)
+                            560 ;src/entities/enemies.c:90: enemies[k].movement=0;
+   2651 DD 6E E4      [19]  561 	ld	l,-28 (ix)
+   2654 DD 66 E5      [19]  562 	ld	h,-27 (ix)
+   2657 36 00         [10]  563 	ld	(hl),#0x00
+                            564 ;src/entities/enemies.c:91: enemies[k].stage=0;
+   2659 DD 6E E2      [19]  565 	ld	l,-30 (ix)
+   265C DD 66 E3      [19]  566 	ld	h,-29 (ix)
+   265F 36 00         [10]  567 	ld	(hl),#0x00
+                            568 ;src/entities/enemies.c:92: enemies[k].stage_step=0;
+   2661 E1            [10]  569 	pop	hl
+   2662 E5            [11]  570 	push	hl
+   2663 36 00         [10]  571 	ld	(hl),#0x00
+                            572 ;src/entities/enemies.c:93: break;
+   2665 C3 AF 27      [10]  573 	jp	00107$
+                            574 ;src/entities/enemies.c:94: case 2:
+   2668                     575 00105$:
+                            576 ;src/entities/enemies.c:95: enemies[k].x=x;
+   2668 DD 6E FC      [19]  577 	ld	l,-4 (ix)
+   266B DD 66 FD      [19]  578 	ld	h,-3 (ix)
+   266E DD 7E 04      [19]  579 	ld	a,4 (ix)
+   2671 77            [ 7]  580 	ld	(hl),a
+   2672 23            [ 6]  581 	inc	hl
+   2673 DD 7E 05      [19]  582 	ld	a,5 (ix)
+   2676 77            [ 7]  583 	ld	(hl),a
+                            584 ;src/entities/enemies.c:96: enemies[k].y=y;
+   2677 DD 6E FA      [19]  585 	ld	l,-6 (ix)
+   267A DD 66 FB      [19]  586 	ld	h,-5 (ix)
+   267D DD 7E 06      [19]  587 	ld	a,6 (ix)
+   2680 77            [ 7]  588 	ld	(hl),a
+   2681 23            [ 6]  589 	inc	hl
+   2682 DD 7E 07      [19]  590 	ld	a,7 (ix)
+   2685 77            [ 7]  591 	ld	(hl),a
+                            592 ;src/entities/enemies.c:97: enemies[k].w=4;
+   2686 DD 6E F8      [19]  593 	ld	l,-8 (ix)
+   2689 DD 66 F9      [19]  594 	ld	h,-7 (ix)
+   268C 36 04         [10]  595 	ld	(hl),#0x04
+                            596 ;src/entities/enemies.c:98: enemies[k].h=8;
+   268E DD 6E F6      [19]  597 	ld	l,-10 (ix)
+   2691 DD 66 F7      [19]  598 	ld	h,-9 (ix)
+   2694 36 08         [10]  599 	ld	(hl),#0x08
+                            600 ;src/entities/enemies.c:99: enemies[k].num_frames=0;
+   2696 DD 6E F4      [19]  601 	ld	l,-12 (ix)
+   2699 DD 66 F5      [19]  602 	ld	h,-11 (ix)
+   269C 36 00         [10]  603 	ld	(hl),#0x00
+                            604 ;src/entities/enemies.c:100: enemies[k].sprite[0]= (u8*) G_baddie03_00;
+   269E DD 6E FE      [19]  605 	ld	l,-2 (ix)
+   26A1 DD 66 FF      [19]  606 	ld	h,-1 (ix)
+   26A4 36 37         [10]  607 	ld	(hl),#<(_G_baddie03_00)
+   26A6 23            [ 6]  608 	inc	hl
+   26A7 36 41         [10]  609 	ld	(hl),#>(_G_baddie03_00)
+                            610 ;src/entities/enemies.c:101: enemies[k].sprite[1]= (u8*) G_baddie03_01;
+   26A9 DD 6E F2      [19]  611 	ld	l,-14 (ix)
+   26AC DD 66 F3      [19]  612 	ld	h,-13 (ix)
+   26AF 36 57         [10]  613 	ld	(hl),#<(_G_baddie03_01)
+   26B1 23            [ 6]  614 	inc	hl
+   26B2 36 41         [10]  615 	ld	(hl),#>(_G_baddie03_01)
+                            616 ;src/entities/enemies.c:102: enemies[k].sprite[2]= (u8*) G_baddie03_02;
+   26B4 DD 6E F0      [19]  617 	ld	l,-16 (ix)
+   26B7 DD 66 F1      [19]  618 	ld	h,-15 (ix)
+   26BA 36 77         [10]  619 	ld	(hl),#<(_G_baddie03_02)
+   26BC 23            [ 6]  620 	inc	hl
+   26BD 36 41         [10]  621 	ld	(hl),#>(_G_baddie03_02)
+                            622 ;src/entities/enemies.c:103: enemies[k].sprite[3]= (u8*) G_baddie03_03;
+   26BF DD 6E EE      [19]  623 	ld	l,-18 (ix)
+   26C2 DD 66 EF      [19]  624 	ld	h,-17 (ix)
+   26C5 36 97         [10]  625 	ld	(hl),#<(_G_baddie03_03)
+   26C7 23            [ 6]  626 	inc	hl
+   26C8 36 41         [10]  627 	ld	(hl),#>(_G_baddie03_03)
+                            628 ;src/entities/enemies.c:104: enemies[k].sprite[4]= (u8*) G_baddie03_04;
+   26CA DD 6E EC      [19]  629 	ld	l,-20 (ix)
+   26CD DD 66 ED      [19]  630 	ld	h,-19 (ix)
+   26D0 36 B7         [10]  631 	ld	(hl),#<(_G_baddie03_04)
+   26D2 23            [ 6]  632 	inc	hl
+   26D3 36 41         [10]  633 	ld	(hl),#>(_G_baddie03_04)
+                            634 ;src/entities/enemies.c:105: enemies[k].sprite[5]= (u8*) G_baddie03_05;
+   26D5 DD 6E EA      [19]  635 	ld	l,-22 (ix)
+   26D8 DD 66 EB      [19]  636 	ld	h,-21 (ix)
+   26DB 36 D7         [10]  637 	ld	(hl),#<(_G_baddie03_05)
+   26DD 23            [ 6]  638 	inc	hl
+   26DE 36 41         [10]  639 	ld	(hl),#>(_G_baddie03_05)
+                            640 ;src/entities/enemies.c:106: enemies[k].sprite[6]= (u8*) G_baddie03_06;
+   26E0 DD 6E E8      [19]  641 	ld	l,-24 (ix)
+   26E3 DD 66 E9      [19]  642 	ld	h,-23 (ix)
+   26E6 36 F7         [10]  643 	ld	(hl),#<(_G_baddie03_06)
+   26E8 23            [ 6]  644 	inc	hl
+   26E9 36 41         [10]  645 	ld	(hl),#>(_G_baddie03_06)
+                            646 ;src/entities/enemies.c:107: enemies[k].sprite[7]= (u8*) G_baddie03_07;
+   26EB DD 6E E6      [19]  647 	ld	l,-26 (ix)
+   26EE DD 66 E7      [19]  648 	ld	h,-25 (ix)
+   26F1 36 17         [10]  649 	ld	(hl),#<(_G_baddie03_07)
+   26F3 23            [ 6]  650 	inc	hl
+   26F4 36 42         [10]  651 	ld	(hl),#>(_G_baddie03_07)
+                            652 ;src/entities/enemies.c:108: enemies[k].movement=0;
+   26F6 DD 6E E4      [19]  653 	ld	l,-28 (ix)
+   26F9 DD 66 E5      [19]  654 	ld	h,-27 (ix)
+   26FC 36 00         [10]  655 	ld	(hl),#0x00
+                            656 ;src/entities/enemies.c:109: enemies[k].stage=0;
+   26FE DD 6E E2      [19]  657 	ld	l,-30 (ix)
+   2701 DD 66 E3      [19]  658 	ld	h,-29 (ix)
+   2704 36 00         [10]  659 	ld	(hl),#0x00
+                            660 ;src/entities/enemies.c:110: enemies[k].stage_step=0;
+   2706 E1            [10]  661 	pop	hl
+   2707 E5            [11]  662 	push	hl
+   2708 36 00         [10]  663 	ld	(hl),#0x00
+                            664 ;src/entities/enemies.c:111: break;
+   270A C3 AF 27      [10]  665 	jp	00107$
+                            666 ;src/entities/enemies.c:112: default:
+   270D                     667 00106$:
+                            668 ;src/entities/enemies.c:113: enemies[k].x=x;
+   270D DD 6E FC      [19]  669 	ld	l,-4 (ix)
+   2710 DD 66 FD      [19]  670 	ld	h,-3 (ix)
+   2713 DD 7E 04      [19]  671 	ld	a,4 (ix)
+   2716 77            [ 7]  672 	ld	(hl),a
+   2717 23            [ 6]  673 	inc	hl
+   2718 DD 7E 05      [19]  674 	ld	a,5 (ix)
+   271B 77            [ 7]  675 	ld	(hl),a
+                            676 ;src/entities/enemies.c:114: enemies[k].y=y;
+   271C DD 6E FA      [19]  677 	ld	l,-6 (ix)
+   271F DD 66 FB      [19]  678 	ld	h,-5 (ix)
+   2722 DD 7E 06      [19]  679 	ld	a,6 (ix)
+   2725 77            [ 7]  680 	ld	(hl),a
+   2726 23            [ 6]  681 	inc	hl
+   2727 DD 7E 07      [19]  682 	ld	a,7 (ix)
+   272A 77            [ 7]  683 	ld	(hl),a
+                            684 ;src/entities/enemies.c:115: enemies[k].w=5;
+   272B DD 6E F8      [19]  685 	ld	l,-8 (ix)
+   272E DD 66 F9      [19]  686 	ld	h,-7 (ix)
+   2731 36 05         [10]  687 	ld	(hl),#0x05
+                            688 ;src/entities/enemies.c:116: enemies[k].h=16;
+   2733 DD 6E F6      [19]  689 	ld	l,-10 (ix)
+   2736 DD 66 F7      [19]  690 	ld	h,-9 (ix)
+   2739 36 10         [10]  691 	ld	(hl),#0x10
+                            692 ;src/entities/enemies.c:117: enemies[k].num_frames=0;
+   273B DD 6E F4      [19]  693 	ld	l,-12 (ix)
+   273E DD 66 F5      [19]  694 	ld	h,-11 (ix)
+   2741 36 00         [10]  695 	ld	(hl),#0x00
+                            696 ;src/entities/enemies.c:118: enemies[k].sprite[0]= (u8*) G_baddie01_00;
+   2743 DD 6E FE      [19]  697 	ld	l,-2 (ix)
+   2746 DD 66 FF      [19]  698 	ld	h,-1 (ix)
+   2749 36 BF         [10]  699 	ld	(hl),#<(_G_baddie01_00)
+   274B 23            [ 6]  700 	inc	hl
+   274C 36 39         [10]  701 	ld	(hl),#>(_G_baddie01_00)
+                            702 ;src/entities/enemies.c:119: enemies[k].sprite[1]= (u8*) G_baddie01_01;
+   274E DD 6E F2      [19]  703 	ld	l,-14 (ix)
+   2751 DD 66 F3      [19]  704 	ld	h,-13 (ix)
+   2754 36 0F         [10]  705 	ld	(hl),#<(_G_baddie01_01)
+   2756 23            [ 6]  706 	inc	hl
+   2757 36 3A         [10]  707 	ld	(hl),#>(_G_baddie01_01)
+                            708 ;src/entities/enemies.c:120: enemies[k].sprite[2]= (u8*) G_baddie01_02;
+   2759 DD 6E F0      [19]  709 	ld	l,-16 (ix)
+   275C DD 66 F1      [19]  710 	ld	h,-15 (ix)
+   275F 36 5F         [10]  711 	ld	(hl),#<(_G_baddie01_02)
+   2761 23            [ 6]  712 	inc	hl
+   2762 36 3A         [10]  713 	ld	(hl),#>(_G_baddie01_02)
+                            714 ;src/entities/enemies.c:121: enemies[k].sprite[3]= (u8*) G_baddie01_03;
+   2764 DD 6E EE      [19]  715 	ld	l,-18 (ix)
+   2767 DD 66 EF      [19]  716 	ld	h,-17 (ix)
+   276A 36 AF         [10]  717 	ld	(hl),#<(_G_baddie01_03)
+   276C 23            [ 6]  718 	inc	hl
+   276D 36 3A         [10]  719 	ld	(hl),#>(_G_baddie01_03)
+                            720 ;src/entities/enemies.c:122: enemies[k].sprite[4]= (u8*) G_baddie01_04;
+   276F DD 6E EC      [19]  721 	ld	l,-20 (ix)
+   2772 DD 66 ED      [19]  722 	ld	h,-19 (ix)
+   2775 36 FF         [10]  723 	ld	(hl),#<(_G_baddie01_04)
+   2777 23            [ 6]  724 	inc	hl
+   2778 36 3A         [10]  725 	ld	(hl),#>(_G_baddie01_04)
+                            726 ;src/entities/enemies.c:123: enemies[k].sprite[5]= (u8*) G_baddie01_05;
+   277A DD 6E EA      [19]  727 	ld	l,-22 (ix)
+   277D DD 66 EB      [19]  728 	ld	h,-21 (ix)
+   2780 36 4F         [10]  729 	ld	(hl),#<(_G_baddie01_05)
+   2782 23            [ 6]  730 	inc	hl
+   2783 36 3B         [10]  731 	ld	(hl),#>(_G_baddie01_05)
+                            732 ;src/entities/enemies.c:124: enemies[k].sprite[6]= (u8*) G_baddie01_06;
+   2785 DD 6E E8      [19]  733 	ld	l,-24 (ix)
+   2788 DD 66 E9      [19]  734 	ld	h,-23 (ix)
+   278B 36 9F         [10]  735 	ld	(hl),#<(_G_baddie01_06)
+   278D 23            [ 6]  736 	inc	hl
+   278E 36 3B         [10]  737 	ld	(hl),#>(_G_baddie01_06)
+                            738 ;src/entities/enemies.c:125: enemies[k].sprite[7]= (u8*) G_baddie01_07;
+   2790 DD 6E E6      [19]  739 	ld	l,-26 (ix)
+   2793 DD 66 E7      [19]  740 	ld	h,-25 (ix)
+   2796 36 EF         [10]  741 	ld	(hl),#<(_G_baddie01_07)
+   2798 23            [ 6]  742 	inc	hl
+   2799 36 3B         [10]  743 	ld	(hl),#>(_G_baddie01_07)
+                            744 ;src/entities/enemies.c:126: enemies[k].movement=1;
+   279B DD 6E E4      [19]  745 	ld	l,-28 (ix)
+   279E DD 66 E5      [19]  746 	ld	h,-27 (ix)
+   27A1 36 01         [10]  747 	ld	(hl),#0x01
+                            748 ;src/entities/enemies.c:127: enemies[k].stage=0;
+   27A3 DD 6E E2      [19]  749 	ld	l,-30 (ix)
+   27A6 DD 66 E3      [19]  750 	ld	h,-29 (ix)
+   27A9 36 00         [10]  751 	ld	(hl),#0x00
+                            752 ;src/entities/enemies.c:128: enemies[k].stage_step=0;
+   27AB E1            [10]  753 	pop	hl
+   27AC E5            [11]  754 	push	hl
+   27AD 36 00         [10]  755 	ld	(hl),#0x00
+                            756 ;src/entities/enemies.c:130: }
+   27AF                     757 00107$:
+                            758 ;src/entities/enemies.c:131: active_enemies++;
+   27AF 21 32 56      [10]  759 	ld	hl, #_active_enemies+0
+   27B2 34            [11]  760 	inc	(hl)
+   27B3                     761 00110$:
+   27B3 DD F9         [10]  762 	ld	sp, ix
+   27B5 DD E1         [14]  763 	pop	ix
+   27B7 C9            [10]  764 	ret
+                            765 ;src/entities/enemies.c:137: void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies ){
+                            766 ;	---------------------------------
+                            767 ; Function create_enemy_group
+                            768 ; ---------------------------------
+   27B8                     769 _create_enemy_group::
+   27B8 DD E5         [15]  770 	push	ix
+   27BA DD 21 00 00   [14]  771 	ld	ix,#0
+   27BE DD 39         [15]  772 	add	ix,sp
+                            773 ;src/entities/enemies.c:139: if (active_groups < MAX_ENEMY_GROUPS){
+   27C0 3A 53 56      [13]  774 	ld	a,(#_active_groups + 0)
+   27C3 D6 04         [ 7]  775 	sub	a, #0x04
+   27C5 30 4E         [12]  776 	jr	NC,00106$
+                            777 ;src/entities/enemies.c:141: while (groups[k].active){
+   27C7 16 00         [ 7]  778 	ld	d,#0x00
+   27C9                     779 00101$:
+   27C9 6A            [ 4]  780 	ld	l,d
+   27CA 26 00         [ 7]  781 	ld	h,#0x00
+   27CC 29            [11]  782 	add	hl, hl
+   27CD 29            [11]  783 	add	hl, hl
+   27CE 29            [11]  784 	add	hl, hl
+   27CF 3E 33         [ 7]  785 	ld	a,#<(_groups)
+   27D1 85            [ 4]  786 	add	a, l
+   27D2 4F            [ 4]  787 	ld	c,a
+   27D3 3E 56         [ 7]  788 	ld	a,#>(_groups)
+   27D5 8C            [ 4]  789 	adc	a, h
+   27D6 47            [ 4]  790 	ld	b,a
+   27D7 0A            [ 7]  791 	ld	a,(bc)
+   27D8 B7            [ 4]  792 	or	a, a
+   27D9 28 03         [12]  793 	jr	Z,00103$
+                            794 ;src/entities/enemies.c:142: k++;
+   27DB 14            [ 4]  795 	inc	d
+   27DC 18 EB         [12]  796 	jr	00101$
+   27DE                     797 00103$:
+                            798 ;src/entities/enemies.c:144: groups[k].active=1;
+   27DE 3E 01         [ 7]  799 	ld	a,#0x01
+   27E0 02            [ 7]  800 	ld	(bc),a
+                            801 ;src/entities/enemies.c:145: groups[k].x=x;
+   27E1 69            [ 4]  802 	ld	l, c
+   27E2 60            [ 4]  803 	ld	h, b
+   27E3 23            [ 6]  804 	inc	hl
+   27E4 DD 7E 04      [19]  805 	ld	a,4 (ix)
+   27E7 77            [ 7]  806 	ld	(hl),a
+   27E8 23            [ 6]  807 	inc	hl
+   27E9 DD 7E 05      [19]  808 	ld	a,5 (ix)
+   27EC 77            [ 7]  809 	ld	(hl),a
+                            810 ;src/entities/enemies.c:146: groups[k].y=y;
+   27ED 69            [ 4]  811 	ld	l, c
+   27EE 60            [ 4]  812 	ld	h, b
+   27EF 23            [ 6]  813 	inc	hl
+   27F0 23            [ 6]  814 	inc	hl
+   27F1 23            [ 6]  815 	inc	hl
+   27F2 DD 7E 06      [19]  816 	ld	a,6 (ix)
+   27F5 77            [ 7]  817 	ld	(hl),a
+   27F6 23            [ 6]  818 	inc	hl
+   27F7 DD 7E 07      [19]  819 	ld	a,7 (ix)
+   27FA 77            [ 7]  820 	ld	(hl),a
+                            821 ;src/entities/enemies.c:147: groups[k].enemy_type=type;
+   27FB 21 05 00      [10]  822 	ld	hl,#0x0005
+   27FE 09            [11]  823 	add	hl,bc
+   27FF DD 7E 08      [19]  824 	ld	a,8 (ix)
+   2802 77            [ 7]  825 	ld	(hl),a
+                            826 ;src/entities/enemies.c:148: groups[k].num_enemies=num_enemies;
+   2803 21 06 00      [10]  827 	ld	hl,#0x0006
+   2806 09            [11]  828 	add	hl,bc
+   2807 DD 7E 09      [19]  829 	ld	a,9 (ix)
+   280A 77            [ 7]  830 	ld	(hl),a
+                            831 ;src/entities/enemies.c:149: groups[k].sleep=ENEMY_GAP;
+   280B 21 07 00      [10]  832 	ld	hl,#0x0007
+   280E 09            [11]  833 	add	hl,bc
+   280F 36 03         [10]  834 	ld	(hl),#0x03
+                            835 ;src/entities/enemies.c:150: active_groups++;
+   2811 21 53 56      [10]  836 	ld	hl, #_active_groups+0
+   2814 34            [11]  837 	inc	(hl)
+   2815                     838 00106$:
+   2815 DD E1         [14]  839 	pop	ix
+   2817 C9            [10]  840 	ret
+                            841 ;src/entities/enemies.c:158: void update_enemies(){
+                            842 ;	---------------------------------
+                            843 ; Function update_enemies
+                            844 ; ---------------------------------
+   2818                     845 _update_enemies::
+   2818 DD E5         [15]  846 	push	ix
+   281A DD 21 00 00   [14]  847 	ld	ix,#0
+   281E DD 39         [15]  848 	add	ix,sp
+   2820 21 EB FF      [10]  849 	ld	hl,#-21
+   2823 39            [11]  850 	add	hl,sp
+   2824 F9            [ 6]  851 	ld	sp,hl
+                            852 ;src/entities/enemies.c:162: if (active_enemies>0){
+   2825 3A 32 56      [13]  853 	ld	a,(#_active_enemies + 0)
+   2828 B7            [ 4]  854 	or	a, a
+   2829 CA E0 2C      [10]  855 	jp	Z,00112$
+                            856 ;src/entities/enemies.c:163: for (i=0;i<MAX_ENEMIES;i++){
+   282C DD 36 EB 00   [19]  857 	ld	-21 (ix),#0x00
+   2830 DD 36 FB 00   [19]  858 	ld	-5 (ix),#0x00
+   2834 DD 36 FC 00   [19]  859 	ld	-4 (ix),#0x00
+   2838 DD 36 FD 00   [19]  860 	ld	-3 (ix),#0x00
+   283C DD 36 FE 00   [19]  861 	ld	-2 (ix),#0x00
+   2840                     862 00124$:
+                            863 ;src/entities/enemies.c:164: if (enemies[i].active){
+   2840 3E FA         [ 7]  864 	ld	a,#<(_enemies)
+   2842 DD 86 FD      [19]  865 	add	a, -3 (ix)
+   2845 DD 77 EC      [19]  866 	ld	-20 (ix),a
+   2848 3E 51         [ 7]  867 	ld	a,#>(_enemies)
+   284A DD 8E FE      [19]  868 	adc	a, -2 (ix)
+   284D DD 77 ED      [19]  869 	ld	-19 (ix),a
+   2850 DD 4E EC      [19]  870 	ld	c,-20 (ix)
+   2853 DD 46 ED      [19]  871 	ld	b,-19 (ix)
+   2856 C5            [11]  872 	push	bc
+   2857 FD E1         [14]  873 	pop	iy
+   2859 FD 7E 17      [19]  874 	ld	a,23 (iy)
+   285C DD 77 FF      [19]  875 	ld	-1 (ix), a
+   285F B7            [ 4]  876 	or	a, a
+   2860 CA B5 2C      [10]  877 	jp	Z,00125$
+                            878 ;src/entities/enemies.c:165: if (enemies[i].movement<99){
+   2863 DD 7E EC      [19]  879 	ld	a,-20 (ix)
+   2866 C6 1D         [ 7]  880 	add	a, #0x1D
+   2868 DD 77 F9      [19]  881 	ld	-7 (ix),a
+   286B DD 7E ED      [19]  882 	ld	a,-19 (ix)
+   286E CE 00         [ 7]  883 	adc	a, #0x00
+   2870 DD 77 FA      [19]  884 	ld	-6 (ix),a
+   2873 DD 6E F9      [19]  885 	ld	l,-7 (ix)
+   2876 DD 66 FA      [19]  886 	ld	h,-6 (ix)
+   2879 56            [ 7]  887 	ld	d,(hl)
+   287A 7A            [ 4]  888 	ld	a,d
+   287B D6 63         [ 7]  889 	sub	a, #0x63
+   287D D2 B5 2C      [10]  890 	jp	NC,00125$
+                            891 ;src/entities/enemies.c:166: if (enemies[i].stage_step<movements[enemies[i].movement].stages[enemies[i].stage].num_steps){
+   2880 DD 7E EC      [19]  892 	ld	a,-20 (ix)
+   2883 C6 1F         [ 7]  893 	add	a, #0x1F
+   2885 DD 77 F7      [19]  894 	ld	-9 (ix),a
+   2888 DD 7E ED      [19]  895 	ld	a,-19 (ix)
+   288B CE 00         [ 7]  896 	adc	a, #0x00
+   288D DD 77 F8      [19]  897 	ld	-8 (ix),a
+   2890 DD 6E F7      [19]  898 	ld	l,-9 (ix)
+   2893 DD 66 F8      [19]  899 	ld	h,-8 (ix)
+   2896 5E            [ 7]  900 	ld	e,(hl)
+   2897 4A            [ 4]  901 	ld	c,d
+   2898 06 00         [ 7]  902 	ld	b,#0x00
+   289A 69            [ 4]  903 	ld	l, c
+   289B 60            [ 4]  904 	ld	h, b
+   289C 29            [11]  905 	add	hl, hl
+   289D 29            [11]  906 	add	hl, hl
+   289E 29            [11]  907 	add	hl, hl
+   289F 29            [11]  908 	add	hl, hl
+   28A0 29            [11]  909 	add	hl, hl
+   28A1 09            [11]  910 	add	hl, bc
+   28A2 01 F8 30      [10]  911 	ld	bc,#_movements
+   28A5 09            [11]  912 	add	hl,bc
+   28A6 23            [ 6]  913 	inc	hl
+   28A7 45            [ 4]  914 	ld	b,l
+   28A8 54            [ 4]  915 	ld	d,h
+   28A9 DD 7E EC      [19]  916 	ld	a,-20 (ix)
+   28AC C6 1E         [ 7]  917 	add	a, #0x1E
+   28AE DD 77 F5      [19]  918 	ld	-11 (ix),a
+   28B1 DD 7E ED      [19]  919 	ld	a,-19 (ix)
+   28B4 CE 00         [ 7]  920 	adc	a, #0x00
+   28B6 DD 77 F6      [19]  921 	ld	-10 (ix),a
+   28B9 DD 6E F5      [19]  922 	ld	l,-11 (ix)
+   28BC DD 66 F6      [19]  923 	ld	h,-10 (ix)
+   28BF 7E            [ 7]  924 	ld	a,(hl)
+   28C0 DD 77 FF      [19]  925 	ld	-1 (ix), a
+   28C3 87            [ 4]  926 	add	a, a
+   28C4 87            [ 4]  927 	add	a, a
+   28C5 80            [ 4]  928 	add	a,b
+   28C6 DD 77 F3      [19]  929 	ld	-13 (ix),a
+   28C9 7A            [ 4]  930 	ld	a,d
+   28CA CE 00         [ 7]  931 	adc	a, #0x00
+   28CC DD 77 F4      [19]  932 	ld	-12 (ix),a
+   28CF DD 6E F3      [19]  933 	ld	l,-13 (ix)
+   28D2 DD 66 F4      [19]  934 	ld	h,-12 (ix)
+   28D5 23            [ 6]  935 	inc	hl
+   28D6 23            [ 6]  936 	inc	hl
+   28D7 23            [ 6]  937 	inc	hl
+   28D8 66            [ 7]  938 	ld	h,(hl)
+   28D9 7B            [ 4]  939 	ld	a,e
+   28DA 94            [ 4]  940 	sub	a, h
+   28DB D2 4B 2A      [10]  941 	jp	NC,00104$
+                            942 ;src/entities/enemies.c:167: enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
+   28DE DD 7E EC      [19]  943 	ld	a,-20 (ix)
+   28E1 C6 16         [ 7]  944 	add	a, #0x16
+   28E3 DD 77 F1      [19]  945 	ld	-15 (ix),a
+   28E6 DD 7E ED      [19]  946 	ld	a,-19 (ix)
+   28E9 CE 00         [ 7]  947 	adc	a, #0x00
+   28EB DD 77 F2      [19]  948 	ld	-14 (ix),a
+   28EE DD 6E F3      [19]  949 	ld	l,-13 (ix)
+   28F1 DD 66 F4      [19]  950 	ld	h,-12 (ix)
+   28F4 7E            [ 7]  951 	ld	a,(hl)
+   28F5 DD 77 F3      [19]  952 	ld	-13 (ix),a
+   28F8 DD 6E F1      [19]  953 	ld	l,-15 (ix)
+   28FB DD 66 F2      [19]  954 	ld	h,-14 (ix)
+   28FE DD 7E F3      [19]  955 	ld	a,-13 (ix)
+   2901 77            [ 7]  956 	ld	(hl),a
+                            957 ;src/entities/enemies.c:168: enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
+   2902 DD 7E EC      [19]  958 	ld	a,-20 (ix)
+   2905 C6 10         [ 7]  959 	add	a, #0x10
+   2907 DD 77 F1      [19]  960 	ld	-15 (ix),a
+   290A DD 7E ED      [19]  961 	ld	a,-19 (ix)
+   290D CE 00         [ 7]  962 	adc	a, #0x00
+   290F DD 77 F2      [19]  963 	ld	-14 (ix),a
+   2912 DD 6E F1      [19]  964 	ld	l,-15 (ix)
+   2915 DD 66 F2      [19]  965 	ld	h,-14 (ix)
+   2918 7E            [ 7]  966 	ld	a,(hl)
+   2919 DD 77 F3      [19]  967 	ld	-13 (ix),a
+   291C 23            [ 6]  968 	inc	hl
+   291D 7E            [ 7]  969 	ld	a,(hl)
+   291E DD 77 F4      [19]  970 	ld	-12 (ix),a
+   2921 DD 6E F9      [19]  971 	ld	l,-7 (ix)
+   2924 DD 66 FA      [19]  972 	ld	h,-6 (ix)
+   2927 4E            [ 7]  973 	ld	c, (hl)
+   2928 06 00         [ 7]  974 	ld	b,#0x00
+   292A 69            [ 4]  975 	ld	l, c
+   292B 60            [ 4]  976 	ld	h, b
+   292C 29            [11]  977 	add	hl, hl
+   292D 29            [11]  978 	add	hl, hl
+   292E 29            [11]  979 	add	hl, hl
+   292F 29            [11]  980 	add	hl, hl
+   2930 29            [11]  981 	add	hl, hl
+   2931 09            [11]  982 	add	hl, bc
+   2932 3E F8         [ 7]  983 	ld	a,#<(_movements)
+   2934 85            [ 4]  984 	add	a, l
+   2935 DD 77 EF      [19]  985 	ld	-17 (ix),a
+   2938 3E 30         [ 7]  986 	ld	a,#>(_movements)
+   293A 8C            [ 4]  987 	adc	a, h
+   293B DD 77 F0      [19]  988 	ld	-16 (ix),a
+   293E DD 34 EF      [23]  989 	inc	-17 (ix)
+   2941 20 03         [12]  990 	jr	NZ,00176$
+   2943 DD 34 F0      [23]  991 	inc	-16 (ix)
+   2946                     992 00176$:
+   2946 DD 6E F5      [19]  993 	ld	l,-11 (ix)
+   2949 DD 66 F6      [19]  994 	ld	h,-10 (ix)
+   294C 7E            [ 7]  995 	ld	a,(hl)
+   294D DD 77 EE      [19]  996 	ld	-18 (ix), a
+   2950 87            [ 4]  997 	add	a, a
+   2951 87            [ 4]  998 	add	a, a
+   2952 67            [ 4]  999 	ld	h,a
+   2953 DD 7E EF      [19] 1000 	ld	a,-17 (ix)
+   2956 84            [ 4] 1001 	add	a, h
+   2957 DD 77 EF      [19] 1002 	ld	-17 (ix),a
+   295A DD 7E F0      [19] 1003 	ld	a,-16 (ix)
+   295D CE 00         [ 7] 1004 	adc	a, #0x00
+   295F DD 77 F0      [19] 1005 	ld	-16 (ix),a
+   2962 DD 6E EF      [19] 1006 	ld	l,-17 (ix)
+   2965 DD 66 F0      [19] 1007 	ld	h,-16 (ix)
+   2968 23            [ 6] 1008 	inc	hl
+   2969 7E            [ 7] 1009 	ld	a,(hl)
+   296A DD 77 EE      [19] 1010 	ld	-18 (ix), a
+   296D DD 77 EF      [19] 1011 	ld	-17 (ix),a
+   2970 DD 7E EE      [19] 1012 	ld	a,-18 (ix)
+   2973 17            [ 4] 1013 	rla
+   2974 9F            [ 4] 1014 	sbc	a, a
+   2975 DD 77 F0      [19] 1015 	ld	-16 (ix),a
+   2978 DD 7E F3      [19] 1016 	ld	a,-13 (ix)
+   297B DD 86 EF      [19] 1017 	add	a, -17 (ix)
+   297E DD 77 EF      [19] 1018 	ld	-17 (ix),a
+   2981 DD 7E F4      [19] 1019 	ld	a,-12 (ix)
+   2984 DD 8E F0      [19] 1020 	adc	a, -16 (ix)
+   2987 DD 77 F0      [19] 1021 	ld	-16 (ix),a
+   298A DD 6E F1      [19] 1022 	ld	l,-15 (ix)
+   298D DD 66 F2      [19] 1023 	ld	h,-14 (ix)
+   2990 DD 7E EF      [19] 1024 	ld	a,-17 (ix)
+   2993 77            [ 7] 1025 	ld	(hl),a
+   2994 23            [ 6] 1026 	inc	hl
+   2995 DD 7E F0      [19] 1027 	ld	a,-16 (ix)
+   2998 77            [ 7] 1028 	ld	(hl),a
+                           1029 ;src/entities/enemies.c:169: enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
+   2999 DD 7E EC      [19] 1030 	ld	a,-20 (ix)
+   299C C6 12         [ 7] 1031 	add	a, #0x12
+   299E DD 77 EF      [19] 1032 	ld	-17 (ix),a
+   29A1 DD 7E ED      [19] 1033 	ld	a,-19 (ix)
+   29A4 CE 00         [ 7] 1034 	adc	a, #0x00
+   29A6 DD 77 F0      [19] 1035 	ld	-16 (ix),a
+   29A9 DD 6E EF      [19] 1036 	ld	l,-17 (ix)
+   29AC DD 66 F0      [19] 1037 	ld	h,-16 (ix)
+   29AF 7E            [ 7] 1038 	ld	a,(hl)
+   29B0 DD 77 F1      [19] 1039 	ld	-15 (ix),a
+   29B3 23            [ 6] 1040 	inc	hl
+   29B4 7E            [ 7] 1041 	ld	a,(hl)
+   29B5 DD 77 F2      [19] 1042 	ld	-14 (ix),a
+   29B8 DD 6E F9      [19] 1043 	ld	l,-7 (ix)
+   29BB DD 66 FA      [19] 1044 	ld	h,-6 (ix)
+   29BE 4E            [ 7] 1045 	ld	c, (hl)
+   29BF 06 00         [ 7] 1046 	ld	b,#0x00
+   29C1 69            [ 4] 1047 	ld	l, c
+   29C2 60            [ 4] 1048 	ld	h, b
+   29C3 29            [11] 1049 	add	hl, hl
+   29C4 29            [11] 1050 	add	hl, hl
+   29C5 29            [11] 1051 	add	hl, hl
+   29C6 29            [11] 1052 	add	hl, hl
+   29C7 29            [11] 1053 	add	hl, hl
+   29C8 09            [11] 1054 	add	hl, bc
+   29C9 3E F8         [ 7] 1055 	ld	a,#<(_movements)
+   29CB 85            [ 4] 1056 	add	a, l
+   29CC DD 77 F3      [19] 1057 	ld	-13 (ix),a
+   29CF 3E 30         [ 7] 1058 	ld	a,#>(_movements)
+   29D1 8C            [ 4] 1059 	adc	a, h
+   29D2 DD 77 F4      [19] 1060 	ld	-12 (ix),a
+   29D5 DD 34 F3      [23] 1061 	inc	-13 (ix)
+   29D8 20 03         [12] 1062 	jr	NZ,00177$
+   29DA DD 34 F4      [23] 1063 	inc	-12 (ix)
+   29DD                    1064 00177$:
+   29DD DD 6E F5      [19] 1065 	ld	l,-11 (ix)
+   29E0 DD 66 F6      [19] 1066 	ld	h,-10 (ix)
+   29E3 7E            [ 7] 1067 	ld	a,(hl)
+   29E4 DD 77 EE      [19] 1068 	ld	-18 (ix), a
+   29E7 87            [ 4] 1069 	add	a, a
+   29E8 87            [ 4] 1070 	add	a, a
+   29E9 67            [ 4] 1071 	ld	h,a
+   29EA DD 7E F3      [19] 1072 	ld	a,-13 (ix)
+   29ED 84            [ 4] 1073 	add	a, h
+   29EE DD 77 F3      [19] 1074 	ld	-13 (ix),a
+   29F1 DD 7E F4      [19] 1075 	ld	a,-12 (ix)
+   29F4 CE 00         [ 7] 1076 	adc	a, #0x00
+   29F6 DD 77 F4      [19] 1077 	ld	-12 (ix),a
+   29F9 DD 6E F3      [19] 1078 	ld	l,-13 (ix)
+   29FC DD 66 F4      [19] 1079 	ld	h,-12 (ix)
+   29FF 23            [ 6] 1080 	inc	hl
+   2A00 23            [ 6] 1081 	inc	hl
+   2A01 7E            [ 7] 1082 	ld	a,(hl)
+   2A02 DD 77 EE      [19] 1083 	ld	-18 (ix), a
+   2A05 DD 77 F3      [19] 1084 	ld	-13 (ix),a
+   2A08 DD 7E EE      [19] 1085 	ld	a,-18 (ix)
+   2A0B 17            [ 4] 1086 	rla
+   2A0C 9F            [ 4] 1087 	sbc	a, a
+   2A0D DD 77 F4      [19] 1088 	ld	-12 (ix),a
+   2A10 DD 7E F1      [19] 1089 	ld	a,-15 (ix)
+   2A13 DD 86 F3      [19] 1090 	add	a, -13 (ix)
+   2A16 DD 77 F1      [19] 1091 	ld	-15 (ix),a
+   2A19 DD 7E F2      [19] 1092 	ld	a,-14 (ix)
+   2A1C DD 8E F4      [19] 1093 	adc	a, -12 (ix)
+   2A1F DD 77 F2      [19] 1094 	ld	-14 (ix),a
+   2A22 DD 6E EF      [19] 1095 	ld	l,-17 (ix)
+   2A25 DD 66 F0      [19] 1096 	ld	h,-16 (ix)
+   2A28 DD 7E F1      [19] 1097 	ld	a,-15 (ix)
+   2A2B 77            [ 7] 1098 	ld	(hl),a
+   2A2C 23            [ 6] 1099 	inc	hl
+   2A2D DD 7E F2      [19] 1100 	ld	a,-14 (ix)
+   2A30 77            [ 7] 1101 	ld	(hl),a
+                           1102 ;src/entities/enemies.c:170: enemies[i].stage_step++;
+   2A31 DD 6E F7      [19] 1103 	ld	l,-9 (ix)
+   2A34 DD 66 F8      [19] 1104 	ld	h,-8 (ix)
+   2A37 7E            [ 7] 1105 	ld	a,(hl)
+   2A38 DD 77 EE      [19] 1106 	ld	-18 (ix),a
+   2A3B DD 34 EE      [23] 1107 	inc	-18 (ix)
+   2A3E DD 6E F7      [19] 1108 	ld	l,-9 (ix)
+   2A41 DD 66 F8      [19] 1109 	ld	h,-8 (ix)
+   2A44 DD 7E EE      [19] 1110 	ld	a,-18 (ix)
+   2A47 77            [ 7] 1111 	ld	(hl),a
+   2A48 C3 B5 2C      [10] 1112 	jp	00125$
+   2A4B                    1113 00104$:
+                           1114 ;src/entities/enemies.c:172: enemies[i].stage++;
+   2A4B DD 7E FF      [19] 1115 	ld	a,-1 (ix)
+   2A4E 3C            [ 4] 1116 	inc	a
+   2A4F DD 77 EE      [19] 1117 	ld	-18 (ix),a
+   2A52 DD 6E F5      [19] 1118 	ld	l,-11 (ix)
+   2A55 DD 66 F6      [19] 1119 	ld	h,-10 (ix)
+   2A58 DD 7E EE      [19] 1120 	ld	a,-18 (ix)
+   2A5B 77            [ 7] 1121 	ld	(hl),a
+                           1122 ;src/entities/enemies.c:173: enemies[i].stage_step=0;
+   2A5C DD 6E F7      [19] 1123 	ld	l,-9 (ix)
+   2A5F DD 66 F8      [19] 1124 	ld	h,-8 (ix)
+   2A62 36 00         [10] 1125 	ld	(hl),#0x00
+                           1126 ;src/entities/enemies.c:174: if (enemies[i].stage>=movements[enemies[i].movement].num_stages){
+   2A64 DD 6E F9      [19] 1127 	ld	l,-7 (ix)
+   2A67 DD 66 FA      [19] 1128 	ld	h,-6 (ix)
+   2A6A 7E            [ 7] 1129 	ld	a,(hl)
+   2A6B DD 77 EF      [19] 1130 	ld	-17 (ix), a
+   2A6E 4F            [ 4] 1131 	ld	c, a
+   2A6F 06 00         [ 7] 1132 	ld	b,#0x00
+   2A71 69            [ 4] 1133 	ld	l, c
+   2A72 60            [ 4] 1134 	ld	h, b
+   2A73 29            [11] 1135 	add	hl, hl
+   2A74 29            [11] 1136 	add	hl, hl
+   2A75 29            [11] 1137 	add	hl, hl
+   2A76 29            [11] 1138 	add	hl, hl
+   2A77 29            [11] 1139 	add	hl, hl
+   2A78 09            [11] 1140 	add	hl, bc
+   2A79 DD 75 EF      [19] 1141 	ld	-17 (ix),l
+   2A7C DD 74 F0      [19] 1142 	ld	-16 (ix),h
+   2A7F 3E F8         [ 7] 1143 	ld	a,#<(_movements)
+   2A81 DD 86 EF      [19] 1144 	add	a, -17 (ix)
+   2A84 DD 77 EF      [19] 1145 	ld	-17 (ix),a
+   2A87 3E 30         [ 7] 1146 	ld	a,#>(_movements)
+   2A89 DD 8E F0      [19] 1147 	adc	a, -16 (ix)
+   2A8C DD 77 F0      [19] 1148 	ld	-16 (ix),a
+   2A8F DD 6E EF      [19] 1149 	ld	l,-17 (ix)
+   2A92 DD 66 F0      [19] 1150 	ld	h,-16 (ix)
+   2A95 7E            [ 7] 1151 	ld	a,(hl)
+   2A96 DD 77 EF      [19] 1152 	ld	-17 (ix),a
+   2A99 DD 7E EE      [19] 1153 	ld	a,-18 (ix)
+   2A9C DD 96 EF      [19] 1154 	sub	a, -17 (ix)
+   2A9F 38 08         [12] 1155 	jr	C,00102$
+                           1156 ;src/entities/enemies.c:175: enemies[i].stage=0;
+   2AA1 DD 6E F5      [19] 1157 	ld	l,-11 (ix)
+   2AA4 DD 66 F6      [19] 1158 	ld	h,-10 (ix)
+   2AA7 36 00         [10] 1159 	ld	(hl),#0x00
+   2AA9                    1160 00102$:
+                           1161 ;src/entities/enemies.c:177: enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
+   2AA9 3E FA         [ 7] 1162 	ld	a,#<(_enemies)
+   2AAB DD 86 FB      [19] 1163 	add	a, -5 (ix)
+   2AAE DD 77 EF      [19] 1164 	ld	-17 (ix),a
+   2AB1 3E 51         [ 7] 1165 	ld	a,#>(_enemies)
+   2AB3 DD 8E FC      [19] 1166 	adc	a, -4 (ix)
+   2AB6 DD 77 F0      [19] 1167 	ld	-16 (ix),a
+   2AB9 DD 7E EF      [19] 1168 	ld	a,-17 (ix)
+   2ABC C6 16         [ 7] 1169 	add	a, #0x16
+   2ABE DD 77 F1      [19] 1170 	ld	-15 (ix),a
+   2AC1 DD 7E F0      [19] 1171 	ld	a,-16 (ix)
+   2AC4 CE 00         [ 7] 1172 	adc	a, #0x00
+   2AC6 DD 77 F2      [19] 1173 	ld	-14 (ix),a
+   2AC9 DD 7E EF      [19] 1174 	ld	a,-17 (ix)
+   2ACC C6 1D         [ 7] 1175 	add	a, #0x1D
+   2ACE DD 77 F3      [19] 1176 	ld	-13 (ix),a
+   2AD1 DD 7E F0      [19] 1177 	ld	a,-16 (ix)
+   2AD4 CE 00         [ 7] 1178 	adc	a, #0x00
+   2AD6 DD 77 F4      [19] 1179 	ld	-12 (ix),a
+   2AD9 DD 6E F3      [19] 1180 	ld	l,-13 (ix)
+   2ADC DD 66 F4      [19] 1181 	ld	h,-12 (ix)
+   2ADF 4E            [ 7] 1182 	ld	c, (hl)
+   2AE0 06 00         [ 7] 1183 	ld	b,#0x00
+   2AE2 69            [ 4] 1184 	ld	l, c
+   2AE3 60            [ 4] 1185 	ld	h, b
+   2AE4 29            [11] 1186 	add	hl, hl
+   2AE5 29            [11] 1187 	add	hl, hl
+   2AE6 29            [11] 1188 	add	hl, hl
+   2AE7 29            [11] 1189 	add	hl, hl
+   2AE8 29            [11] 1190 	add	hl, hl
+   2AE9 09            [11] 1191 	add	hl, bc
+   2AEA DD 75 F5      [19] 1192 	ld	-11 (ix),l
+   2AED DD 74 F6      [19] 1193 	ld	-10 (ix),h
+   2AF0 3E F8         [ 7] 1194 	ld	a,#<(_movements)
+   2AF2 DD 86 F5      [19] 1195 	add	a, -11 (ix)
+   2AF5 DD 77 F5      [19] 1196 	ld	-11 (ix),a
+   2AF8 3E 30         [ 7] 1197 	ld	a,#>(_movements)
+   2AFA DD 8E F6      [19] 1198 	adc	a, -10 (ix)
+   2AFD DD 77 F6      [19] 1199 	ld	-10 (ix),a
+   2B00 DD 34 F5      [23] 1200 	inc	-11 (ix)
+   2B03 20 03         [12] 1201 	jr	NZ,00178$
+   2B05 DD 34 F6      [23] 1202 	inc	-10 (ix)
+   2B08                    1203 00178$:
+   2B08 DD 7E EF      [19] 1204 	ld	a,-17 (ix)
+   2B0B C6 1E         [ 7] 1205 	add	a, #0x1E
+   2B0D DD 77 F7      [19] 1206 	ld	-9 (ix),a
+   2B10 DD 7E F0      [19] 1207 	ld	a,-16 (ix)
+   2B13 CE 00         [ 7] 1208 	adc	a, #0x00
+   2B15 DD 77 F8      [19] 1209 	ld	-8 (ix),a
+   2B18 DD 6E F7      [19] 1210 	ld	l,-9 (ix)
+   2B1B DD 66 F8      [19] 1211 	ld	h,-8 (ix)
+   2B1E 7E            [ 7] 1212 	ld	a,(hl)
+   2B1F 87            [ 4] 1213 	add	a, a
+   2B20 87            [ 4] 1214 	add	a, a
+   2B21 67            [ 4] 1215 	ld	h,a
+   2B22 DD 7E F5      [19] 1216 	ld	a,-11 (ix)
+   2B25 84            [ 4] 1217 	add	a, h
+   2B26 DD 77 F5      [19] 1218 	ld	-11 (ix),a
+   2B29 DD 7E F6      [19] 1219 	ld	a,-10 (ix)
+   2B2C CE 00         [ 7] 1220 	adc	a, #0x00
+   2B2E DD 77 F6      [19] 1221 	ld	-10 (ix),a
+   2B31 DD 6E F5      [19] 1222 	ld	l,-11 (ix)
+   2B34 DD 66 F6      [19] 1223 	ld	h,-10 (ix)
+   2B37 7E            [ 7] 1224 	ld	a,(hl)
+   2B38 DD 77 EE      [19] 1225 	ld	-18 (ix),a
+   2B3B DD 6E F1      [19] 1226 	ld	l,-15 (ix)
+   2B3E DD 66 F2      [19] 1227 	ld	h,-14 (ix)
+   2B41 DD 7E EE      [19] 1228 	ld	a,-18 (ix)
+   2B44 77            [ 7] 1229 	ld	(hl),a
+                           1230 ;src/entities/enemies.c:178: enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
+   2B45 DD 7E EF      [19] 1231 	ld	a,-17 (ix)
+   2B48 C6 10         [ 7] 1232 	add	a, #0x10
+   2B4A DD 77 F1      [19] 1233 	ld	-15 (ix),a
+   2B4D DD 7E F0      [19] 1234 	ld	a,-16 (ix)
+   2B50 CE 00         [ 7] 1235 	adc	a, #0x00
+   2B52 DD 77 F2      [19] 1236 	ld	-14 (ix),a
+   2B55 DD 6E F1      [19] 1237 	ld	l,-15 (ix)
+   2B58 DD 66 F2      [19] 1238 	ld	h,-14 (ix)
+   2B5B 7E            [ 7] 1239 	ld	a,(hl)
+   2B5C DD 77 F5      [19] 1240 	ld	-11 (ix),a
+   2B5F 23            [ 6] 1241 	inc	hl
+   2B60 7E            [ 7] 1242 	ld	a,(hl)
+   2B61 DD 77 F6      [19] 1243 	ld	-10 (ix),a
+   2B64 DD 6E F3      [19] 1244 	ld	l,-13 (ix)
+   2B67 DD 66 F4      [19] 1245 	ld	h,-12 (ix)
+   2B6A 4E            [ 7] 1246 	ld	c, (hl)
+   2B6B 06 00         [ 7] 1247 	ld	b,#0x00
+   2B6D 69            [ 4] 1248 	ld	l, c
+   2B6E 60            [ 4] 1249 	ld	h, b
+   2B6F 29            [11] 1250 	add	hl, hl
+   2B70 29            [11] 1251 	add	hl, hl
+   2B71 29            [11] 1252 	add	hl, hl
+   2B72 29            [11] 1253 	add	hl, hl
+   2B73 29            [11] 1254 	add	hl, hl
+   2B74 09            [11] 1255 	add	hl, bc
+   2B75 DD 75 F9      [19] 1256 	ld	-7 (ix),l
+   2B78 DD 74 FA      [19] 1257 	ld	-6 (ix),h
+   2B7B 3E F8         [ 7] 1258 	ld	a,#<(_movements)
+   2B7D DD 86 F9      [19] 1259 	add	a, -7 (ix)
+   2B80 DD 77 F9      [19] 1260 	ld	-7 (ix),a
+   2B83 3E 30         [ 7] 1261 	ld	a,#>(_movements)
+   2B85 DD 8E FA      [19] 1262 	adc	a, -6 (ix)
+   2B88 DD 77 FA      [19] 1263 	ld	-6 (ix),a
+   2B8B DD 34 F9      [23] 1264 	inc	-7 (ix)
+   2B8E 20 03         [12] 1265 	jr	NZ,00179$
+   2B90 DD 34 FA      [23] 1266 	inc	-6 (ix)
+   2B93                    1267 00179$:
+   2B93 DD 6E F7      [19] 1268 	ld	l,-9 (ix)
+   2B96 DD 66 F8      [19] 1269 	ld	h,-8 (ix)
+   2B99 7E            [ 7] 1270 	ld	a,(hl)
+   2B9A DD 77 EE      [19] 1271 	ld	-18 (ix), a
+   2B9D 87            [ 4] 1272 	add	a, a
+   2B9E 87            [ 4] 1273 	add	a, a
+   2B9F 67            [ 4] 1274 	ld	h,a
+   2BA0 DD 7E F9      [19] 1275 	ld	a,-7 (ix)
+   2BA3 84            [ 4] 1276 	add	a, h
+   2BA4 DD 77 F9      [19] 1277 	ld	-7 (ix),a
+   2BA7 DD 7E FA      [19] 1278 	ld	a,-6 (ix)
+   2BAA CE 00         [ 7] 1279 	adc	a, #0x00
+   2BAC DD 77 FA      [19] 1280 	ld	-6 (ix),a
+   2BAF DD 6E F9      [19] 1281 	ld	l,-7 (ix)
+   2BB2 DD 66 FA      [19] 1282 	ld	h,-6 (ix)
+   2BB5 23            [ 6] 1283 	inc	hl
+   2BB6 7E            [ 7] 1284 	ld	a,(hl)
+   2BB7 DD 77 EE      [19] 1285 	ld	-18 (ix), a
+   2BBA DD 77 F9      [19] 1286 	ld	-7 (ix),a
+   2BBD DD 7E EE      [19] 1287 	ld	a,-18 (ix)
+   2BC0 17            [ 4] 1288 	rla
+   2BC1 9F            [ 4] 1289 	sbc	a, a
+   2BC2 DD 77 FA      [19] 1290 	ld	-6 (ix),a
+   2BC5 DD 7E F5      [19] 1291 	ld	a,-11 (ix)
+   2BC8 DD 86 F9      [19] 1292 	add	a, -7 (ix)
+   2BCB DD 77 F5      [19] 1293 	ld	-11 (ix),a
+   2BCE DD 7E F6      [19] 1294 	ld	a,-10 (ix)
+   2BD1 DD 8E FA      [19] 1295 	adc	a, -6 (ix)
+   2BD4 DD 77 F6      [19] 1296 	ld	-10 (ix),a
+   2BD7 DD 6E F1      [19] 1297 	ld	l,-15 (ix)
+   2BDA DD 66 F2      [19] 1298 	ld	h,-14 (ix)
+   2BDD DD 7E F5      [19] 1299 	ld	a,-11 (ix)
+   2BE0 77            [ 7] 1300 	ld	(hl),a
+   2BE1 23            [ 6] 1301 	inc	hl
+   2BE2 DD 7E F6      [19] 1302 	ld	a,-10 (ix)
+   2BE5 77            [ 7] 1303 	ld	(hl),a
+                           1304 ;src/entities/enemies.c:179: enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
+   2BE6 DD 7E EF      [19] 1305 	ld	a,-17 (ix)
+   2BE9 C6 12         [ 7] 1306 	add	a, #0x12
+   2BEB DD 77 F1      [19] 1307 	ld	-15 (ix),a
+   2BEE DD 7E F0      [19] 1308 	ld	a,-16 (ix)
+   2BF1 CE 00         [ 7] 1309 	adc	a, #0x00
+   2BF3 DD 77 F2      [19] 1310 	ld	-14 (ix),a
+   2BF6 DD 6E F1      [19] 1311 	ld	l,-15 (ix)
+   2BF9 DD 66 F2      [19] 1312 	ld	h,-14 (ix)
+   2BFC 7E            [ 7] 1313 	ld	a,(hl)
+   2BFD DD 77 F5      [19] 1314 	ld	-11 (ix),a
+   2C00 23            [ 6] 1315 	inc	hl
+   2C01 7E            [ 7] 1316 	ld	a,(hl)
+   2C02 DD 77 F6      [19] 1317 	ld	-10 (ix),a
+   2C05 DD 6E F3      [19] 1318 	ld	l,-13 (ix)
+   2C08 DD 66 F4      [19] 1319 	ld	h,-12 (ix)
+   2C0B 7E            [ 7] 1320 	ld	a,(hl)
+   2C0C DD 77 EE      [19] 1321 	ld	-18 (ix), a
+   2C0F 4F            [ 4] 1322 	ld	c, a
+   2C10 06 00         [ 7] 1323 	ld	b,#0x00
+   2C12 69            [ 4] 1324 	ld	l, c
+   2C13 60            [ 4] 1325 	ld	h, b
+   2C14 29            [11] 1326 	add	hl, hl
+   2C15 29            [11] 1327 	add	hl, hl
+   2C16 29            [11] 1328 	add	hl, hl
+   2C17 29            [11] 1329 	add	hl, hl
+   2C18 29            [11] 1330 	add	hl, hl
+   2C19 09            [11] 1331 	add	hl, bc
+   2C1A DD 75 F3      [19] 1332 	ld	-13 (ix),l
+   2C1D DD 74 F4      [19] 1333 	ld	-12 (ix),h
+   2C20 3E F8         [ 7] 1334 	ld	a,#<(_movements)
+   2C22 DD 86 F3      [19] 1335 	add	a, -13 (ix)
+   2C25 DD 77 F3      [19] 1336 	ld	-13 (ix),a
+   2C28 3E 30         [ 7] 1337 	ld	a,#>(_movements)
+   2C2A DD 8E F4      [19] 1338 	adc	a, -12 (ix)
+   2C2D DD 77 F4      [19] 1339 	ld	-12 (ix),a
+   2C30 DD 34 F3      [23] 1340 	inc	-13 (ix)
+   2C33 20 03         [12] 1341 	jr	NZ,00180$
+   2C35 DD 34 F4      [23] 1342 	inc	-12 (ix)
+   2C38                    1343 00180$:
+   2C38 DD 6E F7      [19] 1344 	ld	l,-9 (ix)
+   2C3B DD 66 F8      [19] 1345 	ld	h,-8 (ix)
+   2C3E 7E            [ 7] 1346 	ld	a,(hl)
+   2C3F DD 77 EE      [19] 1347 	ld	-18 (ix),a
+   2C42 DD CB EE 26   [23] 1348 	sla	-18 (ix)
+   2C46 DD CB EE 26   [23] 1349 	sla	-18 (ix)
+   2C4A DD 7E F3      [19] 1350 	ld	a,-13 (ix)
+   2C4D DD 86 EE      [19] 1351 	add	a, -18 (ix)
+   2C50 DD 77 F3      [19] 1352 	ld	-13 (ix),a
+   2C53 DD 7E F4      [19] 1353 	ld	a,-12 (ix)
+   2C56 CE 00         [ 7] 1354 	adc	a, #0x00
+   2C58 DD 77 F4      [19] 1355 	ld	-12 (ix),a
+   2C5B DD 6E F3      [19] 1356 	ld	l,-13 (ix)
+   2C5E DD 66 F4      [19] 1357 	ld	h,-12 (ix)
+   2C61 23            [ 6] 1358 	inc	hl
+   2C62 23            [ 6] 1359 	inc	hl
+   2C63 7E            [ 7] 1360 	ld	a,(hl)
+   2C64 DD 77 EE      [19] 1361 	ld	-18 (ix), a
+   2C67 DD 77 F3      [19] 1362 	ld	-13 (ix),a
+   2C6A DD 7E EE      [19] 1363 	ld	a,-18 (ix)
+   2C6D 17            [ 4] 1364 	rla
+   2C6E 9F            [ 4] 1365 	sbc	a, a
+   2C6F DD 77 F4      [19] 1366 	ld	-12 (ix),a
+   2C72 DD 7E F5      [19] 1367 	ld	a,-11 (ix)
+   2C75 DD 86 F3      [19] 1368 	add	a, -13 (ix)
+   2C78 DD 77 F3      [19] 1369 	ld	-13 (ix),a
+   2C7B DD 7E F6      [19] 1370 	ld	a,-10 (ix)
+   2C7E DD 8E F4      [19] 1371 	adc	a, -12 (ix)
+   2C81 DD 77 F4      [19] 1372 	ld	-12 (ix),a
+   2C84 DD 6E F1      [19] 1373 	ld	l,-15 (ix)
+   2C87 DD 66 F2      [19] 1374 	ld	h,-14 (ix)
+   2C8A DD 7E F3      [19] 1375 	ld	a,-13 (ix)
+   2C8D 77            [ 7] 1376 	ld	(hl),a
+   2C8E 23            [ 6] 1377 	inc	hl
+   2C8F DD 7E F4      [19] 1378 	ld	a,-12 (ix)
+   2C92 77            [ 7] 1379 	ld	(hl),a
+                           1380 ;src/entities/enemies.c:180: enemies[i].stage_step++;
+   2C93 DD 7E EF      [19] 1381 	ld	a,-17 (ix)
+   2C96 C6 1F         [ 7] 1382 	add	a, #0x1F
+   2C98 DD 77 EF      [19] 1383 	ld	-17 (ix),a
+   2C9B DD 7E F0      [19] 1384 	ld	a,-16 (ix)
+   2C9E CE 00         [ 7] 1385 	adc	a, #0x00
+   2CA0 DD 77 F0      [19] 1386 	ld	-16 (ix),a
+   2CA3 DD 6E EF      [19] 1387 	ld	l,-17 (ix)
+   2CA6 DD 66 F0      [19] 1388 	ld	h,-16 (ix)
+   2CA9 7E            [ 7] 1389 	ld	a,(hl)
+   2CAA DD 77 EE      [19] 1390 	ld	-18 (ix), a
+   2CAD 3C            [ 4] 1391 	inc	a
+   2CAE DD 6E EF      [19] 1392 	ld	l,-17 (ix)
+   2CB1 DD 66 F0      [19] 1393 	ld	h,-16 (ix)
+   2CB4 77            [ 7] 1394 	ld	(hl),a
+   2CB5                    1395 00125$:
+                           1396 ;src/entities/enemies.c:163: for (i=0;i<MAX_ENEMIES;i++){
+   2CB5 DD 7E FB      [19] 1397 	ld	a,-5 (ix)
+   2CB8 C6 24         [ 7] 1398 	add	a, #0x24
+   2CBA DD 77 FB      [19] 1399 	ld	-5 (ix),a
+   2CBD DD 7E FC      [19] 1400 	ld	a,-4 (ix)
+   2CC0 CE 00         [ 7] 1401 	adc	a, #0x00
+   2CC2 DD 77 FC      [19] 1402 	ld	-4 (ix),a
+   2CC5 DD 7E FD      [19] 1403 	ld	a,-3 (ix)
+   2CC8 C6 24         [ 7] 1404 	add	a, #0x24
+   2CCA DD 77 FD      [19] 1405 	ld	-3 (ix),a
+   2CCD DD 7E FE      [19] 1406 	ld	a,-2 (ix)
+   2CD0 CE 00         [ 7] 1407 	adc	a, #0x00
+   2CD2 DD 77 FE      [19] 1408 	ld	-2 (ix),a
+   2CD5 DD 34 EB      [23] 1409 	inc	-21 (ix)
+   2CD8 DD 7E EB      [19] 1410 	ld	a,-21 (ix)
+   2CDB D6 1E         [ 7] 1411 	sub	a, #0x1E
+   2CDD DA 40 28      [10] 1412 	jp	C,00124$
+   2CE0                    1413 00112$:
+                           1414 ;src/entities/enemies.c:188: if (active_groups>0){
+   2CE0 3A 53 56      [13] 1415 	ld	a,(#_active_groups + 0)
+   2CE3 B7            [ 4] 1416 	or	a, a
+   2CE4 CA 61 2D      [10] 1417 	jp	Z,00128$
+                           1418 ;src/entities/enemies.c:190: for (i=0;i<MAX_ENEMY_GROUPS;i++){
+   2CE7 DD 36 EB 00   [19] 1419 	ld	-21 (ix),#0x00
+   2CEB                    1420 00126$:
+                           1421 ;src/entities/enemies.c:191: if (groups[i].active){
+   2CEB DD 6E EB      [19] 1422 	ld	l,-21 (ix)
+   2CEE 26 00         [ 7] 1423 	ld	h,#0x00
+   2CF0 29            [11] 1424 	add	hl, hl
+   2CF1 29            [11] 1425 	add	hl, hl
+   2CF2 29            [11] 1426 	add	hl, hl
+   2CF3 3E 33         [ 7] 1427 	ld	a,#<(_groups)
+   2CF5 85            [ 4] 1428 	add	a, l
+   2CF6 5F            [ 4] 1429 	ld	e,a
+   2CF7 3E 56         [ 7] 1430 	ld	a,#>(_groups)
+   2CF9 8C            [ 4] 1431 	adc	a, h
+   2CFA 57            [ 4] 1432 	ld	d,a
+   2CFB 1A            [ 7] 1433 	ld	a,(de)
+   2CFC B7            [ 4] 1434 	or	a, a
+   2CFD 28 58         [12] 1435 	jr	Z,00127$
+                           1436 ;src/entities/enemies.c:192: if (groups[i].sleep==0){
+   2CFF 21 07 00      [10] 1437 	ld	hl,#0x0007
+   2D02 19            [11] 1438 	add	hl,de
+   2D03 7E            [ 7] 1439 	ld	a,(hl)
+   2D04 B7            [ 4] 1440 	or	a, a
+   2D05 20 4D         [12] 1441 	jr	NZ,00117$
+                           1442 ;src/entities/enemies.c:193: groups[i].sleep=ENEMY_GAP;
+   2D07 36 03         [10] 1443 	ld	(hl),#0x03
+                           1444 ;src/entities/enemies.c:194: if (groups[i].num_enemies==0){
+   2D09 21 06 00      [10] 1445 	ld	hl,#0x0006
+   2D0C 19            [11] 1446 	add	hl,de
+   2D0D 4D            [ 4] 1447 	ld	c,l
+   2D0E 44            [ 4] 1448 	ld	b,h
+   2D0F 0A            [ 7] 1449 	ld	a,(bc)
+   2D10 B7            [ 4] 1450 	or	a, a
+   2D11 20 08         [12] 1451 	jr	NZ,00114$
+                           1452 ;src/entities/enemies.c:195: groups[i].active=0;
+   2D13 AF            [ 4] 1453 	xor	a, a
+   2D14 12            [ 7] 1454 	ld	(de),a
+                           1455 ;src/entities/enemies.c:196: active_groups--;
+   2D15 21 53 56      [10] 1456 	ld	hl, #_active_groups+0
+   2D18 35            [11] 1457 	dec	(hl)
+   2D19 18 3C         [12] 1458 	jr	00127$
+   2D1B                    1459 00114$:
+                           1460 ;src/entities/enemies.c:198: create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
+   2D1B 6B            [ 4] 1461 	ld	l, e
+   2D1C 62            [ 4] 1462 	ld	h, d
+   2D1D 23            [ 6] 1463 	inc	hl
+   2D1E 23            [ 6] 1464 	inc	hl
+   2D1F 23            [ 6] 1465 	inc	hl
+   2D20 23            [ 6] 1466 	inc	hl
+   2D21 23            [ 6] 1467 	inc	hl
+   2D22 7E            [ 7] 1468 	ld	a,(hl)
+   2D23 DD 77 EE      [19] 1469 	ld	-18 (ix),a
+   2D26 6B            [ 4] 1470 	ld	l, e
+   2D27 62            [ 4] 1471 	ld	h, d
+   2D28 23            [ 6] 1472 	inc	hl
+   2D29 23            [ 6] 1473 	inc	hl
+   2D2A 23            [ 6] 1474 	inc	hl
+   2D2B 7E            [ 7] 1475 	ld	a,(hl)
+   2D2C DD 77 EF      [19] 1476 	ld	-17 (ix),a
+   2D2F 23            [ 6] 1477 	inc	hl
+   2D30 7E            [ 7] 1478 	ld	a,(hl)
+   2D31 DD 77 F0      [19] 1479 	ld	-16 (ix),a
+   2D34 EB            [ 4] 1480 	ex	de,hl
+   2D35 23            [ 6] 1481 	inc	hl
+   2D36 5E            [ 7] 1482 	ld	e,(hl)
+   2D37 23            [ 6] 1483 	inc	hl
+   2D38 56            [ 7] 1484 	ld	d,(hl)
+   2D39 C5            [11] 1485 	push	bc
+   2D3A DD 7E EE      [19] 1486 	ld	a,-18 (ix)
+   2D3D F5            [11] 1487 	push	af
+   2D3E 33            [ 6] 1488 	inc	sp
+   2D3F DD 6E EF      [19] 1489 	ld	l,-17 (ix)
+   2D42 DD 66 F0      [19] 1490 	ld	h,-16 (ix)
+   2D45 E5            [11] 1491 	push	hl
+   2D46 D5            [11] 1492 	push	de
+   2D47 CD 79 24      [17] 1493 	call	_create_enemy
+   2D4A F1            [10] 1494 	pop	af
+   2D4B F1            [10] 1495 	pop	af
+   2D4C 33            [ 6] 1496 	inc	sp
+   2D4D C1            [10] 1497 	pop	bc
+                           1498 ;src/entities/enemies.c:199: groups[i].num_enemies--;
+   2D4E 0A            [ 7] 1499 	ld	a,(bc)
+   2D4F C6 FF         [ 7] 1500 	add	a,#0xFF
+   2D51 02            [ 7] 1501 	ld	(bc),a
+   2D52 18 03         [12] 1502 	jr	00127$
+   2D54                    1503 00117$:
+                           1504 ;src/entities/enemies.c:202: groups[i].sleep--;
+   2D54 C6 FF         [ 7] 1505 	add	a,#0xFF
+   2D56 77            [ 7] 1506 	ld	(hl),a
+   2D57                    1507 00127$:
+                           1508 ;src/entities/enemies.c:190: for (i=0;i<MAX_ENEMY_GROUPS;i++){
+   2D57 DD 34 EB      [23] 1509 	inc	-21 (ix)
+   2D5A DD 7E EB      [19] 1510 	ld	a,-21 (ix)
+   2D5D D6 04         [ 7] 1511 	sub	a, #0x04
+   2D5F 38 8A         [12] 1512 	jr	C,00126$
+   2D61                    1513 00128$:
+   2D61 DD F9         [10] 1514 	ld	sp, ix
+   2D63 DD E1         [14] 1515 	pop	ix
+   2D65 C9            [10] 1516 	ret
+                           1517 ;src/entities/enemies.c:210: u8 inside_screen(i16 x, i16 y, u8 w, u8 h){
+                           1518 ;	---------------------------------
+                           1519 ; Function inside_screen
+                           1520 ; ---------------------------------
+   2D66                    1521 _inside_screen::
+   2D66 DD E5         [15] 1522 	push	ix
+   2D68 DD 21 00 00   [14] 1523 	ld	ix,#0
+   2D6C DD 39         [15] 1524 	add	ix,sp
+   2D6E 3B            [ 6] 1525 	dec	sp
+                           1526 ;src/entities/enemies.c:212: return ((x>=0) && ((x+w)<SCREEN_WIDTH) && (y>=0) && ((y+h)<SCREEN_HEIGHT));
+   2D6F DD CB 05 7E   [20] 1527 	bit	7, 5 (ix)
+   2D73 20 38         [12] 1528 	jr	NZ,00103$
+   2D75 DD 5E 08      [19] 1529 	ld	e,8 (ix)
+   2D78 16 00         [ 7] 1530 	ld	d,#0x00
+   2D7A DD 6E 04      [19] 1531 	ld	l,4 (ix)
+   2D7D DD 66 05      [19] 1532 	ld	h,5 (ix)
+   2D80 19            [11] 1533 	add	hl,de
+   2D81 11 50 80      [10] 1534 	ld	de, #0x8050
+   2D84 29            [11] 1535 	add	hl, hl
+   2D85 3F            [ 4] 1536 	ccf
+   2D86 CB 1C         [ 8] 1537 	rr	h
+   2D88 CB 1D         [ 8] 1538 	rr	l
+   2D8A ED 52         [15] 1539 	sbc	hl, de
+   2D8C 30 1F         [12] 1540 	jr	NC,00103$
+   2D8E DD CB 07 7E   [20] 1541 	bit	7, 7 (ix)
+   2D92 20 19         [12] 1542 	jr	NZ,00103$
+   2D94 DD 5E 09      [19] 1543 	ld	e,9 (ix)
+   2D97 16 00         [ 7] 1544 	ld	d,#0x00
+   2D99 DD 6E 06      [19] 1545 	ld	l,6 (ix)
+   2D9C DD 66 07      [19] 1546 	ld	h,7 (ix)
+   2D9F 19            [11] 1547 	add	hl,de
+   2DA0 11 C8 80      [10] 1548 	ld	de, #0x80C8
+   2DA3 29            [11] 1549 	add	hl, hl
+   2DA4 3F            [ 4] 1550 	ccf
+   2DA5 CB 1C         [ 8] 1551 	rr	h
+   2DA7 CB 1D         [ 8] 1552 	rr	l
+   2DA9 ED 52         [15] 1553 	sbc	hl, de
+   2DAB 38 04         [12] 1554 	jr	C,00104$
+   2DAD                    1555 00103$:
+   2DAD 2E 00         [ 7] 1556 	ld	l,#0x00
+   2DAF 18 02         [12] 1557 	jr	00105$
+   2DB1                    1558 00104$:
+   2DB1 2E 01         [ 7] 1559 	ld	l,#0x01
+   2DB3                    1560 00105$:
+   2DB3 33            [ 6] 1561 	inc	sp
+   2DB4 DD E1         [14] 1562 	pop	ix
+   2DB6 C9            [10] 1563 	ret
+                           1564 ;src/entities/enemies.c:219: void draw_enemies(u8* screen){
+                           1565 ;	---------------------------------
+                           1566 ; Function draw_enemies
+                           1567 ; ---------------------------------
+   2DB7                    1568 _draw_enemies::
+   2DB7 DD E5         [15] 1569 	push	ix
+   2DB9 DD 21 00 00   [14] 1570 	ld	ix,#0
+   2DBD DD 39         [15] 1571 	add	ix,sp
+   2DBF 21 F1 FF      [10] 1572 	ld	hl,#-15
+   2DC2 39            [11] 1573 	add	hl,sp
+   2DC3 F9            [ 6] 1574 	ld	sp,hl
+                           1575 ;src/entities/enemies.c:224: if (active_enemies>0){
+   2DC4 3A 32 56      [13] 1576 	ld	a,(#_active_enemies + 0)
+   2DC7 B7            [ 4] 1577 	or	a, a
+   2DC8 CA F8 2E      [10] 1578 	jp	Z,00109$
+                           1579 ;src/entities/enemies.c:225: for (k=0;k<MAX_ENEMIES;k++){
+   2DCB DD 36 F1 00   [19] 1580 	ld	-15 (ix),#0x00
+   2DCF 11 00 00      [10] 1581 	ld	de,#0x0000
+   2DD2                    1582 00107$:
+                           1583 ;src/entities/enemies.c:226: if ((enemies[k].active) && inside_screen(enemies[k].x,enemies[k].y,enemies[k].w,enemies[k].h)){
+   2DD2 21 FA 51      [10] 1584 	ld	hl,#_enemies
+   2DD5 19            [11] 1585 	add	hl,de
+   2DD6 DD 75 FC      [19] 1586 	ld	-4 (ix),l
+   2DD9 DD 74 FD      [19] 1587 	ld	-3 (ix),h
+   2DDC DD 6E FC      [19] 1588 	ld	l,-4 (ix)
+   2DDF DD 66 FD      [19] 1589 	ld	h,-3 (ix)
+   2DE2 01 17 00      [10] 1590 	ld	bc, #0x0017
+   2DE5 09            [11] 1591 	add	hl, bc
+   2DE6 7E            [ 7] 1592 	ld	a,(hl)
+   2DE7 B7            [ 4] 1593 	or	a, a
+   2DE8 CA E8 2E      [10] 1594 	jp	Z,00108$
+   2DEB DD 7E FC      [19] 1595 	ld	a,-4 (ix)
+   2DEE C6 15         [ 7] 1596 	add	a, #0x15
+   2DF0 DD 77 F2      [19] 1597 	ld	-14 (ix),a
+   2DF3 DD 7E FD      [19] 1598 	ld	a,-3 (ix)
+   2DF6 CE 00         [ 7] 1599 	adc	a, #0x00
+   2DF8 DD 77 F3      [19] 1600 	ld	-13 (ix),a
+   2DFB DD 6E F2      [19] 1601 	ld	l,-14 (ix)
+   2DFE DD 66 F3      [19] 1602 	ld	h,-13 (ix)
+   2E01 46            [ 7] 1603 	ld	b,(hl)
+   2E02 DD 7E FC      [19] 1604 	ld	a,-4 (ix)
+   2E05 C6 14         [ 7] 1605 	add	a, #0x14
+   2E07 DD 77 FE      [19] 1606 	ld	-2 (ix),a
+   2E0A DD 7E FD      [19] 1607 	ld	a,-3 (ix)
+   2E0D CE 00         [ 7] 1608 	adc	a, #0x00
+   2E0F DD 77 FF      [19] 1609 	ld	-1 (ix),a
+   2E12 DD 6E FE      [19] 1610 	ld	l,-2 (ix)
+   2E15 DD 66 FF      [19] 1611 	ld	h,-1 (ix)
+   2E18 4E            [ 7] 1612 	ld	c,(hl)
+   2E19 DD 7E FC      [19] 1613 	ld	a,-4 (ix)
+   2E1C C6 12         [ 7] 1614 	add	a, #0x12
+   2E1E DD 77 FA      [19] 1615 	ld	-6 (ix),a
+   2E21 DD 7E FD      [19] 1616 	ld	a,-3 (ix)
+   2E24 CE 00         [ 7] 1617 	adc	a, #0x00
+   2E26 DD 77 FB      [19] 1618 	ld	-5 (ix),a
+   2E29 DD 6E FA      [19] 1619 	ld	l,-6 (ix)
+   2E2C DD 66 FB      [19] 1620 	ld	h,-5 (ix)
+   2E2F 7E            [ 7] 1621 	ld	a,(hl)
+   2E30 DD 77 F8      [19] 1622 	ld	-8 (ix),a
+   2E33 23            [ 6] 1623 	inc	hl
+   2E34 7E            [ 7] 1624 	ld	a,(hl)
+   2E35 DD 77 F9      [19] 1625 	ld	-7 (ix),a
+   2E38 DD 7E FC      [19] 1626 	ld	a,-4 (ix)
+   2E3B C6 10         [ 7] 1627 	add	a, #0x10
+   2E3D DD 77 F6      [19] 1628 	ld	-10 (ix),a
+   2E40 DD 7E FD      [19] 1629 	ld	a,-3 (ix)
+   2E43 CE 00         [ 7] 1630 	adc	a, #0x00
+   2E45 DD 77 F7      [19] 1631 	ld	-9 (ix),a
+   2E48 DD 6E F6      [19] 1632 	ld	l,-10 (ix)
+   2E4B DD 66 F7      [19] 1633 	ld	h,-9 (ix)
+   2E4E 7E            [ 7] 1634 	ld	a,(hl)
+   2E4F DD 77 F4      [19] 1635 	ld	-12 (ix),a
+   2E52 23            [ 6] 1636 	inc	hl
+   2E53 7E            [ 7] 1637 	ld	a,(hl)
+   2E54 DD 77 F5      [19] 1638 	ld	-11 (ix),a
+   2E57 D5            [11] 1639 	push	de
+   2E58 C5            [11] 1640 	push	bc
+   2E59 DD 6E F8      [19] 1641 	ld	l,-8 (ix)
+   2E5C DD 66 F9      [19] 1642 	ld	h,-7 (ix)
+   2E5F E5            [11] 1643 	push	hl
+   2E60 DD 6E F4      [19] 1644 	ld	l,-12 (ix)
+   2E63 DD 66 F5      [19] 1645 	ld	h,-11 (ix)
+   2E66 E5            [11] 1646 	push	hl
+   2E67 CD 66 2D      [17] 1647 	call	_inside_screen
+   2E6A F1            [10] 1648 	pop	af
+   2E6B F1            [10] 1649 	pop	af
+   2E6C F1            [10] 1650 	pop	af
+   2E6D 7D            [ 4] 1651 	ld	a,l
+   2E6E D1            [10] 1652 	pop	de
+   2E6F B7            [ 4] 1653 	or	a, a
+   2E70 28 76         [12] 1654 	jr	Z,00108$
+                           1655 ;src/entities/enemies.c:227: pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
+   2E72 DD 6E FA      [19] 1656 	ld	l,-6 (ix)
+   2E75 DD 66 FB      [19] 1657 	ld	h,-5 (ix)
+   2E78 4E            [ 7] 1658 	ld	c,(hl)
+   2E79 23            [ 6] 1659 	inc	hl
+   2E7A 46            [ 7] 1660 	ld	b,(hl)
+   2E7B DD 6E F6      [19] 1661 	ld	l,-10 (ix)
+   2E7E DD 66 F7      [19] 1662 	ld	h,-9 (ix)
+   2E81 7E            [ 7] 1663 	ld	a, (hl)
+   2E82 23            [ 6] 1664 	inc	hl
+   2E83 66            [ 7] 1665 	ld	h,(hl)
+   2E84 6F            [ 4] 1666 	ld	l,a
+   2E85 65            [ 4] 1667 	ld	h,l
+   2E86 E5            [11] 1668 	push	hl
+   2E87 DD 6E 04      [19] 1669 	ld	l,4 (ix)
+   2E8A DD 66 05      [19] 1670 	ld	h,5 (ix)
+   2E8D E5            [11] 1671 	push	hl
+   2E8E FD E1         [14] 1672 	pop	iy
+   2E90 E1            [10] 1673 	pop	hl
+   2E91 D5            [11] 1674 	push	de
+   2E92 79            [ 4] 1675 	ld	a,c
+   2E93 F5            [11] 1676 	push	af
+   2E94 33            [ 6] 1677 	inc	sp
+   2E95 E5            [11] 1678 	push	hl
+   2E96 33            [ 6] 1679 	inc	sp
+   2E97 FD E5         [15] 1680 	push	iy
+   2E99 CD 5C 50      [17] 1681 	call	_cpct_getScreenPtr
+   2E9C F1            [10] 1682 	pop	af
+   2E9D F1            [10] 1683 	pop	af
+   2E9E D1            [10] 1684 	pop	de
+   2E9F 4D            [ 4] 1685 	ld	c, l
+   2EA0 44            [ 4] 1686 	ld	b, h
+                           1687 ;src/entities/enemies.c:228: cpct_drawSprite(enemies[k].sprite[enemies[k].dir],pscreen,enemies[k].w,enemies[k].h);
+   2EA1 DD 6E F2      [19] 1688 	ld	l,-14 (ix)
+   2EA4 DD 66 F3      [19] 1689 	ld	h,-13 (ix)
+   2EA7 7E            [ 7] 1690 	ld	a,(hl)
+   2EA8 DD 77 F4      [19] 1691 	ld	-12 (ix),a
+   2EAB DD 6E FE      [19] 1692 	ld	l,-2 (ix)
+   2EAE DD 66 FF      [19] 1693 	ld	h,-1 (ix)
+   2EB1 7E            [ 7] 1694 	ld	a,(hl)
+   2EB2 DD 77 F6      [19] 1695 	ld	-10 (ix),a
+   2EB5 DD 71 F8      [19] 1696 	ld	-8 (ix),c
+   2EB8 DD 70 F9      [19] 1697 	ld	-7 (ix),b
+   2EBB DD 6E FC      [19] 1698 	ld	l,-4 (ix)
+   2EBE DD 66 FD      [19] 1699 	ld	h,-3 (ix)
+   2EC1 01 16 00      [10] 1700 	ld	bc, #0x0016
+   2EC4 09            [11] 1701 	add	hl, bc
+   2EC5 7E            [ 7] 1702 	ld	a,(hl)
+   2EC6 87            [ 4] 1703 	add	a, a
+   2EC7 4F            [ 4] 1704 	ld	c,a
+   2EC8 DD 6E FC      [19] 1705 	ld	l,-4 (ix)
+   2ECB DD 66 FD      [19] 1706 	ld	h,-3 (ix)
+   2ECE 06 00         [ 7] 1707 	ld	b,#0x00
+   2ED0 09            [11] 1708 	add	hl, bc
+   2ED1 4E            [ 7] 1709 	ld	c,(hl)
+   2ED2 23            [ 6] 1710 	inc	hl
+   2ED3 46            [ 7] 1711 	ld	b,(hl)
+   2ED4 D5            [11] 1712 	push	de
+   2ED5 DD 66 F4      [19] 1713 	ld	h,-12 (ix)
+   2ED8 DD 6E F6      [19] 1714 	ld	l,-10 (ix)
+   2EDB E5            [11] 1715 	push	hl
+   2EDC DD 6E F8      [19] 1716 	ld	l,-8 (ix)
+   2EDF DD 66 F9      [19] 1717 	ld	h,-7 (ix)
+   2EE2 E5            [11] 1718 	push	hl
+   2EE3 C5            [11] 1719 	push	bc
+   2EE4 CD 46 4E      [17] 1720 	call	_cpct_drawSprite
+   2EE7 D1            [10] 1721 	pop	de
+   2EE8                    1722 00108$:
+                           1723 ;src/entities/enemies.c:225: for (k=0;k<MAX_ENEMIES;k++){
+   2EE8 21 24 00      [10] 1724 	ld	hl,#0x0024
+   2EEB 19            [11] 1725 	add	hl,de
+   2EEC EB            [ 4] 1726 	ex	de,hl
+   2EED DD 34 F1      [23] 1727 	inc	-15 (ix)
+   2EF0 DD 7E F1      [19] 1728 	ld	a,-15 (ix)
+   2EF3 D6 1E         [ 7] 1729 	sub	a, #0x1E
+   2EF5 DA D2 2D      [10] 1730 	jp	C,00107$
+   2EF8                    1731 00109$:
+   2EF8 DD F9         [10] 1732 	ld	sp, ix
+   2EFA DD E1         [14] 1733 	pop	ix
+   2EFC C9            [10] 1734 	ret
+                           1735 	.area _CODE
+                           1736 	.area _INITIALIZER
+                           1737 	.area _CABS (ABS)

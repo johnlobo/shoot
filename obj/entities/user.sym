@@ -15,8 +15,9 @@ Symbol Table
     _cpct_scanKeyboard_f                                           **** GX
     _create_enemy                                                  **** GX
     _create_enemy_group                                            **** GX
+    _create_explosion                                              **** GX
     _create_shoot                                                  **** GX
-  0 _draw_user                                                     0345 GR
+  0 _draw_user                                                     039D GR
   0 _get_user_max_shoots                                           004E GR
   0 _init_user                                                     0000 GR
     _rand                                                          **** GX
@@ -24,13 +25,12 @@ Symbol Table
   0 _update_user                                                   0053 GR
   1 _user                                                          0000 GR
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  383   flags    0
+   0 _CODE                                      size  3DB   flags    0
    1 _DATA                                      size   17   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

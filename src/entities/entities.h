@@ -152,6 +152,7 @@ void create_enemy(i16 x, i16 y, u8 type);
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void update_enemies();
 void draw_enemies(u8* screen);
+u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 //USER
 void init_user();
 u8 get_user_max_shoots();
@@ -159,7 +160,7 @@ void update_user();
 void draw_user(u8* screen);
 //EXPLOSIONES
 void init_explosions();
-void create_explosion(u8 tipo, u8 x, u8 y);
+void create_explosion(u8 x, u8 y, u8 tipo);
 void update_explosions();
 void draw_explosions(u8* screen);
 

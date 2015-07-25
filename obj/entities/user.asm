@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.0 #9253 (Jul  5 2015) (Mac OS X x86_64)
-; This file was generated Mon Jul 20 03:16:36 2015
+; Version 3.5.0 #9253 (Jul 21 2015) (Mac OS X x86_64)
+; This file was generated Thu Jul 23 01:06:51 2015
 ;--------------------------------------------------------
 	.module user
 	.optsdcc -mz80
@@ -9,6 +9,7 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _create_explosion
 	.globl _create_enemy_group
 	.globl _create_enemy
 	.globl _create_shoot
@@ -480,34 +481,90 @@ _update_user::
 	inc	sp
 	pop	bc
 00118$:
-;src/entities/user.c:84: if (user.ax!=0){
+;src/entities/user.c:85: if (cpct_isKeyPressed(Key_L)){
+	push	bc
+	ld	hl,#0x1004
+	push	hl
+	call	_cpct_isKeyPressed
+	pop	af
+	ld	a,l
+	pop	bc
+	or	a, a
+	jr	Z,00120$
+;src/entities/user.c:86: create_explosion((rand()%20)+5,(rand()%80)+20,rand()%2);
+	push	bc
+	call	_rand
+	ld	de,#0x0002
+	push	de
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	pop	bc
+	ld	-5 (ix),l
+	push	bc
+	call	_rand
+	ld	de,#0x0050
+	push	de
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	pop	bc
+	ld	a,l
+	add	a, #0x14
+	ld	-3 (ix),a
+	push	bc
+	call	_rand
+	ld	de,#0x0014
+	push	de
+	push	hl
+	call	__modsint
+	pop	af
+	pop	af
+	pop	bc
+	ld	a,l
+	add	a, #0x05
+	ld	d,a
+	push	bc
+	ld	h,-5 (ix)
+	ld	l,-3 (ix)
+	push	hl
+	push	de
+	inc	sp
+	call	_create_explosion
+	pop	af
+	inc	sp
+	pop	bc
+00120$:
+;src/entities/user.c:89: if (user.ax!=0){
 	ld	hl, #(_user + 0x000c) + 0
 	ld	d,(hl)
-;src/entities/user.c:85: if ((( user.vx >= 0 ) && (user.vx < user.topvx)) || ((user.vx <= 0 ) && (user.vx > -user.topvx))){
-;src/entities/user.c:84: if (user.ax!=0){
+;src/entities/user.c:90: if ((( user.vx >= 0 ) && (user.vx < user.topvx)) || ((user.vx <= 0 ) && (user.vx > -user.topvx))){
+;src/entities/user.c:89: if (user.ax!=0){
 	ld	a,d
 	or	a, a
-	jr	Z,00125$
-;src/entities/user.c:85: if ((( user.vx >= 0 ) && (user.vx < user.topvx)) || ((user.vx <= 0 ) && (user.vx > -user.topvx))){
+	jr	Z,00127$
+;src/entities/user.c:90: if ((( user.vx >= 0 ) && (user.vx < user.topvx)) || ((user.vx <= 0 ) && (user.vx > -user.topvx))){
 	ld	hl, #(_user + 0x0008) + 0
 	ld	e,(hl)
 	bit	7, e
-	jr	NZ,00123$
+	jr	NZ,00125$
 	ld	hl, #(_user + 0x000a) + 0
 	ld	h,(hl)
 	ld	a,e
 	sub	a, h
-	jp	PO, 00202$
+	jp	PO, 00208$
 	xor	a, #0x80
-00202$:
-	jp	M,00119$
-00123$:
+00208$:
+	jp	M,00121$
+00125$:
 	xor	a, a
 	sub	a, e
-	jp	PO, 00203$
+	jp	PO, 00209$
 	xor	a, #0x80
-00203$:
-	jp	M,00125$
+00209$:
+	jp	M,00127$
 	ld	a, (#(_user + 0x000a) + 0)
 	ld	l,a
 	rla
@@ -528,40 +585,40 @@ _update_user::
 	sub	a, h
 	ld	a,-4 (ix)
 	sbc	a, l
-	jp	PO, 00204$
+	jp	PO, 00210$
 	xor	a, #0x80
-00204$:
-	jp	P,00125$
-00119$:
-;src/entities/user.c:86: user.vx+=user.ax;
+00210$:
+	jp	P,00127$
+00121$:
+;src/entities/user.c:91: user.vx+=user.ax;
 	ld	a,e
 	add	a, d
 	ld	(#(_user + 0x0008)),a
-00125$:
-;src/entities/user.c:90: if (user.vx>0){
+00127$:
+;src/entities/user.c:95: if (user.vx>0){
 	ld	hl, #(_user + 0x0008) + 0
 	ld	d,(hl)
 	xor	a, a
 	sub	a, d
-	jp	PO, 00205$
+	jp	PO, 00211$
 	xor	a, #0x80
-00205$:
-	jp	P,00129$
-;src/entities/user.c:91: user.vx--;
+00211$:
+	jp	P,00131$
+;src/entities/user.c:96: user.vx--;
 	dec	d
 	ld	hl,#(_user + 0x0008)
 	ld	(hl),d
-	jr	00130$
-00129$:
-;src/entities/user.c:92: } else if (user.vx<0){
+	jr	00132$
+00131$:
+;src/entities/user.c:97: } else if (user.vx<0){
 	bit	7, d
-	jr	Z,00130$
-;src/entities/user.c:93: user.vx++;
+	jr	Z,00132$
+;src/entities/user.c:98: user.vx++;
 	inc	d
 	ld	hl,#(_user + 0x0008)
 	ld	(hl),d
-00130$:
-;src/entities/user.c:96: user.x+=user.vx;
+00132$:
+;src/entities/user.c:101: user.x+=user.vx;
 	ld	hl, #(_user + 0x0006) + 0
 	ld	d,(hl)
 	ld	hl, #(_user + 0x0008) + 0
@@ -571,17 +628,17 @@ _update_user::
 	ld	d,a
 	ld	hl,#(_user + 0x0006)
 	ld	(hl),d
-;src/entities/user.c:98: if (user.x<0)
+;src/entities/user.c:103: if (user.x<0)
 	ld	hl, #(_user + 0x0006) + 0
 	ld	e,(hl)
 	bit	7, d
-	jr	Z,00134$
-;src/entities/user.c:99: user.x=0;
+	jr	Z,00136$
+;src/entities/user.c:104: user.x=0;
 	ld	hl,#(_user + 0x0006)
 	ld	(hl),#0x00
-	jr	00136$
-00134$:
-;src/entities/user.c:100: else if (user.x> 79-user.w){
+	jr	00138$
+00136$:
+;src/entities/user.c:105: else if (user.x> 79-user.w){
 	ld	hl, #_user + 14
 	ld	h,(hl)
 	ld	c,h
@@ -600,19 +657,19 @@ _update_user::
 	sub	a, e
 	ld	a,b
 	sbc	a, d
-	jp	PO, 00206$
+	jp	PO, 00212$
 	xor	a, #0x80
-00206$:
-	jp	P,00136$
-;src/entities/user.c:101: user.x = 79-user.w;
+00212$:
+	jp	P,00138$
+;src/entities/user.c:106: user.x = 79-user.w;
 	ld	a,#0x4F
 	sub	a, h
 	ld	(#(_user + 0x0006)),a
-00136$:
+00138$:
 	ld	sp, ix
 	pop	ix
 	ret
-;src/entities/user.c:105: void draw_user(u8* screen){
+;src/entities/user.c:110: void draw_user(u8* screen){
 ;	---------------------------------
 ; Function draw_user
 ; ---------------------------------
@@ -620,7 +677,7 @@ _draw_user::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-;src/entities/user.c:107: pscreen = cpct_getScreenPtr(screen, user.x, user.y);
+;src/entities/user.c:112: pscreen = cpct_getScreenPtr(screen, user.x, user.y);
 	ld	hl, #_user + 7
 	ld	c,(hl)
 	ld	hl, #_user + 6
@@ -637,7 +694,7 @@ _draw_user::
 	pop	af
 	pop	af
 	ex	de,hl
-;src/entities/user.c:108: cpct_drawSprite( (u8*) user.sprite,pscreen,user.w,user.h);
+;src/entities/user.c:113: cpct_drawSprite( (u8*) user.sprite,pscreen,user.w,user.h);
 	ld	hl, #_user + 15
 	ld	c,(hl)
 	ld	hl, #_user + 14

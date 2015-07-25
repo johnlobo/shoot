@@ -12,7 +12,7 @@ Symbol Table
   1 _block01                                                       0000 GR
   1 _block02                                                       0007 GR
   0 _changeVideoMemoryPage                                         0000 GR
-  1 _changeVideoMemoryPage_page_1_83                               0038 R
+  1 _changeVideoMemoryPage_page_1_86                               0038 R
   0 _clear_screen                                                  0078 GR
     _cpc_PrintGphStr                                               **** GX
     _cpc_SetInkGphStr                                              **** GX
@@ -25,7 +25,6 @@ Symbol Table
     _cpct_setPalette                                               **** GX
     _cpct_setVideoMemoryPage                                       **** GX
     _cpct_setVideoMode                                             **** GX
-    _cpct_waitVSYNC                                                **** GX
   0 _draw_blocks                                                   0028 GR
     _draw_enemies                                                  **** GX
     _draw_explosions                                               **** GX
@@ -60,7 +59,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  2D4   flags    0
+   0 _CODE                                      size  2D1   flags    0
    1 _DATA                                      size   39   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
