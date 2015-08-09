@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.0 #9253 (Jul 21 2015) (Mac OS X x86_64)
-; This file was generated Thu Jul 23 01:06:49 2015
+; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
+; This file was generated Fri Aug  7 15:43:52 2015
 ;--------------------------------------------------------
 	.module explosions
 	.optsdcc -mz80
@@ -379,8 +379,6 @@ _draw_explosions::
 	ld	h, d
 	push	hl
 	call	_cpct_getScreenPtr
-	pop	af
-	pop	af
 	pop	bc
 	push	hl
 	pop	iy

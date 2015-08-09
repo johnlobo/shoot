@@ -4,34 +4,24 @@ Hexadecimal [16-Bits]
 Symbol Table
 
     .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |   0 _cpc_Pri   00B3 GR  |   0 _cpc_Pri   006A GR
-  0 _cpc_Pri   0263 GR  |   0 _cpc_Pri   024C GR  |   0 _cpc_Pri   009B GR
-  0 _cpc_Pri   0081 GR  |   0 _cpc_Pri   0219 GR  |   0 _cpc_Pri   0232 GR
-  0 _cpc_Set   0205 GR  |   0 _cpc_Set   0359 GR  |   0 _sin_rot   0351 R
-  0 add_elem   00EA R   |   0 bloques    0030 R   |   0 buc_dobl   01B2 R
-  0 buc_dobl   02E8 R   |   0 bucle_al   0314 R   |   0 bucle_al   01CA R
-  0 bucle_co   00D7 R   |   0 bucle_co   0288 R   |   0 bucle_co   0321 R
-  0 bucle_te   0140 R   |   0 bucle_te   0295 R   |   0 byte_tmp   0372 R
-  0 cola_imp   0134 R   |   0 colores_   0375 R   |   0 colores_   036D R
-  0 colores_   036D R   |   0 cont_dob   0175 R   |   0 cont_dob   02CA R
-  0 cont_tot   017B R   |   0 cont_tot   02D0 R   |   0 cpc_Char   03AA R
-  0 cpc_GetS   0000 R   |   0 cpc_Prin   00C5 R   |   0 cpc_Prin   0276 R
-  0 cpc_PutS   018F R   |   0 cpc_PutS   02F1 R   |   0 dato       0371 R
-  0 direcc_d   018D R   |   0 doblar_l   01AA R   |   0 doblar_l   02E0 R
-  0 doble      018B R   |   0 dobleM1    02DF R   |   0 elemento   0130 R
-  0 entrar_c   00E9 R   |   0 escribe_   01C3 R   |   0 escribe_   030A R
-  0 first_ch   03A9 R   |   0 imprimie   018C R   |   0 inc_anch   002C R
-  0 leer_ele   010D R   |   0 letra_de   0379 R   |   0 letra_de   0389 R
-  0 loop_alt   0192 R   |   0 loop_alt   02F4 R   |   0 loop_anc   0192 R
-  0 loop_anc   02F4 R   |   0 op_color   01E4 R   |   0 op_color   033A R
-  0 op_color   01F1 R   |   0 pos_cola   0132 R   |   0 rotando    034B R
-  0 salto_li   019B R   |   0 salto_li   02FB R   |   0 sub_bloq   0062 R
-  0 terminar   00E4 R
+    .__.H$L.=  0000 L   |   0 _cpc_Pri   000B GR  |   0 _cpc_Pri   0000 GR
+  0 _cpc_Set   0151 GR  |   0 add_elem   0036 R   |   0 buc_dobl   00FE R
+  0 bucle_al   0116 R   |   0 bucle_co   0023 R   |   0 bucle_te   008C R
+  0 byte_tmp   0164 R   |   0 cola_imp   0080 R   |   0 colores_   0167 R
+  0 colores_   015F R   |   0 colores_   015F R   |   0 cont_dob   00C1 R
+  0 cont_tot   00C7 R   |   0 cpc_Char   019C R   |   0 cpc_Prin   0011 R
+  0 cpc_PutS   00DB R   |   0 dato       0163 R   |   0 direcc_d   00D9 R
+  0 doblar_l   00F6 R   |   0 doble      00D7 R   |   0 elemento   007C R
+  0 entrar_c   0035 R   |   0 escribe_   010F R   |   0 first_ch   019B R
+  0 imprimie   00D8 R   |   0 leer_ele   0059 R   |   0 letra_de   016B R
+  0 letra_de   017B R   |   0 loop_alt   00DE R   |   0 loop_anc   00DE R
+  0 op_color   0130 R   |   0 op_color   013D R   |   0 pos_cola   007E R
+  0 salto_li   00E7 R   |   0 terminar   0030 R
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE      size  512   flags    0
+   0 _CODE      size  304   flags    0
 

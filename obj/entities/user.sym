@@ -9,6 +9,7 @@ Symbol Table
     .__.H$L.                                                    =  0000 L
     _G_ship_00                                                     **** GX
     __modsint                                                      **** GX
+  0 _add_score                                                     037C GR
     _cpct_drawSprite                                               **** GX
     _cpct_getScreenPtr                                             **** GX
     _cpct_isKeyPressed                                             **** GX
@@ -17,12 +18,14 @@ Symbol Table
     _create_enemy_group                                            **** GX
     _create_explosion                                              **** GX
     _create_shoot                                                  **** GX
-  0 _draw_user                                                     039D GR
-  0 _get_user_max_shoots                                           004E GR
+  0 _draw_user                                                     0333 GR
+  0 _get_score                                                     03BD GR
+  0 _get_user_max_shoots                                           0057 GR
   0 _init_user                                                     0000 GR
     _rand                                                          **** GX
-  1 _shoot_type                                                    0016 GR
-  0 _update_user                                                   0053 GR
+  0 _set_score                                                     036F GR
+  1 _shoot_type                                                    001A GR
+  0 _update_user                                                   005C GR
   1 _user                                                          0000 GR
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
@@ -30,8 +33,8 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  3DB   flags    0
-   1 _DATA                                      size   17   flags    0
+   0 _CODE                                      size  3C5   flags    0
+   1 _DATA                                      size   1B   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8
    4 _HOME                                      size    0   flags    0

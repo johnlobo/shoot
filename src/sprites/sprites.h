@@ -9,7 +9,7 @@
 
 extern const u8 G_palette[16];
 extern const u8 tintas[17];
-extern const u8 palette[17];
+extern const u8 palette[16];
 extern const u8 ship01[96];
 extern const u8 ship02[240];
 extern const u8 ship03[96];

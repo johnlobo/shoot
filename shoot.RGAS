@@ -663,6 +663,70 @@
         "_name": "star_04",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
+      },
+      {
+        "$type": "RGAS.CPCSprite, RGAS",
+        "Align256": false,
+        "GenerateVerticalMirror": false,
+        "GenerateHorizontalMirror": false,
+        "pixels": {
+          "$type": "System.Byte[], mscorlib",
+          "$value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAwNDAAAAAAAAAAAAAAAAAANDAwAAAAAAAAAAAAAAAAADAwNAAAAAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+        },
+        "Width": 16,
+        "Height": 16,
+        "_guid": "3bafd46d-446e-44f2-9df9-abf0f1452915",
+        "_name": "explosion__00",
+        "MaskDataInline": false,
+        "UseInLevelDesigner": false
+      },
+      {
+        "$type": "RGAS.CPCSprite, RGAS",
+        "Align256": false,
+        "GenerateVerticalMirror": false,
+        "GenerateHorizontalMirror": false,
+        "pixels": {
+          "$type": "System.Byte[], mscorlib",
+          "$value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBDAAAAAAAAAAAAAAAAAwMDAwMAAAAAAAAAAAAAAEMDA0MDAEAAAAAAAAAAAABDQ0MDQwBAAAAAAAAAAAAAQwMDAwNDAAAAAAAAAAAAAEMDg0MDQEAAAAAAAAAAAAMDQwMDAwMAAAAAAAAAAAAAAwMDQwMAAAAAAAAAAAAAAAAAQEMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAA="
+        },
+        "Width": 16,
+        "Height": 16,
+        "_guid": "c2ab0803-f13b-4512-86e0-c7195060d958",
+        "_name": "explosion__01",
+        "MaskDataInline": false,
+        "UseInLevelDesigner": false
+      },
+      {
+        "$type": "RGAS.CPCSprite, RGAS",
+        "Align256": false,
+        "GenerateVerticalMirror": false,
+        "GenerateHorizontalMirror": false,
+        "pixels": {
+          "$type": "System.Byte[], mscorlib",
+          "$value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAAAAAAAAAAAAAEMDAwMDAEAAAAAAAAAAAABDQwBDAwBAAAAAAAAAAABDA4NDA0MDAEAAAAAAAAAAQEMDA0ODQwMAQAAAAAAAQwNDQ4PDwwMAAEAAAAAAAEMDAwMDw4NDAwBAAAAAAABDQ0MDg0ODQEMAQAAAAAAAQwMDQwODQwMDAEAAAAAAAABDA4MDQwMDAEAAAAAAAAAAQwMDAEMAQEAAAAAAAAAAAABAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAA="
+        },
+        "Width": 16,
+        "Height": 16,
+        "_guid": "c2ab0803-f13b-4512-86e0-c7195060d958",
+        "_name": "explosion__01_COPY",
+        "MaskDataInline": false,
+        "UseInLevelDesigner": false
+      },
+      {
+        "$type": "RGAS.CPCSprite, RGAS",
+        "Align256": false,
+        "GenerateVerticalMirror": false,
+        "GenerateHorizontalMirror": false,
+        "pixels": {
+          "$type": "System.Byte[], mscorlib",
+          "$value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwMDAwMAAAAAAAAAAAAAAwMDAwMDAwAAAAAAAAAAAABDQ0BDA4MAAAAAAAAAAABDQ4NDQ0NDAEAAAAAAAAAAQEMDQ4PDQwMAQAAAAAAAQ0NDQ8AAA4NAAEAAAAAAAENDQ4AAAANDQwBAAAAAAABDQ0OAAAPDQ0MAQAAAAAAAQ0NDwwPDgwMDAEAAAAAAAABDQAMDQwMDAEAAAAAAAAAAQ0MDA0MAQEAAAAAAAAAAAABAQEBAQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+        },
+        "Width": 16,
+        "Height": 16,
+        "_guid": "c2ab0803-f13b-4512-86e0-c7195060d958",
+        "_name": "explosion__01_COPY_COPY",
+        "MaskDataInline": false,
+        "UseInLevelDesigner": false
       }
     ]
   },
@@ -683,5 +747,6 @@
     "$type": "System.Byte[], mscorlib",
     "$value": "AA0BAgQOCxQJDBIDBg8YGg=="
   },
-  "_formatterType": "RGAS.PlatformProviders.AmstradSpriteSet+AmstradCPCRSLibCArrayFormatter, RGAS, Version=0.100.0.0, Culture=neutral, PublicKeyToken=null"
+  "_formatterType": "RGAS.PlatformProviders.AmstradSpriteSet+AmstradCPCRSLibCArrayFormatter, RGAS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+  "OSPlatform": "Microsoft Windows NT 6.1.7601 Service Pack 1 C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\"
 }

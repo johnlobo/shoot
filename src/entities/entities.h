@@ -17,6 +17,8 @@
 
 #define MAX_EXPLOSIONES 30
 
+#define MAX_MESSAGES 10
+
 #define MAX_WAYPOINTS 20
 
 //
@@ -79,6 +81,7 @@ typedef struct  {
    u8 pw, ph;  // Previous Width and height of the entity (depending on animation). Used to erase it
    u8 draw;  // Flag to be set when the entity needs to be drawn again
    u8 max_shoots;
+   u32 score;
 } TShip;
 
 //SHOOT
@@ -130,6 +133,15 @@ typedef struct {
    long lastmoved;
 } TIPO_EXPLOSION;
 
+//MESSAGES
+typedef struct {
+   u8 active;
+   u8 x;
+   u8 y; //2 bytes 89   current coordinates
+   u8 text[30];
+   u8 time;
+} TMessage;
+
 extern const TTrajectory trajectories[1];
 extern const TMovement movements[2];
 
@@ -146,6 +158,7 @@ void init_shoots();
 void create_shoot(u8 x, u8 y, u8 type);
 void update_shoots();
 void draw_shoots(u8* screen);
+
 //ENEMIES
 void init_enemies();
 void create_enemy(i16 x, i16 y, u8 type);
@@ -153,16 +166,31 @@ void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void update_enemies();
 void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
+
 //USER
 void init_user();
 u8 get_user_max_shoots();
 void update_user();
 void draw_user(u8* screen);
+void set_score(u32 new_score);
+void add_score(u16 new_add_score);
+u32 get_score();
+
 //EXPLOSIONES
 void init_explosions();
 void create_explosion(u8 x, u8 y, u8 tipo);
 void update_explosions();
 void draw_explosions(u8* screen);
+
+//MESSAGES
+void strcpy(i8* to, const i8* from);
+u8 strlen(const char *str);
+void blue_message();
+void red_message();
+void colour_message (u8 backg, u8 t);
+void init_messages();
+void create_message(u8 x, u8 y, u8 time, u8 *message);
+void draw_messages(u8* screen);
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

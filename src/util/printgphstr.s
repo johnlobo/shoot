@@ -3,57 +3,6 @@
 ; **       Raúl Simarro (Artaburu)    -   2009, 2012  **
 ; ******************************************************
 
-
-
-cpc_GetScrAddress0:			;en HL están las coordenadas
-
-	;LD A,H
-	LD (#inc_ancho+1),A
-	LD A,L
-	SRL A
-	SRL A
-	SRL A
-	; A indica el bloque a multiplicar x &50
-	LD D,A						;D
-	SLA A
-	SLA A
-	SLA A
-	SUB L
-	NEG
-	; A indica el desplazamiento a multiplicar x &800
-	LD E,A						;E
-	LD L,D
-	LD H,#0
-	ADD HL,HL
-	LD BC,#bloques
-	ADD HL,BC
-	;HL APUNTA AL BLOQUE BUSCADO
-	LD C,(HL)
-	INC HL
-	LD H,(HL)
-	LD L,C
-	;HL TIENE EL VALOR DEL BLOQUE DE 8 BUSCADO
-	PUSH HL
-	LD D,#0
-	LD HL,#sub_bloques
-	ADD HL,DE
-	LD A,(HL)
-	POP HL
-	ADD H
-	LD H,A
-inc_ancho:
-	LD E,#0
-	ADD HL,DE
-	RET
-
-bloques:
-.DW #0XC000,#0XC050,#0XC0A0,#0XC0F0,#0XC140,#0XC190,#0XC1E0,#0XC230,#0XC280,#0XC2D0,#0XC320,#0XC370,#0XC3C0,#0XC410,#0XC460,#0XC4B0,#0XC500,#0XC550,#0XC5A0,#0XC5F0,#0XC640,#0XC690,#0XC6E0,#0XC730,#0XC780
-sub_bloques:
-.DB #0X00,#0X08,#0X10,#0X18,#0X20,#0X28,#0X30,#0X38
-
-
-
-
 ;*************************************
 ; GRAPHIC TEXT
 ;*************************************
@@ -62,42 +11,21 @@ sub_bloques:
 
 _cpc_PrintGphStr2X::
 ;preparación datos impresión. El ancho y alto son fijos!
-	LD IX,#2
-	ADD IX,SP
-	LD L,2 (IX)
-	LD H,3 (IX)	;DESTINO
-   	LD E,0 (IX)
-	LD D,1 (IX)	;TEXTO ORIGEN
+;	LD IX,#2
+;	ADD IX,SP
+;	LD L,2 (IX)
+;	LD H,3 (IX)	;DESTINO
+;  	LD E,0 (IX)
+;	LD D,1 (IX)	;TEXTO ORIGEN
+
+	POP AF
+	POP DE
+	POP HL
+	PUSH HL
+	PUSH DE
+	PUSH AF
+
 	LD A,#1
- 	JP cpc_PrintGphStr0
-
-
-
-.globl _cpc_PrintGphStrXY2X
-
-_cpc_PrintGphStrXY2X::
-;preparación datos impresión. El ancho y alto son fijos!
-	LD IX,#2
-	ADD IX,SP
- 	LD L,3 (IX)
-	LD A,2 (IX)	;pantalla
-	CALL cpc_GetScrAddress0
-   	LD E,0 (IX)
-	LD D,1 (IX)	;texto origen
-	LD A,#1
- 	JP cpc_PrintGphStr0
-
-.globl _cpc_PrintGphStrXY
-
-_cpc_PrintGphStrXY::
-;preparación datos impresión. El ancho y alto son fijos!
-	LD IX,#2
-	ADD IX,SP
- 	LD L,3 (IX)
-	LD A,2 (IX)	;pantalla
-	CALL cpc_GetScrAddress0
-   	LD E,0 (IX)
-	LD D,1 (IX)	;texto origen
  	JP cpc_PrintGphStr0
 
 
@@ -105,14 +33,20 @@ _cpc_PrintGphStrXY::
 
 _cpc_PrintGphStr::
 ;preparación datos impresión. El ancho y alto son fijos!
-	LD IX,#2
-	ADD IX,SP
-	LD L,2 (IX)
-	LD H,3 (IX)	;DESTINO
-	;LD (CPC_PRINTGPHSTR0+DIRECC_DESTINO0),HL
-   	LD E,0 (IX)
-	LD D,1 (IX)	;TEXTO ORIGEN
-	;JP cpc_PrintGphStr0
+;	LD IX,#2
+;	ADD IX,SP
+;	LD L,2 (IX)
+;	LD H,3 (IX)	;DESTINO
+;	;LD (CPC_PRINTGPHSTR0+DIRECC_DESTINO0),HL
+;  	LD E,0 (IX)
+;	LD D,1 (IX)	;TEXTO ORIGEN
+
+	POP AF 
+	POP DE
+	POP	HL
+	PUSH HL
+	PUSH DE
+	PUSH AF
 
 cpc_PrintGphStr0:
 
@@ -350,301 +284,32 @@ op_colores_pixel:
 
 .globl _cpc_SetInkGphStr
 
-_cpc_SetInkGphStr::
-;preparación datos impresión. El ancho y alto son fijos!
-	LD IX,#2
-	ADD IX,SP
+;_cpc_SetInkGphStr::
+;	LD IX,#2
+;	ADD IX,SP
+;
+;	LD A,1 (IX) ;VALOR
+;	LD C,0 (IX)	;COLOR
+;
+;	LD HL,#colores_b0
+;	LD B,#0
+;	ADD HL,BC
+;	LD (HL),A
+;	RET
 
-	;LD A,H
-	;LD C,L
-	LD A,1 (IX) ;VALOR
-	LD C,0 (IX)	;COLOR
+ _cpc_SetInkGphStr::
+ 	LD HL,#2
+ 	LD B,H
+ 	ADD HL,SP
 
-	LD HL,#colores_b0
-	LD B,#0
-	ADD HL,BC
-	LD (HL),A
-	RET
+ 	LD C, (HL)
+ 	INC HL
+ 	LD A,(HL)
 
-
-
-
-
-.globl _cpc_PrintGphStrXYM1
-
-_cpc_PrintGphStrXYM1::
-;preparación datos impresión. El ancho y alto son fijos!
-	LD IX,#2
-	ADD IX,SP
- 	LD L,3 (IX)
-	LD A,2 (IX)	;pantalla
-	CALL cpc_GetScrAddress0
-   	LD E,0 (IX)
-	LD D,1 (IX)	;texto origen
-	XOR A
-	JP cpc_PrintGphStr0M1
-
-
-.globl _cpc_PrintGphStrXYM12X
-
-_cpc_PrintGphStrXYM12X::
-;preparación datos impresión. El ancho y alto son fijos!
-	LD IX,#2
-	ADD IX,SP
- 	LD L,3 (IX)
-	LD A,2 (IX)	;pantalla
-	CALL cpc_GetScrAddress0
-   	LD E,0 (IX)
-	LD D,1 (IX)	;texto origen
-	LD A,#1
-	JP cpc_PrintGphStr0M1
-
-
-
-
-.globl _cpc_PrintGphStrM12X
-
-_cpc_PrintGphStrM12X::
-	LD IX,#2
-	ADD IX,SP
-	LD L,2 (IX)
-	LD H,3 (IX)	;DESTINO
-   	LD E,0 (IX)
-	LD D,1 (IX)	;TEXTO ORIGEN
-	LD A,#1
-
-	JP cpc_PrintGphStr0M1
-
-
-
-.globl _cpc_PrintGphStrM1
-
-_cpc_PrintGphStrM1::
-;preparación datos impresión. El ancho y alto son fijos!
-
-	LD IX,#2
-	ADD IX,SP
-	LD L,2 (IX)
-	LD H,3 (IX)	;DESTINO
-   	LD E,0 (IX)
-	LD D,1 (IX)	;TEXTO ORIGEN
-	XOR A
-
-	;JP cpc_PrintGphStr0M1
-
-cpc_PrintGphStr0M1:
-	;DE destino
-	;HL origen
-	;ex de,hl
-	LD (#dobleM1),A
-	;trabajo previo: Para tener una lista de trabajos de impresión. No se interrumpe
-	;la impresión en curso.
-	LD A,(#imprimiendo)
-	CP #1
-	JP Z,add_elemento
-	LD (#direcc_destino),HL
-	EX DE,HL
-	CALL bucle_texto0M1
-;antes de terminar, se mira si hay algo en cola.
-bucle_cola_impresionM1:
-	LD A,(#elementos_cola)
-	OR A
-	JP Z,terminar_impresion
-	CALL leer_elemento
-	JP bucle_cola_impresionM1
-
-
-
-
-
-bucle_texto0M1:
-	LD A,#1
-	LD (#imprimiendo),A
-
-	LD A,(#first_char)
-	LD B,A		;resto 48 para saber el número del caracter (En ASCII 0=48)
-	LD A,(HL)
-	OR A ;CP 0
-	RET Z
-	SUB B
-	LD BC,#cpc_Chars	;apunto a la primera letra
-	PUSH HL
-	LD L,A		;en A tengo la letra que sería
-	LD H,#0
-	ADD HL,HL
-	ADD HL,HL
-	ADD HL,HL	;x8 porque cada letra son 8 bytes
-	ADD HL,BC	;ahora HL apunta a los datos de la letra correspondiente
-	CALL escribe_letraM1
-	LD A,(dobleM1)
-	CP #1
-	; ANTES DE IMPRIMIR SE CHEQUEA SI ES DE ALTURA EL DOBLE Y SE ACTÚA EN CONSECUENCIA
-	CALL Z, doblar_letraM1
-	LD HL,(direcc_destino)
-	LD A,(dobleM1)
-	CP #1
-	;alto
-	JR Z,cont_dobleM1
-	LD DE,#letra_decodificada
-	.DB #0xfD
-	LD H,#8		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-	JR cont_totM1
-
-
-cont_dobleM1:
-	LD DE,#letra_decodificada_tmp
-	.DB #0XFD
-	LD H,#16		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-cont_totM1:
-	CALL cpc_PutSp0M1
-	LD HL,(#direcc_destino)
-	INC HL
-	LD (#direcc_destino),HL
-	POP HL
-	INC HL
-	JP bucle_texto0M1
-
-dobleM1:
-	.DB #0
-;.imprimiendo defb 0
-;.direcc_destino defw 0
-
-doblar_letraM1:
-	LD HL,#letra_decodificada
-	LD DE,#letra_decodificada_tmp
-	LD B,#8
-buc_doblar_letraM1:
-	LD A,(HL)
-	INC HL
-	LD (DE),A
-	INC DE
-	LD (DE),A
-	INC DE
-	DJNZ buc_doblar_letraM1
-	RET
-
-
-cpc_PutSp0M1:
-	;	defb #0xfD
-   	;	LD H,8		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-	LD B,#7
-	LD C,B
-loop_alto_2M1:
-loop_ancho_2M1:
-	EX DE,HL
-	LDI
-	.DB #0XFD
-	DEC H
-	RET Z
-	EX DE,HL
-salto_lineaM1:
-	LD C,#0XFF			;#0x07f6 			;salto linea menos ancho
-	ADD HL,BC
-	JP NC,loop_alto_2M1 ;sig_linea_2zz		;si no desborda va a la siguiente linea
-	LD BC,#0XC050
-	ADD HL,BC
-	LD B,#7			;sólo se daría una de cada 8 veces en un sprite
-	JP loop_alto_2M1
-
-
-
-escribe_letraM1:
-	LD IY,#letra_decodificada
-	LD B,#8
-	LD IX,#byte_tmp
-bucle_altoM1:
-	PUSH BC
-	PUSH HL
-
-	LD A,(HL)
-	LD HL,#dato
-	LD (HL),A
-	;me deja en ix los valores convertidos
-	;HL tiene la dirección origen de los datos de la letra
-	;LD DE,letra	;el destino es la posición de decodificación de la letra
-	;Se analiza el byte por parejas de bits para saber el color de cada pixel.
-	LD (IX),#0	;reset el byte
-	LD B,#4	;son 4 pixels por byte. Los recorro en un bucle y miro qué color tiene cada byte.
-bucle_coloresM1:
-	;roto el byte en (HL)
-	PUSH HL
-	CALL op_colores_m1	;voy a ver qué color es el byte. tengo un máximo de 4 colores posibles en modo 0.
-	POP HL
-	SRL (HL)
-	SRL (HL)	;voy rotando el byte para mirar los bits por pares.
-	DJNZ bucle_coloresM1
-	LD A,(IX)
-	LD (IY),A
-	INC IY
-	POP HL
-	INC HL
-	POP BC
-	DJNZ bucle_altoM1
-	RET
-
-
-;.rutina
-;HL tiene la dirección origen de los datos de la letra
-
-;Se analiza el byte por parejas de bits para saber el color de cada pixel.
-;ld ix,byte_tmp
-;ld (ix+0),0
-
-;LD B,4	;son 4 pixels por byte. Los recorro en un bucle y miro qué color tiene cada byte.
-;.bucle_colores
-;roto el byte en (HL)
-;push hl
-;call op_colores_m1	;voy a ver qué color es el byte. tengo un máximo de 4 colores posibles en modo 0.
-;pop hl
-;sla (HL)
-;sla (HL)	;voy rotando el byte para mirar los bits por pares.
-
-;djnz bucle_colores
-
-;ret
-op_colores_m1:   	;rutina en modo 1
-					;mira el color del bit a pintar
-	LD A,#3			;hay 4 colores posibles. Me quedo con los 2 primeros bits
-	AND (HL)
-	; EN A tengo el número de bytes a sumar!!
-	LD HL,#colores_m1
-	LD E,A
-	LD D,#0
-	ADD HL,DE
-	LD C,(HL)
-	;EN C ESTÁ EL BYTE DEL COLOR
-	;LD A,4
-	;SUB B
-	LD A,B
-	DEC A
-	OR A ;CP 0
-	JP Z,_sin_rotar
-rotando:
-	SRL C
-	DEC A
-	JP NZ, rotando
-_sin_rotar:
-	LD A,C
-	OR (IX)
-	LD (IX),A
-	;INC IX
-	RET
-
-
-.globl _cpc_SetInkGphStrM1
-
-_cpc_SetInkGphStrM1::
-	LD IX,#2
-	ADD IX,SP
-	LD A,1 (IX) ;VALOR
-	LD C,0 (IX)	;COLOR
-	LD HL,#colores_cambM1
-	LD B,#0
-	ADD HL,BC
-	LD (HL),A
-	RET
-
-
+ 	LD HL,#colores_b0
+ 	ADD HL,BC
+ 	LD (HL),A
+ 	RET
 
 colores_cambM1:
 colores_m1:
@@ -656,8 +321,6 @@ colores_m1:
 
 ;DEFC direcc_destino0_m1 = direcc_destino
 ;DEFC colores_cambM1 = colores_m1
-
-
 
 
 dato:

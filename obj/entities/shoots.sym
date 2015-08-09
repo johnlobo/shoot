@@ -8,6 +8,7 @@ Symbol Table
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
   1 _active_shoots                                                 00A0 GR
+    _add_score                                                     **** GX
     _bullet01_0                                                    **** GX
     _bullet01_1                                                    **** GX
     _bullet02_0                                                    **** GX
@@ -16,18 +17,19 @@ Symbol Table
     _cpct_getScreenPtr                                             **** GX
     _create_explosion                                              **** GX
   0 _create_shoot                                                  004E GR
-  0 _draw_shoots                                                   028F GR
+  0 _draw_shoots                                                   0296 GR
     _get_user_max_shoots                                           **** GX
   0 _init_shoots                                                   0000 GR
   1 _shoots                                                        0000 GR
-  0 _update_shoots                                                 017A GR
+  0 _update_shoots                                                 017E GR
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  32E   flags    0
+   0 _CODE                                      size  350   flags    0
    1 _DATA                                      size   A1   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

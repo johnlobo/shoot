@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.0 #9253 (Jul 21 2015) (Mac OS X x86_64)
-; This file was generated Thu Jul 23 01:06:51 2015
+; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
+; This file was generated Fri Aug  7 15:43:54 2015
 ;--------------------------------------------------------
 	.module sprites
 	.optsdcc -mz80
@@ -117,22 +117,21 @@ _tintas:
 	.db #0x14	; 20
 _palette:
 	.db #0x00	; 0
+	.db #0x0D	; 13
 	.db #0x01	; 1
 	.db #0x02	; 2
+	.db #0x04	; 4
+	.db #0x0E	; 14
 	.db #0x0B	; 11
-	.db #0x05	; 5
-	.db #0x17	; 23
+	.db #0x14	; 20
 	.db #0x09	; 9
 	.db #0x0C	; 12
 	.db #0x12	; 18
 	.db #0x03	; 3
 	.db #0x06	; 6
-	.db #0x08	; 8
 	.db #0x0F	; 15
-	.db #0x0D	; 13
-	.db #0x19	; 25
+	.db #0x18	; 24
 	.db #0x1A	; 26
-	.db #0x00	; 0
 _redFlag:
 	.db #0x00	; 0
 	.db #0x2C	; 44
@@ -608,8 +607,8 @@ _ship03:
 	.db #0x00	; 0
 _G_ship_00:
 	.db #0x00	; 0
-	.db #0x54	; 84	'T'
-	.db #0xA8	; 168
+	.db #0x14	; 20
+	.db #0x28	; 40
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x14	; 20
@@ -635,10 +634,10 @@ _G_ship_00:
 	.db #0x3C	; 60
 	.db #0x3C	; 60
 	.db #0x14	; 20
-	.db #0x28	; 40
+	.db #0x00	; 0
 	.db #0x15	; 21
 	.db #0x22	; 34
-	.db #0x14	; 20
+	.db #0x00	; 0
 _G_ship_01:
 	.db #0x00	; 0
 	.db #0x14	; 20
@@ -668,10 +667,10 @@ _G_ship_01:
 	.db #0xD8	; 216
 	.db #0xF0	; 240
 	.db #0x50	; 80	'P'
-	.db #0x08	; 8
+	.db #0x00	; 0
 	.db #0x15	; 21
 	.db #0x22	; 34
-	.db #0x50	; 80	'P'
+	.db #0x00	; 0
 _G_ship_02:
 	.db #0x00	; 0
 	.db #0x54	; 84	'T'
@@ -701,10 +700,10 @@ _G_ship_02:
 	.db #0xF0	; 240
 	.db #0xE4	; 228
 	.db #0x04	; 4
-	.db #0xA0	; 160
+	.db #0x00	; 0
 	.db #0x11	; 17
 	.db #0x2A	; 42
-	.db #0x04	; 4
+	.db #0x00	; 0
 _G_shoot_00:
 	.db #0x7B	; 123
 	.db #0xB7	; 183

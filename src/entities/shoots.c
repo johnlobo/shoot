@@ -78,6 +78,7 @@ void update_shoots(){
 						create_explosion(shoots[i].x,shoots[i].y,0);
 						shoots[i].active=0;
 						active_shoots--;
+						add_score(10);
 					} else {
 						shoots[i].frame++;
 						if (shoots[i].frame==shoots[i].num_frames)

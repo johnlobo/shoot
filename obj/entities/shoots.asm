@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.0 #9253 (Jul 21 2015) (Mac OS X x86_64)
-; This file was generated Thu Jul 23 01:06:50 2015
+; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
+; This file was generated Fri Aug  7 15:43:53 2015
 ;--------------------------------------------------------
 	.module shoots
 	.optsdcc -mz80
@@ -10,6 +10,7 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _create_explosion
+	.globl _add_score
 	.globl _get_user_max_shoots
 	.globl _check_collision_enemies
 	.globl _cpct_getScreenPtr
@@ -148,12 +149,12 @@ _create_shoot::
 	add	hl, hl
 	add	hl, hl
 	add	hl,bc
-	ld	-2 (ix),l
-	ld	-1 (ix),h
-	ld	a,-2 (ix)
+	ld	-6 (ix),l
+	ld	-5 (ix),h
+	ld	a,-6 (ix)
 	add	a, #0x08
 	ld	l,a
-	ld	a,-1 (ix)
+	ld	a,-5 (ix)
 	adc	a, #0x00
 	ld	h,a
 	ld	a,(hl)
@@ -166,77 +167,77 @@ _create_shoot::
 ;src/entities/shoots.c:37: shoots[k].active=1;
 	ld	(hl),#0x01
 ;src/entities/shoots.c:38: shoots[k].frame=0;
-	ld	a,-2 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x0A
 	ld	l,a
-	ld	a,-1 (ix)
+	ld	a,-5 (ix)
 	adc	a, #0x00
 	ld	h,a
 	ld	(hl),#0x00
 ;src/entities/shoots.c:42: shoots[k].x=x;
-	ld	a,-2 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x04
+	ld	-12 (ix),a
+	ld	a,-5 (ix)
+	adc	a, #0x00
+	ld	-11 (ix),a
+;src/entities/shoots.c:43: shoots[k].y=y;
+	ld	a,-6 (ix)
+	add	a, #0x05
 	ld	-4 (ix),a
-	ld	a,-1 (ix)
+	ld	a,-5 (ix)
 	adc	a, #0x00
 	ld	-3 (ix),a
-;src/entities/shoots.c:43: shoots[k].y=y;
-	ld	a,-2 (ix)
-	add	a, #0x05
-	ld	-6 (ix),a
-	ld	a,-1 (ix)
-	adc	a, #0x00
-	ld	-5 (ix),a
 ;src/entities/shoots.c:44: shoots[k].w=1;
-	ld	a,-2 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x06
-	ld	-8 (ix),a
-	ld	a,-1 (ix)
+	ld	-2 (ix),a
+	ld	a,-5 (ix)
 	adc	a, #0x00
-	ld	-7 (ix),a
+	ld	-1 (ix),a
 ;src/entities/shoots.c:45: shoots[k].h=4;
-	ld	a,-2 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x07
 	ld	-10 (ix),a
-	ld	a,-1 (ix)
+	ld	a,-5 (ix)
 	adc	a, #0x00
 	ld	-9 (ix),a
 ;src/entities/shoots.c:46: shoots[k].num_frames=1;
-	ld	a,-2 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x09
-	ld	-12 (ix),a
-	ld	a,-1 (ix)
+	ld	-8 (ix),a
+	ld	a,-5 (ix)
 	adc	a, #0x00
-	ld	-11 (ix),a
+	ld	-7 (ix),a
 ;src/entities/shoots.c:39: switch (type){
 	ld	a,6 (ix)
 	dec	a
 	jr	NZ,00105$
 ;src/entities/shoots.c:42: shoots[k].x=x;
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	pop	hl
+	push	hl
 	ld	a,4 (ix)
 	ld	(hl),a
 ;src/entities/shoots.c:43: shoots[k].y=y;
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	a,5 (ix)
 	ld	(hl),a
 ;src/entities/shoots.c:44: shoots[k].w=1;
-	ld	l,-8 (ix)
-	ld	h,-7 (ix)
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	(hl),#0x01
 ;src/entities/shoots.c:45: shoots[k].h=4;
 	ld	l,-10 (ix)
 	ld	h,-9 (ix)
 	ld	(hl),#0x04
 ;src/entities/shoots.c:46: shoots[k].num_frames=1;
-	pop	hl
-	push	hl
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),#0x01
 ;src/entities/shoots.c:47: shoots[k].sprite[0]= (u8*) bullet02_0;
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	(hl),#<(_bullet02_0)
 	inc	hl
 	ld	(hl),#>(_bullet02_0)
@@ -245,42 +246,42 @@ _create_shoot::
 ;src/entities/shoots.c:49: default:
 00105$:
 ;src/entities/shoots.c:50: shoots[k].x=x;
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	pop	hl
+	push	hl
 	ld	a,4 (ix)
 	ld	(hl),a
 ;src/entities/shoots.c:51: shoots[k].y=y;
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	a,5 (ix)
 	ld	(hl),a
 ;src/entities/shoots.c:52: shoots[k].w=1;
-	ld	l,-8 (ix)
-	ld	h,-7 (ix)
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	(hl),#0x01
 ;src/entities/shoots.c:53: shoots[k].h=8;
 	ld	l,-10 (ix)
 	ld	h,-9 (ix)
 	ld	(hl),#0x08
 ;src/entities/shoots.c:54: shoots[k].num_frames=2;
-	pop	hl
-	push	hl
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),#0x02
 ;src/entities/shoots.c:55: shoots[k].sprite[0]= (u8*) bullet01_0;
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	(hl),#<(_bullet01_0)
 	inc	hl
 	ld	(hl),#>(_bullet01_0)
 ;src/entities/shoots.c:56: shoots[k].sprite[1]= (u8*) bullet01_1;
-	ld	a,-2 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x02
-	ld	-12 (ix),a
-	ld	a,-1 (ix)
+	ld	-8 (ix),a
+	ld	a,-5 (ix)
 	adc	a, #0x00
-	ld	-11 (ix),a
-	pop	hl
-	push	hl
+	ld	-7 (ix),a
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	(hl),#<(_bullet01_1)
 	inc	hl
 	ld	(hl),#>(_bullet01_1)
@@ -320,26 +321,26 @@ _update_shoots::
 	add	hl, hl
 	ld	a,#<(_shoots)
 	add	a, l
-	ld	-7 (ix),a
+	ld	-9 (ix),a
 	ld	a,#>(_shoots)
 	adc	a, h
-	ld	-6 (ix),a
-	ld	a,-7 (ix)
+	ld	-8 (ix),a
+	ld	a,-9 (ix)
 	add	a, #0x08
-	ld	-3 (ix),a
-	ld	a,-6 (ix)
+	ld	-4 (ix),a
+	ld	a,-8 (ix)
 	adc	a, #0x00
-	ld	-2 (ix),a
-	ld	l,-3 (ix)
-	ld	h,-2 (ix)
+	ld	-3 (ix),a
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	a,(hl)
 	or	a, a
 	jp	Z,00115$
 ;src/entities/shoots.c:75: shoots[i].y-=SHOOT_JUMP;
-	ld	a,-7 (ix)
+	ld	a,-9 (ix)
 	add	a, #0x05
 	ld	e,a
-	ld	a,-6 (ix)
+	ld	a,-8 (ix)
 	adc	a, #0x00
 	ld	d,a
 	ld	a,(de)
@@ -353,34 +354,30 @@ _update_shoots::
 	sub	a, #0xC8
 	jp	NC,00107$
 ;src/entities/shoots.c:77: if (check_collision_enemies(shoots[i].x,shoots[i].y,shoots[i].w,shoots[i].h)){
-	push	hl
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
-	push	hl
 	pop	iy
-	pop	hl
+	push	iy
 	ld	a,7 (iy)
-	ld	-4 (ix),a
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
+	ld	-2 (ix),a
+	pop	hl
+	push	hl
 	push	bc
 	ld	bc, #0x0006
 	add	hl, bc
 	pop	bc
 	ld	b,(hl)
-	ld	a,-7 (ix)
+	ld	a,-9 (ix)
 	add	a, #0x04
-	ld	-9 (ix),a
-	ld	a,-6 (ix)
+	ld	-7 (ix),a
+	ld	a,-8 (ix)
 	adc	a, #0x00
-	ld	-8 (ix),a
-	pop	hl
-	push	hl
+	ld	-6 (ix),a
+	ld	l,-7 (ix)
+	ld	h,-6 (ix)
 	ld	a,(hl)
 	ld	-1 (ix),a
 	push	bc
 	push	de
-	ld	a,-4 (ix)
+	ld	a,-2 (ix)
 	push	af
 	inc	sp
 	push	bc
@@ -399,8 +396,8 @@ _update_shoots::
 ;src/entities/shoots.c:78: create_explosion(shoots[i].x,shoots[i].y,0);
 	ld	a,(de)
 	ld	d,a
-	pop	hl
-	push	hl
+	ld	l,-7 (ix)
+	ld	h,-6 (ix)
 	ld	b,(hl)
 	push	bc
 	xor	a, a
@@ -415,47 +412,54 @@ _update_shoots::
 	inc	sp
 	pop	bc
 ;src/entities/shoots.c:79: shoots[i].active=0;
-	ld	l,-3 (ix)
-	ld	h,-2 (ix)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	(hl),#0x00
 ;src/entities/shoots.c:80: active_shoots--;
 	ld	hl, #_active_shoots+0
 	dec	(hl)
+;src/entities/shoots.c:81: add_score(10);
+	push	bc
+	ld	hl,#0x000A
+	push	hl
+	call	_add_score
+	pop	af
+	pop	bc
 	jr	00115$
 00104$:
-;src/entities/shoots.c:82: shoots[i].frame++;
-	ld	a,-7 (ix)
+;src/entities/shoots.c:83: shoots[i].frame++;
+	ld	a,-9 (ix)
 	add	a, #0x0A
 	ld	e,a
-	ld	a,-6 (ix)
+	ld	a,-8 (ix)
 	adc	a, #0x00
 	ld	d,a
 	ld	a,(de)
 	inc	a
 	ld	-1 (ix), a
 	ld	(de),a
-;src/entities/shoots.c:83: if (shoots[i].frame==shoots[i].num_frames)
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
+;src/entities/shoots.c:84: if (shoots[i].frame==shoots[i].num_frames)
+	pop	hl
+	push	hl
 	push	bc
 	ld	bc, #0x0009
 	add	hl, bc
 	pop	bc
 	ld	a,(hl)
-	ld	-9 (ix),a
+	ld	-7 (ix),a
 	ld	a,-1 (ix)
-	sub	a, -9 (ix)
+	sub	a, -7 (ix)
 	jr	NZ,00115$
-;src/entities/shoots.c:84: shoots[i].frame=0;
+;src/entities/shoots.c:85: shoots[i].frame=0;
 	xor	a, a
 	ld	(de),a
 	jr	00115$
 00107$:
-;src/entities/shoots.c:88: shoots[i].active=0;
-	ld	l,-3 (ix)
-	ld	h,-2 (ix)
+;src/entities/shoots.c:89: shoots[i].active=0;
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	(hl),#0x00
-;src/entities/shoots.c:89: active_shoots--;
+;src/entities/shoots.c:90: active_shoots--;
 	ld	hl, #_active_shoots+0
 	dec	(hl)
 00115$:
@@ -468,7 +472,7 @@ _update_shoots::
 	ld	sp, ix
 	pop	ix
 	ret
-;src/entities/shoots.c:101: void draw_shoots(u8* screen){
+;src/entities/shoots.c:102: void draw_shoots(u8* screen){
 ;	---------------------------------
 ; Function draw_shoots
 ; ---------------------------------
@@ -479,14 +483,14 @@ _draw_shoots::
 	push	af
 	push	af
 	dec	sp
-;src/entities/shoots.c:106: if (active_shoots>0){
+;src/entities/shoots.c:107: if (active_shoots>0){
 	ld	a,(#_active_shoots + 0)
 	or	a, a
 	jp	Z,00108$
-;src/entities/shoots.c:107: for (k=0;k<MAX_SHOOTS;k++){
+;src/entities/shoots.c:108: for (k=0;k<MAX_SHOOTS;k++){
 	ld	c,#0x00
 00106$:
-;src/entities/shoots.c:108: if (shoots[k].active){
+;src/entities/shoots.c:109: if (shoots[k].active){
 	ld	l,c
 	ld	h,#0x00
 	add	hl, hl
@@ -495,25 +499,25 @@ _draw_shoots::
 	add	hl, hl
 	ld	a,#<(_shoots)
 	add	a, l
-	ld	-5 (ix),a
+	ld	-2 (ix),a
 	ld	a,#>(_shoots)
 	adc	a, h
-	ld	-4 (ix),a
-	pop	hl
-	push	hl
+	ld	-1 (ix),a
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	de, #0x0008
 	add	hl, de
 	ld	a,(hl)
 	or	a, a
 	jr	Z,00107$
-;src/entities/shoots.c:109: pscreen = cpct_getScreenPtr(screen, shoots[k].x, shoots[k].y);
-	pop	hl
-	push	hl
+;src/entities/shoots.c:110: pscreen = cpct_getScreenPtr(screen, shoots[k].x, shoots[k].y);
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	de, #0x0005
 	add	hl, de
 	ld	d,(hl)
-	pop	hl
-	push	hl
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	inc	hl
 	inc	hl
 	inc	hl
@@ -529,52 +533,56 @@ _draw_shoots::
 	push	de
 	push	iy
 	call	_cpct_getScreenPtr
-	pop	af
-	pop	af
 	pop	bc
-	ex	de,hl
-;src/entities/shoots.c:110: cpct_drawSprite(shoots[k].sprite[shoots[k].frame],pscreen,shoots[k].w,shoots[k].h);
-	pop	iy
-	push	iy
-	ld	a,7 (iy)
-	ld	-1 (ix),a
-	pop	hl
+	ld	e, l
+	ld	d, h
+;src/entities/shoots.c:111: cpct_drawSprite(shoots[k].sprite[shoots[k].frame],pscreen,shoots[k].w,shoots[k].h);
 	push	hl
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
+	push	hl
+	pop	iy
+	pop	hl
+	ld	a,7 (iy)
+	ld	-3 (ix),a
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	push	bc
 	ld	bc, #0x0006
 	add	hl, bc
 	pop	bc
 	ld	b,(hl)
-	ld	-3 (ix),e
-	ld	-2 (ix),d
-	pop	hl
-	push	hl
+	inc	sp
+	inc	sp
+	push	de
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	de, #0x000A
 	add	hl, de
 	ld	a,(hl)
 	add	a, a
 	ld	e,a
-	pop	hl
-	push	hl
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	ld	d,#0x00
 	add	hl, de
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
 	push	bc
-	ld	a,-1 (ix)
+	ld	a,-3 (ix)
 	push	af
 	inc	sp
 	push	bc
 	inc	sp
-	ld	l,-3 (ix)
-	ld	h,-2 (ix)
+	ld	l,-5 (ix)
+	ld	h,-4 (ix)
 	push	hl
 	push	de
 	call	_cpct_drawSprite
 	pop	bc
 00107$:
-;src/entities/shoots.c:107: for (k=0;k<MAX_SHOOTS;k++){
+;src/entities/shoots.c:108: for (k=0;k<MAX_SHOOTS;k++){
 	inc	c
 	ld	a,c
 	sub	a, #0x0A

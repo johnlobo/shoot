@@ -7,59 +7,71 @@ Symbol Table
     .__.ABS.                                                    =  0000 G
     .__.CPU.                                                    =  0000 L
     .__.H$L.                                                    =  0000 L
-  0 ___str_0                                                       01C6 R
+  0 ___str_0                                                       0170 R
+  0 ___str_1                                                       0175 R
+  0 ___str_2                                                       028B R
   1 _aux_txt                                                       0010 GR
   1 _block01                                                       0000 GR
   1 _block02                                                       0007 GR
   0 _changeVideoMemoryPage                                         0000 GR
-  1 _changeVideoMemoryPage_page_1_86                               0038 R
-  0 _clear_screen                                                  0078 GR
+  1 _changeVideoMemoryPage_page_1_88                               0038 R
+  0 _clear_screen                                                  0076 GR
+    _colour_message                                                **** GX
     _cpc_PrintGphStr                                               **** GX
-    _cpc_SetInkGphStr                                              **** GX
     _cpct_drawSolidBox                                             **** GX
     _cpct_fw2hw                                                    **** GX
     _cpct_getScreenPtr                                             **** GX
-    _cpct_memset                                                   **** GX
+    _cpct_memset_f64                                               **** GX
     _cpct_px2byteM0                                                **** GX
     _cpct_setPALColour                                             **** GX
     _cpct_setPalette                                               **** GX
+    _cpct_setRandomSeedUniform_u8                                  **** GX
     _cpct_setVideoMemoryPage                                       **** GX
     _cpct_setVideoMode                                             **** GX
+    _create_message                                                **** GX
   0 _draw_blocks                                                   0028 GR
     _draw_enemies                                                  **** GX
     _draw_explosions                                               **** GX
-  0 _draw_scoreboard                                               0187 GR
+    _draw_messages                                                 **** GX
+  0 _draw_scoreboard                                               0117 GR
     _draw_shoots                                                   **** GX
     _draw_stars                                                    **** GX
     _draw_user                                                     **** GX
+    _get_score                                                     **** GX
+    _get_time                                                      **** GX
     _init_enemies                                                  **** GX
     _init_explosions                                               **** GX
+    _init_messages                                                 **** GX
     _init_shoots                                                   **** GX
     _init_stars                                                    **** GX
     _init_user                                                     **** GX
-  0 _initialization                                                01CF GR
-  0 _letras_azules                                                 0118 GR
-  0 _letras_rojas                                                  0136 GR
-  0 _main                                                          0223 GR
+  0 _initialization                                                017E GR
+  0 _main                                                          01D9 GR
     _palette                                                       **** GX
   1 _pvmem                                                         000E GR
-  0 _set_color                                                     0154 GR
+    _red_message                                                   **** GX
     _set_stack                                                     **** GX
+    _sprintf                                                       **** GX
     _timer_on                                                      **** GX
-  0 _update_blocks                                                 0088 GR
+  0 _update_blocks                                                 0087 GR
     _update_enemies                                                **** GX
     _update_explosions                                             **** GX
     _update_shoots                                                 **** GX
     _update_stars                                                  **** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
     _update_user                                                   **** GX
 
 
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  2D1   flags    0
+   0 _CODE                                      size  29D   flags    0
    1 _DATA                                      size   39   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

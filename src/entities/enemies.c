@@ -28,7 +28,7 @@ u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h){
 
 	for (i=0;i<MAX_ENEMIES;i++){
 		if ((enemies[i].active) && (enemies[i].x>0) && (enemies[i].y>0)){
-			if (detectColision(x,y,w,h,(u8) enemies[i].x,(u8) enemies[i].y, enemies[i].w, enemies[i].h)){
+			if (fast_collision(x,y,w,h,(u8) enemies[i].x,(u8) enemies[i].y, enemies[i].w, enemies[i].h)){
 				collision = 1;
 				enemies[i].active = 0;
 				active_enemies--;

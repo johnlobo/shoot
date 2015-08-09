@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 3.5.0 #9253 (Jul 21 2015) (Mac OS X x86_64)
-; This file was generated Thu Jul 23 01:06:49 2015
+; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
+; This file was generated Fri Aug  7 15:43:51 2015
 ;--------------------------------------------------------
 	.module enemies
 	.optsdcc -mz80
@@ -11,6 +11,7 @@
 ;--------------------------------------------------------
 	.globl _inside_screen
 	.globl _detectColision
+	.globl _fast_collision
 	.globl _cpct_getScreenPtr
 	.globl _cpct_drawSprite
 	.globl _active_groups
@@ -164,12 +165,12 @@ _check_collision_enemies::
 	push	de
 	pop	iy
 	ld	a,16 (iy)
-	ld	-5 (ix),a
+	ld	-2 (ix),a
 	ld	a,17 (iy)
-	ld	-4 (ix),a
+	ld	-1 (ix),a
 	xor	a, a
-	cp	a, -5 (ix)
-	sbc	a, -4 (ix)
+	cp	a, -2 (ix)
+	sbc	a, -1 (ix)
 	jp	PO, 00137$
 	xor	a, #0x80
 00137$:
@@ -177,30 +178,30 @@ _check_collision_enemies::
 	push	de
 	pop	iy
 	ld	a,18 (iy)
-	ld	-2 (ix),a
+	ld	-4 (ix),a
 	ld	a,19 (iy)
-	ld	-1 (ix),a
+	ld	-3 (ix),a
 	xor	a, a
-	cp	a, -2 (ix)
-	sbc	a, -1 (ix)
+	cp	a, -4 (ix)
+	sbc	a, -3 (ix)
 	jp	PO, 00138$
 	xor	a, #0x80
 00138$:
 	jp	P,00109$
-;src/entities/enemies.c:31: if (detectColision(x,y,w,h,(u8) enemies[i].x,(u8) enemies[i].y, enemies[i].w, enemies[i].h)){
+;src/entities/enemies.c:31: if (fast_collision(x,y,w,h,(u8) enemies[i].x,(u8) enemies[i].y, enemies[i].w, enemies[i].h)){
 	push	de
 	pop	iy
 	ld	a,21 (iy)
-	ld	-6 (ix),a
+	ld	-5 (ix),a
 	push	de
 	pop	iy
 	ld	a,20 (iy)
-	ld	-3 (ix),a
-	ld	d,-2 (ix)
-	ld	e,-5 (ix)
+	ld	-6 (ix),a
+	ld	d,-4 (ix)
+	ld	e,-2 (ix)
 	push	bc
-	ld	h,-6 (ix)
-	ld	l,-3 (ix)
+	ld	h,-5 (ix)
+	ld	l,-6 (ix)
 	push	hl
 	push	de
 	ld	h,7 (ix)
@@ -209,7 +210,7 @@ _check_collision_enemies::
 	ld	h,5 (ix)
 	ld	l,4 (ix)
 	push	hl
-	call	_detectColision
+	call	_fast_collision
 	pop	af
 	pop	af
 	pop	af
@@ -855,48 +856,48 @@ _update_enemies::
 	jp	Z,00112$
 ;src/entities/enemies.c:163: for (i=0;i<MAX_ENEMIES;i++){
 	ld	-21 (ix),#0x00
-	ld	-5 (ix),#0x00
+	ld	-2 (ix),#0x00
+	ld	-1 (ix),#0x00
 	ld	-4 (ix),#0x00
 	ld	-3 (ix),#0x00
-	ld	-2 (ix),#0x00
 00124$:
 ;src/entities/enemies.c:164: if (enemies[i].active){
 	ld	a,#<(_enemies)
-	add	a, -3 (ix)
-	ld	-20 (ix),a
+	add	a, -4 (ix)
+	ld	-6 (ix),a
 	ld	a,#>(_enemies)
-	adc	a, -2 (ix)
-	ld	-19 (ix),a
-	ld	c,-20 (ix)
-	ld	b,-19 (ix)
+	adc	a, -3 (ix)
+	ld	-5 (ix),a
+	ld	c,-6 (ix)
+	ld	b,-5 (ix)
 	push	bc
 	pop	iy
 	ld	a,23 (iy)
-	ld	-1 (ix), a
+	ld	-7 (ix), a
 	or	a, a
 	jp	Z,00125$
 ;src/entities/enemies.c:165: if (enemies[i].movement<99){
-	ld	a,-20 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x1D
-	ld	-7 (ix),a
-	ld	a,-19 (ix)
+	ld	-9 (ix),a
+	ld	a,-5 (ix)
 	adc	a, #0x00
-	ld	-6 (ix),a
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
+	ld	-8 (ix),a
+	ld	l,-9 (ix)
+	ld	h,-8 (ix)
 	ld	d,(hl)
 	ld	a,d
 	sub	a, #0x63
 	jp	NC,00125$
 ;src/entities/enemies.c:166: if (enemies[i].stage_step<movements[enemies[i].movement].stages[enemies[i].stage].num_steps){
-	ld	a,-20 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x1F
-	ld	-9 (ix),a
-	ld	a,-19 (ix)
+	ld	-11 (ix),a
+	ld	a,-5 (ix)
 	adc	a, #0x00
-	ld	-8 (ix),a
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	-10 (ix),a
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	e,(hl)
 	ld	c,d
 	ld	b,#0x00
@@ -913,25 +914,25 @@ _update_enemies::
 	inc	hl
 	ld	b,l
 	ld	d,h
-	ld	a,-20 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x1E
-	ld	-11 (ix),a
-	ld	a,-19 (ix)
-	adc	a, #0x00
-	ld	-10 (ix),a
-	ld	l,-11 (ix)
-	ld	h,-10 (ix)
-	ld	a,(hl)
-	ld	-1 (ix), a
-	add	a, a
-	add	a, a
-	add	a,b
 	ld	-13 (ix),a
-	ld	a,d
+	ld	a,-5 (ix)
 	adc	a, #0x00
 	ld	-12 (ix),a
 	ld	l,-13 (ix)
 	ld	h,-12 (ix)
+	ld	a,(hl)
+	ld	-7 (ix), a
+	add	a, a
+	add	a, a
+	add	a,b
+	ld	-15 (ix),a
+	ld	a,d
+	adc	a, #0x00
+	ld	-14 (ix),a
+	ld	l,-15 (ix)
+	ld	h,-14 (ix)
 	inc	hl
 	inc	hl
 	inc	hl
@@ -940,36 +941,36 @@ _update_enemies::
 	sub	a, h
 	jp	NC,00104$
 ;src/entities/enemies.c:167: enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
-	ld	a,-20 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x16
-	ld	-15 (ix),a
-	ld	a,-19 (ix)
+	ld	-17 (ix),a
+	ld	a,-5 (ix)
 	adc	a, #0x00
-	ld	-14 (ix),a
-	ld	l,-13 (ix)
-	ld	h,-12 (ix)
-	ld	a,(hl)
-	ld	-13 (ix),a
+	ld	-16 (ix),a
 	ld	l,-15 (ix)
 	ld	h,-14 (ix)
-	ld	a,-13 (ix)
+	ld	a,(hl)
+	ld	-15 (ix),a
+	ld	l,-17 (ix)
+	ld	h,-16 (ix)
+	ld	a,-15 (ix)
 	ld	(hl),a
 ;src/entities/enemies.c:168: enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
-	ld	a,-20 (ix)
+	ld	a,-6 (ix)
 	add	a, #0x10
-	ld	-15 (ix),a
-	ld	a,-19 (ix)
+	ld	-17 (ix),a
+	ld	a,-5 (ix)
 	adc	a, #0x00
-	ld	-14 (ix),a
-	ld	l,-15 (ix)
-	ld	h,-14 (ix)
+	ld	-16 (ix),a
+	ld	l,-17 (ix)
+	ld	h,-16 (ix)
 	ld	a,(hl)
-	ld	-13 (ix),a
+	ld	-15 (ix),a
 	inc	hl
 	ld	a,(hl)
-	ld	-12 (ix),a
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
+	ld	-14 (ix),a
+	ld	l,-9 (ix)
+	ld	h,-8 (ix)
 	ld	c, (hl)
 	ld	b,#0x00
 	ld	l, c
@@ -982,152 +983,152 @@ _update_enemies::
 	add	hl, bc
 	ld	a,#<(_movements)
 	add	a, l
-	ld	-17 (ix),a
+	ld	-19 (ix),a
 	ld	a,#>(_movements)
 	adc	a, h
-	ld	-16 (ix),a
-	inc	-17 (ix)
+	ld	-18 (ix),a
+	inc	-19 (ix)
 	jr	NZ,00176$
-	inc	-16 (ix)
+	inc	-18 (ix)
 00176$:
-	ld	l,-11 (ix)
-	ld	h,-10 (ix)
-	ld	a,(hl)
-	ld	-18 (ix), a
-	add	a, a
-	add	a, a
-	ld	h,a
-	ld	a,-17 (ix)
-	add	a, h
-	ld	-17 (ix),a
-	ld	a,-16 (ix)
-	adc	a, #0x00
-	ld	-16 (ix),a
-	ld	l,-17 (ix)
-	ld	h,-16 (ix)
-	inc	hl
-	ld	a,(hl)
-	ld	-18 (ix), a
-	ld	-17 (ix),a
-	ld	a,-18 (ix)
-	rla
-	sbc	a, a
-	ld	-16 (ix),a
-	ld	a,-13 (ix)
-	add	a, -17 (ix)
-	ld	-17 (ix),a
-	ld	a,-12 (ix)
-	adc	a, -16 (ix)
-	ld	-16 (ix),a
-	ld	l,-15 (ix)
-	ld	h,-14 (ix)
-	ld	a,-17 (ix)
-	ld	(hl),a
-	inc	hl
-	ld	a,-16 (ix)
-	ld	(hl),a
-;src/entities/enemies.c:169: enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
-	ld	a,-20 (ix)
-	add	a, #0x12
-	ld	-17 (ix),a
-	ld	a,-19 (ix)
-	adc	a, #0x00
-	ld	-16 (ix),a
-	ld	l,-17 (ix)
-	ld	h,-16 (ix)
-	ld	a,(hl)
-	ld	-15 (ix),a
-	inc	hl
-	ld	a,(hl)
-	ld	-14 (ix),a
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
-	ld	c, (hl)
-	ld	b,#0x00
-	ld	l, c
-	ld	h, b
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, bc
-	ld	a,#<(_movements)
-	add	a, l
-	ld	-13 (ix),a
-	ld	a,#>(_movements)
-	adc	a, h
-	ld	-12 (ix),a
-	inc	-13 (ix)
-	jr	NZ,00177$
-	inc	-12 (ix)
-00177$:
-	ld	l,-11 (ix)
-	ld	h,-10 (ix)
-	ld	a,(hl)
-	ld	-18 (ix), a
-	add	a, a
-	add	a, a
-	ld	h,a
-	ld	a,-13 (ix)
-	add	a, h
-	ld	-13 (ix),a
-	ld	a,-12 (ix)
-	adc	a, #0x00
-	ld	-12 (ix),a
 	ld	l,-13 (ix)
 	ld	h,-12 (ix)
-	inc	hl
+	ld	a,(hl)
+	ld	-20 (ix), a
+	add	a, a
+	add	a, a
+	ld	h,a
+	ld	a,-19 (ix)
+	add	a, h
+	ld	-19 (ix),a
+	ld	a,-18 (ix)
+	adc	a, #0x00
+	ld	-18 (ix),a
+	ld	l,-19 (ix)
+	ld	h,-18 (ix)
 	inc	hl
 	ld	a,(hl)
-	ld	-18 (ix), a
-	ld	-13 (ix),a
-	ld	a,-18 (ix)
+	ld	-20 (ix), a
+	ld	-19 (ix),a
+	ld	a,-20 (ix)
 	rla
 	sbc	a, a
-	ld	-12 (ix),a
+	ld	-18 (ix),a
 	ld	a,-15 (ix)
-	add	a, -13 (ix)
-	ld	-15 (ix),a
+	add	a, -19 (ix)
+	ld	-19 (ix),a
 	ld	a,-14 (ix)
-	adc	a, -12 (ix)
-	ld	-14 (ix),a
+	adc	a, -18 (ix)
+	ld	-18 (ix),a
 	ld	l,-17 (ix)
 	ld	h,-16 (ix)
-	ld	a,-15 (ix)
+	ld	a,-19 (ix)
 	ld	(hl),a
 	inc	hl
+	ld	a,-18 (ix)
+	ld	(hl),a
+;src/entities/enemies.c:169: enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
+	ld	a,-6 (ix)
+	add	a, #0x12
+	ld	-19 (ix),a
+	ld	a,-5 (ix)
+	adc	a, #0x00
+	ld	-18 (ix),a
+	ld	l,-19 (ix)
+	ld	h,-18 (ix)
+	ld	a,(hl)
+	ld	-17 (ix),a
+	inc	hl
+	ld	a,(hl)
+	ld	-16 (ix),a
+	ld	l,-9 (ix)
+	ld	h,-8 (ix)
+	ld	c, (hl)
+	ld	b,#0x00
+	ld	l, c
+	ld	h, b
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, bc
+	ld	a,#<(_movements)
+	add	a, l
+	ld	-15 (ix),a
+	ld	a,#>(_movements)
+	adc	a, h
+	ld	-14 (ix),a
+	inc	-15 (ix)
+	jr	NZ,00177$
+	inc	-14 (ix)
+00177$:
+	ld	l,-13 (ix)
+	ld	h,-12 (ix)
+	ld	a,(hl)
+	ld	-20 (ix), a
+	add	a, a
+	add	a, a
+	ld	h,a
+	ld	a,-15 (ix)
+	add	a, h
+	ld	-15 (ix),a
 	ld	a,-14 (ix)
+	adc	a, #0x00
+	ld	-14 (ix),a
+	ld	l,-15 (ix)
+	ld	h,-14 (ix)
+	inc	hl
+	inc	hl
+	ld	a,(hl)
+	ld	-20 (ix), a
+	ld	-15 (ix),a
+	ld	a,-20 (ix)
+	rla
+	sbc	a, a
+	ld	-14 (ix),a
+	ld	a,-17 (ix)
+	add	a, -15 (ix)
+	ld	-17 (ix),a
+	ld	a,-16 (ix)
+	adc	a, -14 (ix)
+	ld	-16 (ix),a
+	ld	l,-19 (ix)
+	ld	h,-18 (ix)
+	ld	a,-17 (ix)
+	ld	(hl),a
+	inc	hl
+	ld	a,-16 (ix)
 	ld	(hl),a
 ;src/entities/enemies.c:170: enemies[i].stage_step++;
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	a,(hl)
-	ld	-18 (ix),a
-	inc	-18 (ix)
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
-	ld	a,-18 (ix)
+	ld	-20 (ix),a
+	inc	-20 (ix)
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
+	ld	a,-20 (ix)
 	ld	(hl),a
 	jp	00125$
 00104$:
 ;src/entities/enemies.c:172: enemies[i].stage++;
-	ld	a,-1 (ix)
+	ld	a,-7 (ix)
 	inc	a
-	ld	-18 (ix),a
-	ld	l,-11 (ix)
-	ld	h,-10 (ix)
-	ld	a,-18 (ix)
+	ld	-20 (ix),a
+	ld	l,-13 (ix)
+	ld	h,-12 (ix)
+	ld	a,-20 (ix)
 	ld	(hl),a
 ;src/entities/enemies.c:173: enemies[i].stage_step=0;
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	(hl),#0x00
 ;src/entities/enemies.c:174: if (enemies[i].stage>=movements[enemies[i].movement].num_stages){
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
+	ld	l,-9 (ix)
+	ld	h,-8 (ix)
 	ld	a,(hl)
-	ld	-17 (ix), a
+	ld	-19 (ix), a
 	ld	c, a
 	ld	b,#0x00
 	ld	l, c
@@ -1138,188 +1139,48 @@ _update_enemies::
 	add	hl, hl
 	add	hl, hl
 	add	hl, bc
-	ld	-17 (ix),l
-	ld	-16 (ix),h
+	ld	-19 (ix),l
+	ld	-18 (ix),h
 	ld	a,#<(_movements)
-	add	a, -17 (ix)
-	ld	-17 (ix),a
+	add	a, -19 (ix)
+	ld	-19 (ix),a
 	ld	a,#>(_movements)
-	adc	a, -16 (ix)
-	ld	-16 (ix),a
-	ld	l,-17 (ix)
-	ld	h,-16 (ix)
+	adc	a, -18 (ix)
+	ld	-18 (ix),a
+	ld	l,-19 (ix)
+	ld	h,-18 (ix)
 	ld	a,(hl)
-	ld	-17 (ix),a
-	ld	a,-18 (ix)
-	sub	a, -17 (ix)
+	ld	-19 (ix),a
+	ld	a,-20 (ix)
+	sub	a, -19 (ix)
 	jr	C,00102$
 ;src/entities/enemies.c:175: enemies[i].stage=0;
-	ld	l,-11 (ix)
-	ld	h,-10 (ix)
+	ld	l,-13 (ix)
+	ld	h,-12 (ix)
 	ld	(hl),#0x00
 00102$:
 ;src/entities/enemies.c:177: enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
 	ld	a,#<(_enemies)
-	add	a, -5 (ix)
-	ld	-17 (ix),a
+	add	a, -2 (ix)
+	ld	-19 (ix),a
 	ld	a,#>(_enemies)
-	adc	a, -4 (ix)
-	ld	-16 (ix),a
-	ld	a,-17 (ix)
-	add	a, #0x16
-	ld	-15 (ix),a
-	ld	a,-16 (ix)
-	adc	a, #0x00
-	ld	-14 (ix),a
-	ld	a,-17 (ix)
-	add	a, #0x1D
-	ld	-13 (ix),a
-	ld	a,-16 (ix)
-	adc	a, #0x00
-	ld	-12 (ix),a
-	ld	l,-13 (ix)
-	ld	h,-12 (ix)
-	ld	c, (hl)
-	ld	b,#0x00
-	ld	l, c
-	ld	h, b
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, bc
-	ld	-11 (ix),l
-	ld	-10 (ix),h
-	ld	a,#<(_movements)
-	add	a, -11 (ix)
-	ld	-11 (ix),a
-	ld	a,#>(_movements)
-	adc	a, -10 (ix)
-	ld	-10 (ix),a
-	inc	-11 (ix)
-	jr	NZ,00178$
-	inc	-10 (ix)
-00178$:
-	ld	a,-17 (ix)
-	add	a, #0x1E
-	ld	-9 (ix),a
-	ld	a,-16 (ix)
-	adc	a, #0x00
-	ld	-8 (ix),a
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
-	ld	a,(hl)
-	add	a, a
-	add	a, a
-	ld	h,a
-	ld	a,-11 (ix)
-	add	a, h
-	ld	-11 (ix),a
-	ld	a,-10 (ix)
-	adc	a, #0x00
-	ld	-10 (ix),a
-	ld	l,-11 (ix)
-	ld	h,-10 (ix)
-	ld	a,(hl)
+	adc	a, -1 (ix)
 	ld	-18 (ix),a
-	ld	l,-15 (ix)
-	ld	h,-14 (ix)
+	ld	a,-19 (ix)
+	add	a, #0x16
+	ld	-17 (ix),a
 	ld	a,-18 (ix)
-	ld	(hl),a
-;src/entities/enemies.c:178: enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
-	ld	a,-17 (ix)
-	add	a, #0x10
+	adc	a, #0x00
+	ld	-16 (ix),a
+	ld	a,-19 (ix)
+	add	a, #0x1D
 	ld	-15 (ix),a
-	ld	a,-16 (ix)
+	ld	a,-18 (ix)
 	adc	a, #0x00
 	ld	-14 (ix),a
 	ld	l,-15 (ix)
 	ld	h,-14 (ix)
-	ld	a,(hl)
-	ld	-11 (ix),a
-	inc	hl
-	ld	a,(hl)
-	ld	-10 (ix),a
-	ld	l,-13 (ix)
-	ld	h,-12 (ix)
 	ld	c, (hl)
-	ld	b,#0x00
-	ld	l, c
-	ld	h, b
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, hl
-	add	hl, bc
-	ld	-7 (ix),l
-	ld	-6 (ix),h
-	ld	a,#<(_movements)
-	add	a, -7 (ix)
-	ld	-7 (ix),a
-	ld	a,#>(_movements)
-	adc	a, -6 (ix)
-	ld	-6 (ix),a
-	inc	-7 (ix)
-	jr	NZ,00179$
-	inc	-6 (ix)
-00179$:
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
-	ld	a,(hl)
-	ld	-18 (ix), a
-	add	a, a
-	add	a, a
-	ld	h,a
-	ld	a,-7 (ix)
-	add	a, h
-	ld	-7 (ix),a
-	ld	a,-6 (ix)
-	adc	a, #0x00
-	ld	-6 (ix),a
-	ld	l,-7 (ix)
-	ld	h,-6 (ix)
-	inc	hl
-	ld	a,(hl)
-	ld	-18 (ix), a
-	ld	-7 (ix),a
-	ld	a,-18 (ix)
-	rla
-	sbc	a, a
-	ld	-6 (ix),a
-	ld	a,-11 (ix)
-	add	a, -7 (ix)
-	ld	-11 (ix),a
-	ld	a,-10 (ix)
-	adc	a, -6 (ix)
-	ld	-10 (ix),a
-	ld	l,-15 (ix)
-	ld	h,-14 (ix)
-	ld	a,-11 (ix)
-	ld	(hl),a
-	inc	hl
-	ld	a,-10 (ix)
-	ld	(hl),a
-;src/entities/enemies.c:179: enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
-	ld	a,-17 (ix)
-	add	a, #0x12
-	ld	-15 (ix),a
-	ld	a,-16 (ix)
-	adc	a, #0x00
-	ld	-14 (ix),a
-	ld	l,-15 (ix)
-	ld	h,-14 (ix)
-	ld	a,(hl)
-	ld	-11 (ix),a
-	inc	hl
-	ld	a,(hl)
-	ld	-10 (ix),a
-	ld	l,-13 (ix)
-	ld	h,-12 (ix)
-	ld	a,(hl)
-	ld	-18 (ix), a
-	ld	c, a
 	ld	b,#0x00
 	ld	l, c
 	ld	h, b
@@ -1338,74 +1199,214 @@ _update_enemies::
 	adc	a, -12 (ix)
 	ld	-12 (ix),a
 	inc	-13 (ix)
-	jr	NZ,00180$
+	jr	NZ,00178$
 	inc	-12 (ix)
-00180$:
-	ld	l,-9 (ix)
-	ld	h,-8 (ix)
+00178$:
+	ld	a,-19 (ix)
+	add	a, #0x1E
+	ld	-11 (ix),a
+	ld	a,-18 (ix)
+	adc	a, #0x00
+	ld	-10 (ix),a
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
 	ld	a,(hl)
-	ld	-18 (ix),a
-	sla	-18 (ix)
-	sla	-18 (ix)
+	add	a, a
+	add	a, a
+	ld	h,a
 	ld	a,-13 (ix)
-	add	a, -18 (ix)
+	add	a, h
 	ld	-13 (ix),a
 	ld	a,-12 (ix)
 	adc	a, #0x00
 	ld	-12 (ix),a
 	ld	l,-13 (ix)
 	ld	h,-12 (ix)
-	inc	hl
-	inc	hl
 	ld	a,(hl)
-	ld	-18 (ix), a
-	ld	-13 (ix),a
-	ld	a,-18 (ix)
-	rla
-	sbc	a, a
-	ld	-12 (ix),a
-	ld	a,-11 (ix)
-	add	a, -13 (ix)
-	ld	-13 (ix),a
-	ld	a,-10 (ix)
-	adc	a, -12 (ix)
-	ld	-12 (ix),a
-	ld	l,-15 (ix)
-	ld	h,-14 (ix)
-	ld	a,-13 (ix)
+	ld	-20 (ix),a
+	ld	l,-17 (ix)
+	ld	h,-16 (ix)
+	ld	a,-20 (ix)
 	ld	(hl),a
-	inc	hl
-	ld	a,-12 (ix)
-	ld	(hl),a
-;src/entities/enemies.c:180: enemies[i].stage_step++;
-	ld	a,-17 (ix)
-	add	a, #0x1F
+;src/entities/enemies.c:178: enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
+	ld	a,-19 (ix)
+	add	a, #0x10
 	ld	-17 (ix),a
-	ld	a,-16 (ix)
+	ld	a,-18 (ix)
 	adc	a, #0x00
 	ld	-16 (ix),a
 	ld	l,-17 (ix)
 	ld	h,-16 (ix)
 	ld	a,(hl)
-	ld	-18 (ix), a
-	inc	a
+	ld	-13 (ix),a
+	inc	hl
+	ld	a,(hl)
+	ld	-12 (ix),a
+	ld	l,-15 (ix)
+	ld	h,-14 (ix)
+	ld	c, (hl)
+	ld	b,#0x00
+	ld	l, c
+	ld	h, b
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, bc
+	ld	-9 (ix),l
+	ld	-8 (ix),h
+	ld	a,#<(_movements)
+	add	a, -9 (ix)
+	ld	-9 (ix),a
+	ld	a,#>(_movements)
+	adc	a, -8 (ix)
+	ld	-8 (ix),a
+	inc	-9 (ix)
+	jr	NZ,00179$
+	inc	-8 (ix)
+00179$:
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
+	ld	a,(hl)
+	ld	-20 (ix), a
+	add	a, a
+	add	a, a
+	ld	h,a
+	ld	a,-9 (ix)
+	add	a, h
+	ld	-9 (ix),a
+	ld	a,-8 (ix)
+	adc	a, #0x00
+	ld	-8 (ix),a
+	ld	l,-9 (ix)
+	ld	h,-8 (ix)
+	inc	hl
+	ld	a,(hl)
+	ld	-20 (ix), a
+	ld	-9 (ix),a
+	ld	a,-20 (ix)
+	rla
+	sbc	a, a
+	ld	-8 (ix),a
+	ld	a,-13 (ix)
+	add	a, -9 (ix)
+	ld	-13 (ix),a
+	ld	a,-12 (ix)
+	adc	a, -8 (ix)
+	ld	-12 (ix),a
 	ld	l,-17 (ix)
 	ld	h,-16 (ix)
+	ld	a,-13 (ix)
+	ld	(hl),a
+	inc	hl
+	ld	a,-12 (ix)
+	ld	(hl),a
+;src/entities/enemies.c:179: enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
+	ld	a,-19 (ix)
+	add	a, #0x12
+	ld	-17 (ix),a
+	ld	a,-18 (ix)
+	adc	a, #0x00
+	ld	-16 (ix),a
+	ld	l,-17 (ix)
+	ld	h,-16 (ix)
+	ld	a,(hl)
+	ld	-13 (ix),a
+	inc	hl
+	ld	a,(hl)
+	ld	-12 (ix),a
+	ld	l,-15 (ix)
+	ld	h,-14 (ix)
+	ld	a,(hl)
+	ld	-20 (ix), a
+	ld	c, a
+	ld	b,#0x00
+	ld	l, c
+	ld	h, b
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, hl
+	add	hl, bc
+	ld	-15 (ix),l
+	ld	-14 (ix),h
+	ld	a,#<(_movements)
+	add	a, -15 (ix)
+	ld	-15 (ix),a
+	ld	a,#>(_movements)
+	adc	a, -14 (ix)
+	ld	-14 (ix),a
+	inc	-15 (ix)
+	jr	NZ,00180$
+	inc	-14 (ix)
+00180$:
+	ld	l,-11 (ix)
+	ld	h,-10 (ix)
+	ld	a,(hl)
+	ld	-20 (ix),a
+	sla	-20 (ix)
+	sla	-20 (ix)
+	ld	a,-15 (ix)
+	add	a, -20 (ix)
+	ld	-15 (ix),a
+	ld	a,-14 (ix)
+	adc	a, #0x00
+	ld	-14 (ix),a
+	ld	l,-15 (ix)
+	ld	h,-14 (ix)
+	inc	hl
+	inc	hl
+	ld	a,(hl)
+	ld	-20 (ix), a
+	ld	-15 (ix),a
+	ld	a,-20 (ix)
+	rla
+	sbc	a, a
+	ld	-14 (ix),a
+	ld	a,-13 (ix)
+	add	a, -15 (ix)
+	ld	-15 (ix),a
+	ld	a,-12 (ix)
+	adc	a, -14 (ix)
+	ld	-14 (ix),a
+	ld	l,-17 (ix)
+	ld	h,-16 (ix)
+	ld	a,-15 (ix)
+	ld	(hl),a
+	inc	hl
+	ld	a,-14 (ix)
+	ld	(hl),a
+;src/entities/enemies.c:180: enemies[i].stage_step++;
+	ld	a,-19 (ix)
+	add	a, #0x1F
+	ld	-19 (ix),a
+	ld	a,-18 (ix)
+	adc	a, #0x00
+	ld	-18 (ix),a
+	ld	l,-19 (ix)
+	ld	h,-18 (ix)
+	ld	a,(hl)
+	ld	-20 (ix), a
+	inc	a
+	ld	l,-19 (ix)
+	ld	h,-18 (ix)
 	ld	(hl),a
 00125$:
 ;src/entities/enemies.c:163: for (i=0;i<MAX_ENEMIES;i++){
-	ld	a,-5 (ix)
+	ld	a,-2 (ix)
 	add	a, #0x24
-	ld	-5 (ix),a
-	ld	a,-4 (ix)
+	ld	-2 (ix),a
+	ld	a,-1 (ix)
 	adc	a, #0x00
+	ld	-1 (ix),a
+	ld	a,-4 (ix)
+	add	a, #0x24
 	ld	-4 (ix),a
 	ld	a,-3 (ix)
-	add	a, #0x24
-	ld	-3 (ix),a
-	ld	a,-2 (ix)
 	adc	a, #0x00
-	ld	-2 (ix),a
+	ld	-3 (ix),a
 	inc	-21 (ix)
 	ld	a,-21 (ix)
 	sub	a, #0x1E
@@ -1466,28 +1467,28 @@ _update_enemies::
 	inc	hl
 	inc	hl
 	ld	a,(hl)
-	ld	-18 (ix),a
+	ld	-20 (ix),a
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
 	inc	hl
 	ld	a,(hl)
-	ld	-17 (ix),a
+	ld	-19 (ix),a
 	inc	hl
 	ld	a,(hl)
-	ld	-16 (ix),a
+	ld	-18 (ix),a
 	ex	de,hl
 	inc	hl
 	ld	e,(hl)
 	inc	hl
 	ld	d,(hl)
 	push	bc
-	ld	a,-18 (ix)
+	ld	a,-20 (ix)
 	push	af
 	inc	sp
-	ld	l,-17 (ix)
-	ld	h,-16 (ix)
+	ld	l,-19 (ix)
+	ld	h,-18 (ix)
 	push	hl
 	push	de
 	call	_create_enemy
@@ -1583,66 +1584,66 @@ _draw_enemies::
 ;src/entities/enemies.c:226: if ((enemies[k].active) && inside_screen(enemies[k].x,enemies[k].y,enemies[k].w,enemies[k].h)){
 	ld	hl,#_enemies
 	add	hl,de
-	ld	-4 (ix),l
-	ld	-3 (ix),h
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	-14 (ix),l
+	ld	-13 (ix),h
+	ld	l,-14 (ix)
+	ld	h,-13 (ix)
 	ld	bc, #0x0017
 	add	hl, bc
 	ld	a,(hl)
 	or	a, a
 	jp	Z,00108$
-	ld	a,-4 (ix)
+	ld	a,-14 (ix)
 	add	a, #0x15
-	ld	-14 (ix),a
-	ld	a,-3 (ix)
+	ld	-8 (ix),a
+	ld	a,-13 (ix)
 	adc	a, #0x00
-	ld	-13 (ix),a
-	ld	l,-14 (ix)
-	ld	h,-13 (ix)
+	ld	-7 (ix),a
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	b,(hl)
-	ld	a,-4 (ix)
+	ld	a,-14 (ix)
 	add	a, #0x14
-	ld	-2 (ix),a
-	ld	a,-3 (ix)
-	adc	a, #0x00
-	ld	-1 (ix),a
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
-	ld	c,(hl)
-	ld	a,-4 (ix)
-	add	a, #0x12
 	ld	-6 (ix),a
-	ld	a,-3 (ix)
+	ld	a,-13 (ix)
 	adc	a, #0x00
 	ld	-5 (ix),a
 	ld	l,-6 (ix)
 	ld	h,-5 (ix)
+	ld	c,(hl)
+	ld	a,-14 (ix)
+	add	a, #0x12
+	ld	-12 (ix),a
+	ld	a,-13 (ix)
+	adc	a, #0x00
+	ld	-11 (ix),a
+	ld	l,-12 (ix)
+	ld	h,-11 (ix)
 	ld	a,(hl)
-	ld	-8 (ix),a
+	ld	-4 (ix),a
 	inc	hl
 	ld	a,(hl)
-	ld	-7 (ix),a
-	ld	a,-4 (ix)
+	ld	-3 (ix),a
+	ld	a,-14 (ix)
 	add	a, #0x10
 	ld	-10 (ix),a
-	ld	a,-3 (ix)
+	ld	a,-13 (ix)
 	adc	a, #0x00
 	ld	-9 (ix),a
 	ld	l,-10 (ix)
 	ld	h,-9 (ix)
 	ld	a,(hl)
-	ld	-12 (ix),a
+	ld	-2 (ix),a
 	inc	hl
 	ld	a,(hl)
-	ld	-11 (ix),a
+	ld	-1 (ix),a
 	push	de
 	push	bc
-	ld	l,-8 (ix)
-	ld	h,-7 (ix)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	push	hl
-	ld	l,-12 (ix)
-	ld	h,-11 (ix)
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	push	hl
 	call	_inside_screen
 	pop	af
@@ -1653,8 +1654,8 @@ _draw_enemies::
 	or	a, a
 	jr	Z,00108$
 ;src/entities/enemies.c:227: pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-12 (ix)
+	ld	h,-11 (ix)
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
@@ -1679,42 +1680,40 @@ _draw_enemies::
 	inc	sp
 	push	iy
 	call	_cpct_getScreenPtr
-	pop	af
-	pop	af
 	pop	de
 	ld	c, l
 	ld	b, h
 ;src/entities/enemies.c:228: cpct_drawSprite(enemies[k].sprite[enemies[k].dir],pscreen,enemies[k].w,enemies[k].h);
-	ld	l,-14 (ix)
-	ld	h,-13 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	a,(hl)
-	ld	-12 (ix),a
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	-2 (ix),a
+	ld	l,-6 (ix)
+	ld	h,-5 (ix)
 	ld	a,(hl)
 	ld	-10 (ix),a
-	ld	-8 (ix),c
-	ld	-7 (ix),b
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	-4 (ix),c
+	ld	-3 (ix),b
+	ld	l,-14 (ix)
+	ld	h,-13 (ix)
 	ld	bc, #0x0016
 	add	hl, bc
 	ld	a,(hl)
 	add	a, a
 	ld	c,a
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	l,-14 (ix)
+	ld	h,-13 (ix)
 	ld	b,#0x00
 	add	hl, bc
 	ld	c,(hl)
 	inc	hl
 	ld	b,(hl)
 	push	de
-	ld	h,-12 (ix)
+	ld	h,-2 (ix)
 	ld	l,-10 (ix)
 	push	hl
-	ld	l,-8 (ix)
-	ld	h,-7 (ix)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	push	hl
 	push	bc
 	call	_cpct_drawSprite

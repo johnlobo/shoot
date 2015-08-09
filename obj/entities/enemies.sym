@@ -41,6 +41,7 @@ Symbol Table
   0 _detectColision                                                0000 GR
   0 _draw_enemies                                                  0AE6 GR
   1 _enemies                                                       0000 GR
+    _fast_collision                                                **** GX
   1 _groups                                                        0439 GR
   0 _init_enemies                                                  013F GR
   0 _inside_screen                                                 0A95 GR
@@ -53,7 +54,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  C2C   flags    0
+   0 _CODE                                      size  C2A   flags    0
    1 _DATA                                      size  45A   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

@@ -8,1176 +8,800 @@ Hexadecimal [16-Bits]
                               3 ; **       Raúl Simarro (Artaburu)    -   2009, 2012  **
                               4 ; ******************************************************
                               5 
-                              6 
-                              7 
-   0000                       8 cpc_GetScrAddress0:			;en HL están las coordenadas
+                              6 ;*************************************
+                              7 ; GRAPHIC TEXT
+                              8 ;*************************************
                               9 
-                             10 	;LD A,H
-   0000 32 2D 00      [13]   11 	LD (#inc_ancho+1),A
-   0003 7D            [ 4]   12 	LD A,L
-   0004 CB 3F         [ 8]   13 	SRL A
-   0006 CB 3F         [ 8]   14 	SRL A
-   0008 CB 3F         [ 8]   15 	SRL A
-                             16 	; A indica el bloque a multiplicar x &50
-   000A 57            [ 4]   17 	LD D,A						;D
-   000B CB 27         [ 8]   18 	SLA A
-   000D CB 27         [ 8]   19 	SLA A
-   000F CB 27         [ 8]   20 	SLA A
-   0011 95            [ 4]   21 	SUB L
-   0012 ED 44         [ 8]   22 	NEG
-                             23 	; A indica el desplazamiento a multiplicar x &800
-   0014 5F            [ 4]   24 	LD E,A						;E
-   0015 6A            [ 4]   25 	LD L,D
-   0016 26 00         [ 7]   26 	LD H,#0
-   0018 29            [11]   27 	ADD HL,HL
-   0019 01 30 00      [10]   28 	LD BC,#bloques
-   001C 09            [11]   29 	ADD HL,BC
-                             30 	;HL APUNTA AL BLOQUE BUSCADO
-   001D 4E            [ 7]   31 	LD C,(HL)
-   001E 23            [ 6]   32 	INC HL
-   001F 66            [ 7]   33 	LD H,(HL)
-   0020 69            [ 4]   34 	LD L,C
-                             35 	;HL TIENE EL VALOR DEL BLOQUE DE 8 BUSCADO
-   0021 E5            [11]   36 	PUSH HL
-   0022 16 00         [ 7]   37 	LD D,#0
-   0024 21 62 00      [10]   38 	LD HL,#sub_bloques
-   0027 19            [11]   39 	ADD HL,DE
-   0028 7E            [ 7]   40 	LD A,(HL)
-   0029 E1            [10]   41 	POP HL
-   002A 84            [ 4]   42 	ADD H
-   002B 67            [ 4]   43 	LD H,A
-   002C                      44 inc_ancho:
-   002C 1E 00         [ 7]   45 	LD E,#0
-   002E 19            [11]   46 	ADD HL,DE
-   002F C9            [10]   47 	RET
-                             48 
-   0030                      49 bloques:
-   0030 00 C0 50 C0 A0 C0    50 .DW #0XC000,#0XC050,#0XC0A0,#0XC0F0,#0XC140,#0XC190,#0XC1E0,#0XC230,#0XC280,#0XC2D0,#0XC320,#0XC370,#0XC3C0,#0XC410,#0XC460,#0XC4B0,#0XC500,#0XC550,#0XC5A0,#0XC5F0,#0XC640,#0XC690,#0XC6E0,#0XC730,#0XC780
-        F0 C0 40 C1 90 C1
-        E0 C1 30 C2 80 C2
-        D0 C2 20 C3 70 C3
-        C0 C3 10 C4 60 C4
-        B0 C4 00 C5 50 C5
+                             10 .globl _cpc_PrintGphStr2X
+                             11 
+   0000                      12 _cpc_PrintGphStr2X::
+                             13 ;preparación datos impresión. El ancho y alto son fijos!
+                             14 ;	LD IX,#2
+                             15 ;	ADD IX,SP
+                             16 ;	LD L,2 (IX)
+                             17 ;	LD H,3 (IX)	;DESTINO
+                             18 ;  	LD E,0 (IX)
+                             19 ;	LD D,1 (IX)	;TEXTO ORIGEN
+                             20 
+   0000 F1            [10]   21 	POP AF
+   0001 D1            [10]   22 	POP DE
+   0002 E1            [10]   23 	POP HL
+   0003 E5            [11]   24 	PUSH HL
+   0004 D5            [11]   25 	PUSH DE
+   0005 F5            [11]   26 	PUSH AF
+                             27 
+   0006 3E 01         [ 7]   28 	LD A,#1
+   0008 C3 11 00      [10]   29  	JP cpc_PrintGphStr0
+                             30 
+                             31 
+                             32 .globl _cpc_PrintGphStr
+                             33 
+   000B                      34 _cpc_PrintGphStr::
+                             35 ;preparación datos impresión. El ancho y alto son fijos!
+                             36 ;	LD IX,#2
+                             37 ;	ADD IX,SP
+                             38 ;	LD L,2 (IX)
+                             39 ;	LD H,3 (IX)	;DESTINO
+                             40 ;	;LD (CPC_PRINTGPHSTR0+DIRECC_DESTINO0),HL
+                             41 ;  	LD E,0 (IX)
+                             42 ;	LD D,1 (IX)	;TEXTO ORIGEN
+                             43 
+   000B F1            [10]   44 	POP AF 
+   000C D1            [10]   45 	POP DE
+   000D E1            [10]   46 	POP	HL
+   000E E5            [11]   47 	PUSH HL
+   000F D5            [11]   48 	PUSH DE
+   0010 F5            [11]   49 	PUSH AF
+                             50 
+   0011                      51 cpc_PrintGphStr0:
+                             52 
+                             53 	;DE destino
+                             54 	;HL origen
+                             55 	;ex de,hl
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
 Hexadecimal [16-Bits]
 
 
 
-        A0 C5 F0 C5 40 C6
-        90 C6 E0 C6 30 C7
-        80 C7
-   0062                      51 sub_bloques:
-   0062 00 08 10 18 20 28    52 .DB #0X00,#0X08,#0X10,#0X18,#0X20,#0X28,#0X30,#0X38
-        30 38
-                             53 
-                             54 
-                             55 
-                             56 
-                             57 ;*************************************
-                             58 ; GRAPHIC TEXT
-                             59 ;*************************************
-                             60 
-                             61 .globl _cpc_PrintGphStr2X
-                             62 
-   006A                      63 _cpc_PrintGphStr2X::
-                             64 ;preparación datos impresión. El ancho y alto son fijos!
-   006A DD 21 02 00   [14]   65 	LD IX,#2
-   006E DD 39         [15]   66 	ADD IX,SP
-   0070 DD 6E 02      [19]   67 	LD L,2 (IX)
-   0073 DD 66 03      [19]   68 	LD H,3 (IX)	;DESTINO
-   0076 DD 5E 00      [19]   69    	LD E,0 (IX)
-   0079 DD 56 01      [19]   70 	LD D,1 (IX)	;TEXTO ORIGEN
-   007C 3E 01         [ 7]   71 	LD A,#1
-   007E C3 C5 00      [10]   72  	JP cpc_PrintGphStr0
+   0011 32 D7 00      [13]   56 	LD (#doble),A
+                             57 	;trabajo previo: Para tener una lista de trabajos de impresión. No se interrumpe
+                             58 	;la impresión en curso.
+   0014 3A D8 00      [13]   59 	LD A,(#imprimiendo)
+   0017 FE 01         [ 7]   60 	CP #1
+   0019 CA 36 00      [10]   61 	JP Z,add_elemento
+   001C 22 D9 00      [16]   62 	LD (#direcc_destino),HL
+   001F EB            [ 4]   63 	EX DE,HL
+   0020 CD 8C 00      [17]   64 	CALL bucle_texto0
+                             65 
+                             66 ;antes de terminar, se mira si hay algo en cola.
+   0023                      67 bucle_cola_impresion:
+   0023 3A 7C 00      [13]   68 	LD A,(#elementos_cola)
+   0026 B7            [ 4]   69 	OR A
+   0027 CA 30 00      [10]   70 	JP Z,terminar_impresion
+   002A CD 59 00      [17]   71 	CALL leer_elemento
+   002D C3 23 00      [10]   72 	JP bucle_cola_impresion
                              73 
                              74 
-                             75 
-                             76 .globl _cpc_PrintGphStrXY2X
-                             77 
-   0081                      78 _cpc_PrintGphStrXY2X::
-                             79 ;preparación datos impresión. El ancho y alto son fijos!
-   0081 DD 21 02 00   [14]   80 	LD IX,#2
-   0085 DD 39         [15]   81 	ADD IX,SP
-   0087 DD 6E 03      [19]   82  	LD L,3 (IX)
-   008A DD 7E 02      [19]   83 	LD A,2 (IX)	;pantalla
-   008D CD 00 00      [17]   84 	CALL cpc_GetScrAddress0
-   0090 DD 5E 00      [19]   85    	LD E,0 (IX)
-   0093 DD 56 01      [19]   86 	LD D,1 (IX)	;texto origen
-   0096 3E 01         [ 7]   87 	LD A,#1
-   0098 C3 C5 00      [10]   88  	JP cpc_PrintGphStr0
-                             89 
-                             90 .globl _cpc_PrintGphStrXY
-                             91 
-   009B                      92 _cpc_PrintGphStrXY::
-                             93 ;preparación datos impresión. El ancho y alto son fijos!
-   009B DD 21 02 00   [14]   94 	LD IX,#2
-   009F DD 39         [15]   95 	ADD IX,SP
-   00A1 DD 6E 03      [19]   96  	LD L,3 (IX)
-   00A4 DD 7E 02      [19]   97 	LD A,2 (IX)	;pantalla
-   00A7 CD 00 00      [17]   98 	CALL cpc_GetScrAddress0
-   00AA DD 5E 00      [19]   99    	LD E,0 (IX)
-   00AD DD 56 01      [19]  100 	LD D,1 (IX)	;texto origen
-   00B0 C3 C5 00      [10]  101  	JP cpc_PrintGphStr0
+   0030                      75 terminar_impresion:
+   0030 AF            [ 4]   76 	XOR A
+   0031 32 D8 00      [13]   77 	LD (#imprimiendo),A
+   0034 C9            [10]   78 	RET
+   0035                      79 entrar_cola_impresion:
+                             80 ;si se está imprimiendo se mete el valor en la cola
+   0035 C9            [10]   81 	RET
+   0036                      82 add_elemento:
+   0036 F3            [ 4]   83 	DI
+   0037 DD 2A 7E 00   [20]   84 	LD IX,(#pos_cola)
+   003B DD 75 00      [19]   85 	LD 0 (IX),L
+   003E DD 74 01      [19]   86 	LD 1 (IX),H
+   0041 DD 73 02      [19]   87 	LD 2 (IX),E
+   0044 DD 72 03      [19]   88 	LD 3 (IX),D
+   0047 DD 23         [10]   89 	INC IX
+   0049 DD 23         [10]   90 	INC IX
+   004B DD 23         [10]   91 	INC IX
+   004D DD 23         [10]   92 	INC IX
+   004F DD 22 7E 00   [20]   93 	LD (#pos_cola),IX
+                             94 
+   0053 21 7C 00      [10]   95 	LD HL,#elementos_cola
+   0056 34            [11]   96 	INC (HL)
+                             97 	;Se añaden los valores hl y de
+   0057 FB            [ 4]   98 	EI
+   0058 C9            [10]   99 	RET
+   0059                     100 leer_elemento:
+   0059 F3            [ 4]  101 	DI
+   005A DD 2A 7E 00   [20]  102 	LD IX,(#pos_cola)
+   005E DD 6E 00      [19]  103 	LD L,0 (IX)
+   0061 DD 66 01      [19]  104 	LD H,1 (IX)
+   0064 DD 5E 02      [19]  105 	LD E,2 (IX)
+   0067 DD 56 04      [19]  106 	LD D,4 (IX)
+   006A DD 2B         [10]  107 	DEC IX
+   006C DD 2B         [10]  108 	DEC IX
+   006E DD 2B         [10]  109 	DEC IX
+   0070 DD 2B         [10]  110 	DEC IX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
 Hexadecimal [16-Bits]
 
 
 
-                            102 
-                            103 
-                            104 .globl _cpc_PrintGphStr
-                            105 
-   00B3                     106 _cpc_PrintGphStr::
-                            107 ;preparación datos impresión. El ancho y alto son fijos!
-   00B3 DD 21 02 00   [14]  108 	LD IX,#2
-   00B7 DD 39         [15]  109 	ADD IX,SP
-   00B9 DD 6E 02      [19]  110 	LD L,2 (IX)
-   00BC DD 66 03      [19]  111 	LD H,3 (IX)	;DESTINO
-                            112 	;LD (CPC_PRINTGPHSTR0+DIRECC_DESTINO0),HL
-   00BF DD 5E 00      [19]  113    	LD E,0 (IX)
-   00C2 DD 56 01      [19]  114 	LD D,1 (IX)	;TEXTO ORIGEN
-                            115 	;JP cpc_PrintGphStr0
+   0072 DD 22 7E 00   [20]  111 	LD (#pos_cola),IX
+   0076 21 7C 00      [10]  112 	LD HL,#elementos_cola
+   0079 35            [11]  113 	DEC (HL)
+   007A FB            [ 4]  114 	EI
+   007B C9            [10]  115 	RET
                             116 
-   00C5                     117 cpc_PrintGphStr0:
-                            118 
-                            119 	;DE destino
-                            120 	;HL origen
-                            121 	;ex de,hl
-   00C5 32 8B 01      [13]  122 	LD (#doble),A
-                            123 	;trabajo previo: Para tener una lista de trabajos de impresión. No se interrumpe
-                            124 	;la impresión en curso.
-   00C8 3A 8C 01      [13]  125 	LD A,(#imprimiendo)
-   00CB FE 01         [ 7]  126 	CP #1
-   00CD CA EA 00      [10]  127 	JP Z,add_elemento
-   00D0 22 8D 01      [16]  128 	LD (#direcc_destino),HL
-   00D3 EB            [ 4]  129 	EX DE,HL
-   00D4 CD 40 01      [17]  130 	CALL bucle_texto0
-                            131 
-                            132 ;antes de terminar, se mira si hay algo en cola.
-   00D7                     133 bucle_cola_impresion:
-   00D7 3A 30 01      [13]  134 	LD A,(#elementos_cola)
-   00DA B7            [ 4]  135 	OR A
-   00DB CA E4 00      [10]  136 	JP Z,terminar_impresion
-   00DE CD 0D 01      [17]  137 	CALL leer_elemento
-   00E1 C3 D7 00      [10]  138 	JP bucle_cola_impresion
-                            139 
-                            140 
-   00E4                     141 terminar_impresion:
-   00E4 AF            [ 4]  142 	XOR A
-   00E5 32 8C 01      [13]  143 	LD (#imprimiendo),A
-   00E8 C9            [10]  144 	RET
-   00E9                     145 entrar_cola_impresion:
-                            146 ;si se está imprimiendo se mete el valor en la cola
-   00E9 C9            [10]  147 	RET
-   00EA                     148 add_elemento:
-   00EA F3            [ 4]  149 	DI
-   00EB DD 2A 32 01   [20]  150 	LD IX,(#pos_cola)
-   00EF DD 75 00      [19]  151 	LD 0 (IX),L
-   00F2 DD 74 01      [19]  152 	LD 1 (IX),H
-   00F5 DD 73 02      [19]  153 	LD 2 (IX),E
-   00F8 DD 72 03      [19]  154 	LD 3 (IX),D
-   00FB DD 23         [10]  155 	INC IX
-   00FD DD 23         [10]  156 	INC IX
+   007C                     117 elementos_cola:
+   007C 00 00               118 	.DW #0				; defw 0
+   007E                     119 pos_cola:
+   007E 80 00               120 	.DW #cola_impresion ;defw cola_impresion
+                            121 						;pos_escritura_cola defw cola_impresion
+   0080                     122 cola_impresion:  		; defs 12
+   0080 00 00 00 00 00 00   123 	.DB #0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
+        00 00 00 00 00 00
+   008C                     124 bucle_texto0:
+   008C 3E 01         [ 7]  125 	LD A,#1
+   008E 32 D8 00      [13]  126 	LD (imprimiendo),A
+                            127 
+   0091 3A 9B 01      [13]  128 	LD A,(first_char)
+   0094 47            [ 4]  129 	LD B,A		;resto 48 para saber el número del caracter (En ASCII 0=48)
+                            130 
+   0095 7E            [ 7]  131 	LD A,(HL)
+   0096 B7            [ 4]  132 	OR A ;CP 0
+   0097 C8            [11]  133 	RET Z
+   0098 90            [ 4]  134 	SUB B
+   0099 01 9C 01      [10]  135 	LD BC,#cpc_Chars	;apunto a la primera letra
+   009C E5            [11]  136 	PUSH HL
+                            137 
+   009D 6F            [ 4]  138 	LD L,A		;en A tengo la letra que sería
+   009E 26 00         [ 7]  139 	LD H,#0
+   00A0 29            [11]  140 	ADD HL,HL
+   00A1 29            [11]  141 	ADD HL,HL
+   00A2 29            [11]  142 	ADD HL,HL	;x8 porque cada letra son 8 bytes
+   00A3 09            [11]  143 	ADD HL,BC	;ahora HL apunta a los datos de la letra correspondiente
+   00A4 CD 0F 01      [17]  144 	CALL escribe_letra
+   00A7 3A D7 00      [13]  145 	LD A,(doble)
+   00AA FE 01         [ 7]  146 	CP #1
+                            147 ; ANTES DE IMPRIMIR SE CHEQUEA SI ES DE ALTURA EL DOBLE Y SE ACTÚA EN CONSECUENCIA
+   00AC CC F6 00      [17]  148 	CALL Z, doblar_letra
+   00AF 2A D9 00      [16]  149 	LD HL,(#direcc_destino)
+   00B2 3A D7 00      [13]  150 	LD A,(doble)
+   00B5 FE 01         [ 7]  151 	CP #1
+                            152 	;alto
+   00B7 28 08         [12]  153 	JR Z,cont_doble
+   00B9 11 6B 01      [10]  154 	LD DE,#letra_decodificada
+   00BC FD                  155 	.DB #0xfD
+   00BD 26 08         [ 7]  156 	LD H,#8		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
+   00BF 18 06         [12]  157 	JR cont_tot
+                            158 
+                            159 
+   00C1                     160 cont_doble:
+   00C1 11 7B 01      [10]  161 	LD DE,#letra_decodificada_tmp
+   00C4 FD                  162 	.DB #0xfD
+   00C5 26 10         [ 7]  163 	LD H,#16		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
+                            164 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 4.
 Hexadecimal [16-Bits]
 
 
 
-   00FF DD 23         [10]  157 	INC IX
-   0101 DD 23         [10]  158 	INC IX
-   0103 DD 22 32 01   [20]  159 	LD (#pos_cola),IX
-                            160 
-   0107 21 30 01      [10]  161 	LD HL,#elementos_cola
-   010A 34            [11]  162 	INC (HL)
-                            163 	;Se añaden los valores hl y de
-   010B FB            [ 4]  164 	EI
-   010C C9            [10]  165 	RET
-   010D                     166 leer_elemento:
-   010D F3            [ 4]  167 	DI
-   010E DD 2A 32 01   [20]  168 	LD IX,(#pos_cola)
-   0112 DD 6E 00      [19]  169 	LD L,0 (IX)
-   0115 DD 66 01      [19]  170 	LD H,1 (IX)
-   0118 DD 5E 02      [19]  171 	LD E,2 (IX)
-   011B DD 56 04      [19]  172 	LD D,4 (IX)
-   011E DD 2B         [10]  173 	DEC IX
-   0120 DD 2B         [10]  174 	DEC IX
-   0122 DD 2B         [10]  175 	DEC IX
-   0124 DD 2B         [10]  176 	DEC IX
-   0126 DD 22 32 01   [20]  177 	LD (#pos_cola),IX
-   012A 21 30 01      [10]  178 	LD HL,#elementos_cola
-   012D 35            [11]  179 	DEC (HL)
-   012E FB            [ 4]  180 	EI
-   012F C9            [10]  181 	RET
+   00C7                     165 cont_tot:
+   00C7 CD DB 00      [17]  166 	CALL cpc_PutSp0
+   00CA 2A D9 00      [16]  167 	LD HL,(#direcc_destino)
+   00CD 23            [ 6]  168 	INC HL
+   00CE 23            [ 6]  169 	INC HL
+   00CF 22 D9 00      [16]  170 	LD (#direcc_destino),HL
+   00D2 E1            [10]  171 	POP HL
+   00D3 23            [ 6]  172 	INC HL
+   00D4 C3 8C 00      [10]  173 	JP bucle_texto0
+                            174 
+                            175 
+   00D7                     176 doble:
+   00D7 00                  177 	.DB #0
+   00D8                     178 imprimiendo:
+   00D8 00                  179 	.DB #0
+   00D9                     180 direcc_destino:
+   00D9 00 00               181 	.DW #0
                             182 
-   0130                     183 elementos_cola:
-   0130 00 00               184 	.DW #0				; defw 0
-   0132                     185 pos_cola:
-   0132 34 01               186 	.DW #cola_impresion ;defw cola_impresion
-                            187 						;pos_escritura_cola defw cola_impresion
-   0134                     188 cola_impresion:  		; defs 12
-   0134 00 00 00 00 00 00   189 	.DB #0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0,#0
-        00 00 00 00 00 00
-   0140                     190 bucle_texto0:
-   0140 3E 01         [ 7]  191 	LD A,#1
-   0142 32 8C 01      [13]  192 	LD (imprimiendo),A
-                            193 
-   0145 3A A9 03      [13]  194 	LD A,(first_char)
-   0148 47            [ 4]  195 	LD B,A		;resto 48 para saber el número del caracter (En ASCII 0=48)
-                            196 
-   0149 7E            [ 7]  197 	LD A,(HL)
-   014A B7            [ 4]  198 	OR A ;CP 0
-   014B C8            [11]  199 	RET Z
-   014C 90            [ 4]  200 	SUB B
-   014D 01 AA 03      [10]  201 	LD BC,#cpc_Chars	;apunto a la primera letra
-   0150 E5            [11]  202 	PUSH HL
-                            203 
-   0151 6F            [ 4]  204 	LD L,A		;en A tengo la letra que sería
-   0152 26 00         [ 7]  205 	LD H,#0
-   0154 29            [11]  206 	ADD HL,HL
-   0155 29            [11]  207 	ADD HL,HL
-   0156 29            [11]  208 	ADD HL,HL	;x8 porque cada letra son 8 bytes
-   0157 09            [11]  209 	ADD HL,BC	;ahora HL apunta a los datos de la letra correspondiente
-   0158 CD C3 01      [17]  210 	CALL escribe_letra
+                            183 
+   00DB                     184 cpc_PutSp0:
+                            185 ;	.DB #0xfD
+                            186 ;  		LD H,16		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
+   00DB 06 07         [ 7]  187 	LD B,#7
+   00DD 48            [ 4]  188 	LD C,B
+   00DE                     189 loop_alto_2:
+                            190 
+   00DE                     191 loop_ancho_2:
+   00DE EB            [ 4]  192 	EX DE,HL
+   00DF ED A0         [16]  193 	LDI
+   00E1 ED A0         [16]  194 	LDI
+   00E3 FD                  195 	.DB #0XFD
+   00E4 25            [ 4]  196 	DEC H
+   00E5 C8            [11]  197 	RET Z
+   00E6 EB            [ 4]  198 	EX DE,HL
+   00E7                     199 salto_linea:
+   00E7 0E FE         [ 7]  200 	LD C,#0XFE			;&07F6 			;SALTO LINEA MENOS ANCHO
+   00E9 09            [11]  201 	ADD HL,BC
+   00EA D2 DE 00      [10]  202 	JP NC,loop_alto_2 ;SIG_LINEA_2ZZ		;SI NO DESBORDA VA A LA SIGUIENTE LINEA
+   00ED 01 50 C0      [10]  203 	LD BC,#0XC050
+   00F0 09            [11]  204 	ADD HL,BC
+   00F1 06 07         [ 7]  205 	LD B,#7			;SÓLO SE DARÍA UNA DE CADA 8 VECES EN UN SPRITE
+   00F3 C3 DE 00      [10]  206 	JP loop_alto_2
+                            207 
+                            208 
+                            209 
+                            210 
+   00F6                     211 doblar_letra:
+   00F6 21 6B 01      [10]  212 	LD HL,#letra_decodificada
+   00F9 11 7B 01      [10]  213 	LD DE,#letra_decodificada_tmp
+   00FC 06 08         [ 7]  214 	LD B,#8
+   00FE                     215 buc_doblar_letra:
+   00FE 7E            [ 7]  216 	LD A,(HL)
+   00FF 23            [ 6]  217 	INC HL
+   0100 12            [ 7]  218 	LD (DE),A
+   0101 13            [ 6]  219 	INC DE
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 5.
 Hexadecimal [16-Bits]
 
 
 
-   015B 3A 8B 01      [13]  211 	LD A,(doble)
-   015E FE 01         [ 7]  212 	CP #1
-                            213 ; ANTES DE IMPRIMIR SE CHEQUEA SI ES DE ALTURA EL DOBLE Y SE ACTÚA EN CONSECUENCIA
-   0160 CC AA 01      [17]  214 	CALL Z, doblar_letra
-   0163 2A 8D 01      [16]  215 	LD HL,(#direcc_destino)
-   0166 3A 8B 01      [13]  216 	LD A,(doble)
-   0169 FE 01         [ 7]  217 	CP #1
-                            218 	;alto
-   016B 28 08         [12]  219 	JR Z,cont_doble
-   016D 11 79 03      [10]  220 	LD DE,#letra_decodificada
-   0170 FD                  221 	.DB #0xfD
-   0171 26 08         [ 7]  222 	LD H,#8		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-   0173 18 06         [12]  223 	JR cont_tot
-                            224 
-                            225 
-   0175                     226 cont_doble:
-   0175 11 89 03      [10]  227 	LD DE,#letra_decodificada_tmp
-   0178 FD                  228 	.DB #0xfD
-   0179 26 10         [ 7]  229 	LD H,#16		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-                            230 
-   017B                     231 cont_tot:
-   017B CD 8F 01      [17]  232 	CALL cpc_PutSp0
-   017E 2A 8D 01      [16]  233 	LD HL,(#direcc_destino)
-   0181 23            [ 6]  234 	INC HL
-   0182 23            [ 6]  235 	INC HL
-   0183 22 8D 01      [16]  236 	LD (#direcc_destino),HL
-   0186 E1            [10]  237 	POP HL
-   0187 23            [ 6]  238 	INC HL
-   0188 C3 40 01      [10]  239 	JP bucle_texto0
-                            240 
-                            241 
-   018B                     242 doble:
-   018B 00                  243 	.DB #0
-   018C                     244 imprimiendo:
-   018C 00                  245 	.DB #0
-   018D                     246 direcc_destino:
-   018D 00 00               247 	.DW #0
-                            248 
-                            249 
-   018F                     250 cpc_PutSp0:
-                            251 ;	.DB #0xfD
-                            252 ;  		LD H,16		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-   018F 06 07         [ 7]  253 	LD B,#7
-   0191 48            [ 4]  254 	LD C,B
-   0192                     255 loop_alto_2:
-                            256 
-   0192                     257 loop_ancho_2:
-   0192 EB            [ 4]  258 	EX DE,HL
-   0193 ED A0         [16]  259 	LDI
-   0195 ED A0         [16]  260 	LDI
-   0197 FD                  261 	.DB #0XFD
-   0198 25            [ 4]  262 	DEC H
-   0199 C8            [11]  263 	RET Z
-   019A EB            [ 4]  264 	EX DE,HL
-   019B                     265 salto_linea:
+   0102 13            [ 6]  220 	INC DE
+   0103 12            [ 7]  221 	LD (DE),A
+   0104 1B            [ 6]  222 	DEC DE
+   0105 7E            [ 7]  223 	LD A,(HL)
+   0106 23            [ 6]  224 	INC HL
+   0107 12            [ 7]  225 	LD (DE),A
+   0108 13            [ 6]  226 	INC DE
+   0109 13            [ 6]  227 	INC DE
+   010A 12            [ 7]  228 	LD (DE),A
+   010B 13            [ 6]  229 	INC DE
+   010C 10 F0         [13]  230 	DJNZ buc_doblar_letra
+   010E C9            [10]  231 	RET
+                            232 
+                            233 
+   010F                     234 escribe_letra:		; Code by Kevin Thacker
+   010F D5            [11]  235 	PUSH DE
+   0110 FD 21 6B 01   [14]  236 	LD IY,#letra_decodificada
+   0114 06 08         [ 7]  237 	LD B,#8
+   0116                     238 bucle_alto_letra:
+   0116 C5            [11]  239 	PUSH BC
+   0117 E5            [11]  240 	PUSH HL
+   0118 5E            [ 7]  241 	LD E,(HL)
+   0119 CD 30 01      [17]  242 	CALL op_colores
+   011C FD 72 00      [19]  243 	LD (IY),D
+   011F FD 23         [10]  244 	INC IY
+   0121 CD 30 01      [17]  245 	CALL op_colores
+   0124 FD 72 00      [19]  246 	LD (IY),D
+   0127 FD 23         [10]  247 	INC IY
+   0129 E1            [10]  248 	POP HL
+   012A 23            [ 6]  249 	INC HL
+   012B C1            [10]  250 	POP BC
+   012C 10 E8         [13]  251 	DJNZ bucle_alto_letra
+   012E D1            [10]  252 	POP DE
+   012F C9            [10]  253 	RET
+                            254 
+   0130                     255 op_colores:
+   0130 16 00         [ 7]  256 	ld d,#0					;; initial byte at end will be result of 2 pixels combined
+   0132 CD 3D 01      [17]  257 	CALL op_colores_pixel	;; do pixel 0
+   0135 CB 02         [ 8]  258 	RLC D
+   0137 CD 3D 01      [17]  259 	CALL op_colores_pixel
+   013A CB 0A         [ 8]  260 	RRC D
+   013C C9            [10]  261 	RET
+                            262 
+                            263 ;; follow through to do pixel 1
+                            264 
+   013D                     265 op_colores_pixel:
+                            266 	;; shift out pixel into bits 0 and 1 (source)
+   013D CB 03         [ 8]  267 	RLC E
+   013F CB 03         [ 8]  268 	RLC E
+                            269 	;; isolate
+   0141 7B            [ 4]  270 	LD A,E
+   0142 E6 03         [ 7]  271 	AND #0X3
+   0144 21 67 01      [10]  272 	LD HL,#colores_b0
+   0147 85            [ 4]  273 	ADD A,L
+   0148 6F            [ 4]  274 	LD L,A
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 6.
 Hexadecimal [16-Bits]
 
 
 
-   019B 0E FE         [ 7]  266 	LD C,#0XFE			;&07F6 			;SALTO LINEA MENOS ANCHO
-   019D 09            [11]  267 	ADD HL,BC
-   019E D2 92 01      [10]  268 	JP NC,loop_alto_2 ;SIG_LINEA_2ZZ		;SI NO DESBORDA VA A LA SIGUIENTE LINEA
-   01A1 01 50 C0      [10]  269 	LD BC,#0XC050
-   01A4 09            [11]  270 	ADD HL,BC
-   01A5 06 07         [ 7]  271 	LD B,#7			;SÓLO SE DARÍA UNA DE CADA 8 VECES EN UN SPRITE
-   01A7 C3 92 01      [10]  272 	JP loop_alto_2
-                            273 
-                            274 
-                            275 
-                            276 
-   01AA                     277 doblar_letra:
-   01AA 21 79 03      [10]  278 	LD HL,#letra_decodificada
-   01AD 11 89 03      [10]  279 	LD DE,#letra_decodificada_tmp
-   01B0 06 08         [ 7]  280 	LD B,#8
-   01B2                     281 buc_doblar_letra:
-   01B2 7E            [ 7]  282 	LD A,(HL)
-   01B3 23            [ 6]  283 	INC HL
-   01B4 12            [ 7]  284 	LD (DE),A
-   01B5 13            [ 6]  285 	INC DE
-   01B6 13            [ 6]  286 	INC DE
-   01B7 12            [ 7]  287 	LD (DE),A
-   01B8 1B            [ 6]  288 	DEC DE
-   01B9 7E            [ 7]  289 	LD A,(HL)
-   01BA 23            [ 6]  290 	INC HL
-   01BB 12            [ 7]  291 	LD (DE),A
-   01BC 13            [ 6]  292 	INC DE
-   01BD 13            [ 6]  293 	INC DE
-   01BE 12            [ 7]  294 	LD (DE),A
-   01BF 13            [ 6]  295 	INC DE
-   01C0 10 F0         [13]  296 	DJNZ buc_doblar_letra
-   01C2 C9            [10]  297 	RET
-                            298 
+   0149 7C            [ 4]  275 	LD A,H
+   014A CE 00         [ 7]  276 	ADC A,#0
+   014C 67            [ 4]  277 	LD H,A
+                            278 	;; READ IT AND COMBINE WITH PIXEL SO FAR
+   014D 7A            [ 4]  279 	LD A,D
+   014E B6            [ 7]  280 	OR (HL)
+   014F 57            [ 4]  281 	LD D,A
+   0150 C9            [10]  282 	RET
+                            283 
+                            284 
+                            285 .globl _cpc_SetInkGphStr
+                            286 
+                            287 ;_cpc_SetInkGphStr::
+                            288 ;	LD IX,#2
+                            289 ;	ADD IX,SP
+                            290 ;
+                            291 ;	LD A,1 (IX) ;VALOR
+                            292 ;	LD C,0 (IX)	;COLOR
+                            293 ;
+                            294 ;	LD HL,#colores_b0
+                            295 ;	LD B,#0
+                            296 ;	ADD HL,BC
+                            297 ;	LD (HL),A
+                            298 ;	RET
                             299 
-   01C3                     300 escribe_letra:		; Code by Kevin Thacker
-   01C3 D5            [11]  301 	PUSH DE
-   01C4 FD 21 79 03   [14]  302 	LD IY,#letra_decodificada
-   01C8 06 08         [ 7]  303 	LD B,#8
-   01CA                     304 bucle_alto_letra:
-   01CA C5            [11]  305 	PUSH BC
-   01CB E5            [11]  306 	PUSH HL
-   01CC 5E            [ 7]  307 	LD E,(HL)
-   01CD CD E4 01      [17]  308 	CALL op_colores
-   01D0 FD 72 00      [19]  309 	LD (IY),D
-   01D3 FD 23         [10]  310 	INC IY
-   01D5 CD E4 01      [17]  311 	CALL op_colores
-   01D8 FD 72 00      [19]  312 	LD (IY),D
-   01DB FD 23         [10]  313 	INC IY
-   01DD E1            [10]  314 	POP HL
-   01DE 23            [ 6]  315 	INC HL
-   01DF C1            [10]  316 	POP BC
-   01E0 10 E8         [13]  317 	DJNZ bucle_alto_letra
-   01E2 D1            [10]  318 	POP DE
-   01E3 C9            [10]  319 	RET
+   0151                     300  _cpc_SetInkGphStr::
+   0151 21 02 00      [10]  301  	LD HL,#2
+   0154 44            [ 4]  302  	LD B,H
+   0155 39            [11]  303  	ADD HL,SP
+                            304 
+   0156 4E            [ 7]  305  	LD C, (HL)
+   0157 23            [ 6]  306  	INC HL
+   0158 7E            [ 7]  307  	LD A,(HL)
+                            308 
+   0159 21 67 01      [10]  309  	LD HL,#colores_b0
+   015C 09            [11]  310  	ADD HL,BC
+   015D 77            [ 7]  311  	LD (HL),A
+   015E C9            [10]  312  	RET
+                            313 
+   015F                     314 colores_cambM1:
+   015F                     315 colores_m1:
+   015F 00 88 80 08         316 	.DB #0b00000000,#0b10001000,#0b10000000,#0b00001000
+                            317 
+                            318 ;defb @00000000,  @01010100, @00010000, @00000101  ;@00000001, @00000101, @00010101, @00000000
+                            319 
                             320 
+                            321 
+                            322 ;DEFC direcc_destino0_m1 = direcc_destino
+                            323 ;DEFC colores_cambM1 = colores_m1
+                            324 
+                            325 
+   0163                     326 dato:
+   0163 1B                  327 	.DB #0b00011011  ;aquí dejo temporalmente el byte a tratar
+                            328 
+   0164                     329 byte_tmp:
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 7.
 Hexadecimal [16-Bits]
 
 
 
-   01E4                     321 op_colores:
-   01E4 16 00         [ 7]  322 	ld d,#0					;; initial byte at end will be result of 2 pixels combined
-   01E6 CD F1 01      [17]  323 	CALL op_colores_pixel	;; do pixel 0
-   01E9 CB 02         [ 8]  324 	RLC D
-   01EB CD F1 01      [17]  325 	CALL op_colores_pixel
-   01EE CB 0A         [ 8]  326 	RRC D
-   01F0 C9            [10]  327 	RET
-                            328 
-                            329 ;; follow through to do pixel 1
-                            330 
-   01F1                     331 op_colores_pixel:
-                            332 	;; shift out pixel into bits 0 and 1 (source)
-   01F1 CB 03         [ 8]  333 	RLC E
-   01F3 CB 03         [ 8]  334 	RLC E
-                            335 	;; isolate
-   01F5 7B            [ 4]  336 	LD A,E
-   01F6 E6 03         [ 7]  337 	AND #0X3
-   01F8 21 75 03      [10]  338 	LD HL,#colores_b0
-   01FB 85            [ 4]  339 	ADD A,L
-   01FC 6F            [ 4]  340 	LD L,A
-   01FD 7C            [ 4]  341 	LD A,H
-   01FE CE 00         [ 7]  342 	ADC A,#0
-   0200 67            [ 4]  343 	LD H,A
-                            344 	;; READ IT AND COMBINE WITH PIXEL SO FAR
-   0201 7A            [ 4]  345 	LD A,D
-   0202 B6            [ 7]  346 	OR (HL)
-   0203 57            [ 4]  347 	LD D,A
-   0204 C9            [10]  348 	RET
-                            349 
+   0164 00                  330 	.DB #0
+   0165 00                  331 	.DB #0
+   0166 00                  332 	.DB #0  ;defs 3
+   0167                     333 colores_b0: ;defino los 4 colores posibles para el byte. Los colores pueden ser cualesquiera.
+                            334 	  		;Pero se tienen que poner bien, en la posición que le corresponda.
+   0167 0A 20 A0 28         335 	.DB #0b00001010,#0b00100000,#0b10100000,#0b00101000
+                            336 	;.DB #0b00000000,  #0b01010100, #0b00010000, #0b00000101  ;#0b00000001, #0b00000101, #0b00010101, #0b00000000
+                            337 
+   016B                     338 letra_decodificada: ;. defs 16 ;16	;uso este espacio para guardar la letra que se decodifica
+   016B 00 00 00 00 00 00   339 	.DB #0,#0,#0,#0,#0,#0,#0,#0
+        00 00
+   0173 00 00 00 00 00 00   340 	.DB #0,#0,#0,#0,#0,#0,#0,#0
+        00 00
+   017B                     341 letra_decodificada_tmp: ;defs 32 ;16	;uso este espacio para guardar la letra que se decodifica para tamaño doble altura
+   017B 00 00 00 00 00 00   342 	.DB #0,#0,#0,#0,#0,#0,#0,#0
+        00 00
+   0183 00 00 00 00 00 00   343 	.DB #0,#0,#0,#0,#0,#0,#0,#0
+        00 00
+   018B 00 00 00 00 00 00   344 	.DB #0,#0,#0,#0,#0,#0,#0,#0
+        00 00
+   0193 00 00 00 00 00 00   345 	.DB #0,#0,#0,#0,#0,#0,#0,#0
+        00 00
+                            346 
+                            347 
+   019B                     348 first_char:
+   019B 2F                  349 	.DB #47	;first defined char number (ASCII)
                             350 
-                            351 .globl _cpc_SetInkGphStr
-                            352 
-   0205                     353 _cpc_SetInkGphStr::
-                            354 ;preparación datos impresión. El ancho y alto son fijos!
-   0205 DD 21 02 00   [14]  355 	LD IX,#2
-   0209 DD 39         [15]  356 	ADD IX,SP
-                            357 
-                            358 	;LD A,H
-                            359 	;LD C,L
-   020B DD 7E 01      [19]  360 	LD A,1 (IX) ;VALOR
-   020E DD 4E 00      [19]  361 	LD C,0 (IX)	;COLOR
-                            362 
-   0211 21 75 03      [10]  363 	LD HL,#colores_b0
-   0214 06 00         [ 7]  364 	LD B,#0
-   0216 09            [11]  365 	ADD HL,BC
-   0217 77            [ 7]  366 	LD (HL),A
-   0218 C9            [10]  367 	RET
-                            368 
-                            369 
-                            370 
-                            371 
-                            372 
-                            373 .globl _cpc_PrintGphStrXYM1
-                            374 
-   0219                     375 _cpc_PrintGphStrXYM1::
+   019C                     351 cpc_Chars:   ;cpc_Chars codificadas... cada pixel se define con 2 bits que definen el color.
+                            352 	;/
+   019C 01                  353 	.DB #0b00000001
+   019D 01                  354 	.DB #0b00000001
+   019E 08                  355 	.DB #0b00001000
+   019F 08                  356 	.DB #0b00001000
+   01A0 3C                  357 	.DB #0b00111100
+   01A1 30                  358 	.DB #0b00110000
+   01A2 30                  359 	.DB #0b00110000
+   01A3 00                  360 	.DB #0b00000000
+                            361 ;0-9
+   01A4 54                  362 .db #0b01010100
+   01A5 44                  363 .db #0b01000100
+   01A6 88                  364 .db #0b10001000
+   01A7 88                  365 .db #0b10001000
+   01A8 88                  366 .db #0b10001000
+   01A9 CC                  367 .db #0b11001100
+   01AA FC                  368 .db #0b11111100
+   01AB 00                  369 .db #0b00000000
+   01AC 10                  370 .db #0b00010000
+   01AD 50                  371 .db #0b01010000
+   01AE 20                  372 .db #0b00100000
+   01AF 20                  373 .db #0b00100000
+   01B0 20                  374 .db #0b00100000
+   01B1 30                  375 .db #0b00110000
+   01B2 FC                  376 .db #0b11111100
+   01B3 00                  377 .db #0b00000000
+   01B4 54                  378 .db #0b01010100
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 8.
 Hexadecimal [16-Bits]
 
 
 
-                            376 ;preparación datos impresión. El ancho y alto son fijos!
-   0219 DD 21 02 00   [14]  377 	LD IX,#2
-   021D DD 39         [15]  378 	ADD IX,SP
-   021F DD 6E 03      [19]  379  	LD L,3 (IX)
-   0222 DD 7E 02      [19]  380 	LD A,2 (IX)	;pantalla
-   0225 CD 00 00      [17]  381 	CALL cpc_GetScrAddress0
-   0228 DD 5E 00      [19]  382    	LD E,0 (IX)
-   022B DD 56 01      [19]  383 	LD D,1 (IX)	;texto origen
-   022E AF            [ 4]  384 	XOR A
-   022F C3 76 02      [10]  385 	JP cpc_PrintGphStr0M1
-                            386 
-                            387 
-                            388 .globl _cpc_PrintGphStrXYM12X
-                            389 
-   0232                     390 _cpc_PrintGphStrXYM12X::
-                            391 ;preparación datos impresión. El ancho y alto son fijos!
-   0232 DD 21 02 00   [14]  392 	LD IX,#2
-   0236 DD 39         [15]  393 	ADD IX,SP
-   0238 DD 6E 03      [19]  394  	LD L,3 (IX)
-   023B DD 7E 02      [19]  395 	LD A,2 (IX)	;pantalla
-   023E CD 00 00      [17]  396 	CALL cpc_GetScrAddress0
-   0241 DD 5E 00      [19]  397    	LD E,0 (IX)
-   0244 DD 56 01      [19]  398 	LD D,1 (IX)	;texto origen
-   0247 3E 01         [ 7]  399 	LD A,#1
-   0249 C3 76 02      [10]  400 	JP cpc_PrintGphStr0M1
-                            401 
-                            402 
-                            403 
-                            404 
-                            405 .globl _cpc_PrintGphStrM12X
-                            406 
-   024C                     407 _cpc_PrintGphStrM12X::
-   024C DD 21 02 00   [14]  408 	LD IX,#2
-   0250 DD 39         [15]  409 	ADD IX,SP
-   0252 DD 6E 02      [19]  410 	LD L,2 (IX)
-   0255 DD 66 03      [19]  411 	LD H,3 (IX)	;DESTINO
-   0258 DD 5E 00      [19]  412    	LD E,0 (IX)
-   025B DD 56 01      [19]  413 	LD D,1 (IX)	;TEXTO ORIGEN
-   025E 3E 01         [ 7]  414 	LD A,#1
-                            415 
-   0260 C3 76 02      [10]  416 	JP cpc_PrintGphStr0M1
-                            417 
-                            418 
-                            419 
-                            420 .globl _cpc_PrintGphStrM1
-                            421 
-   0263                     422 _cpc_PrintGphStrM1::
-                            423 ;preparación datos impresión. El ancho y alto son fijos!
-                            424 
-   0263 DD 21 02 00   [14]  425 	LD IX,#2
-   0267 DD 39         [15]  426 	ADD IX,SP
-   0269 DD 6E 02      [19]  427 	LD L,2 (IX)
-   026C DD 66 03      [19]  428 	LD H,3 (IX)	;DESTINO
-   026F DD 5E 00      [19]  429    	LD E,0 (IX)
-   0272 DD 56 01      [19]  430 	LD D,1 (IX)	;TEXTO ORIGEN
+   01B5 44                  379 .db #0b01000100
+   01B6 08                  380 .db #0b00001000
+   01B7 A8                  381 .db #0b10101000
+   01B8 80                  382 .db #0b10000000
+   01B9 CC                  383 .db #0b11001100
+   01BA FC                  384 .db #0b11111100
+   01BB 00                  385 .db #0b00000000
+   01BC 54                  386 .db #0b01010100
+   01BD 44                  387 .db #0b01000100
+   01BE 08                  388 .db #0b00001000
+   01BF 28                  389 .db #0b00101000
+   01C0 08                  390 .db #0b00001000
+   01C1 CC                  391 .db #0b11001100
+   01C2 FC                  392 .db #0b11111100
+   01C3 00                  393 .db #0b00000000
+   01C4 44                  394 .db #0b01000100
+   01C5 44                  395 .db #0b01000100
+   01C6 88                  396 .db #0b10001000
+   01C7 A8                  397 .db #0b10101000
+   01C8 08                  398 .db #0b00001000
+   01C9 0C                  399 .db #0b00001100
+   01CA 0C                  400 .db #0b00001100
+   01CB 00                  401 .db #0b00000000
+   01CC 54                  402 .db #0b01010100
+   01CD 44                  403 .db #0b01000100
+   01CE 80                  404 .db #0b10000000
+   01CF A8                  405 .db #0b10101000
+   01D0 08                  406 .db #0b00001000
+   01D1 CC                  407 .db #0b11001100
+   01D2 FC                  408 .db #0b11111100
+   01D3 00                  409 .db #0b00000000
+   01D4 54                  410 .db #0b01010100
+   01D5 44                  411 .db #0b01000100
+   01D6 80                  412 .db #0b10000000
+   01D7 A8                  413 .db #0b10101000
+   01D8 88                  414 .db #0b10001000
+   01D9 CC                  415 .db #0b11001100
+   01DA FC                  416 .db #0b11111100
+   01DB 00                  417 .db #0b00000000
+   01DC 54                  418 .db #0b01010100
+   01DD 44                  419 .db #0b01000100
+   01DE 08                  420 .db #0b00001000
+   01DF 08                  421 .db #0b00001000
+   01E0 20                  422 .db #0b00100000
+   01E1 30                  423 .db #0b00110000
+   01E2 30                  424 .db #0b00110000
+   01E3 00                  425 .db #0b00000000
+   01E4 54                  426 .db #0b01010100
+   01E5 44                  427 .db #0b01000100
+   01E6 88                  428 .db #0b10001000
+   01E7 A8                  429 .db #0b10101000
+   01E8 88                  430 .db #0b10001000
+   01E9 CC                  431 .db #0b11001100
+   01EA FC                  432 .db #0b11111100
+   01EB 00                  433 .db #0b00000000
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 9.
 Hexadecimal [16-Bits]
 
 
 
-   0275 AF            [ 4]  431 	XOR A
-                            432 
-                            433 	;JP cpc_PrintGphStr0M1
-                            434 
-   0276                     435 cpc_PrintGphStr0M1:
-                            436 	;DE destino
-                            437 	;HL origen
-                            438 	;ex de,hl
-   0276 32 DF 02      [13]  439 	LD (#dobleM1),A
-                            440 	;trabajo previo: Para tener una lista de trabajos de impresión. No se interrumpe
-                            441 	;la impresión en curso.
-   0279 3A 8C 01      [13]  442 	LD A,(#imprimiendo)
-   027C FE 01         [ 7]  443 	CP #1
-   027E CA EA 00      [10]  444 	JP Z,add_elemento
-   0281 22 8D 01      [16]  445 	LD (#direcc_destino),HL
-   0284 EB            [ 4]  446 	EX DE,HL
-   0285 CD 95 02      [17]  447 	CALL bucle_texto0M1
-                            448 ;antes de terminar, se mira si hay algo en cola.
-   0288                     449 bucle_cola_impresionM1:
-   0288 3A 30 01      [13]  450 	LD A,(#elementos_cola)
-   028B B7            [ 4]  451 	OR A
-   028C CA E4 00      [10]  452 	JP Z,terminar_impresion
-   028F CD 0D 01      [17]  453 	CALL leer_elemento
-   0292 C3 88 02      [10]  454 	JP bucle_cola_impresionM1
-                            455 
-                            456 
-                            457 
-                            458 
-                            459 
-   0295                     460 bucle_texto0M1:
-   0295 3E 01         [ 7]  461 	LD A,#1
-   0297 32 8C 01      [13]  462 	LD (#imprimiendo),A
-                            463 
-   029A 3A A9 03      [13]  464 	LD A,(#first_char)
-   029D 47            [ 4]  465 	LD B,A		;resto 48 para saber el número del caracter (En ASCII 0=48)
-   029E 7E            [ 7]  466 	LD A,(HL)
-   029F B7            [ 4]  467 	OR A ;CP 0
-   02A0 C8            [11]  468 	RET Z
-   02A1 90            [ 4]  469 	SUB B
-   02A2 01 AA 03      [10]  470 	LD BC,#cpc_Chars	;apunto a la primera letra
-   02A5 E5            [11]  471 	PUSH HL
-   02A6 6F            [ 4]  472 	LD L,A		;en A tengo la letra que sería
-   02A7 26 00         [ 7]  473 	LD H,#0
-   02A9 29            [11]  474 	ADD HL,HL
-   02AA 29            [11]  475 	ADD HL,HL
-   02AB 29            [11]  476 	ADD HL,HL	;x8 porque cada letra son 8 bytes
-   02AC 09            [11]  477 	ADD HL,BC	;ahora HL apunta a los datos de la letra correspondiente
-   02AD CD 0A 03      [17]  478 	CALL escribe_letraM1
-   02B0 3A DF 02      [13]  479 	LD A,(dobleM1)
-   02B3 FE 01         [ 7]  480 	CP #1
-                            481 	; ANTES DE IMPRIMIR SE CHEQUEA SI ES DE ALTURA EL DOBLE Y SE ACTÚA EN CONSECUENCIA
-   02B5 CC E0 02      [17]  482 	CALL Z, doblar_letraM1
-   02B8 2A 8D 01      [16]  483 	LD HL,(direcc_destino)
-   02BB 3A DF 02      [13]  484 	LD A,(dobleM1)
-   02BE FE 01         [ 7]  485 	CP #1
+   01EC 54                  434 .db #0b01010100
+   01ED 44                  435 .db #0b01000100
+   01EE 88                  436 .db #0b10001000
+   01EF A8                  437 .db #0b10101000
+   01F0 08                  438 .db #0b00001000
+   01F1 CC                  439 .db #0b11001100
+   01F2 FC                  440 .db #0b11111100
+   01F3 00                  441 .db #0b00000000
+                            442 
+                            443 
+                            444 
+                            445 
+                            446 
+                            447 
+                            448 	;:
+   01F4 00                  449 	.DB #0b00000000
+   01F5 00                  450 	.DB #0b00000000
+   01F6 20                  451 	.DB #0b00100000
+   01F7 00                  452 	.DB #0b00000000
+   01F8 30                  453 	.DB #0b00110000
+   01F9 00                  454 	.DB #0b00000000
+   01FA 00                  455 	.DB #0b00000000
+   01FB 00                  456 	.DB #0b00000000
+                            457 	;SPC (;)
+   01FC 00 00 00 00 00 00   458 	.DB #0,#0,#0,#0,#0,#0,#0,#0
+        00 00
+                            459 	;.   (<)
+   0204 00                  460 	.DB #0b00000000
+   0205 00                  461 	.DB #0b00000000
+   0206 00                  462 	.DB #0b00000000
+   0207 00                  463 	.DB #0b00000000
+   0208 00                  464 	.DB #0b00000000
+   0209 00                  465 	.DB #0b00000000
+   020A C0                  466 	.DB #0b11000000
+   020B 00                  467 	.DB #0b00000000
+                            468 	;Ñ    (=)
+   020C 00                  469 .db #0b00000000
+   020D 54                  470 .db #0b01010100
+   020E 00                  471 .db #0b00000000
+   020F A0                  472 .db #0b10100000
+   0210 88                  473 .db #0b10001000
+   0211 CC                  474 .db #0b11001100
+   0212 CC                  475 .db #0b11001100
+   0213 00                  476 .db #0b00000000
+                            477 
+                            478 	; !	(>)
+   0214 00                  479 	.DB #0b00000000
+   0215 10                  480 	.DB #0b00010000
+   0216 20                  481 	.DB #0b00100000
+   0217 20                  482 	.DB #0b00100000
+   0218 30                  483 	.DB #0b00110000
+   0219 00                  484 	.DB #0b00000000
+   021A 30                  485 	.DB #0b00110000
+   021B 00                  486 	.DB #0b00000000
+                            487 	;-> (?)
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 10.
 Hexadecimal [16-Bits]
 
 
 
-                            486 	;alto
-   02C0 28 08         [12]  487 	JR Z,cont_dobleM1
-   02C2 11 79 03      [10]  488 	LD DE,#letra_decodificada
-   02C5 FD                  489 	.DB #0xfD
-   02C6 26 08         [ 7]  490 	LD H,#8		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-   02C8 18 06         [12]  491 	JR cont_totM1
-                            492 
-                            493 
-   02CA                     494 cont_dobleM1:
-   02CA 11 89 03      [10]  495 	LD DE,#letra_decodificada_tmp
-   02CD FD                  496 	.DB #0XFD
-   02CE 26 10         [ 7]  497 	LD H,#16		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-   02D0                     498 cont_totM1:
-   02D0 CD F1 02      [17]  499 	CALL cpc_PutSp0M1
-   02D3 2A 8D 01      [16]  500 	LD HL,(#direcc_destino)
-   02D6 23            [ 6]  501 	INC HL
-   02D7 22 8D 01      [16]  502 	LD (#direcc_destino),HL
-   02DA E1            [10]  503 	POP HL
-   02DB 23            [ 6]  504 	INC HL
-   02DC C3 95 02      [10]  505 	JP bucle_texto0M1
+   021C 00                  488 	.DB #0b00000000
+   021D 00                  489 	.DB #0b00000000
+   021E 80                  490 	.DB #0b10000000
+   021F A0                  491 	.DB #0b10100000
+   0220 FC                  492 	.DB #0b11111100
+   0221 FC                  493 	.DB #0b11111100
+   0222 00                  494 	.DB #0b00000000
+   0223 00                  495 	.DB #0b00000000
+                            496 	;-  (@)
+   0224 00                  497 	.DB #0b00000000
+   0225 00                  498 	.DB #0b00000000
+   0226 00                  499 	.DB #0b00000000
+   0227 A8                  500 	.DB #0b10101000
+   0228 FC                  501 	.DB #0b11111100
+   0229 00                  502 	.DB #0b00000000
+   022A 00                  503 	.DB #0b00000000
+   022B 00                  504 	.DB #0b00000000
+                            505 
                             506 
-   02DF                     507 dobleM1:
-   02DF 00                  508 	.DB #0
-                            509 ;.imprimiendo defb 0
-                            510 ;.direcc_destino defw 0
-                            511 
-   02E0                     512 doblar_letraM1:
-   02E0 21 79 03      [10]  513 	LD HL,#letra_decodificada
-   02E3 11 89 03      [10]  514 	LD DE,#letra_decodificada_tmp
-   02E6 06 08         [ 7]  515 	LD B,#8
-   02E8                     516 buc_doblar_letraM1:
-   02E8 7E            [ 7]  517 	LD A,(HL)
-   02E9 23            [ 6]  518 	INC HL
-   02EA 12            [ 7]  519 	LD (DE),A
-   02EB 13            [ 6]  520 	INC DE
-   02EC 12            [ 7]  521 	LD (DE),A
-   02ED 13            [ 6]  522 	INC DE
-   02EE 10 F8         [13]  523 	DJNZ buc_doblar_letraM1
-   02F0 C9            [10]  524 	RET
-                            525 
-                            526 
-   02F1                     527 cpc_PutSp0M1:
-                            528 	;	defb #0xfD
-                            529    	;	LD H,8		;ALTO, SE PUEDE TRABAJAR CON HX DIRECTAMENTE
-   02F1 06 07         [ 7]  530 	LD B,#7
-   02F3 48            [ 4]  531 	LD C,B
-   02F4                     532 loop_alto_2M1:
-   02F4                     533 loop_ancho_2M1:
-   02F4 EB            [ 4]  534 	EX DE,HL
-   02F5 ED A0         [16]  535 	LDI
-   02F7 FD                  536 	.DB #0XFD
-   02F8 25            [ 4]  537 	DEC H
-   02F9 C8            [11]  538 	RET Z
-   02FA EB            [ 4]  539 	EX DE,HL
-   02FB                     540 salto_lineaM1:
+                            507 
+                            508 ;A-Z
+   022C 00                  509 .db #0b00000000
+   022D 54                  510 .db #0b01010100
+   022E 88                  511 .db #0b10001000
+   022F 88                  512 .db #0b10001000
+   0230 A8                  513 .db #0b10101000
+   0231 CC                  514 .db #0b11001100
+   0232 CC                  515 .db #0b11001100
+   0233 00                  516 .db #0b00000000
+   0234 00                  517 .db #0b00000000
+   0235 54                  518 .db #0b01010100
+   0236 88                  519 .db #0b10001000
+   0237 A8                  520 .db #0b10101000
+   0238 88                  521 .db #0b10001000
+   0239 CC                  522 .db #0b11001100
+   023A FC                  523 .db #0b11111100
+   023B 00                  524 .db #0b00000000
+   023C 00                  525 .db #0b00000000
+   023D 54                  526 .db #0b01010100
+   023E 88                  527 .db #0b10001000
+   023F 80                  528 .db #0b10000000
+   0240 88                  529 .db #0b10001000
+   0241 CC                  530 .db #0b11001100
+   0242 FC                  531 .db #0b11111100
+   0243 00                  532 .db #0b00000000
+   0244 00                  533 .db #0b00000000
+   0245 54                  534 .db #0b01010100
+   0246 88                  535 .db #0b10001000
+   0247 88                  536 .db #0b10001000
+   0248 88                  537 .db #0b10001000
+   0249 CC                  538 .db #0b11001100
+   024A F0                  539 .db #0b11110000
+   024B 00                  540 .db #0b00000000
+   024C 00                  541 .db #0b00000000
+   024D 54                  542 .db #0b01010100
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 11.
 Hexadecimal [16-Bits]
 
 
 
-   02FB 0E FF         [ 7]  541 	LD C,#0XFF			;#0x07f6 			;salto linea menos ancho
-   02FD 09            [11]  542 	ADD HL,BC
-   02FE D2 F4 02      [10]  543 	JP NC,loop_alto_2M1 ;sig_linea_2zz		;si no desborda va a la siguiente linea
-   0301 01 50 C0      [10]  544 	LD BC,#0XC050
-   0304 09            [11]  545 	ADD HL,BC
-   0305 06 07         [ 7]  546 	LD B,#7			;sólo se daría una de cada 8 veces en un sprite
-   0307 C3 F4 02      [10]  547 	JP loop_alto_2M1
-                            548 
-                            549 
-                            550 
-   030A                     551 escribe_letraM1:
-   030A FD 21 79 03   [14]  552 	LD IY,#letra_decodificada
-   030E 06 08         [ 7]  553 	LD B,#8
-   0310 DD 21 72 03   [14]  554 	LD IX,#byte_tmp
-   0314                     555 bucle_altoM1:
-   0314 C5            [11]  556 	PUSH BC
-   0315 E5            [11]  557 	PUSH HL
-                            558 
-   0316 7E            [ 7]  559 	LD A,(HL)
-   0317 21 71 03      [10]  560 	LD HL,#dato
-   031A 77            [ 7]  561 	LD (HL),A
-                            562 	;me deja en ix los valores convertidos
-                            563 	;HL tiene la dirección origen de los datos de la letra
-                            564 	;LD DE,letra	;el destino es la posición de decodificación de la letra
-                            565 	;Se analiza el byte por parejas de bits para saber el color de cada pixel.
-   031B DD 36 00 00   [19]  566 	LD (IX),#0	;reset el byte
-   031F 06 04         [ 7]  567 	LD B,#4	;son 4 pixels por byte. Los recorro en un bucle y miro qué color tiene cada byte.
-   0321                     568 bucle_coloresM1:
-                            569 	;roto el byte en (HL)
-   0321 E5            [11]  570 	PUSH HL
-   0322 CD 3A 03      [17]  571 	CALL op_colores_m1	;voy a ver qué color es el byte. tengo un máximo de 4 colores posibles en modo 0.
-   0325 E1            [10]  572 	POP HL
-   0326 CB 3E         [15]  573 	SRL (HL)
-   0328 CB 3E         [15]  574 	SRL (HL)	;voy rotando el byte para mirar los bits por pares.
-   032A 10 F5         [13]  575 	DJNZ bucle_coloresM1
-   032C DD 7E 00      [19]  576 	LD A,(IX)
-   032F FD 77 00      [19]  577 	LD (IY),A
-   0332 FD 23         [10]  578 	INC IY
-   0334 E1            [10]  579 	POP HL
-   0335 23            [ 6]  580 	INC HL
-   0336 C1            [10]  581 	POP BC
-   0337 10 DB         [13]  582 	DJNZ bucle_altoM1
-   0339 C9            [10]  583 	RET
-                            584 
-                            585 
-                            586 ;.rutina
-                            587 ;HL tiene la dirección origen de los datos de la letra
-                            588 
-                            589 ;Se analiza el byte por parejas de bits para saber el color de cada pixel.
-                            590 ;ld ix,byte_tmp
-                            591 ;ld (ix+0),0
-                            592 
-                            593 ;LD B,4	;son 4 pixels por byte. Los recorro en un bucle y miro qué color tiene cada byte.
-                            594 ;.bucle_colores
-                            595 ;roto el byte en (HL)
+   024E 80                  543 .db #0b10000000
+   024F A8                  544 .db #0b10101000
+   0250 80                  545 .db #0b10000000
+   0251 CC                  546 .db #0b11001100
+   0252 FC                  547 .db #0b11111100
+   0253 00                  548 .db #0b00000000
+   0254 00                  549 .db #0b00000000
+   0255 54                  550 .db #0b01010100
+   0256 80                  551 .db #0b10000000
+   0257 A8                  552 .db #0b10101000
+   0258 80                  553 .db #0b10000000
+   0259 C0                  554 .db #0b11000000
+   025A C0                  555 .db #0b11000000
+   025B 00                  556 .db #0b00000000
+   025C 00                  557 .db #0b00000000
+   025D 54                  558 .db #0b01010100
+   025E 88                  559 .db #0b10001000
+   025F 80                  560 .db #0b10000000
+   0260 A8                  561 .db #0b10101000
+   0261 CC                  562 .db #0b11001100
+   0262 FC                  563 .db #0b11111100
+   0263 00                  564 .db #0b00000000
+   0264 00                  565 .db #0b00000000
+   0265 44                  566 .db #0b01000100
+   0266 88                  567 .db #0b10001000
+   0267 88                  568 .db #0b10001000
+   0268 A8                  569 .db #0b10101000
+   0269 CC                  570 .db #0b11001100
+   026A CC                  571 .db #0b11001100
+   026B 00                  572 .db #0b00000000
+   026C 00                  573 .db #0b00000000
+   026D 54                  574 .db #0b01010100
+   026E 20                  575 .db #0b00100000
+   026F 20                  576 .db #0b00100000
+   0270 20                  577 .db #0b00100000
+   0271 30                  578 .db #0b00110000
+   0272 FC                  579 .db #0b11111100
+   0273 00                  580 .db #0b00000000
+   0274 00                  581 .db #0b00000000
+   0275 54                  582 .db #0b01010100
+   0276 A8                  583 .db #0b10101000
+   0277 08                  584 .db #0b00001000
+   0278 08                  585 .db #0b00001000
+   0279 CC                  586 .db #0b11001100
+   027A FC                  587 .db #0b11111100
+   027B 00                  588 .db #0b00000000
+   027C 00                  589 .db #0b00000000
+   027D 44                  590 .db #0b01000100
+   027E 88                  591 .db #0b10001000
+   027F A0                  592 .db #0b10100000
+   0280 88                  593 .db #0b10001000
+   0281 CC                  594 .db #0b11001100
+   0282 CC                  595 .db #0b11001100
+   0283 00                  596 .db #0b00000000
+   0284 00                  597 .db #0b00000000
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 12.
 Hexadecimal [16-Bits]
 
 
 
-                            596 ;push hl
-                            597 ;call op_colores_m1	;voy a ver qué color es el byte. tengo un máximo de 4 colores posibles en modo 0.
-                            598 ;pop hl
-                            599 ;sla (HL)
-                            600 ;sla (HL)	;voy rotando el byte para mirar los bits por pares.
-                            601 
-                            602 ;djnz bucle_colores
-                            603 
-                            604 ;ret
-   033A                     605 op_colores_m1:   	;rutina en modo 1
-                            606 					;mira el color del bit a pintar
-   033A 3E 03         [ 7]  607 	LD A,#3			;hay 4 colores posibles. Me quedo con los 2 primeros bits
-   033C A6            [ 7]  608 	AND (HL)
-                            609 	; EN A tengo el número de bytes a sumar!!
-   033D 21 6D 03      [10]  610 	LD HL,#colores_m1
-   0340 5F            [ 4]  611 	LD E,A
-   0341 16 00         [ 7]  612 	LD D,#0
-   0343 19            [11]  613 	ADD HL,DE
-   0344 4E            [ 7]  614 	LD C,(HL)
-                            615 	;EN C ESTÁ EL BYTE DEL COLOR
-                            616 	;LD A,4
-                            617 	;SUB B
-   0345 78            [ 4]  618 	LD A,B
-   0346 3D            [ 4]  619 	DEC A
-   0347 B7            [ 4]  620 	OR A ;CP 0
-   0348 CA 51 03      [10]  621 	JP Z,_sin_rotar
-   034B                     622 rotando:
-   034B CB 39         [ 8]  623 	SRL C
-   034D 3D            [ 4]  624 	DEC A
-   034E C2 4B 03      [10]  625 	JP NZ, rotando
-   0351                     626 _sin_rotar:
-   0351 79            [ 4]  627 	LD A,C
-   0352 DD B6 00      [19]  628 	OR (IX)
-   0355 DD 77 00      [19]  629 	LD (IX),A
-                            630 	;INC IX
-   0358 C9            [10]  631 	RET
-                            632 
-                            633 
-                            634 .globl _cpc_SetInkGphStrM1
-                            635 
-   0359                     636 _cpc_SetInkGphStrM1::
-   0359 DD 21 02 00   [14]  637 	LD IX,#2
-   035D DD 39         [15]  638 	ADD IX,SP
-   035F DD 7E 01      [19]  639 	LD A,1 (IX) ;VALOR
-   0362 DD 4E 00      [19]  640 	LD C,0 (IX)	;COLOR
-   0365 21 6D 03      [10]  641 	LD HL,#colores_cambM1
-   0368 06 00         [ 7]  642 	LD B,#0
-   036A 09            [11]  643 	ADD HL,BC
-   036B 77            [ 7]  644 	LD (HL),A
-   036C C9            [10]  645 	RET
-                            646 
-                            647 
-                            648 
-   036D                     649 colores_cambM1:
-   036D                     650 colores_m1:
+   0285 40                  598 .db #0b01000000
+   0286 80                  599 .db #0b10000000
+   0287 80                  600 .db #0b10000000
+   0288 80                  601 .db #0b10000000
+   0289 CC                  602 .db #0b11001100
+   028A FC                  603 .db #0b11111100
+   028B 00                  604 .db #0b00000000
+   028C 00                  605 .db #0b00000000
+   028D 54                  606 .db #0b01010100
+   028E A8                  607 .db #0b10101000
+   028F 88                  608 .db #0b10001000
+   0290 88                  609 .db #0b10001000
+   0291 CC                  610 .db #0b11001100
+   0292 CC                  611 .db #0b11001100
+   0293 00                  612 .db #0b00000000
+   0294 00                  613 .db #0b00000000
+   0295 50                  614 .db #0b01010000
+   0296 88                  615 .db #0b10001000
+   0297 88                  616 .db #0b10001000
+   0298 88                  617 .db #0b10001000
+   0299 CC                  618 .db #0b11001100
+   029A CC                  619 .db #0b11001100
+   029B 00                  620 .db #0b00000000
+   029C 00                  621 .db #0b00000000
+   029D 54                  622 .db #0b01010100
+   029E 88                  623 .db #0b10001000
+   029F 88                  624 .db #0b10001000
+   02A0 88                  625 .db #0b10001000
+   02A1 CC                  626 .db #0b11001100
+   02A2 FC                  627 .db #0b11111100
+   02A3 00                  628 .db #0b00000000
+   02A4 00                  629 .db #0b00000000
+   02A5 54                  630 .db #0b01010100
+   02A6 88                  631 .db #0b10001000
+   02A7 88                  632 .db #0b10001000
+   02A8 A8                  633 .db #0b10101000
+   02A9 C0                  634 .db #0b11000000
+   02AA C0                  635 .db #0b11000000
+   02AB 00                  636 .db #0b00000000
+   02AC 00                  637 .db #0b00000000
+   02AD 54                  638 .db #0b01010100
+   02AE 88                  639 .db #0b10001000
+   02AF 88                  640 .db #0b10001000
+   02B0 88                  641 .db #0b10001000
+   02B1 FC                  642 .db #0b11111100
+   02B2 FC                  643 .db #0b11111100
+   02B3 00                  644 .db #0b00000000
+   02B4 00                  645 .db #0b00000000
+   02B5 54                  646 .db #0b01010100
+   02B6 88                  647 .db #0b10001000
+   02B7 88                  648 .db #0b10001000
+   02B8 A0                  649 .db #0b10100000
+   02B9 CC                  650 .db #0b11001100
+   02BA CC                  651 .db #0b11001100
+   02BB 00                  652 .db #0b00000000
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 13.
 Hexadecimal [16-Bits]
 
 
 
-   036D 00 88 80 08         651 	.DB #0b00000000,#0b10001000,#0b10000000,#0b00001000
-                            652 
-                            653 ;defb @00000000,  @01010100, @00010000, @00000101  ;@00000001, @00000101, @00010101, @00000000
-                            654 
-                            655 
-                            656 
-                            657 ;DEFC direcc_destino0_m1 = direcc_destino
-                            658 ;DEFC colores_cambM1 = colores_m1
-                            659 
-                            660 
-                            661 
-                            662 
-   0371                     663 dato:
-   0371 1B                  664 	.DB #0b00011011  ;aquí dejo temporalmente el byte a tratar
-                            665 
-   0372                     666 byte_tmp:
-   0372 00                  667 	.DB #0
-   0373 00                  668 	.DB #0
-   0374 00                  669 	.DB #0  ;defs 3
-   0375                     670 colores_b0: ;defino los 4 colores posibles para el byte. Los colores pueden ser cualesquiera.
-                            671 	  		;Pero se tienen que poner bien, en la posición que le corresponda.
-   0375 0A 20 A0 28         672 	.DB #0b00001010,#0b00100000,#0b10100000,#0b00101000
-                            673 	;.DB #0b00000000,  #0b01010100, #0b00010000, #0b00000101  ;#0b00000001, #0b00000101, #0b00010101, #0b00000000
-                            674 
-   0379                     675 letra_decodificada: ;. defs 16 ;16	;uso este espacio para guardar la letra que se decodifica
-   0379 00 00 00 00 00 00   676 	.DB #0,#0,#0,#0,#0,#0,#0,#0
-        00 00
-   0381 00 00 00 00 00 00   677 	.DB #0,#0,#0,#0,#0,#0,#0,#0
-        00 00
-   0389                     678 letra_decodificada_tmp: ;defs 32 ;16	;uso este espacio para guardar la letra que se decodifica para tamaño doble altura
-   0389 00 00 00 00 00 00   679 	.DB #0,#0,#0,#0,#0,#0,#0,#0
-        00 00
-   0391 00 00 00 00 00 00   680 	.DB #0,#0,#0,#0,#0,#0,#0,#0
-        00 00
-   0399 00 00 00 00 00 00   681 	.DB #0,#0,#0,#0,#0,#0,#0,#0
-        00 00
-   03A1 00 00 00 00 00 00   682 	.DB #0,#0,#0,#0,#0,#0,#0,#0
-        00 00
-                            683 
-                            684 
-   03A9                     685 first_char:
-   03A9 2F                  686 	.DB #47	;first defined char number (ASCII)
-                            687 
-   03AA                     688 cpc_Chars:   ;cpc_Chars codificadas... cada pixel se define con 2 bits que definen el color.
-                            689 	;/
-   03AA 01                  690 	.DB #0b00000001
-   03AB 01                  691 	.DB #0b00000001
-   03AC 08                  692 	.DB #0b00001000
-   03AD 08                  693 	.DB #0b00001000
-   03AE 3C                  694 	.DB #0b00111100
-   03AF 30                  695 	.DB #0b00110000
-   03B0 30                  696 	.DB #0b00110000
-   03B1 00                  697 	.DB #0b00000000
-                            698 ;0-9
-   03B2 54                  699 .db #0b01010100
+   02BC 00                  653 .db #0b00000000
+   02BD 54                  654 .db #0b01010100
+   02BE 80                  655 .db #0b10000000
+   02BF A8                  656 .db #0b10101000
+   02C0 08                  657 .db #0b00001000
+   02C1 CC                  658 .db #0b11001100
+   02C2 FC                  659 .db #0b11111100
+   02C3 00                  660 .db #0b00000000
+   02C4 00                  661 .db #0b00000000
+   02C5 54                  662 .db #0b01010100
+   02C6 20                  663 .db #0b00100000
+   02C7 20                  664 .db #0b00100000
+   02C8 20                  665 .db #0b00100000
+   02C9 30                  666 .db #0b00110000
+   02CA 30                  667 .db #0b00110000
+   02CB 00                  668 .db #0b00000000
+   02CC 00                  669 .db #0b00000000
+   02CD 44                  670 .db #0b01000100
+   02CE 88                  671 .db #0b10001000
+   02CF 88                  672 .db #0b10001000
+   02D0 88                  673 .db #0b10001000
+   02D1 CC                  674 .db #0b11001100
+   02D2 FC                  675 .db #0b11111100
+   02D3 00                  676 .db #0b00000000
+   02D4 00                  677 .db #0b00000000
+   02D5 44                  678 .db #0b01000100
+   02D6 88                  679 .db #0b10001000
+   02D7 88                  680 .db #0b10001000
+   02D8 88                  681 .db #0b10001000
+   02D9 CC                  682 .db #0b11001100
+   02DA 30                  683 .db #0b00110000
+   02DB 00                  684 .db #0b00000000
+   02DC 00                  685 .db #0b00000000
+   02DD 44                  686 .db #0b01000100
+   02DE 88                  687 .db #0b10001000
+   02DF 88                  688 .db #0b10001000
+   02E0 88                  689 .db #0b10001000
+   02E1 FC                  690 .db #0b11111100
+   02E2 CC                  691 .db #0b11001100
+   02E3 00                  692 .db #0b00000000
+   02E4 00                  693 .db #0b00000000
+   02E5 44                  694 .db #0b01000100
+   02E6 88                  695 .db #0b10001000
+   02E7 A0                  696 .db #0b10100000
+   02E8 20                  697 .db #0b00100000
+   02E9 CC                  698 .db #0b11001100
+   02EA CC                  699 .db #0b11001100
+   02EB 00                  700 .db #0b00000000
+   02EC 00                  701 .db #0b00000000
+   02ED 44                  702 .db #0b01000100
+   02EE 88                  703 .db #0b10001000
+   02EF 88                  704 .db #0b10001000
+   02F0 20                  705 .db #0b00100000
+   02F1 30                  706 .db #0b00110000
+   02F2 30                  707 .db #0b00110000
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 14.
 Hexadecimal [16-Bits]
 
 
 
-   03B3 44                  700 .db #0b01000100
-   03B4 88                  701 .db #0b10001000
-   03B5 88                  702 .db #0b10001000
-   03B6 88                  703 .db #0b10001000
-   03B7 CC                  704 .db #0b11001100
-   03B8 FC                  705 .db #0b11111100
-   03B9 00                  706 .db #0b00000000
-   03BA 10                  707 .db #0b00010000
-   03BB 50                  708 .db #0b01010000
-   03BC 20                  709 .db #0b00100000
-   03BD 20                  710 .db #0b00100000
-   03BE 20                  711 .db #0b00100000
-   03BF 30                  712 .db #0b00110000
-   03C0 FC                  713 .db #0b11111100
-   03C1 00                  714 .db #0b00000000
-   03C2 54                  715 .db #0b01010100
-   03C3 44                  716 .db #0b01000100
-   03C4 08                  717 .db #0b00001000
-   03C5 A8                  718 .db #0b10101000
-   03C6 80                  719 .db #0b10000000
-   03C7 CC                  720 .db #0b11001100
-   03C8 FC                  721 .db #0b11111100
-   03C9 00                  722 .db #0b00000000
-   03CA 54                  723 .db #0b01010100
-   03CB 44                  724 .db #0b01000100
-   03CC 08                  725 .db #0b00001000
-   03CD 28                  726 .db #0b00101000
-   03CE 08                  727 .db #0b00001000
-   03CF CC                  728 .db #0b11001100
-   03D0 FC                  729 .db #0b11111100
-   03D1 00                  730 .db #0b00000000
-   03D2 44                  731 .db #0b01000100
-   03D3 44                  732 .db #0b01000100
-   03D4 88                  733 .db #0b10001000
-   03D5 A8                  734 .db #0b10101000
-   03D6 08                  735 .db #0b00001000
-   03D7 0C                  736 .db #0b00001100
-   03D8 0C                  737 .db #0b00001100
-   03D9 00                  738 .db #0b00000000
-   03DA 54                  739 .db #0b01010100
-   03DB 44                  740 .db #0b01000100
-   03DC 80                  741 .db #0b10000000
-   03DD A8                  742 .db #0b10101000
-   03DE 08                  743 .db #0b00001000
-   03DF CC                  744 .db #0b11001100
-   03E0 FC                  745 .db #0b11111100
-   03E1 00                  746 .db #0b00000000
-   03E2 54                  747 .db #0b01010100
-   03E3 44                  748 .db #0b01000100
-   03E4 80                  749 .db #0b10000000
-   03E5 A8                  750 .db #0b10101000
-   03E6 88                  751 .db #0b10001000
-   03E7 CC                  752 .db #0b11001100
-   03E8 FC                  753 .db #0b11111100
-   03E9 00                  754 .db #0b00000000
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 15.
-Hexadecimal [16-Bits]
-
-
-
-   03EA 54                  755 .db #0b01010100
-   03EB 44                  756 .db #0b01000100
-   03EC 08                  757 .db #0b00001000
-   03ED 08                  758 .db #0b00001000
-   03EE 20                  759 .db #0b00100000
-   03EF 30                  760 .db #0b00110000
-   03F0 30                  761 .db #0b00110000
-   03F1 00                  762 .db #0b00000000
-   03F2 54                  763 .db #0b01010100
-   03F3 44                  764 .db #0b01000100
-   03F4 88                  765 .db #0b10001000
-   03F5 A8                  766 .db #0b10101000
-   03F6 88                  767 .db #0b10001000
-   03F7 CC                  768 .db #0b11001100
-   03F8 FC                  769 .db #0b11111100
-   03F9 00                  770 .db #0b00000000
-   03FA 54                  771 .db #0b01010100
-   03FB 44                  772 .db #0b01000100
-   03FC 88                  773 .db #0b10001000
-   03FD A8                  774 .db #0b10101000
-   03FE 08                  775 .db #0b00001000
-   03FF CC                  776 .db #0b11001100
-   0400 FC                  777 .db #0b11111100
-   0401 00                  778 .db #0b00000000
-                            779 
-                            780 
-                            781 
-                            782 
-                            783 
-                            784 
-                            785 	;:
-   0402 00                  786 	.DB #0b00000000
-   0403 00                  787 	.DB #0b00000000
-   0404 20                  788 	.DB #0b00100000
-   0405 00                  789 	.DB #0b00000000
-   0406 30                  790 	.DB #0b00110000
-   0407 00                  791 	.DB #0b00000000
-   0408 00                  792 	.DB #0b00000000
-   0409 00                  793 	.DB #0b00000000
-                            794 	;SPC (;)
-   040A 00 00 00 00 00 00   795 	.DB #0,#0,#0,#0,#0,#0,#0,#0
-        00 00
-                            796 	;.   (<)
-   0412 00                  797 	.DB #0b00000000
-   0413 00                  798 	.DB #0b00000000
-   0414 00                  799 	.DB #0b00000000
-   0415 00                  800 	.DB #0b00000000
-   0416 00                  801 	.DB #0b00000000
-   0417 00                  802 	.DB #0b00000000
-   0418 C0                  803 	.DB #0b11000000
-   0419 00                  804 	.DB #0b00000000
-                            805 	;Ñ    (=)
-   041A 00                  806 .db #0b00000000
-   041B 54                  807 .db #0b01010100
-   041C 00                  808 .db #0b00000000
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 16.
-Hexadecimal [16-Bits]
-
-
-
-   041D A0                  809 .db #0b10100000
-   041E 88                  810 .db #0b10001000
-   041F CC                  811 .db #0b11001100
-   0420 CC                  812 .db #0b11001100
-   0421 00                  813 .db #0b00000000
-                            814 
-                            815 	; !	(>)
-   0422 00                  816 	.DB #0b00000000
-   0423 10                  817 	.DB #0b00010000
-   0424 20                  818 	.DB #0b00100000
-   0425 20                  819 	.DB #0b00100000
-   0426 30                  820 	.DB #0b00110000
-   0427 00                  821 	.DB #0b00000000
-   0428 30                  822 	.DB #0b00110000
-   0429 00                  823 	.DB #0b00000000
-                            824 	;-> (?)
-   042A 00                  825 	.DB #0b00000000
-   042B 00                  826 	.DB #0b00000000
-   042C 80                  827 	.DB #0b10000000
-   042D A0                  828 	.DB #0b10100000
-   042E FC                  829 	.DB #0b11111100
-   042F FC                  830 	.DB #0b11111100
-   0430 00                  831 	.DB #0b00000000
-   0431 00                  832 	.DB #0b00000000
-                            833 	;-  (@)
-   0432 00                  834 	.DB #0b00000000
-   0433 00                  835 	.DB #0b00000000
-   0434 00                  836 	.DB #0b00000000
-   0435 A8                  837 	.DB #0b10101000
-   0436 FC                  838 	.DB #0b11111100
-   0437 00                  839 	.DB #0b00000000
-   0438 00                  840 	.DB #0b00000000
-   0439 00                  841 	.DB #0b00000000
-                            842 
-                            843 
-                            844 
-                            845 ;A-Z
-   043A 00                  846 .db #0b00000000
-   043B 54                  847 .db #0b01010100
-   043C 88                  848 .db #0b10001000
-   043D 88                  849 .db #0b10001000
-   043E A8                  850 .db #0b10101000
-   043F CC                  851 .db #0b11001100
-   0440 CC                  852 .db #0b11001100
-   0441 00                  853 .db #0b00000000
-   0442 00                  854 .db #0b00000000
-   0443 54                  855 .db #0b01010100
-   0444 88                  856 .db #0b10001000
-   0445 A8                  857 .db #0b10101000
-   0446 88                  858 .db #0b10001000
-   0447 CC                  859 .db #0b11001100
-   0448 FC                  860 .db #0b11111100
-   0449 00                  861 .db #0b00000000
-   044A 00                  862 .db #0b00000000
-   044B 54                  863 .db #0b01010100
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 17.
-Hexadecimal [16-Bits]
-
-
-
-   044C 88                  864 .db #0b10001000
-   044D 80                  865 .db #0b10000000
-   044E 88                  866 .db #0b10001000
-   044F CC                  867 .db #0b11001100
-   0450 FC                  868 .db #0b11111100
-   0451 00                  869 .db #0b00000000
-   0452 00                  870 .db #0b00000000
-   0453 54                  871 .db #0b01010100
-   0454 88                  872 .db #0b10001000
-   0455 88                  873 .db #0b10001000
-   0456 88                  874 .db #0b10001000
-   0457 CC                  875 .db #0b11001100
-   0458 F0                  876 .db #0b11110000
-   0459 00                  877 .db #0b00000000
-   045A 00                  878 .db #0b00000000
-   045B 54                  879 .db #0b01010100
-   045C 80                  880 .db #0b10000000
-   045D A8                  881 .db #0b10101000
-   045E 80                  882 .db #0b10000000
-   045F CC                  883 .db #0b11001100
-   0460 FC                  884 .db #0b11111100
-   0461 00                  885 .db #0b00000000
-   0462 00                  886 .db #0b00000000
-   0463 54                  887 .db #0b01010100
-   0464 80                  888 .db #0b10000000
-   0465 A8                  889 .db #0b10101000
-   0466 80                  890 .db #0b10000000
-   0467 C0                  891 .db #0b11000000
-   0468 C0                  892 .db #0b11000000
-   0469 00                  893 .db #0b00000000
-   046A 00                  894 .db #0b00000000
-   046B 54                  895 .db #0b01010100
-   046C 88                  896 .db #0b10001000
-   046D 80                  897 .db #0b10000000
-   046E A8                  898 .db #0b10101000
-   046F CC                  899 .db #0b11001100
-   0470 FC                  900 .db #0b11111100
-   0471 00                  901 .db #0b00000000
-   0472 00                  902 .db #0b00000000
-   0473 44                  903 .db #0b01000100
-   0474 88                  904 .db #0b10001000
-   0475 88                  905 .db #0b10001000
-   0476 A8                  906 .db #0b10101000
-   0477 CC                  907 .db #0b11001100
-   0478 CC                  908 .db #0b11001100
-   0479 00                  909 .db #0b00000000
-   047A 00                  910 .db #0b00000000
-   047B 54                  911 .db #0b01010100
-   047C 20                  912 .db #0b00100000
-   047D 20                  913 .db #0b00100000
-   047E 20                  914 .db #0b00100000
-   047F 30                  915 .db #0b00110000
-   0480 FC                  916 .db #0b11111100
-   0481 00                  917 .db #0b00000000
-   0482 00                  918 .db #0b00000000
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 18.
-Hexadecimal [16-Bits]
-
-
-
-   0483 54                  919 .db #0b01010100
-   0484 A8                  920 .db #0b10101000
-   0485 08                  921 .db #0b00001000
-   0486 08                  922 .db #0b00001000
-   0487 CC                  923 .db #0b11001100
-   0488 FC                  924 .db #0b11111100
-   0489 00                  925 .db #0b00000000
-   048A 00                  926 .db #0b00000000
-   048B 44                  927 .db #0b01000100
-   048C 88                  928 .db #0b10001000
-   048D A0                  929 .db #0b10100000
-   048E 88                  930 .db #0b10001000
-   048F CC                  931 .db #0b11001100
-   0490 CC                  932 .db #0b11001100
-   0491 00                  933 .db #0b00000000
-   0492 00                  934 .db #0b00000000
-   0493 40                  935 .db #0b01000000
-   0494 80                  936 .db #0b10000000
-   0495 80                  937 .db #0b10000000
-   0496 80                  938 .db #0b10000000
-   0497 CC                  939 .db #0b11001100
-   0498 FC                  940 .db #0b11111100
-   0499 00                  941 .db #0b00000000
-   049A 00                  942 .db #0b00000000
-   049B 54                  943 .db #0b01010100
-   049C A8                  944 .db #0b10101000
-   049D 88                  945 .db #0b10001000
-   049E 88                  946 .db #0b10001000
-   049F CC                  947 .db #0b11001100
-   04A0 CC                  948 .db #0b11001100
-   04A1 00                  949 .db #0b00000000
-   04A2 00                  950 .db #0b00000000
-   04A3 50                  951 .db #0b01010000
-   04A4 88                  952 .db #0b10001000
-   04A5 88                  953 .db #0b10001000
-   04A6 88                  954 .db #0b10001000
-   04A7 CC                  955 .db #0b11001100
-   04A8 CC                  956 .db #0b11001100
-   04A9 00                  957 .db #0b00000000
-   04AA 00                  958 .db #0b00000000
-   04AB 54                  959 .db #0b01010100
-   04AC 88                  960 .db #0b10001000
-   04AD 88                  961 .db #0b10001000
-   04AE 88                  962 .db #0b10001000
-   04AF CC                  963 .db #0b11001100
-   04B0 FC                  964 .db #0b11111100
-   04B1 00                  965 .db #0b00000000
-   04B2 00                  966 .db #0b00000000
-   04B3 54                  967 .db #0b01010100
-   04B4 88                  968 .db #0b10001000
-   04B5 88                  969 .db #0b10001000
-   04B6 A8                  970 .db #0b10101000
-   04B7 C0                  971 .db #0b11000000
-   04B8 C0                  972 .db #0b11000000
-   04B9 00                  973 .db #0b00000000
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 19.
-Hexadecimal [16-Bits]
-
-
-
-   04BA 00                  974 .db #0b00000000
-   04BB 54                  975 .db #0b01010100
-   04BC 88                  976 .db #0b10001000
-   04BD 88                  977 .db #0b10001000
-   04BE 88                  978 .db #0b10001000
-   04BF FC                  979 .db #0b11111100
-   04C0 FC                  980 .db #0b11111100
-   04C1 00                  981 .db #0b00000000
-   04C2 00                  982 .db #0b00000000
-   04C3 54                  983 .db #0b01010100
-   04C4 88                  984 .db #0b10001000
-   04C5 88                  985 .db #0b10001000
-   04C6 A0                  986 .db #0b10100000
-   04C7 CC                  987 .db #0b11001100
-   04C8 CC                  988 .db #0b11001100
-   04C9 00                  989 .db #0b00000000
-   04CA 00                  990 .db #0b00000000
-   04CB 54                  991 .db #0b01010100
-   04CC 80                  992 .db #0b10000000
-   04CD A8                  993 .db #0b10101000
-   04CE 08                  994 .db #0b00001000
-   04CF CC                  995 .db #0b11001100
-   04D0 FC                  996 .db #0b11111100
-   04D1 00                  997 .db #0b00000000
-   04D2 00                  998 .db #0b00000000
-   04D3 54                  999 .db #0b01010100
-   04D4 20                 1000 .db #0b00100000
-   04D5 20                 1001 .db #0b00100000
-   04D6 20                 1002 .db #0b00100000
-   04D7 30                 1003 .db #0b00110000
-   04D8 30                 1004 .db #0b00110000
-   04D9 00                 1005 .db #0b00000000
-   04DA 00                 1006 .db #0b00000000
-   04DB 44                 1007 .db #0b01000100
-   04DC 88                 1008 .db #0b10001000
-   04DD 88                 1009 .db #0b10001000
-   04DE 88                 1010 .db #0b10001000
-   04DF CC                 1011 .db #0b11001100
-   04E0 FC                 1012 .db #0b11111100
-   04E1 00                 1013 .db #0b00000000
-   04E2 00                 1014 .db #0b00000000
-   04E3 44                 1015 .db #0b01000100
-   04E4 88                 1016 .db #0b10001000
-   04E5 88                 1017 .db #0b10001000
-   04E6 88                 1018 .db #0b10001000
-   04E7 CC                 1019 .db #0b11001100
-   04E8 30                 1020 .db #0b00110000
-   04E9 00                 1021 .db #0b00000000
-   04EA 00                 1022 .db #0b00000000
-   04EB 44                 1023 .db #0b01000100
-   04EC 88                 1024 .db #0b10001000
-   04ED 88                 1025 .db #0b10001000
-   04EE 88                 1026 .db #0b10001000
-   04EF FC                 1027 .db #0b11111100
-   04F0 CC                 1028 .db #0b11001100
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 20.
-Hexadecimal [16-Bits]
-
-
-
-   04F1 00                 1029 .db #0b00000000
-   04F2 00                 1030 .db #0b00000000
-   04F3 44                 1031 .db #0b01000100
-   04F4 88                 1032 .db #0b10001000
-   04F5 A0                 1033 .db #0b10100000
-   04F6 20                 1034 .db #0b00100000
-   04F7 CC                 1035 .db #0b11001100
-   04F8 CC                 1036 .db #0b11001100
-   04F9 00                 1037 .db #0b00000000
-   04FA 00                 1038 .db #0b00000000
-   04FB 44                 1039 .db #0b01000100
-   04FC 88                 1040 .db #0b10001000
-   04FD 88                 1041 .db #0b10001000
-   04FE 20                 1042 .db #0b00100000
-   04FF 30                 1043 .db #0b00110000
-   0500 30                 1044 .db #0b00110000
-   0501 00                 1045 .db #0b00000000
-   0502 00                 1046 .db #0b00000000
-   0503 54                 1047 .db #0b01010100
-   0504 08                 1048 .db #0b00001000
-   0505 20                 1049 .db #0b00100000
-   0506 80                 1050 .db #0b10000000
-   0507 CC                 1051 .db #0b11001100
-   0508 FC                 1052 .db #0b11111100
-   0509 00                 1053 .db #0b00000000
-                           1054 
-                           1055 
-                           1056 
-                           1057 
-                           1058 	;-
-   050A 03                 1059 	.DB #0b00000011
-   050B 0F                 1060 	.DB #0b00001111
-   050C 3F                 1061 	.DB #0b00111111
-   050D FF                 1062 	.DB #0b11111111
-   050E 3F                 1063 	.DB #0b00111111
-   050F 0F                 1064 	.DB #0b00001111
-   0510 03                 1065 	.DB #0b00000011
-   0511 00                 1066 	.DB #0b00000000
+   02F3 00                  708 .db #0b00000000
+   02F4 00                  709 .db #0b00000000
+   02F5 54                  710 .db #0b01010100
+   02F6 08                  711 .db #0b00001000
+   02F7 20                  712 .db #0b00100000
+   02F8 80                  713 .db #0b10000000
+   02F9 CC                  714 .db #0b11001100
+   02FA FC                  715 .db #0b11111100
+   02FB 00                  716 .db #0b00000000
+                            717 
+                            718 
+                            719 
+                            720 
+                            721 	;-
+   02FC 03                  722 	.DB #0b00000011
+   02FD 0F                  723 	.DB #0b00001111
+   02FE 3F                  724 	.DB #0b00111111
+   02FF FF                  725 	.DB #0b11111111
+   0300 3F                  726 	.DB #0b00111111
+   0301 0F                  727 	.DB #0b00001111
+   0302 03                  728 	.DB #0b00000011
+   0303 00                  729 	.DB #0b00000000

@@ -10,16 +10,15 @@
 obj/main.rel
 obj/entities/enemies.rel
 obj/entities/explosions.rel
+obj/entities/messages.rel
 obj/entities/movement.rel
 obj/entities/shoots.rel
 obj/entities/trajectories.rel
 obj/entities/user.rel
-obj/random/random.rel
 obj/sprites/new_sprites.rel
 obj/sprites/sprites.rel
 obj/starfield/starfield.rel
 obj/util/timer.rel
-obj/random/cpc_random.rel
 obj/util/printgphstr.rel
 obj/util/util.rel
 

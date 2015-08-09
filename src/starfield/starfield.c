@@ -1,11 +1,9 @@
 #include <stdlib.h>
 #include <cpctelera.h>
 #include "starfield.h"
-#include "../random/random.h"
 #include "../sprites/sprites.h"
 
 TIPO_ESTRELLA aStars[STARS_NUM];
-u8 pixelColors[3];
 
 //******************************************************************************
 // Función GetMode0PixelColorByte(unsigned char nColor, unsigned char nPixel)
@@ -61,13 +59,10 @@ void init_stars(){
 	//Inicializar estrellas
 	for(nStar = 0; nStar < STARS_NUM; nStar++)
 	{
-		aStars[nStar].nX = rand() % 160;
-		aStars[nStar].nY = rand() % 199;
-		aStars[nStar].nStarType = rand() % 3;
+		aStars[nStar].nX = cpct_getRandomUniform_u8_f(0) % 160;
+		aStars[nStar].nY = cpct_getRandomUniform_u8_f(0) % 199;
+		aStars[nStar].nStarType = cpct_getRandomUniform_u8_f(0) % 3;
 	}
-   pixelColors[0]=1;
-   pixelColors[1]=2;
-   pixelColors[2]=3;
 }
 //******************************************************************************
 // Función void pintarEstrellas()
@@ -114,8 +109,8 @@ void update_stars(){
    if(pStar->nY >= 198)
    {
       pStar->nY = 0;
-      pStar->nX = rand() % 160;
-      pStar->nStarType = rand() % 3;
+      pStar->nX = cpct_getRandomUniform_u8_f(0) % 160;
+      pStar->nStarType = cpct_getRandomUniform_u8_f(0) % 3;
    }
 }
 }
