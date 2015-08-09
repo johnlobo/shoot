@@ -4,6 +4,7 @@
 #include "../sprites/sprites.h"
 
 TIPO_ESTRELLA aStars[STARS_NUM];
+long last_moved_stars;
 
 //******************************************************************************
 // Función GetMode0PixelColorByte(unsigned char nColor, unsigned char nPixel)
@@ -53,6 +54,14 @@ u8 get_mode0_pixel_color_byte(u8 nColor, u8 nPixel)
 // Función inicializarEstrellas()
 //
 //******************************************************************************
+long get_last_moved_stars(){
+   return last_moved_stars;
+}
+
+//******************************************************************************
+// Función inicializarEstrellas()
+//
+//******************************************************************************
 void init_stars(){
 	u8 randomNumber=0;
 	u8 nStar;
@@ -63,6 +72,7 @@ void init_stars(){
 		aStars[nStar].nY = cpct_getRandomUniform_u8_f(0) % 199;
 		aStars[nStar].nStarType = cpct_getRandomUniform_u8_f(0) % 3;
 	}
+   last_moved_stars = 0;
 }
 //******************************************************************************
 // Función void pintarEstrellas()
@@ -79,6 +89,7 @@ void draw_stars(u8* screen){
       pStar->pCurrentAddress = (u8 *) cpct_getScreenPtr(screen, pStar->nX, pStar->nY);
       *pStar->pCurrentAddress ^= get_mode0_pixel_color_byte(pStar->nStarType + 1, pStar->nX % 2);
    }
+   last_moved_stars = get_time();
 }
 //******************************************************************************-
 // Función void moverEstrellas()

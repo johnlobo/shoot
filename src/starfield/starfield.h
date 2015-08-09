@@ -7,7 +7,7 @@
 
 // Definiciones para el mapa de estrellas
 #define STARS_NUM 15
-#define ESTRELLAS_ACTIVADAS 1
+#define STARFIELD_ACTIVE 1
 #define VELOCIDAD_ESTRELLAS 40
 
 //////////////////////////////////////////////////////////////////////////
@@ -23,7 +23,6 @@ typedef struct{
 	u8 nY;
 	u8 nStarType;
 	u8 *pLineAddress;
-	u8 columnOffset;
 	u8 *pCurrentAddress;
 } TIPO_ESTRELLA;
 
@@ -35,6 +34,7 @@ typedef struct{
 //////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
+long get_last_moved_stars();
 void init_stars();
 void draw_stars(u8* screen);
 void update_stars();

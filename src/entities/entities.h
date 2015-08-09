@@ -24,12 +24,6 @@
 //
 // Information for solid objects that occupy a rectangular space in the screen
 //
-typedef struct {
-   u8	x, y;
-   u8	vx, vy;
-   u8   w, h;   // Width and height in bytes
-   u8 colour;   // Colour pattern use for drawing
-} TBlock;
 
 typedef struct 
 {
@@ -68,8 +62,6 @@ typedef struct
 }TEnemy_group;
 
 typedef struct  {
-   u8	*pscreen;  // Pointer to Screen Video memory location where entity will be drawn
-   u8 *npscreen;  // Pointer the next Screen Video memory location where entity will be drawn
    u8 *sprite;
    i8 x; 
    u8 y;  // X, Y coordinates of entity in the screen (in bytes)
@@ -77,11 +69,10 @@ typedef struct  {
    i8 topvx, topvy;
    i8 ax,ay;
    u8 w, h;
-   u8 nx, ny;  // Next X, Y coordinates of entity in the screen (in bytes)
-   u8 pw, ph;  // Previous Width and height of the entity (depending on animation). Used to erase it
-   u8 draw;  // Flag to be set when the entity needs to be drawn again
    u8 max_shoots;
    u32 score;
+   u8 speed;
+   long lastmoved;
 } TShip;
 
 //SHOOT
@@ -168,8 +159,11 @@ void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 
 //USER
+long get_last_moved_user();
 void init_user();
 u8 get_user_max_shoots();
+u8 get_user_speed();
+u8 get_user_dead();
 void update_user();
 void draw_user(u8* screen);
 void set_score(u32 new_score);
@@ -177,6 +171,7 @@ void add_score(u16 new_add_score);
 u32 get_score();
 
 //EXPLOSIONES
+long get_last_moved_explosions();
 void init_explosions();
 void create_explosion(u8 x, u8 y, u8 tipo);
 void update_explosions();
