@@ -16,6 +16,7 @@
 #define ENEMY_GAP 3
 
 #define MAX_EXPLOSIONES 30
+#define EXPLOSIONS_SPEED 30
 
 #define MAX_MESSAGES 10
 
@@ -70,9 +71,12 @@ typedef struct  {
    i8 ax,ay;
    u8 w, h;
    u8 max_shoots;
+   u8 shield;
+   u8 lives;
    u32 score;
    u8 speed;
-   long lastmoved;
+   u8 engine_state;
+   long last_moved;
 } TShip;
 
 //SHOOT
@@ -86,7 +90,7 @@ typedef  struct {    // minimun sprite structure
    u8 num_frames;
    u8 frame;
    u8 speed;
-   long lastmoved;
+   long last_moved;
 // u8 objetivox;
 } TShoot;
 
@@ -106,7 +110,7 @@ typedef  struct {    // minimun sprite structure
    u8 movement;
    u8 stage;
    u8 stage_step;
-   long lastmoved;
+   long last_moved;
 // u8 objetivox;
 } TEnemy;
 
@@ -121,7 +125,7 @@ typedef struct {
    u8 w;
    u8* memoriaPantalla[2];
    u8 speed;
-   long lastmoved;
+   long last_moved;
 } TIPO_EXPLOSION;
 
 //MESSAGES
@@ -161,9 +165,11 @@ u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 //USER
 long get_last_moved_user();
 void init_user();
+void user_init_level();
 u8 get_user_max_shoots();
 u8 get_user_speed();
 u8 get_user_dead();
+void user_engine(u8* screen);
 void update_user();
 void draw_user(u8* screen);
 void set_score(u32 new_score);

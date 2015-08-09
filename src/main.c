@@ -40,6 +40,7 @@ u8 previous_state;
 
 u8* pvmem;     // Pointer to video memory (or backbuffer) where to draw sprites
 u8 aux_txt[40];
+u8 level = 0;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Change Video Memory Page
@@ -101,6 +102,8 @@ u8* changeVideoMemoryPage() {
 
       pvmem = SCR_BUFF;
 
+      clear_both_screens();
+
       cpct_setRandomSeedUniform_u8((u8) get_time());
 
       if (STARFIELD_ACTIVE)
@@ -114,53 +117,10 @@ u8* changeVideoMemoryPage() {
 
     }
 
-/////////////////////////////////////////////////////////////////////////
-// main
-//
-
-    void main(void) {
-
-
-   // Loop forever
-     while (1){
-
-      clear_screen(pvmem);
-
-      update_user();
-      update_shoots();
-    //update_blocks();
-      update_enemies();
-      update_explosions();
-
-    
-
-     if (STARFIELD_ACTIVE)
-       draw_stars(pvmem);
-
-   //draw_blocks(pvmem);
-     draw_user(pvmem);
-     draw_shoots(pvmem);
-     draw_enemies(pvmem);
-     draw_explosions(pvmem);
-
-     draw_messages(pvmem);
-     draw_scoreboard(pvmem);
-
-
-// Synchronize next frame drawing with VSYNC
-//   cpct_waitVSYNC(); 
-
-     pvmem = changeVideoMemoryPage();
-
-   } 
-
- }
 
  void initial_setup(){
-  // Reubico el stack
-  set_stack(0x1000);
-
-  cpct_disableFirmware();             // Disable firmware to prevent it from interfering
+  cpct_disableFirmware();  // Disable firmware to prevent it from interfering
+           
   cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
   cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
   cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
@@ -168,6 +128,7 @@ u8* changeVideoMemoryPage() {
 
    // Clean up Screen and BackBuffer filling them up with 0's
   clear_both_screens();
+  state=INITIAL_STATE;
 }
 
 void init_game(){
@@ -186,16 +147,13 @@ u8 menu(){
   red_message();
   cpc_PrintGphStr2X("SPACE;RETRO;INVADERS", (int) cpct_getScreenPtr(SCR_VMEM, 20, 16));
   blue_message();
-  cpc_PrintGphStr("1;JUGAR", (int) cpct_getScreenPtr(SCR_VMEM, 30, 4*16));
-  cpc_PrintGphStr("2;AYUDA", (int) cpct_getScreenPtr(SCR_VMEM, 30, 5*16));
-  cpc_PrintGphStr("3;REDEFINIR;TECLAS", (int) cpct_getScreenPtr(SCR_VMEM, 30, 6*16));
-  cpc_PrintGphStr("ESC;SALIR", (int) cpct_getScreenPtr(SCR_VMEM, 30, 7*16));
-
-  cpc_PrintGphStr("C;2014;GLASNOST;CORP", (int) cpct_getScreenPtr(SCR_VMEM, 30, 10*16));
+  cpc_PrintGphStr("1;JUGAR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 4*16));
+  cpc_PrintGphStr("2;AYUDA", (int) cpct_getScreenPtr(SCR_VMEM, 28, 5*16));
+  cpc_PrintGphStr("3;REDEFINIR;TECLAS", (int) cpct_getScreenPtr(SCR_VMEM, 28, 6*16));
+  cpc_PrintGphStr("ESC;SALIR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 7*16));
   red_message();
-  cpc_PrintGphStr("JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 30, 11*16));
-
-
+  cpc_PrintGphStr("C;2015;JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 10*16));
+  
   while (choice==0) {
      // Scan Keyboard
     cpct_scanKeyboard_f();
@@ -213,6 +171,24 @@ u8 menu(){
     }
   }
   return choice; 
+}
+
+u8 redefine_keys(){
+
+  return STATE_MENU;
+
+}
+
+u8 level_up(){
+
+  return STATE_MENU;
+
+}
+
+u8 end(){
+
+  return STATE_MENU;
+
 }
 
 u8 help(){
@@ -239,9 +215,9 @@ u8 game(){
   
   if (SONIDO_ACTIVADO){ 
   }
-  clear_both_screens();
 
   initialization(); 
+
   create_message(25,96,30,";VAMOS;AL;ATAQUE;");
   
   init_level();
@@ -257,24 +233,23 @@ u8 game(){
       update_stars();
     }
     //Explosions
-    if ((explosiones_activas>0)&&((get_time()-get_last_moved_explosions())>VELOCIDAD_EXPLOSIONES)){
-      update_explosions();
-    }
+    update_explosions();
     //User
     if ((get_time()-get_last_moved_user())>get_user_speed()){
       update_user();
     }
-    
-    // Rest of upadtes
     update_shoots();
     update_enemies();
     
     // Synchronize next frame drawing with VSYNC
     //   cpct_waitVSYNC(); 
     
+
+    clear_screen(pvmem);
+
     //Animations
-    if (!get_user_dead())
-      user_engine();
+    //if (!get_user_dead())
+      user_engine(pvmem);
     
     //Draw Starfield
     if (STARFIELD_ACTIVE){
@@ -291,10 +266,10 @@ u8 game(){
     draw_scoreboard(pvmem);
     
     
-    if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos) && (!explosion_prota_activada)){
-      state = STATE_DEAD;
-      break;
-    }
+    //if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos) && (!explosion_prota_activada)){
+    //  state = STATE_DEAD;
+    //  break;
+    //}
 
     if (cpct_isKeyPressed(Key_Esc)){     // ESC
       state = STATE_MENU;
@@ -334,6 +309,10 @@ u8 game(){
 // Bucle principal del Juego
 //******************************************************************************
 int main() {
+
+  // Reubico el stack
+  set_stack(0x1000);
+
   initial_setup();
 
   while (state != STATE_EXIT) {
@@ -351,17 +330,16 @@ int main() {
       break;
 
       case STATE_GAME:
-      nivel=1;
-      prota.vidas=3;
-      prota.escudo=0;
-      prota.max_disparos=2;
+      level=1;
+      user_init_level();
       //Inicializo putuacion
-      cambio_score=0;
-      score=0;
+      set_score(0);
       //bucle de juego y subida de nivel
       while ((state!=STATE_LOSE) && (state!=STATE_WIN) && (state!=STATE_MENU)) {
 
-        if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+        if (SONIDO_ACTIVADO){
+
+        }
         state = game();
         if (SONIDO_ACTIVADO){ 
           //cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
@@ -371,7 +349,6 @@ int main() {
         if (state==STATE_LEVELUP)
           state=level_up();
         if (state==STATE_DEAD){
-          prota.vidas--;
           state=end();
         }
       }
@@ -382,7 +359,7 @@ int main() {
       break;
       
       case STATE_LOSE:
-      state = gameOver();
+      state = game_over();
       break;
       
       default:
@@ -390,7 +367,11 @@ int main() {
       break;
     }
   }
-  if (SONIDO_ACTIVADO) cpc_WyzSetPlayerOff();
+
+  //Set Player Off
+  if (SONIDO_ACTIVADO){
+
+  }
 
   return 0;  
 }

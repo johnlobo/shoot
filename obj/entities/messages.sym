@@ -11,7 +11,7 @@ Symbol Table
   1 _aux_txt2                                                      0155 GR
   0 _blue_message                                                  0092 GR
   0 _colour_message                                                0041 GR
-    _cpc_PrintGphStr2X                                             **** GX
+    _cpc_PrintGphStr                                               **** GX
     _cpc_SetInkGphStr                                              **** GX
     _cpct_drawSolidBox                                             **** GX
     _cpct_getScreenPtr                                             **** GX

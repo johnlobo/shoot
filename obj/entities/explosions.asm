@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
-; This file was generated Fri Aug  7 15:43:52 2015
+; This file was generated Mon Aug 10 00:37:25 2015
 ;--------------------------------------------------------
 	.module explosions
 	.optsdcc -mz80
@@ -9,6 +9,7 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _get_time
 	.globl _cpct_getScreenPtr
 	.globl _cpct_drawSprite
 	.globl _explosiones_lastUpdated
@@ -262,14 +263,48 @@ _update_explosions::
 	push	ix
 	ld	ix,#0
 	add	ix,sp
-	push	af
-;src/entities/explosions.c:75: if (explosiones_activas>0){
+	ld	hl,#-8
+	add	hl,sp
+	ld	sp,hl
+;src/entities/explosions.c:75: if ((explosiones_activas>0)&&((get_time()-explosiones_lastUpdated>EXPLOSIONS_SPEED))){
 	ld	a,(#_explosiones_activas + 0)
 	or	a, a
-	jr	Z,00111$
+	jp	Z,00112$
+	call	_get_time
+	ld	-1 (ix),d
+	ld	-2 (ix),e
+	ld	-3 (ix),h
+	ld	-4 (ix),l
+	ld	hl, #0
+	add	hl, sp
+	ex	de, hl
+	ld	hl, #_explosiones_lastUpdated
+	ld	bc, #4
+	ldir
+	ld	a,-4 (ix)
+	sub	a, -8 (ix)
+	ld	h,a
+	ld	a,-3 (ix)
+	sbc	a, -7 (ix)
+	ld	l,a
+	ld	a,-2 (ix)
+	sbc	a, -6 (ix)
+	ld	e,a
+	ld	a,-1 (ix)
+	sbc	a, -5 (ix)
+	ld	d,a
+	ld	a,#0x1E
+	cp	a, h
+	ld	a,#0x00
+	sbc	a, l
+	ld	a,#0x00
+	sbc	a, e
+	ld	a,#0x00
+	sbc	a, d
+	jr	NC,00112$
 ;src/entities/explosions.c:76: for (i=0;i<MAX_EXPLOSIONES;i++){
 	ld	c,#0x00
-00109$:
+00110$:
 ;src/entities/explosions.c:77: if (explosiones[i].activo==1){
 	ld	l,c
 	ld	h,#0x00
@@ -279,17 +314,17 @@ _update_explosions::
 	add	hl, hl
 	ld	a,#<(_explosiones)
 	add	a, l
-	ld	-2 (ix),a
+	ld	-8 (ix),a
 	ld	a,#>(_explosiones)
 	adc	a, h
-	ld	-1 (ix),a
+	ld	-7 (ix),a
 	pop	de
 	push	de
 	inc	de
 	inc	de
 	ld	a,(de)
 	dec	a
-	jr	NZ,00110$
+	jr	NZ,00111$
 ;src/entities/explosions.c:78: if (explosiones[i].fase<3){
 	pop	hl
 	push	hl
@@ -301,7 +336,7 @@ _update_explosions::
 ;src/entities/explosions.c:79: explosiones[i].fase++;
 	inc	b
 	ld	(hl),b
-	jr	00110$
+	jr	00111$
 00102$:
 ;src/entities/explosions.c:83: explosiones[i].activo=0;
 	xor	a, a
@@ -309,13 +344,13 @@ _update_explosions::
 ;src/entities/explosions.c:84: explosiones_activas--;
 	ld	hl, #_explosiones_activas+0
 	dec	(hl)
-00110$:
+00111$:
 ;src/entities/explosions.c:76: for (i=0;i<MAX_EXPLOSIONES;i++){
 	inc	c
 	ld	a,c
 	sub	a, #0x1E
-	jr	C,00109$
-00111$:
+	jr	C,00110$
+00112$:
 	ld	sp, ix
 	pop	ix
 	ret

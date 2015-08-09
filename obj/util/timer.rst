@@ -21,14 +21,14 @@
                              21 ; ram data
                              22 ;--------------------------------------------------------
                              23 	.area _DATA
-   652D                      24 _timer0:
-   652D                      25 	.ds 2
-   652F                      26 _timer1:
-   652F                      27 	.ds 2
-   6531                      28 _nFPS::
-   6531                      29 	.ds 1
-   6532                      30 _nTimeLast::
-   6532                      31 	.ds 4
+   6B9E                      24 _timer0:
+   6B9E                      25 	.ds 2
+   6BA0                      26 _timer1:
+   6BA0                      27 	.ds 2
+   6BA2                      28 _nFPS::
+   6BA2                      29 	.ds 1
+   6BA3                      30 _nTimeLast::
+   6BA3                      31 	.ds 4
                              32 ;--------------------------------------------------------
                              33 ; ram data
                              34 ;--------------------------------------------------------
@@ -57,64 +57,64 @@
                              57 ;	---------------------------------
                              58 ; Function timer_on
                              59 ; ---------------------------------
-   4796                      60 _timer_on::
+   4E1B                      60 _timer_on::
                              61 ;src/util/timer.c:41: __endasm;
-   4796 F3            [ 4]   62 	DI
-   4797 ED 56         [ 8]   63 	IM 1
-   4799 E5            [11]   64 	PUSH HL
-   479A 21 2D 65      [10]   65 	LD HL, #_timer0
-   479D 36 00         [10]   66 	LD (HL),#0X0000
-   479F 21 38 00      [10]   67 	LD HL,#0X0038
-   47A2 36 C3         [10]   68 	LD (HL),#0XC3 ;JP
-   47A4 23            [ 6]   69 	INC HL
-   47A5 21 B0 47      [10]   70 	LD HL,#interrupcion
-   47A8 22 39 00      [16]   71 	LD (#0X0039),HL
-   47AB E1            [10]   72 	POP HL
-   47AC FB            [ 4]   73 	EI
-   47AD C3 BE 47      [10]   74 	JP term
-   47B0                      75 	interrupcion:
-   47B0 F3            [ 4]   76 	DI
-   47B1 E5            [11]   77 	PUSH HL
-   47B2 F5            [11]   78 	PUSH AF
-   47B3 21 2D 65      [10]   79 	LD HL,#_timer0
-   47B6                      80 	desborde:
-   47B6 34            [11]   81 	INC (HL)
-   47B7 23            [ 6]   82 	INC HL
-   47B8 28 FC         [12]   83 	JR Z,desborde
-   47BA F1            [10]   84 	POP AF
-   47BB E1            [10]   85 	POP HL
-   47BC FB            [ 4]   86 	EI
-   47BD C9            [10]   87 	RET
-   47BE                      88 	term:
-   47BE C9            [10]   89 	ret
+   4E1B F3            [ 4]   62 	DI
+   4E1C ED 56         [ 8]   63 	IM 1
+   4E1E E5            [11]   64 	PUSH HL
+   4E1F 21 9E 6B      [10]   65 	LD HL, #_timer0
+   4E22 36 00         [10]   66 	LD (HL),#0X0000
+   4E24 21 38 00      [10]   67 	LD HL,#0X0038
+   4E27 36 C3         [10]   68 	LD (HL),#0XC3 ;JP
+   4E29 23            [ 6]   69 	INC HL
+   4E2A 21 35 4E      [10]   70 	LD HL,#interrupcion
+   4E2D 22 39 00      [16]   71 	LD (#0X0039),HL
+   4E30 E1            [10]   72 	POP HL
+   4E31 FB            [ 4]   73 	EI
+   4E32 C3 43 4E      [10]   74 	JP term
+   4E35                      75 	interrupcion:
+   4E35 F3            [ 4]   76 	DI
+   4E36 E5            [11]   77 	PUSH HL
+   4E37 F5            [11]   78 	PUSH AF
+   4E38 21 9E 6B      [10]   79 	LD HL,#_timer0
+   4E3B                      80 	desborde:
+   4E3B 34            [11]   81 	INC (HL)
+   4E3C 23            [ 6]   82 	INC HL
+   4E3D 28 FC         [12]   83 	JR Z,desborde
+   4E3F F1            [10]   84 	POP AF
+   4E40 E1            [10]   85 	POP HL
+   4E41 FB            [ 4]   86 	EI
+   4E42 C9            [10]   87 	RET
+   4E43                      88 	term:
+   4E43 C9            [10]   89 	ret
                              90 ;src/util/timer.c:47: void timer_off(void) {
                              91 ;	---------------------------------
                              92 ; Function timer_off
                              93 ; ---------------------------------
-   47BF                      94 _timer_off::
+   4E44                      94 _timer_off::
                              95 ;src/util/timer.c:56: __endasm;
-   47BF F3            [ 4]   96 	DI
-   47C0 ED 56         [ 8]   97 	IM 1
-   47C2 21 38 00      [10]   98 	LD HL,#0X0038
-   47C5 36 FB         [10]   99 	LD (HL),#0XFB ;EI
-   47C7 23            [ 6]  100 	INC HL
-   47C8 36 C9         [10]  101 	LD (HL),#0XC9 ;RET
-   47CA FB            [ 4]  102 	EI
-   47CB C9            [10]  103 	ret
+   4E44 F3            [ 4]   96 	DI
+   4E45 ED 56         [ 8]   97 	IM 1
+   4E47 21 38 00      [10]   98 	LD HL,#0X0038
+   4E4A 36 FB         [10]   99 	LD (HL),#0XFB ;EI
+   4E4C 23            [ 6]  100 	INC HL
+   4E4D 36 C9         [10]  101 	LD (HL),#0XC9 ;RET
+   4E4F FB            [ 4]  102 	EI
+   4E50 C9            [10]  103 	ret
                             104 ;src/util/timer.c:62: unsigned long get_time()
                             105 ;	---------------------------------
                             106 ; Function get_time
                             107 ; ---------------------------------
-   47CC                     108 _get_time::
+   4E51                     108 _get_time::
                             109 ;src/util/timer.c:65: nTime = (timer1 << 8) + timer0;
-   47CC 21 2F 65      [10]  110 	ld	hl,#_timer1 + 0
-   47CF 56            [ 7]  111 	ld	d, (hl)
-   47D0 1E 00         [ 7]  112 	ld	e,#0x00
-   47D2 2A 2D 65      [16]  113 	ld	hl,(_timer0)
-   47D5 19            [11]  114 	add	hl,de
-   47D6 11 00 00      [10]  115 	ld	de,#0x0000
+   4E51 21 A0 6B      [10]  110 	ld	hl,#_timer1 + 0
+   4E54 56            [ 7]  111 	ld	d, (hl)
+   4E55 1E 00         [ 7]  112 	ld	e,#0x00
+   4E57 2A 9E 6B      [16]  113 	ld	hl,(_timer0)
+   4E5A 19            [11]  114 	add	hl,de
+   4E5B 11 00 00      [10]  115 	ld	de,#0x0000
                             116 ;src/util/timer.c:66: return nTime;
-   47D9 C9            [10]  117 	ret
+   4E5E C9            [10]  117 	ret
                             118 	.area _CODE
                             119 	.area _INITIALIZER
                             120 	.area _CABS (ABS)

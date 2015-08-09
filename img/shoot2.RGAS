@@ -367,9 +367,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "DgwA"
+          "$value": "AA4MAAA="
         },
-        "Width": 2,
+        "Width": 4,
         "Height": 1,
         "_guid": "14657237-4e9a-4d80-800e-63f2cd953fdf",
         "_name": "engine_00",
@@ -383,9 +383,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "DA4A"
+          "$value": "AAwOAAA="
         },
-        "Width": 2,
+        "Width": 4,
         "Height": 1,
         "_guid": "14657237-4e9a-4d80-800e-63f2cd953fdf",
         "_name": "engine_01",

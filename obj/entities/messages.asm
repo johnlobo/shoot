@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
-; This file was generated Fri Aug  7 17:19:38 2015
+; This file was generated Mon Aug 10 01:34:09 2015
 ;--------------------------------------------------------
 	.module messages
 	.optsdcc -mz80
@@ -10,7 +10,7 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _cpc_SetInkGphStr
-	.globl _cpc_PrintGphStr2X
+	.globl _cpc_PrintGphStr
 	.globl _cpct_getScreenPtr
 	.globl _cpct_drawSolidBox
 	.globl _cpct_px2byteM0
@@ -171,16 +171,16 @@ _red_message::
 	ld	hl,#0x0000
 	push	hl
 	call	_cpc_SetInkGphStr
-;src/entities/messages.c:48: cpc_SetInkGphStr(1,42);
-	ld	hl, #0x2A01
+;src/entities/messages.c:48: cpc_SetInkGphStr(1,34);
+	ld	hl, #0x2201
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;src/entities/messages.c:49: cpc_SetInkGphStr(2,34);
-	ld	hl, #0x2202
+;src/entities/messages.c:49: cpc_SetInkGphStr(2,42);
+	ld	hl, #0x2A02
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
-;src/entities/messages.c:50: cpc_SetInkGphStr(3,42);
-	ld	hl, #0x2A03
+;src/entities/messages.c:50: cpc_SetInkGphStr(3,34);
+	ld	hl, #0x2203
 	ex	(sp),hl
 	call	_cpc_SetInkGphStr
 	pop	af
@@ -352,23 +352,23 @@ _draw_messages::
 ;src/entities/messages.c:98: pscreen = cpct_getScreenPtr(screen, messages[i].x-2, messages[i].y-4);
 	ld	a,-2 (ix)
 	add	a, #0x02
-	ld	-4 (ix),a
-	ld	a,-1 (ix)
-	adc	a, #0x00
-	ld	-3 (ix),a
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
-	ld	a,(hl)
-	add	a,#0xFC
-	ld	b,a
-	ld	a,-2 (ix)
-	add	a, #0x01
 	ld	-6 (ix),a
 	ld	a,-1 (ix)
 	adc	a, #0x00
 	ld	-5 (ix),a
 	ld	l,-6 (ix)
 	ld	h,-5 (ix)
+	ld	a,(hl)
+	add	a,#0xFC
+	ld	b,a
+	ld	a,-2 (ix)
+	add	a, #0x01
+	ld	-4 (ix),a
+	ld	a,-1 (ix)
+	adc	a, #0x00
+	ld	-3 (ix),a
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	c,(hl)
 	dec	c
 	dec	c
@@ -427,12 +427,12 @@ _draw_messages::
 	pop	af
 	inc	sp
 	pop	de
-;src/entities/messages.c:100: cpc_PrintGphStr2X(messages[i].text, (int) cpct_getScreenPtr(screen, messages[i].x, messages[i].y));
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
-	ld	a,(hl)
+;src/entities/messages.c:100: cpc_PrintGphStr(messages[i].text, (int) cpct_getScreenPtr(screen, messages[i].x, messages[i].y));
 	ld	l,-6 (ix)
 	ld	h,-5 (ix)
+	ld	a,(hl)
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	ld	b,(hl)
 	push	de
 	push	af
@@ -449,7 +449,7 @@ _draw_messages::
 	push	de
 	push	hl
 	push	bc
-	call	_cpc_PrintGphStr2X
+	call	_cpc_PrintGphStr
 	pop	af
 	pop	af
 	pop	de

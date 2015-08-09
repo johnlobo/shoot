@@ -45,9 +45,9 @@ u8 strlen(const char *str)
 void red_message(){
       //tintas para los textos
 	cpc_SetInkGphStr(0,0);
-	cpc_SetInkGphStr(1,42);
-	cpc_SetInkGphStr(2,34);
-	cpc_SetInkGphStr(3,42);
+	cpc_SetInkGphStr(1,34);
+	cpc_SetInkGphStr(2,42);
+	cpc_SetInkGphStr(3,34);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -97,7 +97,7 @@ void draw_messages(u8* screen){
 			if (messages[i].active){
 				pscreen = cpct_getScreenPtr(screen, messages[i].x-2, messages[i].y-4);
 				cpct_drawSolidBox(pscreen , cpct_px2byteM0(3, 3), strlen(messages[i].text)*2+4, 18);
-				cpc_PrintGphStr2X(messages[i].text, (int) cpct_getScreenPtr(screen, messages[i].x, messages[i].y));
+				cpc_PrintGphStr(messages[i].text, (int) cpct_getScreenPtr(screen, messages[i].x, messages[i].y));
 				messages[i].time--;
 				if (!messages[i].time){
 					messages[i].active=0;

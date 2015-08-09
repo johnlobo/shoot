@@ -52,7 +52,7 @@ void init_enemies(){
 		enemies[k].h=0;
 		enemies[k].dir=0;
 		enemies[k].frame=0;
-		enemies[k].lastmoved=0;
+		enemies[k].last_moved=0;
 	}
 	active_enemies=0;
 }
@@ -76,17 +76,17 @@ void create_enemy(i16 x, i16 y, u8 type){
 			case 1:
 			enemies[k].x=x;
 			enemies[k].y=y;
-			enemies[k].w=6;
-			enemies[k].h=12;
+			enemies[k].w=4;
+			enemies[k].h=8;
 			enemies[k].num_frames=0;
-			enemies[k].sprite[0]= (u8*) G_baddie02_00;
-			enemies[k].sprite[1]= (u8*) G_baddie02_01;
-			enemies[k].sprite[2]= (u8*) G_baddie02_02;
-			enemies[k].sprite[3]= (u8*) G_baddie02_03;
-			enemies[k].sprite[4]= (u8*) G_baddie02_04;
-			enemies[k].sprite[5]= (u8*) G_baddie02_05;
-			enemies[k].sprite[6]= (u8*) G_baddie02_06;
-			enemies[k].sprite[7]= (u8*) G_baddie02_07;
+			enemies[k].sprite[0]= (u8*) G_baddie04_00;
+			enemies[k].sprite[1]= (u8*) G_baddie04_01;
+			enemies[k].sprite[2]= (u8*) G_baddie04_02;
+			enemies[k].sprite[3]= (u8*) G_baddie04_03;
+			enemies[k].sprite[4]= (u8*) G_baddie04_04;
+			enemies[k].sprite[5]= (u8*) G_baddie04_05;
+			enemies[k].sprite[6]= (u8*) G_baddie04_06;
+			enemies[k].sprite[7]= (u8*) G_baddie04_07;
 			enemies[k].movement=0;
 			enemies[k].stage=0;
 			enemies[k].stage_step=0;

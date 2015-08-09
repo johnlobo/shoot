@@ -72,7 +72,7 @@ void create_explosion(u8 x, u8 y, u8 tipo){
 //******************************************************************************
 void update_explosions(){
 	u8 i=0;
-	if (explosiones_activas>0){
+	if ((explosiones_activas>0)&&((get_time()-explosiones_lastUpdated>EXPLOSIONS_SPEED))){
 		for (i=0;i<MAX_EXPLOSIONES;i++){
 			if (explosiones[i].activo==1){
 				if (explosiones[i].fase<3){

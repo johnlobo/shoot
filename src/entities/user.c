@@ -5,6 +5,7 @@
 
 TShip user;
 u8 shoot_type;
+u8 *engine_anim[2];
 
 void init_user(){
 
@@ -20,10 +21,22 @@ void init_user(){
   user.ay=0;
   user.sprite = (u8*) G_ship_00;
   user.score = 0;
+  user.shield = 0;
+  user.lives = 0;
 
-  user.max_shoots = 10;
+  user.max_shoots = 3;
   shoot_type = 1;
-  last_moved = 0;
+  user.last_moved = 0;
+  user.engine_state = 0;
+
+  engine_anim[0] = (u8*) G_engine_00;
+  engine_anim[1] = (u8*) G_engine_01;
+}
+
+void user_init_level(){
+  user.lives=3;
+  user.shield=0;
+  user.max_shoots=3;
 }
 
 //******************************************************************************
@@ -31,12 +44,28 @@ void init_user(){
 //
 //******************************************************************************
 long get_last_moved_user(){
-   return last_moved;
+   return user.last_moved;
 }
 
 u8 get_user_max_shoots(){
 	return user.max_shoots;
 }
+u8 get_user_speed(){
+  return user.speed;
+}
+//u8 get_user_dead(){
+//  return user.dead;
+//}
+
+void user_engine(u8* screen){
+  u8* pscreen;
+  
+  user.engine_state++;
+  if (user.engine_state==2) user.engine_state=0;
+
+  pscreen = cpct_getScreenPtr(screen, user.x+1, user.y+7);
+  cpct_drawSprite( (u8*) engine_anim[user.engine_state],pscreen,2,1);
+  }
 
 void update_user() {
   u8 x,y;

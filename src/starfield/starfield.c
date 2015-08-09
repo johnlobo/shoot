@@ -2,6 +2,7 @@
 #include <cpctelera.h>
 #include "starfield.h"
 #include "../sprites/sprites.h"
+#include "../util/util.h"
 
 TIPO_ESTRELLA aStars[STARS_NUM];
 long last_moved_stars;
