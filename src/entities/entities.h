@@ -7,15 +7,6 @@
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 200
 
-//Patterns
-#define TRANSLATE 0
-#define ROTATE  1
-#define TRANSLATE_TO 2
-#define EXIT_LEFT 3
-#define EXIT_RIGHT 4
-#define ENTER_LEFT 5
-#define ENTER_RIGHT 6
-
 #define SHOOT_JUMP 10
 #define SALTO_DISPARO_MALO 4
 #define MAX_SHOOTS 10
@@ -34,44 +25,6 @@
 //
 // Information for solid objects that occupy a rectangular space in the screen
 //
-
-/*
-typedef struct
-{
-   u8 CMD;
-   u8 v;
-   i8 x;
-   f32 theta;
-   f32 max;
-   u8 frames;
-}TPattern;
-
-typedef struct
-{
-   u8 num_CMDs;
-   TPattern patterns[10];
-} TPatternSet;
-
-typedef struct 
-{
-   f32 x;
-   f32 y;
-   u8 v;
-   f32 theta;
-   f32 cosine;
-   f32 sine;
-   f32 dt;
-   f32 dtheta;
-   u8 leader;
-   f32 formation_offset;
-   TPattern cur_pattern;
-   u8 cur_cmd;
-   TPatternSet patternQueue;
-   u8 patternQueuePos;
-   u8 alive;
-} TEnemy2;
-
-*/
 
 typedef struct 
 {
@@ -202,12 +155,12 @@ void update_shoots();
 void draw_shoots(u8* screen);
 
 //ENEMIES
-u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 void init_enemies();
 void create_enemy(i16 x, i16 y, u8 type);
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void update_enemies();
 void draw_enemies(u8* screen);
+u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 
 //USER
 long get_last_moved_user();
@@ -239,5 +192,13 @@ void colour_message (u8 backg, u8 t);
 void init_messages();
 void create_message(u8 x, u8 y, u8 time, u8 *message);
 void draw_messages(u8* screen);
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//////
+//////  UTILITY GLOBALS
+//////
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 #endif

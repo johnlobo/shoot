@@ -1,0 +1,101 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  0 _G_baddie03_00                                                 026F GR
+  0 _G_baddie03_01                                                 028F GR
+  0 _G_baddie03_02                                                 02AF GR
+  0 _G_baddie03_03                                                 02CF GR
+  0 _G_baddie03_04                                                 02EF GR
+  0 _G_baddie03_05                                                 030F GR
+  0 _G_baddie03_06                                                 032F GR
+  0 _G_baddie03_07                                                 034F GR
+  0 _G_baddie04_00                                                 07F2 GR
+  0 _G_baddie04_01                                                 0812 GR
+  0 _G_baddie04_02                                                 0832 GR
+  0 _G_baddie04_03                                                 0852 GR
+  0 _G_baddie04_04                                                 0872 GR
+  0 _G_baddie04_05                                                 0892 GR
+  0 _G_baddie04_06                                                 08B2 GR
+  0 _G_baddie04_07                                                 08D2 GR
+  0 _G_baddie05_00                                                 08F2 GR
+  0 _G_baddie_shot_00                                              07DE GR
+  0 _G_baddie_shot_01                                              07E6 GR
+  0 _G_baddie_shot_02                                              07EC GR
+  0 _G_engine_00                                                   07EE GR
+  0 _G_engine_01                                                   07F0 GR
+  0 _G_explosion_8x8_00                                            05B3 GR
+  0 _G_explosion_8x8_01                                            05D3 GR
+  0 _G_explosion_8x8_02                                            05F3 GR
+  0 _G_explosion_8x8_03                                            0613 GR
+  0 _G_explosion_8x8_04                                            0633 GR
+  0 _G_explosion_8x8_10                                            0653 GR
+  0 _G_explosion_8x8_11                                            0673 GR
+  0 _G_explosion_8x8_12                                            0693 GR
+  0 _G_explosion_8x8_13                                            06B3 GR
+  0 _G_explosion_8x8_14                                            06D3 GR
+  0 _G_green_flag                                                  0702 GR
+  0 _G_heart                                                       06F3 GR
+  0 _G_palette                                                     0000 GR
+  0 _G_red_flag                                                    070C GR
+  0 _G_ship_00                                                     0203 GR
+  0 _G_ship_01                                                     0223 GR
+  0 _G_ship_02                                                     0243 GR
+  0 _G_shoot_00                                                    0263 GR
+  0 _G_shoot_01                                                    0267 GR
+  0 _G_shoot_02                                                    026B GR
+  0 _G_skull_left_00                                               073E GR
+  0 _G_skull_left_01                                               0766 GR
+  0 _G_skull_right_00                                              078E GR
+  0 _G_skull_right_01                                              07B6 GR
+  0 _G_skull_still                                                 0716 GR
+  0 _G_star_00                                                     036F GR
+  0 _G_star_01                                                     038F GR
+  0 _G_star_02                                                     03AF GR
+  0 _G_star_03                                                     03CF GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+  0 _G_star_04                                                     03EF GR
+  0 _bullet01_0                                                    009F GR
+  0 _bullet01_1                                                    00A7 GR
+  0 _bullet02_0                                                    00AF GR
+  0 _explosion02000                                                040F GR
+  0 _explosion02001                                                0451 GR
+  0 _explosion02002                                                0493 GR
+  0 _explosion02003                                                04D5 GR
+  0 _explosion02004                                                0517 GR
+  0 _palette                                                       0021 GR
+  0 _redFlag                                                       0031 GR
+  0 _ship01                                                        003F GR
+  0 _ship02                                                        00B3 GR
+  0 _ship03                                                        01A3 GR
+  0 _tintas                                                        0010 GR
+  0 _toque000                                                      0559 GR
+  0 _toque001                                                      056B GR
+  0 _toque002                                                      057D GR
+  0 _toque003                                                      058F GR
+  0 _toque004                                                      05A1 GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  912   flags    0
+   1 _DATA                                      size    0   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+

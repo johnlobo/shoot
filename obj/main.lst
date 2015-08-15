@@ -1,0 +1,887 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : free open source ANSI-C Compiler
+                              3 ; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
+                              4 ; This file was generated Mon Aug 10 01:24:07 2015
+                              5 ;--------------------------------------------------------
+                              6 	.module main
+                              7 	.optsdcc -mz80
+                              8 	
+                              9 ;--------------------------------------------------------
+                             10 ; Public variables in this module
+                             11 ;--------------------------------------------------------
+                             12 	.globl _main
+                             13 	.globl _game
+                             14 	.globl _game_over
+                             15 	.globl _win
+                             16 	.globl _help
+                             17 	.globl _end
+                             18 	.globl _level_up
+                             19 	.globl _redefine_keys
+                             20 	.globl _menu
+                             21 	.globl _init_level
+                             22 	.globl _init_game
+                             23 	.globl _initial_setup
+                             24 	.globl _initialization
+                             25 	.globl _draw_scoreboard
+                             26 	.globl _clear_both_screens
+                             27 	.globl _clear_screen
+                             28 	.globl _changeVideoMemoryPage
+                             29 	.globl _get_time
+                             30 	.globl _timer_off
+                             31 	.globl _timer_on
+                             32 	.globl _set_stack
+                             33 	.globl _cpc_PrintGphStr2X
+                             34 	.globl _cpc_PrintGphStr
+                             35 	.globl _update_stars
+                             36 	.globl _draw_stars
+                             37 	.globl _init_stars
+                             38 	.globl _get_last_moved_stars
+                             39 	.globl _draw_messages
+                             40 	.globl _create_message
+                             41 	.globl _init_messages
+                             42 	.globl _colour_message
+                             43 	.globl _red_message
+                             44 	.globl _blue_message
+                             45 	.globl _draw_explosions
+                             46 	.globl _update_explosions
+                             47 	.globl _init_explosions
+                             48 	.globl _get_score
+                             49 	.globl _set_score
+                             50 	.globl _draw_user
+                             51 	.globl _update_user
+                             52 	.globl _user_engine
+                             53 	.globl _get_user_speed
+                             54 	.globl _user_init_level
+                             55 	.globl _init_user
+                             56 	.globl _get_last_moved_user
+                             57 	.globl _draw_enemies
+                             58 	.globl _update_enemies
+                             59 	.globl _init_enemies
+                             60 	.globl _draw_shoots
+                             61 	.globl _update_shoots
+                             62 	.globl _init_shoots
+                             63 	.globl _cpct_setRandomSeedUniform_u8
+                             64 	.globl _cpct_getScreenPtr
+                             65 	.globl _cpct_setVideoMemoryPage
+                             66 	.globl _cpct_setPALColour
+                             67 	.globl _cpct_setPalette
+                             68 	.globl _cpct_fw2hw
+                             69 	.globl _cpct_setVideoMode
+                             70 	.globl _cpct_isKeyPressed
+                             71 	.globl _cpct_scanKeyboard_f
+                             72 	.globl _cpct_memset_f64
+                             73 	.globl _cpct_disableFirmware
+                             74 	.globl _sprintf
+                             75 	.globl _level
+                             76 	.globl _aux_txt
+                             77 	.globl _pvmem
+                             78 	.globl _previous_state
+                             79 	.globl _state
+                             80 ;--------------------------------------------------------
+                             81 ; special function registers
+                             82 ;--------------------------------------------------------
+                             83 ;--------------------------------------------------------
+                             84 ; ram data
+                             85 ;--------------------------------------------------------
+                             86 	.area _DATA
+   0000                      87 _state::
+   0000                      88 	.ds 1
+   0001                      89 _previous_state::
+   0001                      90 	.ds 1
+   0002                      91 _pvmem::
+   0002                      92 	.ds 2
+   0004                      93 _aux_txt::
+   0004                      94 	.ds 40
+   002C                      95 _changeVideoMemoryPage_page_1_89:
+   002C                      96 	.ds 1
+                             97 ;--------------------------------------------------------
+                             98 ; ram data
+                             99 ;--------------------------------------------------------
+                            100 	.area _INITIALIZED
+   0000                     101 _level::
+   0000                     102 	.ds 1
+                            103 ;--------------------------------------------------------
+                            104 ; absolute external ram data
+                            105 ;--------------------------------------------------------
+                            106 	.area _DABS (ABS)
+                            107 ;--------------------------------------------------------
+                            108 ; global & static initialisations
+                            109 ;--------------------------------------------------------
+                            110 	.area _HOME
+                            111 	.area _GSINIT
+                            112 	.area _GSFINAL
+                            113 	.area _GSINIT
+                            114 ;src/main.c:52: static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
+   0000 FD 21r2Cr00   [14]  115 	ld	iy,#_changeVideoMemoryPage_page_1_89
+   0004 FD 36 00 00   [19]  116 	ld	0 (iy),#0x00
+                            117 ;--------------------------------------------------------
+                            118 ; Home
+                            119 ;--------------------------------------------------------
+                            120 	.area _HOME
+                            121 	.area _HOME
+                            122 ;--------------------------------------------------------
+                            123 ; code
+                            124 ;--------------------------------------------------------
+                            125 	.area _CODE
+                            126 ;src/main.c:51: u8* changeVideoMemoryPage() {
+                            127 ;	---------------------------------
+                            128 ; Function changeVideoMemoryPage
+                            129 ; ---------------------------------
+   0000                     130 _changeVideoMemoryPage::
+                            131 ;src/main.c:57: if (page) {
+   0000 3Ar2Cr00      [13]  132 	ld	a,(#_changeVideoMemoryPage_page_1_89 + 0)
+   0003 B7            [ 4]  133 	or	a, a
+   0004 28 11         [12]  134 	jr	Z,00102$
+                            135 ;src/main.c:58: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
+   0006 3E 30         [ 7]  136 	ld	a,#0x30
+   0008 F5            [11]  137 	push	af
+   0009 33            [ 6]  138 	inc	sp
+   000A CDr00r00      [17]  139 	call	_cpct_setVideoMemoryPage
+   000D 33            [ 6]  140 	inc	sp
+                            141 ;src/main.c:59: page = 0;  
+   000E 21r2Cr00      [10]  142 	ld	hl,#_changeVideoMemoryPage_page_1_89 + 0
+   0011 36 00         [10]  143 	ld	(hl), #0x00
+                            144 ;src/main.c:60: screen = SCR_BUFF;                            // Next page = 0
+   0013 21 00 80      [10]  145 	ld	hl,#0x8000
+   0016 C9            [10]  146 	ret
+   0017                     147 00102$:
+                            148 ;src/main.c:62: cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
+   0017 3E 20         [ 7]  149 	ld	a,#0x20
+   0019 F5            [11]  150 	push	af
+   001A 33            [ 6]  151 	inc	sp
+   001B CDr00r00      [17]  152 	call	_cpct_setVideoMemoryPage
+   001E 33            [ 6]  153 	inc	sp
+                            154 ;src/main.c:63: page = 1;                              // Next page = 1
+   001F 21r2Cr00      [10]  155 	ld	hl,#_changeVideoMemoryPage_page_1_89 + 0
+   0022 36 01         [10]  156 	ld	(hl), #0x01
+                            157 ;src/main.c:64: screen = SCR_VMEM;
+   0024 21 00 C0      [10]  158 	ld	hl,#0xC000
+                            159 ;src/main.c:66: return screen;
+   0027 C9            [10]  160 	ret
+                            161 ;src/main.c:73: void clear_screen(u8* screen){
+                            162 ;	---------------------------------
+                            163 ; Function clear_screen
+                            164 ; ---------------------------------
+   0028                     165 _clear_screen::
+                            166 ;src/main.c:74: cpct_memset_f64(screen, 0x00, 0x4000);   
+   0028 C1            [10]  167 	pop	bc
+   0029 E1            [10]  168 	pop	hl
+   002A E5            [11]  169 	push	hl
+   002B C5            [11]  170 	push	bc
+   002C 01 00 40      [10]  171 	ld	bc,#0x4000
+   002F C5            [11]  172 	push	bc
+   0030 01 00 00      [10]  173 	ld	bc,#0x0000
+   0033 C5            [11]  174 	push	bc
+   0034 E5            [11]  175 	push    hl
+   0035 CDr00r00      [17]  176 	call    _cpct_memset_f64
+   0038 C9            [10]  177 	ret
+                            178 ;src/main.c:80: void clear_both_screens(){
+                            179 ;	---------------------------------
+                            180 ; Function clear_both_screens
+                            181 ; ---------------------------------
+   0039                     182 _clear_both_screens::
+                            183 ;src/main.c:81: cpct_memset_f64(SCR_VMEM, 0x00, 0x4000);   
+   0039 21 00 40      [10]  184 	ld	hl,#0x4000
+   003C E5            [11]  185 	push	hl
+   003D 26 00         [ 7]  186 	ld	h, #0x00
+   003F E5            [11]  187 	push	hl
+   0040 26 C0         [ 7]  188 	ld	h, #0xC0
+   0042 E5            [11]  189 	push	hl
+   0043 CDr00r00      [17]  190 	call	_cpct_memset_f64
+                            191 ;src/main.c:82: cpct_memset_f64(SCR_BUFF, 0x00, 0x4000);   
+   0046 21 00 40      [10]  192 	ld	hl,#0x4000
+   0049 E5            [11]  193 	push	hl
+   004A 26 00         [ 7]  194 	ld	h, #0x00
+   004C E5            [11]  195 	push	hl
+   004D 26 80         [ 7]  196 	ld	h, #0x80
+   004F E5            [11]  197 	push    hl
+   0050 CDr00r00      [17]  198 	call    _cpct_memset_f64
+   0053 C9            [10]  199 	ret
+                            200 ;src/main.c:89: void draw_scoreboard(u8* screen){
+                            201 ;	---------------------------------
+                            202 ; Function draw_scoreboard
+                            203 ; ---------------------------------
+   0054                     204 _draw_scoreboard::
+   0054 DD E5         [15]  205 	push	ix
+   0056 DD 21 00 00   [14]  206 	ld	ix,#0
+   005A DD 39         [15]  207 	add	ix,sp
+                            208 ;src/main.c:90: sprintf(aux_txt,"%08d",get_score());
+   005C CDr00r00      [17]  209 	call	_get_score
+   005F D5            [11]  210 	push	de
+   0060 E5            [11]  211 	push	hl
+   0061 21rADr00      [10]  212 	ld	hl,#___str_0
+   0064 E5            [11]  213 	push	hl
+   0065 21r04r00      [10]  214 	ld	hl,#_aux_txt
+   0068 E5            [11]  215 	push	hl
+   0069 CDr00r00      [17]  216 	call	_sprintf
+   006C 21 08 00      [10]  217 	ld	hl,#8
+   006F 39            [11]  218 	add	hl,sp
+   0070 F9            [ 6]  219 	ld	sp,hl
+                            220 ;src/main.c:91: colour_message(0, 2);
+   0071 21 00 02      [10]  221 	ld	hl,#0x0200
+   0074 E5            [11]  222 	push	hl
+   0075 CDr00r00      [17]  223 	call	_colour_message
+   0078 F1            [10]  224 	pop	af
+                            225 ;src/main.c:92: cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 4, 8));
+   0079 DD 5E 04      [19]  226 	ld	e,4 (ix)
+   007C DD 56 05      [19]  227 	ld	d,5 (ix)
+   007F D5            [11]  228 	push	de
+   0080 21 04 08      [10]  229 	ld	hl,#0x0804
+   0083 E5            [11]  230 	push	hl
+   0084 D5            [11]  231 	push	de
+   0085 CDr00r00      [17]  232 	call	_cpct_getScreenPtr
+   0088 D1            [10]  233 	pop	de
+   0089 01r04r00      [10]  234 	ld	bc,#_aux_txt
+   008C D5            [11]  235 	push	de
+   008D E5            [11]  236 	push	hl
+   008E C5            [11]  237 	push	bc
+   008F CDr00r00      [17]  238 	call	_cpc_PrintGphStr
+   0092 F1            [10]  239 	pop	af
+   0093 F1            [10]  240 	pop	af
+   0094 CDr00r00      [17]  241 	call	_red_message
+   0097 D1            [10]  242 	pop	de
+                            243 ;src/main.c:94: cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 60, 8));
+   0098 21 3C 08      [10]  244 	ld	hl,#0x083C
+   009B E5            [11]  245 	push	hl
+   009C D5            [11]  246 	push	de
+   009D CDr00r00      [17]  247 	call	_cpct_getScreenPtr
+   00A0 11rB2r00      [10]  248 	ld	de,#___str_1+0
+   00A3 E5            [11]  249 	push	hl
+   00A4 D5            [11]  250 	push	de
+   00A5 CDr00r00      [17]  251 	call	_cpc_PrintGphStr
+   00A8 F1            [10]  252 	pop	af
+   00A9 F1            [10]  253 	pop	af
+   00AA DD E1         [14]  254 	pop	ix
+   00AC C9            [10]  255 	ret
+   00AD                     256 ___str_0:
+   00AD 25 30 38 64         257 	.ascii "%08d"
+   00B1 00                  258 	.db 0x00
+   00B2                     259 ___str_1:
+   00B2 30 30 30 30 30 30   260 	.ascii "00000000"
+        30 30
+   00BA 00                  261 	.db 0x00
+                            262 ;src/main.c:101: void initialization(){
+                            263 ;	---------------------------------
+                            264 ; Function initialization
+                            265 ; ---------------------------------
+   00BB                     266 _initialization::
+                            267 ;src/main.c:103: pvmem = SCR_BUFF;
+   00BB 21 00 80      [10]  268 	ld	hl,#0x8000
+   00BE 22r02r00      [16]  269 	ld	(_pvmem),hl
+                            270 ;src/main.c:105: clear_both_screens();
+   00C1 CDr39r00      [17]  271 	call	_clear_both_screens
+                            272 ;src/main.c:107: cpct_setRandomSeedUniform_u8((u8) get_time());
+   00C4 CDr00r00      [17]  273 	call	_get_time
+   00C7 CDr00r00      [17]  274 	call	_cpct_setRandomSeedUniform_u8
+                            275 ;src/main.c:110: init_stars();
+   00CA CDr00r00      [17]  276 	call	_init_stars
+                            277 ;src/main.c:112: init_user();
+   00CD CDr00r00      [17]  278 	call	_init_user
+                            279 ;src/main.c:113: init_shoots();
+   00D0 CDr00r00      [17]  280 	call	_init_shoots
+                            281 ;src/main.c:114: init_enemies();
+   00D3 CDr00r00      [17]  282 	call	_init_enemies
+                            283 ;src/main.c:115: init_explosions();
+   00D6 CDr00r00      [17]  284 	call	_init_explosions
+                            285 ;src/main.c:116: init_messages();
+   00D9 C3r00r00      [10]  286 	jp    _init_messages
+                            287 ;src/main.c:121: void initial_setup(){
+                            288 ;	---------------------------------
+                            289 ; Function initial_setup
+                            290 ; ---------------------------------
+   00DC                     291 _initial_setup::
+                            292 ;src/main.c:122: cpct_disableFirmware();  // Disable firmware to prevent it from interfering
+   00DC CDr00r00      [17]  293 	call	_cpct_disableFirmware
+                            294 ;src/main.c:124: cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
+   00DF 11r00r00      [10]  295 	ld	de,#_palette
+   00E2 3E 10         [ 7]  296 	ld	a,#0x10
+   00E4 F5            [11]  297 	push	af
+   00E5 33            [ 6]  298 	inc	sp
+   00E6 D5            [11]  299 	push	de
+   00E7 CDr00r00      [17]  300 	call	_cpct_fw2hw
+   00EA F1            [10]  301 	pop	af
+   00EB 33            [ 6]  302 	inc	sp
+                            303 ;src/main.c:125: cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
+   00EC 11r00r00      [10]  304 	ld	de,#_palette
+   00EF 3E 10         [ 7]  305 	ld	a,#0x10
+   00F1 F5            [11]  306 	push	af
+   00F2 33            [ 6]  307 	inc	sp
+   00F3 D5            [11]  308 	push	de
+   00F4 CDr00r00      [17]  309 	call	_cpct_setPalette
+   00F7 F1            [10]  310 	pop	af
+   00F8 33            [ 6]  311 	inc	sp
+                            312 ;src/main.c:126: cpct_setBorder   (palette[0]);    // Set up the border to the background colour (white)
+   00F9 3Ar00r00      [13]  313 	ld	a, (#_palette + 0)
+   00FC 57            [ 4]  314 	ld	d,a
+   00FD 1E 10         [ 7]  315 	ld	e,#0x10
+   00FF D5            [11]  316 	push	de
+   0100 CDr00r00      [17]  317 	call	_cpct_setPALColour
+   0103 F1            [10]  318 	pop	af
+                            319 ;src/main.c:127: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
+   0104 AF            [ 4]  320 	xor	a, a
+   0105 F5            [11]  321 	push	af
+   0106 33            [ 6]  322 	inc	sp
+   0107 CDr00r00      [17]  323 	call	_cpct_setVideoMode
+   010A 33            [ 6]  324 	inc	sp
+                            325 ;src/main.c:130: clear_both_screens();
+   010B CDr39r00      [17]  326 	call	_clear_both_screens
+                            327 ;src/main.c:131: state=INITIAL_STATE;
+   010E 21r00r00      [10]  328 	ld	hl,#_state + 0
+   0111 36 02         [10]  329 	ld	(hl), #0x02
+   0113 C9            [10]  330 	ret
+                            331 ;src/main.c:134: void init_game(){
+                            332 ;	---------------------------------
+                            333 ; Function init_game
+                            334 ; ---------------------------------
+   0114                     335 _init_game::
+                            336 ;src/main.c:136: }
+   0114 C9            [10]  337 	ret
+                            338 ;src/main.c:138: void init_level(){
+                            339 ;	---------------------------------
+                            340 ; Function init_level
+                            341 ; ---------------------------------
+   0115                     342 _init_level::
+                            343 ;src/main.c:140: }
+   0115 C9            [10]  344 	ret
+                            345 ;src/main.c:142: u8 menu(){
+                            346 ;	---------------------------------
+                            347 ; Function menu
+                            348 ; ---------------------------------
+   0116                     349 _menu::
+                            350 ;src/main.c:143: u8 choice=0;
+   0116 0E 00         [ 7]  351 	ld	c,#0x00
+                            352 ;src/main.c:145: clear_screen(SCR_VMEM);
+   0118 C5            [11]  353 	push	bc
+   0119 21 00 C0      [10]  354 	ld	hl,#0xC000
+   011C E5            [11]  355 	push	hl
+   011D CDr28r00      [17]  356 	call	_clear_screen
+   0120 F1            [10]  357 	pop	af
+   0121 CDr00r00      [17]  358 	call	_red_message
+   0124 21 14 10      [10]  359 	ld	hl,#0x1014
+   0127 E5            [11]  360 	push	hl
+   0128 21 00 C0      [10]  361 	ld	hl,#0xC000
+   012B E5            [11]  362 	push	hl
+   012C CDr00r00      [17]  363 	call	_cpct_getScreenPtr
+   012F C1            [10]  364 	pop	bc
+   0130 11r00r02      [10]  365 	ld	de,#___str_2+0
+   0133 C5            [11]  366 	push	bc
+   0134 E5            [11]  367 	push	hl
+   0135 D5            [11]  368 	push	de
+   0136 CDr00r00      [17]  369 	call	_cpc_PrintGphStr2X
+   0139 F1            [10]  370 	pop	af
+   013A F1            [10]  371 	pop	af
+   013B CDr00r00      [17]  372 	call	_blue_message
+   013E 21 1C 40      [10]  373 	ld	hl,#0x401C
+   0141 E5            [11]  374 	push	hl
+   0142 21 00 C0      [10]  375 	ld	hl,#0xC000
+   0145 E5            [11]  376 	push	hl
+   0146 CDr00r00      [17]  377 	call	_cpct_getScreenPtr
+   0149 C1            [10]  378 	pop	bc
+   014A 11r15r02      [10]  379 	ld	de,#___str_3+0
+   014D C5            [11]  380 	push	bc
+   014E E5            [11]  381 	push	hl
+   014F D5            [11]  382 	push	de
+   0150 CDr00r00      [17]  383 	call	_cpc_PrintGphStr
+   0153 F1            [10]  384 	pop	af
+   0154 21 1C 50      [10]  385 	ld	hl, #0x501C
+   0157 E3            [19]  386 	ex	(sp),hl
+   0158 21 00 C0      [10]  387 	ld	hl,#0xC000
+   015B E5            [11]  388 	push	hl
+   015C CDr00r00      [17]  389 	call	_cpct_getScreenPtr
+   015F C1            [10]  390 	pop	bc
+   0160 11r1Dr02      [10]  391 	ld	de,#___str_4+0
+   0163 C5            [11]  392 	push	bc
+   0164 E5            [11]  393 	push	hl
+   0165 D5            [11]  394 	push	de
+   0166 CDr00r00      [17]  395 	call	_cpc_PrintGphStr
+   0169 F1            [10]  396 	pop	af
+   016A 21 1C 60      [10]  397 	ld	hl, #0x601C
+   016D E3            [19]  398 	ex	(sp),hl
+   016E 21 00 C0      [10]  399 	ld	hl,#0xC000
+   0171 E5            [11]  400 	push	hl
+   0172 CDr00r00      [17]  401 	call	_cpct_getScreenPtr
+   0175 C1            [10]  402 	pop	bc
+   0176 11r25r02      [10]  403 	ld	de,#___str_5+0
+   0179 C5            [11]  404 	push	bc
+   017A E5            [11]  405 	push	hl
+   017B D5            [11]  406 	push	de
+   017C CDr00r00      [17]  407 	call	_cpc_PrintGphStr
+   017F F1            [10]  408 	pop	af
+   0180 21 1C 70      [10]  409 	ld	hl, #0x701C
+   0183 E3            [19]  410 	ex	(sp),hl
+   0184 21 00 C0      [10]  411 	ld	hl,#0xC000
+   0187 E5            [11]  412 	push	hl
+   0188 CDr00r00      [17]  413 	call	_cpct_getScreenPtr
+   018B C1            [10]  414 	pop	bc
+   018C 11r38r02      [10]  415 	ld	de,#___str_6+0
+   018F C5            [11]  416 	push	bc
+   0190 E5            [11]  417 	push	hl
+   0191 D5            [11]  418 	push	de
+   0192 CDr00r00      [17]  419 	call	_cpc_PrintGphStr
+   0195 F1            [10]  420 	pop	af
+   0196 F1            [10]  421 	pop	af
+   0197 CDr00r00      [17]  422 	call	_red_message
+   019A 21 14 A0      [10]  423 	ld	hl,#0xA014
+   019D E5            [11]  424 	push	hl
+   019E 21 00 C0      [10]  425 	ld	hl,#0xC000
+   01A1 E5            [11]  426 	push	hl
+   01A2 CDr00r00      [17]  427 	call	_cpct_getScreenPtr
+   01A5 C1            [10]  428 	pop	bc
+   01A6 11r42r02      [10]  429 	ld	de,#___str_7+0
+   01A9 C5            [11]  430 	push	bc
+   01AA E5            [11]  431 	push	hl
+   01AB D5            [11]  432 	push	de
+   01AC CDr00r00      [17]  433 	call	_cpc_PrintGphStr
+   01AF F1            [10]  434 	pop	af
+   01B0 F1            [10]  435 	pop	af
+   01B1 C1            [10]  436 	pop	bc
+                            437 ;src/main.c:157: while (choice==0) {
+   01B2                     438 00109$:
+   01B2 79            [ 4]  439 	ld	a,c
+   01B3 B7            [ 4]  440 	or	a, a
+   01B4 20 48         [12]  441 	jr	NZ,00111$
+                            442 ;src/main.c:159: cpct_scanKeyboard_f();
+   01B6 C5            [11]  443 	push	bc
+   01B7 CDr00r00      [17]  444 	call	_cpct_scanKeyboard_f
+   01BA 21 08 01      [10]  445 	ld	hl,#0x0108
+   01BD E5            [11]  446 	push	hl
+   01BE CDr00r00      [17]  447 	call	_cpct_isKeyPressed
+   01C1 F1            [10]  448 	pop	af
+   01C2 7D            [ 4]  449 	ld	a,l
+   01C3 C1            [10]  450 	pop	bc
+   01C4 B7            [ 4]  451 	or	a, a
+   01C5 28 05         [12]  452 	jr	Z,00102$
+                            453 ;src/main.c:162: init_game();
+   01C7 CDr14r01      [17]  454 	call	_init_game
+                            455 ;src/main.c:163: choice=STATE_GAME;
+   01CA 0E 04         [ 7]  456 	ld	c,#0x04
+   01CC                     457 00102$:
+                            458 ;src/main.c:165: if (cpct_isKeyPressed(Key_2))    
+   01CC C5            [11]  459 	push	bc
+   01CD 21 08 02      [10]  460 	ld	hl,#0x0208
+   01D0 E5            [11]  461 	push	hl
+   01D1 CDr00r00      [17]  462 	call	_cpct_isKeyPressed
+   01D4 F1            [10]  463 	pop	af
+   01D5 7D            [ 4]  464 	ld	a,l
+   01D6 C1            [10]  465 	pop	bc
+   01D7 B7            [ 4]  466 	or	a, a
+   01D8 28 02         [12]  467 	jr	Z,00104$
+                            468 ;src/main.c:166: choice=STATE_HELP;
+   01DA 0E 03         [ 7]  469 	ld	c,#0x03
+   01DC                     470 00104$:
+                            471 ;src/main.c:167: if (cpct_isKeyPressed(Key_3))    
+   01DC C5            [11]  472 	push	bc
+   01DD 21 07 02      [10]  473 	ld	hl,#0x0207
+   01E0 E5            [11]  474 	push	hl
+   01E1 CDr00r00      [17]  475 	call	_cpct_isKeyPressed
+   01E4 F1            [10]  476 	pop	af
+   01E5 7D            [ 4]  477 	ld	a,l
+   01E6 C1            [10]  478 	pop	bc
+   01E7 B7            [ 4]  479 	or	a, a
+   01E8 28 02         [12]  480 	jr	Z,00106$
+                            481 ;src/main.c:168: choice=STATE_REDEFINE;
+   01EA 0E 09         [ 7]  482 	ld	c,#0x09
+   01EC                     483 00106$:
+                            484 ;src/main.c:169: if (cpct_isKeyPressed(Key_Esc)){    
+   01EC C5            [11]  485 	push	bc
+   01ED 21 08 04      [10]  486 	ld	hl,#0x0408
+   01F0 E5            [11]  487 	push	hl
+   01F1 CDr00r00      [17]  488 	call	_cpct_isKeyPressed
+   01F4 F1            [10]  489 	pop	af
+   01F5 7D            [ 4]  490 	ld	a,l
+   01F6 C1            [10]  491 	pop	bc
+   01F7 B7            [ 4]  492 	or	a, a
+   01F8 28 B8         [12]  493 	jr	Z,00109$
+                            494 ;src/main.c:170: choice=STATE_EXIT;
+   01FA 0E 05         [ 7]  495 	ld	c,#0x05
+   01FC 18 B4         [12]  496 	jr	00109$
+   01FE                     497 00111$:
+                            498 ;src/main.c:173: return choice; 
+   01FE 69            [ 4]  499 	ld	l,c
+   01FF C9            [10]  500 	ret
+   0200                     501 ___str_2:
+   0200 53 50 41 43 45 3B   502 	.ascii "SPACE;RETRO;INVADERS"
+        52 45 54 52 4F 3B
+        49 4E 56 41 44 45
+        52 53
+   0214 00                  503 	.db 0x00
+   0215                     504 ___str_3:
+   0215 31 3B 4A 55 47 41   505 	.ascii "1;JUGAR"
+        52
+   021C 00                  506 	.db 0x00
+   021D                     507 ___str_4:
+   021D 32 3B 41 59 55 44   508 	.ascii "2;AYUDA"
+        41
+   0224 00                  509 	.db 0x00
+   0225                     510 ___str_5:
+   0225 33 3B 52 45 44 45   511 	.ascii "3;REDEFINIR;TECLAS"
+        46 49 4E 49 52 3B
+        54 45 43 4C 41 53
+   0237 00                  512 	.db 0x00
+   0238                     513 ___str_6:
+   0238 45 53 43 3B 53 41   514 	.ascii "ESC;SALIR"
+        4C 49 52
+   0241 00                  515 	.db 0x00
+   0242                     516 ___str_7:
+   0242 43 3B 32 30 31 35   517 	.ascii "C;2015;JOHN;LOBO"
+        3B 4A 4F 48 4E 3B
+        4C 4F 42 4F
+   0252 00                  518 	.db 0x00
+                            519 ;src/main.c:176: u8 redefine_keys(){
+                            520 ;	---------------------------------
+                            521 ; Function redefine_keys
+                            522 ; ---------------------------------
+   0253                     523 _redefine_keys::
+                            524 ;src/main.c:178: return STATE_MENU;
+   0253 2E 02         [ 7]  525 	ld	l,#0x02
+   0255 C9            [10]  526 	ret
+                            527 ;src/main.c:182: u8 level_up(){
+                            528 ;	---------------------------------
+                            529 ; Function level_up
+                            530 ; ---------------------------------
+   0256                     531 _level_up::
+                            532 ;src/main.c:184: return STATE_MENU;
+   0256 2E 02         [ 7]  533 	ld	l,#0x02
+   0258 C9            [10]  534 	ret
+                            535 ;src/main.c:188: u8 end(){
+                            536 ;	---------------------------------
+                            537 ; Function end
+                            538 ; ---------------------------------
+   0259                     539 _end::
+                            540 ;src/main.c:190: return STATE_MENU;
+   0259 2E 02         [ 7]  541 	ld	l,#0x02
+   025B C9            [10]  542 	ret
+                            543 ;src/main.c:194: u8 help(){
+                            544 ;	---------------------------------
+                            545 ; Function help
+                            546 ; ---------------------------------
+   025C                     547 _help::
+                            548 ;src/main.c:196: return STATE_MENU;
+   025C 2E 02         [ 7]  549 	ld	l,#0x02
+   025E C9            [10]  550 	ret
+                            551 ;src/main.c:200: u8 win(){
+                            552 ;	---------------------------------
+                            553 ; Function win
+                            554 ; ---------------------------------
+   025F                     555 _win::
+                            556 ;src/main.c:202: return STATE_MENU;
+   025F 2E 02         [ 7]  557 	ld	l,#0x02
+   0261 C9            [10]  558 	ret
+                            559 ;src/main.c:206: u8 game_over(){
+                            560 ;	---------------------------------
+                            561 ; Function game_over
+                            562 ; ---------------------------------
+   0262                     563 _game_over::
+                            564 ;src/main.c:208: return STATE_LOSE;
+   0262 2E 07         [ 7]  565 	ld	l,#0x07
+   0264 C9            [10]  566 	ret
+                            567 ;src/main.c:212: u8 game(){
+                            568 ;	---------------------------------
+                            569 ; Function game
+                            570 ; ---------------------------------
+   0265                     571 _game::
+   0265 DD E5         [15]  572 	push	ix
+   0267 DD 21 00 00   [14]  573 	ld	ix,#0
+   026B DD 39         [15]  574 	add	ix,sp
+   026D F5            [11]  575 	push	af
+   026E F5            [11]  576 	push	af
+                            577 ;src/main.c:214: timer_on();
+   026F CDr00r00      [17]  578 	call	_timer_on
+                            579 ;src/main.c:219: initialization(); 
+   0272 CDrBBr00      [17]  580 	call	_initialization
+                            581 ;src/main.c:221: create_message(25,96,30,";VAMOS;AL;ATAQUE;");
+   0275 21r87r03      [10]  582 	ld	hl,#___str_8
+   0278 E5            [11]  583 	push	hl
+   0279 21 60 1E      [10]  584 	ld	hl,#0x1E60
+   027C E5            [11]  585 	push	hl
+   027D 3E 19         [ 7]  586 	ld	a,#0x19
+   027F F5            [11]  587 	push	af
+   0280 33            [ 6]  588 	inc	sp
+   0281 CDr00r00      [17]  589 	call	_create_message
+   0284 F1            [10]  590 	pop	af
+   0285 F1            [10]  591 	pop	af
+   0286 33            [ 6]  592 	inc	sp
+                            593 ;src/main.c:223: init_level();
+   0287 CDr15r01      [17]  594 	call	_init_level
+                            595 ;src/main.c:225: while(1)
+   028A                     596 00111$:
+                            597 ;src/main.c:232: if ((STARFIELD_ACTIVE) && (get_time()-get_last_moved_stars()>VELOCIDAD_ESTRELLAS)){
+   028A CDr00r00      [17]  598 	call	_get_time
+   028D DD 72 FF      [19]  599 	ld	-1 (ix),d
+   0290 DD 73 FE      [19]  600 	ld	-2 (ix),e
+   0293 DD 74 FD      [19]  601 	ld	-3 (ix),h
+   0296 DD 75 FC      [19]  602 	ld	-4 (ix),l
+   0299 CDr00r00      [17]  603 	call	_get_last_moved_stars
+   029C DD 7E FC      [19]  604 	ld	a,-4 (ix)
+   029F 95            [ 4]  605 	sub	a, l
+   02A0 6F            [ 4]  606 	ld	l,a
+   02A1 DD 7E FD      [19]  607 	ld	a,-3 (ix)
+   02A4 9C            [ 4]  608 	sbc	a, h
+   02A5 67            [ 4]  609 	ld	h,a
+   02A6 DD 7E FE      [19]  610 	ld	a,-2 (ix)
+   02A9 9B            [ 4]  611 	sbc	a, e
+   02AA 5F            [ 4]  612 	ld	e,a
+   02AB DD 7E FF      [19]  613 	ld	a,-1 (ix)
+   02AE 9A            [ 4]  614 	sbc	a, d
+   02AF 57            [ 4]  615 	ld	d,a
+   02B0 3E 28         [ 7]  616 	ld	a,#0x28
+   02B2 BD            [ 4]  617 	cp	a, l
+   02B3 3E 00         [ 7]  618 	ld	a,#0x00
+   02B5 9C            [ 4]  619 	sbc	a, h
+   02B6 3E 00         [ 7]  620 	ld	a,#0x00
+   02B8 9B            [ 4]  621 	sbc	a, e
+   02B9 3E 00         [ 7]  622 	ld	a,#0x00
+   02BB 9A            [ 4]  623 	sbc	a, d
+   02BC 30 03         [12]  624 	jr	NC,00102$
+                            625 ;src/main.c:233: update_stars();
+   02BE CDr00r00      [17]  626 	call	_update_stars
+   02C1                     627 00102$:
+                            628 ;src/main.c:236: update_explosions();
+   02C1 CDr00r00      [17]  629 	call	_update_explosions
+                            630 ;src/main.c:238: if ((get_time()-get_last_moved_user())>get_user_speed()){
+   02C4 CDr00r00      [17]  631 	call	_get_time
+   02C7 DD 72 FF      [19]  632 	ld	-1 (ix),d
+   02CA DD 73 FE      [19]  633 	ld	-2 (ix),e
+   02CD DD 74 FD      [19]  634 	ld	-3 (ix),h
+   02D0 DD 75 FC      [19]  635 	ld	-4 (ix),l
+   02D3 CDr00r00      [17]  636 	call	_get_last_moved_user
+   02D6 DD 7E FC      [19]  637 	ld	a,-4 (ix)
+   02D9 95            [ 4]  638 	sub	a, l
+   02DA DD 77 FC      [19]  639 	ld	-4 (ix),a
+   02DD DD 7E FD      [19]  640 	ld	a,-3 (ix)
+   02E0 9C            [ 4]  641 	sbc	a, h
+   02E1 DD 77 FD      [19]  642 	ld	-3 (ix),a
+   02E4 DD 7E FE      [19]  643 	ld	a,-2 (ix)
+   02E7 9B            [ 4]  644 	sbc	a, e
+   02E8 DD 77 FE      [19]  645 	ld	-2 (ix),a
+   02EB DD 7E FF      [19]  646 	ld	a,-1 (ix)
+   02EE 9A            [ 4]  647 	sbc	a, d
+   02EF DD 77 FF      [19]  648 	ld	-1 (ix),a
+   02F2 CDr00r00      [17]  649 	call	_get_user_speed
+   02F5 26 00         [ 7]  650 	ld	h,#0x00
+   02F7 11 00 00      [10]  651 	ld	de,#0x0000
+   02FA 7D            [ 4]  652 	ld	a,l
+   02FB DD 96 FC      [19]  653 	sub	a, -4 (ix)
+   02FE 7C            [ 4]  654 	ld	a,h
+   02FF DD 9E FD      [19]  655 	sbc	a, -3 (ix)
+   0302 7A            [ 4]  656 	ld	a,d
+   0303 DD 9E FE      [19]  657 	sbc	a, -2 (ix)
+   0306 7B            [ 4]  658 	ld	a,e
+   0307 DD 9E FF      [19]  659 	sbc	a, -1 (ix)
+   030A 30 03         [12]  660 	jr	NC,00105$
+                            661 ;src/main.c:239: update_user();
+   030C CDr00r00      [17]  662 	call	_update_user
+   030F                     663 00105$:
+                            664 ;src/main.c:241: update_shoots();
+   030F CDr00r00      [17]  665 	call	_update_shoots
+                            666 ;src/main.c:242: update_enemies();
+   0312 CDr00r00      [17]  667 	call	_update_enemies
+                            668 ;src/main.c:248: clear_screen(pvmem);
+   0315 2Ar02r00      [16]  669 	ld	hl,(_pvmem)
+   0318 E5            [11]  670 	push	hl
+   0319 CDr28r00      [17]  671 	call	_clear_screen
+   031C F1            [10]  672 	pop	af
+                            673 ;src/main.c:252: user_engine(pvmem);
+   031D 2Ar02r00      [16]  674 	ld	hl,(_pvmem)
+   0320 E5            [11]  675 	push	hl
+   0321 CDr00r00      [17]  676 	call	_user_engine
+   0324 F1            [10]  677 	pop	af
+                            678 ;src/main.c:256: draw_stars(pvmem);
+   0325 2Ar02r00      [16]  679 	ld	hl,(_pvmem)
+   0328 E5            [11]  680 	push	hl
+   0329 CDr00r00      [17]  681 	call	_draw_stars
+   032C F1            [10]  682 	pop	af
+                            683 ;src/main.c:260: draw_user(pvmem);
+   032D 2Ar02r00      [16]  684 	ld	hl,(_pvmem)
+   0330 E5            [11]  685 	push	hl
+   0331 CDr00r00      [17]  686 	call	_draw_user
+   0334 F1            [10]  687 	pop	af
+                            688 ;src/main.c:261: draw_shoots(pvmem);
+   0335 2Ar02r00      [16]  689 	ld	hl,(_pvmem)
+   0338 E5            [11]  690 	push	hl
+   0339 CDr00r00      [17]  691 	call	_draw_shoots
+   033C F1            [10]  692 	pop	af
+                            693 ;src/main.c:262: draw_enemies(pvmem);
+   033D 2Ar02r00      [16]  694 	ld	hl,(_pvmem)
+   0340 E5            [11]  695 	push	hl
+   0341 CDr00r00      [17]  696 	call	_draw_enemies
+   0344 F1            [10]  697 	pop	af
+                            698 ;src/main.c:263: draw_explosions(pvmem);
+   0345 2Ar02r00      [16]  699 	ld	hl,(_pvmem)
+   0348 E5            [11]  700 	push	hl
+   0349 CDr00r00      [17]  701 	call	_draw_explosions
+   034C F1            [10]  702 	pop	af
+                            703 ;src/main.c:265: draw_messages(pvmem);
+   034D 2Ar02r00      [16]  704 	ld	hl,(_pvmem)
+   0350 E5            [11]  705 	push	hl
+   0351 CDr00r00      [17]  706 	call	_draw_messages
+   0354 F1            [10]  707 	pop	af
+                            708 ;src/main.c:266: draw_scoreboard(pvmem);
+   0355 2Ar02r00      [16]  709 	ld	hl,(_pvmem)
+   0358 E5            [11]  710 	push	hl
+   0359 CDr54r00      [17]  711 	call	_draw_scoreboard
+                            712 ;src/main.c:274: if (cpct_isKeyPressed(Key_Esc)){     // ESC
+   035C 21 08 04      [10]  713 	ld	hl, #0x0408
+   035F E3            [19]  714 	ex	(sp),hl
+   0360 CDr00r00      [17]  715 	call	_cpct_isKeyPressed
+   0363 F1            [10]  716 	pop	af
+   0364 7D            [ 4]  717 	ld	a,l
+   0365 B7            [ 4]  718 	or	a, a
+   0366 28 07         [12]  719 	jr	Z,00109$
+                            720 ;src/main.c:275: state = STATE_MENU;
+   0368 21r00r00      [10]  721 	ld	hl,#_state + 0
+   036B 36 02         [10]  722 	ld	(hl), #0x02
+                            723 ;src/main.c:276: break;
+   036D 18 09         [12]  724 	jr	00112$
+   036F                     725 00109$:
+                            726 ;src/main.c:292: pvmem = changeVideoMemoryPage();
+   036F CDr00r00      [17]  727 	call	_changeVideoMemoryPage
+   0372 22r02r00      [16]  728 	ld	(_pvmem),hl
+   0375 C3r8Ar02      [10]  729 	jp	00111$
+   0378                     730 00112$:
+                            731 ;src/main.c:301: timer_off();
+   0378 CDr00r00      [17]  732 	call	_timer_off
+                            733 ;src/main.c:303: return state;
+   037B FD 21r00r00   [14]  734 	ld	iy,#_state
+   037F FD 6E 00      [19]  735 	ld	l,0 (iy)
+   0382 DD F9         [10]  736 	ld	sp, ix
+   0384 DD E1         [14]  737 	pop	ix
+   0386 C9            [10]  738 	ret
+   0387                     739 ___str_8:
+   0387 3B 56 41 4D 4F 53   740 	.ascii ";VAMOS;AL;ATAQUE;"
+        3B 41 4C 3B 41 54
+        41 51 55 45 3B
+   0398 00                  741 	.db 0x00
+                            742 ;src/main.c:311: int main() {
+                            743 ;	---------------------------------
+                            744 ; Function main
+                            745 ; ---------------------------------
+   0399                     746 _main::
+                            747 ;src/main.c:314: set_stack(0x1000);
+   0399 21 00 10      [10]  748 	ld	hl,#0x1000
+   039C E5            [11]  749 	push	hl
+   039D CDr00r00      [17]  750 	call	_set_stack
+   03A0 F1            [10]  751 	pop	af
+                            752 ;src/main.c:316: initial_setup();
+   03A1 CDrDCr00      [17]  753 	call	_initial_setup
+                            754 ;src/main.c:318: while (state != STATE_EXIT) {
+   03A4                     755 00118$:
+                            756 ;src/main.c:319: switch(state) {
+   03A4 3Ar00r00      [13]  757 	ld	a,(#_state + 0)
+   03A7 FE 05         [ 7]  758 	cp	a,#0x05
+   03A9 CAr61r04      [10]  759 	jp	Z,00120$
+   03AC FE 02         [ 7]  760 	cp	a,#0x02
+   03AE 28 19         [12]  761 	jr	Z,00101$
+   03B0 FE 03         [ 7]  762 	cp	a,#0x03
+   03B2 28 2D         [12]  763 	jr	Z,00103$
+   03B4 FE 04         [ 7]  764 	cp	a,#0x04
+   03B6 28 35         [12]  765 	jr	Z,00104$
+   03B8 FE 06         [ 7]  766 	cp	a,#0x06
+   03BA CAr3Fr04      [10]  767 	jp	Z,00114$
+   03BD FE 07         [ 7]  768 	cp	a,#0x07
+   03BF CAr4Cr04      [10]  769 	jp	Z,00115$
+   03C2 D6 09         [ 7]  770 	sub	a, #0x09
+   03C4 28 0F         [12]  771 	jr	Z,00102$
+   03C6 C3r59r04      [10]  772 	jp	00116$
+                            773 ;src/main.c:320: case STATE_MENU:
+   03C9                     774 00101$:
+                            775 ;src/main.c:321: state = menu();
+   03C9 CDr16r01      [17]  776 	call	_menu
+   03CC FD 21r00r00   [14]  777 	ld	iy,#_state
+   03D0 FD 75 00      [19]  778 	ld	0 (iy),l
+                            779 ;src/main.c:322: break;
+   03D3 18 CF         [12]  780 	jr	00118$
+                            781 ;src/main.c:324: case STATE_REDEFINE:
+   03D5                     782 00102$:
+                            783 ;src/main.c:325: state = redefine_keys();
+   03D5 CDr53r02      [17]  784 	call	_redefine_keys
+   03D8 FD 21r00r00   [14]  785 	ld	iy,#_state
+   03DC FD 75 00      [19]  786 	ld	0 (iy),l
+                            787 ;src/main.c:326: break;
+   03DF 18 C3         [12]  788 	jr	00118$
+                            789 ;src/main.c:328: case STATE_HELP:
+   03E1                     790 00103$:
+                            791 ;src/main.c:329: state = help();
+   03E1 CDr5Cr02      [17]  792 	call	_help
+   03E4 FD 21r00r00   [14]  793 	ld	iy,#_state
+   03E8 FD 75 00      [19]  794 	ld	0 (iy),l
+                            795 ;src/main.c:330: break;
+   03EB 18 B7         [12]  796 	jr	00118$
+                            797 ;src/main.c:332: case STATE_GAME:
+   03ED                     798 00104$:
+                            799 ;src/main.c:333: level=1;
+   03ED 21r00r00      [10]  800 	ld	hl,#_level + 0
+   03F0 36 01         [10]  801 	ld	(hl), #0x01
+                            802 ;src/main.c:334: user_init_level();
+   03F2 CDr00r00      [17]  803 	call	_user_init_level
+                            804 ;src/main.c:336: set_score(0);
+   03F5 21 00 00      [10]  805 	ld	hl,#0x0000
+   03F8 E5            [11]  806 	push	hl
+   03F9 21 00 00      [10]  807 	ld	hl,#0x0000
+   03FC E5            [11]  808 	push	hl
+   03FD CDr00r00      [17]  809 	call	_set_score
+   0400 F1            [10]  810 	pop	af
+   0401 F1            [10]  811 	pop	af
+                            812 ;src/main.c:338: while ((state!=STATE_LOSE) && (state!=STATE_WIN) && (state!=STATE_MENU)) {
+   0402                     813 00111$:
+   0402 3Ar00r00      [13]  814 	ld	a,(#_state + 0)
+   0405 FE 07         [ 7]  815 	cp	a,#0x07
+   0407 28 9B         [12]  816 	jr	Z,00118$
+   0409 FE 06         [ 7]  817 	cp	a,#0x06
+   040B 28 97         [12]  818 	jr	Z,00118$
+   040D D6 02         [ 7]  819 	sub	a, #0x02
+   040F 28 93         [12]  820 	jr	Z,00118$
+                            821 ;src/main.c:343: state = game();
+   0411 CDr65r02      [17]  822 	call	_game
+   0414 FD 21r00r00   [14]  823 	ld	iy,#_state
+   0418 FD 75 00      [19]  824 	ld	0 (iy),l
+                            825 ;src/main.c:349: if (state==STATE_LEVELUP)
+   041B 3Ar00r00      [13]  826 	ld	a,(#_state + 0)
+   041E D6 08         [ 7]  827 	sub	a, #0x08
+   0420 20 0A         [12]  828 	jr	NZ,00106$
+                            829 ;src/main.c:350: state=level_up();
+   0422 CDr56r02      [17]  830 	call	_level_up
+   0425 FD 21r00r00   [14]  831 	ld	iy,#_state
+   0429 FD 75 00      [19]  832 	ld	0 (iy),l
+   042C                     833 00106$:
+                            834 ;src/main.c:351: if (state==STATE_DEAD){
+   042C 3Ar00r00      [13]  835 	ld	a,(#_state + 0)
+   042F D6 0B         [ 7]  836 	sub	a, #0x0B
+   0431 20 CF         [12]  837 	jr	NZ,00111$
+                            838 ;src/main.c:352: state=end();
+   0433 CDr59r02      [17]  839 	call	_end
+   0436 FD 21r00r00   [14]  840 	ld	iy,#_state
+   043A FD 75 00      [19]  841 	ld	0 (iy),l
+   043D 18 C3         [12]  842 	jr	00111$
+                            843 ;src/main.c:357: case STATE_WIN:
+   043F                     844 00114$:
+                            845 ;src/main.c:358: state = win();
+   043F CDr5Fr02      [17]  846 	call	_win
+   0442 FD 21r00r00   [14]  847 	ld	iy,#_state
+   0446 FD 75 00      [19]  848 	ld	0 (iy),l
+                            849 ;src/main.c:359: break;
+   0449 C3rA4r03      [10]  850 	jp	00118$
+                            851 ;src/main.c:361: case STATE_LOSE:
+   044C                     852 00115$:
+                            853 ;src/main.c:362: state = game_over();
+   044C CDr62r02      [17]  854 	call	_game_over
+   044F FD 21r00r00   [14]  855 	ld	iy,#_state
+   0453 FD 75 00      [19]  856 	ld	0 (iy),l
+                            857 ;src/main.c:363: break;
+   0456 C3rA4r03      [10]  858 	jp	00118$
+                            859 ;src/main.c:365: default:
+   0459                     860 00116$:
+                            861 ;src/main.c:366: state = STATE_EXIT;
+   0459 21r00r00      [10]  862 	ld	hl,#_state + 0
+   045C 36 05         [10]  863 	ld	(hl), #0x05
+                            864 ;src/main.c:368: }
+   045E C3rA4r03      [10]  865 	jp	00118$
+   0461                     866 00120$:
+                            867 ;src/main.c:376: return 0;  
+   0461 21 00 00      [10]  868 	ld	hl,#0x0000
+   0464 C9            [10]  869 	ret
+                            870 	.area _CODE
+                            871 	.area _INITIALIZER
+   0000                     872 __xinit__level:
+   0000 00                  873 	.db #0x00	; 0
+                            874 	.area _CABS (ABS)

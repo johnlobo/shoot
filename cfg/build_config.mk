@@ -44,7 +44,7 @@ CPCT_PATH := /Users/david/Documents/retro/proyectos/cpctelera/cpctelera#%%%CPCTE
 # Name of the project (without spaces, as it will be used as filename)
 #   and Z80 memory location where code will start in the generated binary
 PROJNAME   := shoot
-Z80CODELOC := 0x1000
+Z80CODELOC := 0x2000
 
 # Folders 
 SRCDIR  := src

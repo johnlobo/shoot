@@ -5,7 +5,7 @@
 ;	Salida:		Ninguna
 ;	Modificados: 
 ;
-; @JohnLobo Nov14  
+; @JohnLobo Nov15  
 ;******************************
 .globl _set_stack
 _set_stack::
@@ -14,24 +14,6 @@ _set_stack::
 	ld sp, hl
 	push hl
 	push bc
-	ret
-
-******************************
-; 	u8 inside_screen_asm(i16 x, i16 y, u8 w, u8 h){
-; 	Descripción:	Devuelve 0 si el obejto está fuera de la pantalla y 1 si está dentro 
-;	Entrada:	posicion x e y del objeto y el ancho y el alto del mismo
-;	Salida:		0 si el objeto está fuera de la pantalla y 1 si está dentro.
-;	Modificados: 
-;
-; @JohnLobo Ago15  
-;******************************
-.globl _inside_screen_asm
-_inside_screen_asm::
-	push ix
-	ld hl,#4
-	add hl,sp
-
-	pop ix
 	ret
 
 ;******************************

@@ -1,0 +1,110 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+  0 ___str_0                                                       00AD R
+  0 ___str_1                                                       00B2 R
+  0 ___str_2                                                       0200 R
+  0 ___str_3                                                       0215 R
+  0 ___str_4                                                       021D R
+  0 ___str_5                                                       0225 R
+  0 ___str_6                                                       0238 R
+  0 ___str_7                                                       0242 R
+  0 ___str_8                                                       0387 R
+  7 __xinit__level                                                 0000 R
+  1 _aux_txt                                                       0004 GR
+    _blue_message                                                  **** GX
+  0 _changeVideoMemoryPage                                         0000 GR
+  1 _changeVideoMemoryPage_page_1_89                               002C R
+  0 _clear_both_screens                                            0039 GR
+  0 _clear_screen                                                  0028 GR
+    _colour_message                                                **** GX
+    _cpc_PrintGphStr                                               **** GX
+    _cpc_PrintGphStr2X                                             **** GX
+    _cpct_disableFirmware                                          **** GX
+    _cpct_fw2hw                                                    **** GX
+    _cpct_getScreenPtr                                             **** GX
+    _cpct_isKeyPressed                                             **** GX
+    _cpct_memset_f64                                               **** GX
+    _cpct_scanKeyboard_f                                           **** GX
+    _cpct_setPALColour                                             **** GX
+    _cpct_setPalette                                               **** GX
+    _cpct_setRandomSeedUniform_u8                                  **** GX
+    _cpct_setVideoMemoryPage                                       **** GX
+    _cpct_setVideoMode                                             **** GX
+    _create_message                                                **** GX
+    _draw_enemies                                                  **** GX
+    _draw_explosions                                               **** GX
+    _draw_messages                                                 **** GX
+  0 _draw_scoreboard                                               0054 GR
+    _draw_shoots                                                   **** GX
+    _draw_stars                                                    **** GX
+    _draw_user                                                     **** GX
+  0 _end                                                           0259 GR
+  0 _game                                                          0265 GR
+  0 _game_over                                                     0262 GR
+    _get_last_moved_stars                                          **** GX
+    _get_last_moved_user                                           **** GX
+    _get_score                                                     **** GX
+    _get_time                                                      **** GX
+    _get_user_speed                                                **** GX
+  0 _help                                                          025C GR
+    _init_enemies                                                  **** GX
+    _init_explosions                                               **** GX
+  0 _init_game                                                     0114 GR
+  0 _init_level                                                    0115 GR
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    _init_messages                                                 **** GX
+    _init_shoots                                                   **** GX
+    _init_stars                                                    **** GX
+    _init_user                                                     **** GX
+  0 _initial_setup                                                 00DC GR
+  0 _initialization                                                00BB GR
+  2 _level                                                         0000 GR
+  0 _level_up                                                      0256 GR
+  0 _main                                                          0399 GR
+  0 _menu                                                          0116 GR
+    _palette                                                       **** GX
+  1 _previous_state                                                0001 GR
+  1 _pvmem                                                         0002 GR
+    _red_message                                                   **** GX
+  0 _redefine_keys                                                 0253 GR
+    _set_score                                                     **** GX
+    _set_stack                                                     **** GX
+    _sprintf                                                       **** GX
+  1 _state                                                         0000 GR
+    _timer_off                                                     **** GX
+    _timer_on                                                      **** GX
+    _update_enemies                                                **** GX
+    _update_explosions                                             **** GX
+    _update_shoots                                                 **** GX
+    _update_stars                                                  **** GX
+    _update_user                                                   **** GX
+    _user_engine                                                   **** GX
+    _user_init_level                                               **** GX
+  0 _win                                                           025F GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 3.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  465   flags    0
+   1 _DATA                                      size   2D   flags    0
+   2 _INITIALIZED                               size    1   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    8   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    1   flags    0
+   8 _CABS                                      size    0   flags    8
+

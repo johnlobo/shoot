@@ -6,8 +6,6 @@ void	cpc_PrintGphStr2X(char *text, int destino);
 void	cpc_SetInkGphStr(char a, char b);
 void 	set_stack(int destino);
 
-u8 inside_screen_asm(i16 x, i16 y, u8 w, u8 h){
-
 void timer_on(void);
 void timer_off(void);
 unsigned long get_time();

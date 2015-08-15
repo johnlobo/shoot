@@ -1,0 +1,66 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
+Hexadecimal [16-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  2710 L
+    .__.ABS.                                                    =  0000 G
+    .__.CPU.                                                    =  0000 L
+    .__.H$L.                                                    =  0000 L
+    _G_baddie01_00                                                 **** GX
+    _G_baddie01_01                                                 **** GX
+    _G_baddie01_02                                                 **** GX
+    _G_baddie01_03                                                 **** GX
+    _G_baddie01_04                                                 **** GX
+    _G_baddie01_05                                                 **** GX
+    _G_baddie01_06                                                 **** GX
+    _G_baddie01_07                                                 **** GX
+    _G_baddie03_00                                                 **** GX
+    _G_baddie03_01                                                 **** GX
+    _G_baddie03_02                                                 **** GX
+    _G_baddie03_03                                                 **** GX
+    _G_baddie03_04                                                 **** GX
+    _G_baddie03_05                                                 **** GX
+    _G_baddie03_06                                                 **** GX
+    _G_baddie03_07                                                 **** GX
+    _G_baddie04_00                                                 **** GX
+    _G_baddie04_01                                                 **** GX
+    _G_baddie04_02                                                 **** GX
+    _G_baddie04_03                                                 **** GX
+    _G_baddie04_04                                                 **** GX
+    _G_baddie04_05                                                 **** GX
+    _G_baddie04_06                                                 **** GX
+    _G_baddie04_07                                                 **** GX
+  1 _active_enemies                                                0438 GR
+  1 _active_groups                                                 0459 GR
+  0 _check_collision_enemies                                       006D GR
+    _cpct_drawSprite                                               **** GX
+    _cpct_getScreenPtr                                             **** GX
+  0 _create_enemy                                                  01A8 GR
+  0 _create_enemy_group                                            04E7 GR
+  0 _detectColision                                                0000 GR
+  0 _draw_enemies                                                  0AE6 GR
+  1 _enemies                                                       0000 GR
+    _fast_collision                                                **** GX
+  1 _groups                                                        0439 GR
+  0 _init_enemies                                                  013F GR
+  0 _inside_screen                                                 0A95 GR
+    _movements                                                     **** GX
+  0 _update_enemies                                                0547 GR
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
+Hexadecimal [16-Bits]
+
+Area Table
+
+   0 _CODE                                      size  C2A   flags    0
+   1 _DATA                                      size  45A   flags    0
+   2 _INITIALIZED                               size    0   flags    0
+   3 _DABS                                      size    0   flags    8
+   4 _HOME                                      size    0   flags    0
+   5 _GSINIT                                    size    0   flags    0
+   6 _GSFINAL                                   size    0   flags    0
+   7 _INITIALIZER                               size    0   flags    0
+   8 _CABS                                      size    0   flags    8
+
