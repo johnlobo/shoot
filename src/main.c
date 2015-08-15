@@ -36,7 +36,6 @@
 
 //Autómata de estados
 u8 state;
-u8 previous_state;
 
 u8* pvmem;     // Pointer to video memory (or backbuffer) where to draw sprites
 u8 aux_txt[40];
@@ -48,8 +47,9 @@ u8 level = 0;
 // It alternates between page C0 (0xC000 - 0xFFFF) to page 40 (0x4000 - 0x7FFF). 
 // Page C0 is default video memory, page 40 is used in this example as Back Buffer.
 //
-u8* changeVideoMemoryPage() {
-   static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
+
+u8* changeVideoMemoryPage(){
+   static u8 page = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
    u8* screen;
 
       // Depending on which was the last page shown, we show the other 
@@ -311,7 +311,7 @@ u8 game(){
 int main() {
 
   // Reubico el stack
-  set_stack(0x1000);
+  set_stack(0x0200);
 
   initial_setup();
 
