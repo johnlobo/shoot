@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
-                              4 ; This file was generated Mon Aug 10 01:34:09 2015
+                              4 ; This file was generated Sun Aug 16 01:00:18 2015
                               5 ;--------------------------------------------------------
                               6 	.module messages
                               7 	.optsdcc -mz80
@@ -342,58 +342,58 @@
                             342 ;src/entities/messages.c:97: if (messages[i].active){
    015C 21r00r00      [10]  343 	ld	hl,#_messages
    015F 19            [11]  344 	add	hl,de
-   0160 DD 75 FE      [19]  345 	ld	-2 (ix),l
-   0163 DD 74 FF      [19]  346 	ld	-1 (ix),h
-   0166 DD 6E FE      [19]  347 	ld	l,-2 (ix)
-   0169 DD 66 FF      [19]  348 	ld	h,-1 (ix)
+   0160 DD 75 F6      [19]  345 	ld	-10 (ix),l
+   0163 DD 74 F7      [19]  346 	ld	-9 (ix),h
+   0166 DD 6E F6      [19]  347 	ld	l,-10 (ix)
+   0169 DD 66 F7      [19]  348 	ld	h,-9 (ix)
    016C 7E            [ 7]  349 	ld	a,(hl)
    016D B7            [ 4]  350 	or	a, a
    016E CAr54r02      [10]  351 	jp	Z,00109$
                             352 ;src/entities/messages.c:98: pscreen = cpct_getScreenPtr(screen, messages[i].x-2, messages[i].y-4);
-   0171 DD 7E FE      [19]  353 	ld	a,-2 (ix)
+   0171 DD 7E F6      [19]  353 	ld	a,-10 (ix)
    0174 C6 02         [ 7]  354 	add	a, #0x02
-   0176 DD 77 FA      [19]  355 	ld	-6 (ix),a
-   0179 DD 7E FF      [19]  356 	ld	a,-1 (ix)
+   0176 DD 77 F8      [19]  355 	ld	-8 (ix),a
+   0179 DD 7E F7      [19]  356 	ld	a,-9 (ix)
    017C CE 00         [ 7]  357 	adc	a, #0x00
-   017E DD 77 FB      [19]  358 	ld	-5 (ix),a
-   0181 DD 6E FA      [19]  359 	ld	l,-6 (ix)
-   0184 DD 66 FB      [19]  360 	ld	h,-5 (ix)
+   017E DD 77 F9      [19]  358 	ld	-7 (ix),a
+   0181 DD 6E F8      [19]  359 	ld	l,-8 (ix)
+   0184 DD 66 F9      [19]  360 	ld	h,-7 (ix)
    0187 7E            [ 7]  361 	ld	a,(hl)
    0188 C6 FC         [ 7]  362 	add	a,#0xFC
    018A 47            [ 4]  363 	ld	b,a
-   018B DD 7E FE      [19]  364 	ld	a,-2 (ix)
+   018B DD 7E F6      [19]  364 	ld	a,-10 (ix)
    018E C6 01         [ 7]  365 	add	a, #0x01
-   0190 DD 77 FC      [19]  366 	ld	-4 (ix),a
-   0193 DD 7E FF      [19]  367 	ld	a,-1 (ix)
+   0190 DD 77 F4      [19]  366 	ld	-12 (ix),a
+   0193 DD 7E F7      [19]  367 	ld	a,-9 (ix)
    0196 CE 00         [ 7]  368 	adc	a, #0x00
-   0198 DD 77 FD      [19]  369 	ld	-3 (ix),a
-   019B DD 6E FC      [19]  370 	ld	l,-4 (ix)
-   019E DD 66 FD      [19]  371 	ld	h,-3 (ix)
+   0198 DD 77 F5      [19]  369 	ld	-11 (ix),a
+   019B DD 6E F4      [19]  370 	ld	l,-12 (ix)
+   019E DD 66 F5      [19]  371 	ld	h,-11 (ix)
    01A1 4E            [ 7]  372 	ld	c,(hl)
    01A2 0D            [ 4]  373 	dec	c
    01A3 0D            [ 4]  374 	dec	c
    01A4 DD 7E 04      [19]  375 	ld	a,4 (ix)
-   01A7 DD 77 F8      [19]  376 	ld	-8 (ix),a
+   01A7 DD 77 FE      [19]  376 	ld	-2 (ix),a
    01AA DD 7E 05      [19]  377 	ld	a,5 (ix)
-   01AD DD 77 F9      [19]  378 	ld	-7 (ix),a
+   01AD DD 77 FF      [19]  378 	ld	-1 (ix),a
    01B0 D5            [11]  379 	push	de
    01B1 C5            [11]  380 	push	bc
-   01B2 DD 6E F8      [19]  381 	ld	l,-8 (ix)
-   01B5 DD 66 F9      [19]  382 	ld	h,-7 (ix)
+   01B2 DD 6E FE      [19]  381 	ld	l,-2 (ix)
+   01B5 DD 66 FF      [19]  382 	ld	h,-1 (ix)
    01B8 E5            [11]  383 	push	hl
    01B9 CDr00r00      [17]  384 	call	_cpct_getScreenPtr
    01BC D1            [10]  385 	pop	de
    01BD 4D            [ 4]  386 	ld	c, l
    01BE 44            [ 4]  387 	ld	b, h
                             388 ;src/entities/messages.c:99: cpct_drawSolidBox(pscreen , cpct_px2byteM0(3, 3), strlen(messages[i].text)*2+4, 18);
-   01BF DD 7E FE      [19]  389 	ld	a,-2 (ix)
+   01BF DD 7E F6      [19]  389 	ld	a,-10 (ix)
    01C2 C6 03         [ 7]  390 	add	a, #0x03
-   01C4 DD 77 F6      [19]  391 	ld	-10 (ix),a
-   01C7 DD 7E FF      [19]  392 	ld	a,-1 (ix)
+   01C4 DD 77 FC      [19]  391 	ld	-4 (ix),a
+   01C7 DD 7E F7      [19]  392 	ld	a,-9 (ix)
    01CA CE 00         [ 7]  393 	adc	a, #0x00
-   01CC DD 77 F7      [19]  394 	ld	-9 (ix),a
-   01CF DD 6E F6      [19]  395 	ld	l,-10 (ix)
-   01D2 DD 66 F7      [19]  396 	ld	h,-9 (ix)
+   01CC DD 77 FD      [19]  394 	ld	-3 (ix),a
+   01CF DD 6E FC      [19]  395 	ld	l,-4 (ix)
+   01D2 DD 66 FD      [19]  396 	ld	h,-3 (ix)
    01D5 C5            [11]  397 	push	bc
    01D6 D5            [11]  398 	push	de
    01D7 E5            [11]  399 	push	hl
@@ -404,22 +404,22 @@
    01DE C1            [10]  404 	pop	bc
    01DF 87            [ 4]  405 	add	a, a
    01E0 C6 04         [ 7]  406 	add	a, #0x04
-   01E2 DD 77 F5      [19]  407 	ld	-11 (ix),a
+   01E2 DD 77 FB      [19]  407 	ld	-5 (ix),a
    01E5 C5            [11]  408 	push	bc
    01E6 D5            [11]  409 	push	de
    01E7 21 03 03      [10]  410 	ld	hl,#0x0303
    01EA E5            [11]  411 	push	hl
    01EB CDr00r00      [17]  412 	call	_cpct_px2byteM0
    01EE F1            [10]  413 	pop	af
-   01EF DD 75 F4      [19]  414 	ld	-12 (ix),l
+   01EF DD 75 FA      [19]  414 	ld	-6 (ix),l
    01F2 D1            [10]  415 	pop	de
    01F3 C1            [10]  416 	pop	bc
    01F4 D5            [11]  417 	push	de
    01F5 3E 12         [ 7]  418 	ld	a,#0x12
    01F7 F5            [11]  419 	push	af
    01F8 33            [ 6]  420 	inc	sp
-   01F9 DD 66 F5      [19]  421 	ld	h,-11 (ix)
-   01FC DD 6E F4      [19]  422 	ld	l,-12 (ix)
+   01F9 DD 66 FB      [19]  421 	ld	h,-5 (ix)
+   01FC DD 6E FA      [19]  422 	ld	l,-6 (ix)
    01FF E5            [11]  423 	push	hl
    0200 C5            [11]  424 	push	bc
    0201 CDr00r00      [17]  425 	call	_cpct_drawSolidBox
@@ -428,24 +428,24 @@
    0206 33            [ 6]  428 	inc	sp
    0207 D1            [10]  429 	pop	de
                             430 ;src/entities/messages.c:100: cpc_PrintGphStr(messages[i].text, (int) cpct_getScreenPtr(screen, messages[i].x, messages[i].y));
-   0208 DD 6E FA      [19]  431 	ld	l,-6 (ix)
-   020B DD 66 FB      [19]  432 	ld	h,-5 (ix)
+   0208 DD 6E F8      [19]  431 	ld	l,-8 (ix)
+   020B DD 66 F9      [19]  432 	ld	h,-7 (ix)
    020E 7E            [ 7]  433 	ld	a,(hl)
-   020F DD 6E FC      [19]  434 	ld	l,-4 (ix)
-   0212 DD 66 FD      [19]  435 	ld	h,-3 (ix)
+   020F DD 6E F4      [19]  434 	ld	l,-12 (ix)
+   0212 DD 66 F5      [19]  435 	ld	h,-11 (ix)
    0215 46            [ 7]  436 	ld	b,(hl)
    0216 D5            [11]  437 	push	de
    0217 F5            [11]  438 	push	af
    0218 33            [ 6]  439 	inc	sp
    0219 C5            [11]  440 	push	bc
    021A 33            [ 6]  441 	inc	sp
-   021B DD 6E F8      [19]  442 	ld	l,-8 (ix)
-   021E DD 66 F9      [19]  443 	ld	h,-7 (ix)
+   021B DD 6E FE      [19]  442 	ld	l,-2 (ix)
+   021E DD 66 FF      [19]  443 	ld	h,-1 (ix)
    0221 E5            [11]  444 	push	hl
    0222 CDr00r00      [17]  445 	call	_cpct_getScreenPtr
    0225 D1            [10]  446 	pop	de
-   0226 DD 4E F6      [19]  447 	ld	c,-10 (ix)
-   0229 DD 46 F7      [19]  448 	ld	b,-9 (ix)
+   0226 DD 4E FC      [19]  447 	ld	c,-4 (ix)
+   0229 DD 46 FD      [19]  448 	ld	b,-3 (ix)
    022C D5            [11]  449 	push	de
    022D E5            [11]  450 	push	hl
    022E C5            [11]  451 	push	bc
@@ -454,10 +454,10 @@
    0233 F1            [10]  454 	pop	af
    0234 D1            [10]  455 	pop	de
                             456 ;src/entities/messages.c:101: messages[i].time--;
-   0235 DD 7E FE      [19]  457 	ld	a,-2 (ix)
+   0235 DD 7E F6      [19]  457 	ld	a,-10 (ix)
    0238 C6 21         [ 7]  458 	add	a, #0x21
    023A 6F            [ 4]  459 	ld	l,a
-   023B DD 7E FF      [19]  460 	ld	a,-1 (ix)
+   023B DD 7E F7      [19]  460 	ld	a,-9 (ix)
    023E CE 00         [ 7]  461 	adc	a, #0x00
    0240 67            [ 4]  462 	ld	h,a
    0241 7E            [ 7]  463 	ld	a,(hl)
@@ -467,8 +467,8 @@
    0245 B7            [ 4]  467 	or	a, a
    0246 20 0C         [12]  468 	jr	NZ,00109$
                             469 ;src/entities/messages.c:103: messages[i].active=0;
-   0248 DD 6E FE      [19]  470 	ld	l,-2 (ix)
-   024B DD 66 FF      [19]  471 	ld	h,-1 (ix)
+   0248 DD 6E F6      [19]  470 	ld	l,-10 (ix)
+   024B DD 66 F7      [19]  471 	ld	h,-9 (ix)
    024E 36 00         [10]  472 	ld	(hl),#0x00
                             473 ;src/entities/messages.c:104: active_messages--;
    0250 21r54r01      [10]  474 	ld	hl, #_active_messages+0

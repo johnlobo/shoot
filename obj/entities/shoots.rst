@@ -1,7 +1,7 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : free open source ANSI-C Compiler
                               3 ; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
-                              4 ; This file was generated Fri Aug  7 15:43:53 2015
+                              4 ; This file was generated Sun Aug 16 01:47:05 2015
                               5 ;--------------------------------------------------------
                               6 	.module shoots
                               7 	.optsdcc -mz80
@@ -28,10 +28,10 @@
                              28 ; ram data
                              29 ;--------------------------------------------------------
                              30 	.area _DATA
-   6A72                      31 _shoots::
-   6A72                      32 	.ds 160
-   6B12                      33 _active_shoots::
-   6B12                      34 	.ds 1
+   6AD6                      31 _shoots::
+   6AD6                      32 	.ds 160
+   6B76                      33 _active_shoots::
+   6B76                      34 	.ds 1
                              35 ;--------------------------------------------------------
                              36 ; ram data
                              37 ;--------------------------------------------------------
@@ -60,537 +60,540 @@
                              60 ;	---------------------------------
                              61 ; Function init_shoots
                              62 ; ---------------------------------
-   357E                      63 _init_shoots::
+   35F2                      63 _init_shoots::
                              64 ;src/entities/shoots.c:15: for (k=0;k<MAX_SHOOTS;k++){
-   357E 16 00         [ 7]   65 	ld	d,#0x00
-   3580                      66 00102$:
+   35F2 16 00         [ 7]   65 	ld	d,#0x00
+   35F4                      66 00102$:
                              67 ;src/entities/shoots.c:16: shoots[k].active=0;
-   3580 6A            [ 4]   68 	ld	l,d
-   3581 26 00         [ 7]   69 	ld	h,#0x00
-   3583 29            [11]   70 	add	hl, hl
-   3584 29            [11]   71 	add	hl, hl
-   3585 29            [11]   72 	add	hl, hl
-   3586 29            [11]   73 	add	hl, hl
-   3587 3E 72         [ 7]   74 	ld	a,#<(_shoots)
-   3589 85            [ 4]   75 	add	a, l
-   358A 4F            [ 4]   76 	ld	c,a
-   358B 3E 6A         [ 7]   77 	ld	a,#>(_shoots)
-   358D 8C            [ 4]   78 	adc	a, h
-   358E 47            [ 4]   79 	ld	b,a
-   358F 21 08 00      [10]   80 	ld	hl,#0x0008
-   3592 09            [11]   81 	add	hl,bc
-   3593 36 00         [10]   82 	ld	(hl),#0x00
+   35F4 6A            [ 4]   68 	ld	l,d
+   35F5 26 00         [ 7]   69 	ld	h,#0x00
+   35F7 29            [11]   70 	add	hl, hl
+   35F8 29            [11]   71 	add	hl, hl
+   35F9 29            [11]   72 	add	hl, hl
+   35FA 29            [11]   73 	add	hl, hl
+   35FB 3E D6         [ 7]   74 	ld	a,#<(_shoots)
+   35FD 85            [ 4]   75 	add	a, l
+   35FE 4F            [ 4]   76 	ld	c,a
+   35FF 3E 6A         [ 7]   77 	ld	a,#>(_shoots)
+   3601 8C            [ 4]   78 	adc	a, h
+   3602 47            [ 4]   79 	ld	b,a
+   3603 21 08 00      [10]   80 	ld	hl,#0x0008
+   3606 09            [11]   81 	add	hl,bc
+   3607 36 00         [10]   82 	ld	(hl),#0x00
                              83 ;src/entities/shoots.c:17: shoots[k].x=0;
-   3595 21 04 00      [10]   84 	ld	hl,#0x0004
-   3598 09            [11]   85 	add	hl,bc
-   3599 36 00         [10]   86 	ld	(hl),#0x00
+   3609 21 04 00      [10]   84 	ld	hl,#0x0004
+   360C 09            [11]   85 	add	hl,bc
+   360D 36 00         [10]   86 	ld	(hl),#0x00
                              87 ;src/entities/shoots.c:18: shoots[k].y=0;
-   359B 21 05 00      [10]   88 	ld	hl,#0x0005
-   359E 09            [11]   89 	add	hl,bc
-   359F 36 00         [10]   90 	ld	(hl),#0x00
+   360F 21 05 00      [10]   88 	ld	hl,#0x0005
+   3612 09            [11]   89 	add	hl,bc
+   3613 36 00         [10]   90 	ld	(hl),#0x00
                              91 ;src/entities/shoots.c:19: shoots[k].w=0;
-   35A1 21 06 00      [10]   92 	ld	hl,#0x0006
-   35A4 09            [11]   93 	add	hl,bc
-   35A5 36 00         [10]   94 	ld	(hl),#0x00
+   3615 21 06 00      [10]   92 	ld	hl,#0x0006
+   3618 09            [11]   93 	add	hl,bc
+   3619 36 00         [10]   94 	ld	(hl),#0x00
                              95 ;src/entities/shoots.c:20: shoots[k].h=0;
-   35A7 21 07 00      [10]   96 	ld	hl,#0x0007
-   35AA 09            [11]   97 	add	hl,bc
-   35AB 36 00         [10]   98 	ld	(hl),#0x00
+   361B 21 07 00      [10]   96 	ld	hl,#0x0007
+   361E 09            [11]   97 	add	hl,bc
+   361F 36 00         [10]   98 	ld	(hl),#0x00
                              99 ;src/entities/shoots.c:21: shoots[k].frame=0;
-   35AD 21 0A 00      [10]  100 	ld	hl,#0x000A
-   35B0 09            [11]  101 	add	hl,bc
-   35B1 36 00         [10]  102 	ld	(hl),#0x00
-                            103 ;src/entities/shoots.c:22: shoots[k].lastmoved=0;
-   35B3 21 0C 00      [10]  104 	ld	hl,#0x000C
-   35B6 09            [11]  105 	add	hl,bc
-   35B7 AF            [ 4]  106 	xor	a, a
-   35B8 77            [ 7]  107 	ld	(hl), a
-   35B9 23            [ 6]  108 	inc	hl
-   35BA 77            [ 7]  109 	ld	(hl), a
-   35BB 23            [ 6]  110 	inc	hl
-   35BC AF            [ 4]  111 	xor	a, a
-   35BD 77            [ 7]  112 	ld	(hl), a
-   35BE 23            [ 6]  113 	inc	hl
-   35BF 77            [ 7]  114 	ld	(hl), a
+   3621 21 0A 00      [10]  100 	ld	hl,#0x000A
+   3624 09            [11]  101 	add	hl,bc
+   3625 36 00         [10]  102 	ld	(hl),#0x00
+                            103 ;src/entities/shoots.c:22: shoots[k].last_moved=0;
+   3627 21 0C 00      [10]  104 	ld	hl,#0x000C
+   362A 09            [11]  105 	add	hl,bc
+   362B AF            [ 4]  106 	xor	a, a
+   362C 77            [ 7]  107 	ld	(hl), a
+   362D 23            [ 6]  108 	inc	hl
+   362E 77            [ 7]  109 	ld	(hl), a
+   362F 23            [ 6]  110 	inc	hl
+   3630 AF            [ 4]  111 	xor	a, a
+   3631 77            [ 7]  112 	ld	(hl), a
+   3632 23            [ 6]  113 	inc	hl
+   3633 77            [ 7]  114 	ld	(hl), a
                             115 ;src/entities/shoots.c:15: for (k=0;k<MAX_SHOOTS;k++){
-   35C0 14            [ 4]  116 	inc	d
-   35C1 7A            [ 4]  117 	ld	a,d
-   35C2 D6 0A         [ 7]  118 	sub	a, #0x0A
-   35C4 38 BA         [12]  119 	jr	C,00102$
+   3634 14            [ 4]  116 	inc	d
+   3635 7A            [ 4]  117 	ld	a,d
+   3636 D6 0A         [ 7]  118 	sub	a, #0x0A
+   3638 38 BA         [12]  119 	jr	C,00102$
                             120 ;src/entities/shoots.c:24: active_shoots=0;
-   35C6 21 12 6B      [10]  121 	ld	hl,#_active_shoots + 0
-   35C9 36 00         [10]  122 	ld	(hl), #0x00
-   35CB C9            [10]  123 	ret
+   363A 21 76 6B      [10]  121 	ld	hl,#_active_shoots + 0
+   363D 36 00         [10]  122 	ld	(hl), #0x00
+   363F C9            [10]  123 	ret
                             124 ;src/entities/shoots.c:30: void create_shoot(u8 x, u8 y, u8 type){
                             125 ;	---------------------------------
                             126 ; Function create_shoot
                             127 ; ---------------------------------
-   35CC                     128 _create_shoot::
-   35CC DD E5         [15]  129 	push	ix
-   35CE DD 21 00 00   [14]  130 	ld	ix,#0
-   35D2 DD 39         [15]  131 	add	ix,sp
-   35D4 21 F4 FF      [10]  132 	ld	hl,#-12
-   35D7 39            [11]  133 	add	hl,sp
-   35D8 F9            [ 6]  134 	ld	sp,hl
+   3640                     128 _create_shoot::
+   3640 DD E5         [15]  129 	push	ix
+   3642 DD 21 00 00   [14]  130 	ld	ix,#0
+   3646 DD 39         [15]  131 	add	ix,sp
+   3648 21 F4 FF      [10]  132 	ld	hl,#-12
+   364B 39            [11]  133 	add	hl,sp
+   364C F9            [ 6]  134 	ld	sp,hl
                             135 ;src/entities/shoots.c:32: if (active_shoots < get_user_max_shoots()){
-   35D9 CD B2 39      [17]  136 	call	_get_user_max_shoots
-   35DC 55            [ 4]  137 	ld	d,l
-   35DD 3A 12 6B      [13]  138 	ld	a,(#_active_shoots + 0)
-   35E0 92            [ 4]  139 	sub	a, d
-   35E1 D2 F7 36      [10]  140 	jp	NC,00109$
+   364D CD 34 3A      [17]  136 	call	_get_user_max_shoots
+   3650 55            [ 4]  137 	ld	d,l
+   3651 3A 76 6B      [13]  138 	ld	a,(#_active_shoots + 0)
+   3654 92            [ 4]  139 	sub	a, d
+   3655 D2 67 37      [10]  140 	jp	NC,00109$
                             141 ;src/entities/shoots.c:34: while (shoots[k].active){
-   35E4 01 72 6A      [10]  142 	ld	bc,#_shoots+0
-   35E7 16 00         [ 7]  143 	ld	d,#0x00
-   35E9                     144 00101$:
-   35E9 6A            [ 4]  145 	ld	l,d
-   35EA 26 00         [ 7]  146 	ld	h,#0x00
-   35EC 29            [11]  147 	add	hl, hl
-   35ED 29            [11]  148 	add	hl, hl
-   35EE 29            [11]  149 	add	hl, hl
-   35EF 29            [11]  150 	add	hl, hl
-   35F0 09            [11]  151 	add	hl,bc
-   35F1 DD 75 FA      [19]  152 	ld	-6 (ix),l
-   35F4 DD 74 FB      [19]  153 	ld	-5 (ix),h
-   35F7 DD 7E FA      [19]  154 	ld	a,-6 (ix)
-   35FA C6 08         [ 7]  155 	add	a, #0x08
-   35FC 6F            [ 4]  156 	ld	l,a
-   35FD DD 7E FB      [19]  157 	ld	a,-5 (ix)
-   3600 CE 00         [ 7]  158 	adc	a, #0x00
-   3602 67            [ 4]  159 	ld	h,a
-   3603 7E            [ 7]  160 	ld	a,(hl)
-   3604 B7            [ 4]  161 	or	a, a
-   3605 28 03         [12]  162 	jr	Z,00103$
+   3658 01 D6 6A      [10]  142 	ld	bc,#_shoots+0
+   365B 16 00         [ 7]  143 	ld	d,#0x00
+   365D                     144 00101$:
+   365D 6A            [ 4]  145 	ld	l,d
+   365E 26 00         [ 7]  146 	ld	h,#0x00
+   3660 29            [11]  147 	add	hl, hl
+   3661 29            [11]  148 	add	hl, hl
+   3662 29            [11]  149 	add	hl, hl
+   3663 29            [11]  150 	add	hl, hl
+   3664 09            [11]  151 	add	hl,bc
+   3665 DD 75 FC      [19]  152 	ld	-4 (ix),l
+   3668 DD 74 FD      [19]  153 	ld	-3 (ix),h
+   366B DD 7E FC      [19]  154 	ld	a,-4 (ix)
+   366E C6 08         [ 7]  155 	add	a, #0x08
+   3670 6F            [ 4]  156 	ld	l,a
+   3671 DD 7E FD      [19]  157 	ld	a,-3 (ix)
+   3674 CE 00         [ 7]  158 	adc	a, #0x00
+   3676 67            [ 4]  159 	ld	h,a
+   3677 7E            [ 7]  160 	ld	a,(hl)
+   3678 B7            [ 4]  161 	or	a, a
+   3679 28 03         [12]  162 	jr	Z,00103$
                             163 ;src/entities/shoots.c:35: k++;
-   3607 14            [ 4]  164 	inc	d
-   3608 18 DF         [12]  165 	jr	00101$
-   360A                     166 00103$:
+   367B 14            [ 4]  164 	inc	d
+   367C 18 DF         [12]  165 	jr	00101$
+   367E                     166 00103$:
                             167 ;src/entities/shoots.c:37: shoots[k].active=1;
-   360A 36 01         [10]  168 	ld	(hl),#0x01
+   367E 36 01         [10]  168 	ld	(hl),#0x01
                             169 ;src/entities/shoots.c:38: shoots[k].frame=0;
-   360C DD 7E FA      [19]  170 	ld	a,-6 (ix)
-   360F C6 0A         [ 7]  171 	add	a, #0x0A
-   3611 6F            [ 4]  172 	ld	l,a
-   3612 DD 7E FB      [19]  173 	ld	a,-5 (ix)
-   3615 CE 00         [ 7]  174 	adc	a, #0x00
-   3617 67            [ 4]  175 	ld	h,a
-   3618 36 00         [10]  176 	ld	(hl),#0x00
+   3680 DD 7E FC      [19]  170 	ld	a,-4 (ix)
+   3683 C6 0A         [ 7]  171 	add	a, #0x0A
+   3685 6F            [ 4]  172 	ld	l,a
+   3686 DD 7E FD      [19]  173 	ld	a,-3 (ix)
+   3689 CE 00         [ 7]  174 	adc	a, #0x00
+   368B 67            [ 4]  175 	ld	h,a
+   368C 36 00         [10]  176 	ld	(hl),#0x00
                             177 ;src/entities/shoots.c:42: shoots[k].x=x;
-   361A DD 7E FA      [19]  178 	ld	a,-6 (ix)
-   361D C6 04         [ 7]  179 	add	a, #0x04
-   361F DD 77 F4      [19]  180 	ld	-12 (ix),a
-   3622 DD 7E FB      [19]  181 	ld	a,-5 (ix)
-   3625 CE 00         [ 7]  182 	adc	a, #0x00
-   3627 DD 77 F5      [19]  183 	ld	-11 (ix),a
+   368E DD 7E FC      [19]  178 	ld	a,-4 (ix)
+   3691 C6 04         [ 7]  179 	add	a, #0x04
+   3693 DD 77 FE      [19]  180 	ld	-2 (ix),a
+   3696 DD 7E FD      [19]  181 	ld	a,-3 (ix)
+   3699 CE 00         [ 7]  182 	adc	a, #0x00
+   369B DD 77 FF      [19]  183 	ld	-1 (ix),a
                             184 ;src/entities/shoots.c:43: shoots[k].y=y;
-   362A DD 7E FA      [19]  185 	ld	a,-6 (ix)
-   362D C6 05         [ 7]  186 	add	a, #0x05
-   362F DD 77 FC      [19]  187 	ld	-4 (ix),a
-   3632 DD 7E FB      [19]  188 	ld	a,-5 (ix)
-   3635 CE 00         [ 7]  189 	adc	a, #0x00
-   3637 DD 77 FD      [19]  190 	ld	-3 (ix),a
+   369E DD 7E FC      [19]  185 	ld	a,-4 (ix)
+   36A1 C6 05         [ 7]  186 	add	a, #0x05
+   36A3 DD 77 FA      [19]  187 	ld	-6 (ix),a
+   36A6 DD 7E FD      [19]  188 	ld	a,-3 (ix)
+   36A9 CE 00         [ 7]  189 	adc	a, #0x00
+   36AB DD 77 FB      [19]  190 	ld	-5 (ix),a
                             191 ;src/entities/shoots.c:44: shoots[k].w=1;
-   363A DD 7E FA      [19]  192 	ld	a,-6 (ix)
-   363D C6 06         [ 7]  193 	add	a, #0x06
-   363F DD 77 FE      [19]  194 	ld	-2 (ix),a
-   3642 DD 7E FB      [19]  195 	ld	a,-5 (ix)
-   3645 CE 00         [ 7]  196 	adc	a, #0x00
-   3647 DD 77 FF      [19]  197 	ld	-1 (ix),a
+   36AE DD 7E FC      [19]  192 	ld	a,-4 (ix)
+   36B1 C6 06         [ 7]  193 	add	a, #0x06
+   36B3 DD 77 F8      [19]  194 	ld	-8 (ix),a
+   36B6 DD 7E FD      [19]  195 	ld	a,-3 (ix)
+   36B9 CE 00         [ 7]  196 	adc	a, #0x00
+   36BB DD 77 F9      [19]  197 	ld	-7 (ix),a
                             198 ;src/entities/shoots.c:45: shoots[k].h=4;
-   364A DD 7E FA      [19]  199 	ld	a,-6 (ix)
-   364D C6 07         [ 7]  200 	add	a, #0x07
-   364F DD 77 F6      [19]  201 	ld	-10 (ix),a
-   3652 DD 7E FB      [19]  202 	ld	a,-5 (ix)
-   3655 CE 00         [ 7]  203 	adc	a, #0x00
-   3657 DD 77 F7      [19]  204 	ld	-9 (ix),a
+   36BE DD 7E FC      [19]  199 	ld	a,-4 (ix)
+   36C1 C6 07         [ 7]  200 	add	a, #0x07
+   36C3 DD 77 F6      [19]  201 	ld	-10 (ix),a
+   36C6 DD 7E FD      [19]  202 	ld	a,-3 (ix)
+   36C9 CE 00         [ 7]  203 	adc	a, #0x00
+   36CB DD 77 F7      [19]  204 	ld	-9 (ix),a
                             205 ;src/entities/shoots.c:46: shoots[k].num_frames=1;
-   365A DD 7E FA      [19]  206 	ld	a,-6 (ix)
-   365D C6 09         [ 7]  207 	add	a, #0x09
-   365F DD 77 F8      [19]  208 	ld	-8 (ix),a
-   3662 DD 7E FB      [19]  209 	ld	a,-5 (ix)
-   3665 CE 00         [ 7]  210 	adc	a, #0x00
-   3667 DD 77 F9      [19]  211 	ld	-7 (ix),a
+   36CE DD 7E FC      [19]  206 	ld	a,-4 (ix)
+   36D1 C6 09         [ 7]  207 	add	a, #0x09
+   36D3 DD 77 F4      [19]  208 	ld	-12 (ix),a
+   36D6 DD 7E FD      [19]  209 	ld	a,-3 (ix)
+   36D9 CE 00         [ 7]  210 	adc	a, #0x00
+   36DB DD 77 F5      [19]  211 	ld	-11 (ix),a
                             212 ;src/entities/shoots.c:39: switch (type){
-   366A DD 7E 06      [19]  213 	ld	a,6 (ix)
-   366D 3D            [ 4]  214 	dec	a
-   366E 20 35         [12]  215 	jr	NZ,00105$
+   36DE DD 7E 06      [19]  213 	ld	a,6 (ix)
+   36E1 3D            [ 4]  214 	dec	a
+   36E2 20 35         [12]  215 	jr	NZ,00105$
                             216 ;src/entities/shoots.c:42: shoots[k].x=x;
-   3670 E1            [10]  217 	pop	hl
-   3671 E5            [11]  218 	push	hl
-   3672 DD 7E 04      [19]  219 	ld	a,4 (ix)
-   3675 77            [ 7]  220 	ld	(hl),a
+   36E4 DD 6E FE      [19]  217 	ld	l,-2 (ix)
+   36E7 DD 66 FF      [19]  218 	ld	h,-1 (ix)
+   36EA DD 7E 04      [19]  219 	ld	a,4 (ix)
+   36ED 77            [ 7]  220 	ld	(hl),a
                             221 ;src/entities/shoots.c:43: shoots[k].y=y;
-   3676 DD 6E FC      [19]  222 	ld	l,-4 (ix)
-   3679 DD 66 FD      [19]  223 	ld	h,-3 (ix)
-   367C DD 7E 05      [19]  224 	ld	a,5 (ix)
-   367F 77            [ 7]  225 	ld	(hl),a
+   36EE DD 6E FA      [19]  222 	ld	l,-6 (ix)
+   36F1 DD 66 FB      [19]  223 	ld	h,-5 (ix)
+   36F4 DD 7E 05      [19]  224 	ld	a,5 (ix)
+   36F7 77            [ 7]  225 	ld	(hl),a
                             226 ;src/entities/shoots.c:44: shoots[k].w=1;
-   3680 DD 6E FE      [19]  227 	ld	l,-2 (ix)
-   3683 DD 66 FF      [19]  228 	ld	h,-1 (ix)
-   3686 36 01         [10]  229 	ld	(hl),#0x01
+   36F8 DD 6E F8      [19]  227 	ld	l,-8 (ix)
+   36FB DD 66 F9      [19]  228 	ld	h,-7 (ix)
+   36FE 36 01         [10]  229 	ld	(hl),#0x01
                             230 ;src/entities/shoots.c:45: shoots[k].h=4;
-   3688 DD 6E F6      [19]  231 	ld	l,-10 (ix)
-   368B DD 66 F7      [19]  232 	ld	h,-9 (ix)
-   368E 36 04         [10]  233 	ld	(hl),#0x04
+   3700 DD 6E F6      [19]  231 	ld	l,-10 (ix)
+   3703 DD 66 F7      [19]  232 	ld	h,-9 (ix)
+   3706 36 04         [10]  233 	ld	(hl),#0x04
                             234 ;src/entities/shoots.c:46: shoots[k].num_frames=1;
-   3690 DD 6E F8      [19]  235 	ld	l,-8 (ix)
-   3693 DD 66 F9      [19]  236 	ld	h,-7 (ix)
-   3696 36 01         [10]  237 	ld	(hl),#0x01
+   3708 E1            [10]  235 	pop	hl
+   3709 E5            [11]  236 	push	hl
+   370A 36 01         [10]  237 	ld	(hl),#0x01
                             238 ;src/entities/shoots.c:47: shoots[k].sprite[0]= (u8*) bullet02_0;
-   3698 DD 6E FA      [19]  239 	ld	l,-6 (ix)
-   369B DD 66 FB      [19]  240 	ld	h,-5 (ix)
-   369E 36 25         [10]  241 	ld	(hl),#<(_bullet02_0)
-   36A0 23            [ 6]  242 	inc	hl
-   36A1 36 43         [10]  243 	ld	(hl),#>(_bullet02_0)
+   370C DD 6E FC      [19]  239 	ld	l,-4 (ix)
+   370F DD 66 FD      [19]  240 	ld	h,-3 (ix)
+   3712 36 97         [10]  241 	ld	(hl),#<(_bullet02_0)
+   3714 23            [ 6]  242 	inc	hl
+   3715 36 43         [10]  243 	ld	(hl),#>(_bullet02_0)
                             244 ;src/entities/shoots.c:48: break;
-   36A3 18 4E         [12]  245 	jr	00106$
+   3717 18 4A         [12]  245 	jr	00106$
                             246 ;src/entities/shoots.c:49: default:
-   36A5                     247 00105$:
+   3719                     247 00105$:
                             248 ;src/entities/shoots.c:50: shoots[k].x=x;
-   36A5 E1            [10]  249 	pop	hl
-   36A6 E5            [11]  250 	push	hl
-   36A7 DD 7E 04      [19]  251 	ld	a,4 (ix)
-   36AA 77            [ 7]  252 	ld	(hl),a
+   3719 DD 6E FE      [19]  249 	ld	l,-2 (ix)
+   371C DD 66 FF      [19]  250 	ld	h,-1 (ix)
+   371F DD 7E 04      [19]  251 	ld	a,4 (ix)
+   3722 77            [ 7]  252 	ld	(hl),a
                             253 ;src/entities/shoots.c:51: shoots[k].y=y;
-   36AB DD 6E FC      [19]  254 	ld	l,-4 (ix)
-   36AE DD 66 FD      [19]  255 	ld	h,-3 (ix)
-   36B1 DD 7E 05      [19]  256 	ld	a,5 (ix)
-   36B4 77            [ 7]  257 	ld	(hl),a
+   3723 DD 6E FA      [19]  254 	ld	l,-6 (ix)
+   3726 DD 66 FB      [19]  255 	ld	h,-5 (ix)
+   3729 DD 7E 05      [19]  256 	ld	a,5 (ix)
+   372C 77            [ 7]  257 	ld	(hl),a
                             258 ;src/entities/shoots.c:52: shoots[k].w=1;
-   36B5 DD 6E FE      [19]  259 	ld	l,-2 (ix)
-   36B8 DD 66 FF      [19]  260 	ld	h,-1 (ix)
-   36BB 36 01         [10]  261 	ld	(hl),#0x01
+   372D DD 6E F8      [19]  259 	ld	l,-8 (ix)
+   3730 DD 66 F9      [19]  260 	ld	h,-7 (ix)
+   3733 36 01         [10]  261 	ld	(hl),#0x01
                             262 ;src/entities/shoots.c:53: shoots[k].h=8;
-   36BD DD 6E F6      [19]  263 	ld	l,-10 (ix)
-   36C0 DD 66 F7      [19]  264 	ld	h,-9 (ix)
-   36C3 36 08         [10]  265 	ld	(hl),#0x08
+   3735 DD 6E F6      [19]  263 	ld	l,-10 (ix)
+   3738 DD 66 F7      [19]  264 	ld	h,-9 (ix)
+   373B 36 08         [10]  265 	ld	(hl),#0x08
                             266 ;src/entities/shoots.c:54: shoots[k].num_frames=2;
-   36C5 DD 6E F8      [19]  267 	ld	l,-8 (ix)
-   36C8 DD 66 F9      [19]  268 	ld	h,-7 (ix)
-   36CB 36 02         [10]  269 	ld	(hl),#0x02
+   373D E1            [10]  267 	pop	hl
+   373E E5            [11]  268 	push	hl
+   373F 36 02         [10]  269 	ld	(hl),#0x02
                             270 ;src/entities/shoots.c:55: shoots[k].sprite[0]= (u8*) bullet01_0;
-   36CD DD 6E FA      [19]  271 	ld	l,-6 (ix)
-   36D0 DD 66 FB      [19]  272 	ld	h,-5 (ix)
-   36D3 36 15         [10]  273 	ld	(hl),#<(_bullet01_0)
-   36D5 23            [ 6]  274 	inc	hl
-   36D6 36 43         [10]  275 	ld	(hl),#>(_bullet01_0)
+   3741 DD 6E FC      [19]  271 	ld	l,-4 (ix)
+   3744 DD 66 FD      [19]  272 	ld	h,-3 (ix)
+   3747 36 87         [10]  273 	ld	(hl),#<(_bullet01_0)
+   3749 23            [ 6]  274 	inc	hl
+   374A 36 43         [10]  275 	ld	(hl),#>(_bullet01_0)
                             276 ;src/entities/shoots.c:56: shoots[k].sprite[1]= (u8*) bullet01_1;
-   36D8 DD 7E FA      [19]  277 	ld	a,-6 (ix)
-   36DB C6 02         [ 7]  278 	add	a, #0x02
-   36DD DD 77 F8      [19]  279 	ld	-8 (ix),a
-   36E0 DD 7E FB      [19]  280 	ld	a,-5 (ix)
-   36E3 CE 00         [ 7]  281 	adc	a, #0x00
-   36E5 DD 77 F9      [19]  282 	ld	-7 (ix),a
-   36E8 DD 6E F8      [19]  283 	ld	l,-8 (ix)
-   36EB DD 66 F9      [19]  284 	ld	h,-7 (ix)
-   36EE 36 1D         [10]  285 	ld	(hl),#<(_bullet01_1)
-   36F0 23            [ 6]  286 	inc	hl
-   36F1 36 43         [10]  287 	ld	(hl),#>(_bullet01_1)
+   374C DD 7E FC      [19]  277 	ld	a,-4 (ix)
+   374F C6 02         [ 7]  278 	add	a, #0x02
+   3751 DD 77 F4      [19]  279 	ld	-12 (ix),a
+   3754 DD 7E FD      [19]  280 	ld	a,-3 (ix)
+   3757 CE 00         [ 7]  281 	adc	a, #0x00
+   3759 DD 77 F5      [19]  282 	ld	-11 (ix),a
+   375C E1            [10]  283 	pop	hl
+   375D E5            [11]  284 	push	hl
+   375E 36 8F         [10]  285 	ld	(hl),#<(_bullet01_1)
+   3760 23            [ 6]  286 	inc	hl
+   3761 36 43         [10]  287 	ld	(hl),#>(_bullet01_1)
                             288 ;src/entities/shoots.c:58: }
-   36F3                     289 00106$:
+   3763                     289 00106$:
                             290 ;src/entities/shoots.c:59: active_shoots++;
-   36F3 21 12 6B      [10]  291 	ld	hl, #_active_shoots+0
-   36F6 34            [11]  292 	inc	(hl)
-   36F7                     293 00109$:
-   36F7 DD F9         [10]  294 	ld	sp, ix
-   36F9 DD E1         [14]  295 	pop	ix
-   36FB C9            [10]  296 	ret
+   3763 21 76 6B      [10]  291 	ld	hl, #_active_shoots+0
+   3766 34            [11]  292 	inc	(hl)
+   3767                     293 00109$:
+   3767 DD F9         [10]  294 	ld	sp, ix
+   3769 DD E1         [14]  295 	pop	ix
+   376B C9            [10]  296 	ret
                             297 ;src/entities/shoots.c:68: void update_shoots(){
                             298 ;	---------------------------------
                             299 ; Function update_shoots
                             300 ; ---------------------------------
-   36FC                     301 _update_shoots::
-   36FC DD E5         [15]  302 	push	ix
-   36FE DD 21 00 00   [14]  303 	ld	ix,#0
-   3702 DD 39         [15]  304 	add	ix,sp
-   3704 21 F7 FF      [10]  305 	ld	hl,#-9
-   3707 39            [11]  306 	add	hl,sp
-   3708 F9            [ 6]  307 	ld	sp,hl
+   376C                     301 _update_shoots::
+   376C DD E5         [15]  302 	push	ix
+   376E DD 21 00 00   [14]  303 	ld	ix,#0
+   3772 DD 39         [15]  304 	add	ix,sp
+   3774 21 F7 FF      [10]  305 	ld	hl,#-9
+   3777 39            [11]  306 	add	hl,sp
+   3778 F9            [ 6]  307 	ld	sp,hl
                             308 ;src/entities/shoots.c:72: if (active_shoots>0){
-   3709 3A 12 6B      [13]  309 	ld	a,(#_active_shoots + 0)
-   370C B7            [ 4]  310 	or	a, a
-   370D CA 0F 38      [10]  311 	jp	Z,00116$
+   3779 3A 76 6B      [13]  309 	ld	a,(#_active_shoots + 0)
+   377C B7            [ 4]  310 	or	a, a
+   377D CA 8E 38      [10]  311 	jp	Z,00116$
                             312 ;src/entities/shoots.c:73: for (i=0;i<MAX_SHOOTS;i++){
-   3710 0E 00         [ 7]  313 	ld	c,#0x00
-   3712                     314 00114$:
+   3780 0E 00         [ 7]  313 	ld	c,#0x00
+   3782                     314 00114$:
                             315 ;src/entities/shoots.c:74: if (shoots[i].active){
-   3712 69            [ 4]  316 	ld	l,c
-   3713 26 00         [ 7]  317 	ld	h,#0x00
-   3715 29            [11]  318 	add	hl, hl
-   3716 29            [11]  319 	add	hl, hl
-   3717 29            [11]  320 	add	hl, hl
-   3718 29            [11]  321 	add	hl, hl
-   3719 3E 72         [ 7]  322 	ld	a,#<(_shoots)
-   371B 85            [ 4]  323 	add	a, l
-   371C DD 77 F7      [19]  324 	ld	-9 (ix),a
-   371F 3E 6A         [ 7]  325 	ld	a,#>(_shoots)
-   3721 8C            [ 4]  326 	adc	a, h
-   3722 DD 77 F8      [19]  327 	ld	-8 (ix),a
-   3725 DD 7E F7      [19]  328 	ld	a,-9 (ix)
-   3728 C6 08         [ 7]  329 	add	a, #0x08
-   372A DD 77 FC      [19]  330 	ld	-4 (ix),a
-   372D DD 7E F8      [19]  331 	ld	a,-8 (ix)
-   3730 CE 00         [ 7]  332 	adc	a, #0x00
-   3732 DD 77 FD      [19]  333 	ld	-3 (ix),a
-   3735 DD 6E FC      [19]  334 	ld	l,-4 (ix)
-   3738 DD 66 FD      [19]  335 	ld	h,-3 (ix)
-   373B 7E            [ 7]  336 	ld	a,(hl)
-   373C B7            [ 4]  337 	or	a, a
-   373D CA 08 38      [10]  338 	jp	Z,00115$
+   3782 69            [ 4]  316 	ld	l,c
+   3783 26 00         [ 7]  317 	ld	h,#0x00
+   3785 29            [11]  318 	add	hl, hl
+   3786 29            [11]  319 	add	hl, hl
+   3787 29            [11]  320 	add	hl, hl
+   3788 29            [11]  321 	add	hl, hl
+   3789 3E D6         [ 7]  322 	ld	a,#<(_shoots)
+   378B 85            [ 4]  323 	add	a, l
+   378C DD 77 FE      [19]  324 	ld	-2 (ix),a
+   378F 3E 6A         [ 7]  325 	ld	a,#>(_shoots)
+   3791 8C            [ 4]  326 	adc	a, h
+   3792 DD 77 FF      [19]  327 	ld	-1 (ix),a
+   3795 DD 7E FE      [19]  328 	ld	a,-2 (ix)
+   3798 C6 08         [ 7]  329 	add	a, #0x08
+   379A DD 77 FC      [19]  330 	ld	-4 (ix),a
+   379D DD 7E FF      [19]  331 	ld	a,-1 (ix)
+   37A0 CE 00         [ 7]  332 	adc	a, #0x00
+   37A2 DD 77 FD      [19]  333 	ld	-3 (ix),a
+   37A5 DD 6E FC      [19]  334 	ld	l,-4 (ix)
+   37A8 DD 66 FD      [19]  335 	ld	h,-3 (ix)
+   37AB 7E            [ 7]  336 	ld	a,(hl)
+   37AC B7            [ 4]  337 	or	a, a
+   37AD CA 87 38      [10]  338 	jp	Z,00115$
                             339 ;src/entities/shoots.c:75: shoots[i].y-=SHOOT_JUMP;
-   3740 DD 7E F7      [19]  340 	ld	a,-9 (ix)
-   3743 C6 05         [ 7]  341 	add	a, #0x05
-   3745 5F            [ 4]  342 	ld	e,a
-   3746 DD 7E F8      [19]  343 	ld	a,-8 (ix)
-   3749 CE 00         [ 7]  344 	adc	a, #0x00
-   374B 57            [ 4]  345 	ld	d,a
-   374C 1A            [ 7]  346 	ld	a,(de)
-   374D C6 F6         [ 7]  347 	add	a,#0xF6
-   374F 47            [ 4]  348 	ld	b,a
-   3750 12            [ 7]  349 	ld	(de),a
+   37B0 DD 7E FE      [19]  340 	ld	a,-2 (ix)
+   37B3 C6 05         [ 7]  341 	add	a, #0x05
+   37B5 5F            [ 4]  342 	ld	e,a
+   37B6 DD 7E FF      [19]  343 	ld	a,-1 (ix)
+   37B9 CE 00         [ 7]  344 	adc	a, #0x00
+   37BB 57            [ 4]  345 	ld	d,a
+   37BC 1A            [ 7]  346 	ld	a,(de)
+   37BD C6 F6         [ 7]  347 	add	a,#0xF6
+   37BF 47            [ 4]  348 	ld	b,a
+   37C0 12            [ 7]  349 	ld	(de),a
                             350 ;src/entities/shoots.c:76: if (shoots[i].y<200){
-   3751 1A            [ 7]  351 	ld	a,(de)
-   3752 DD 77 FB      [19]  352 	ld	-5 (ix),a
-   3755 78            [ 4]  353 	ld	a,b
-   3756 D6 C8         [ 7]  354 	sub	a, #0xC8
-   3758 D2 FC 37      [10]  355 	jp	NC,00107$
+   37C1 1A            [ 7]  351 	ld	a,(de)
+   37C2 DD 77 FB      [19]  352 	ld	-5 (ix),a
+   37C5 78            [ 4]  353 	ld	a,b
+   37C6 D6 C8         [ 7]  354 	sub	a, #0xC8
+   37C8 D2 7B 38      [10]  355 	jp	NC,00107$
                             356 ;src/entities/shoots.c:77: if (check_collision_enemies(shoots[i].x,shoots[i].y,shoots[i].w,shoots[i].h)){
-   375B FD E1         [14]  357 	pop	iy
-   375D FD E5         [15]  358 	push	iy
-   375F FD 7E 07      [19]  359 	ld	a,7 (iy)
-   3762 DD 77 FE      [19]  360 	ld	-2 (ix),a
-   3765 E1            [10]  361 	pop	hl
-   3766 E5            [11]  362 	push	hl
-   3767 C5            [11]  363 	push	bc
-   3768 01 06 00      [10]  364 	ld	bc, #0x0006
-   376B 09            [11]  365 	add	hl, bc
-   376C C1            [10]  366 	pop	bc
-   376D 46            [ 7]  367 	ld	b,(hl)
-   376E DD 7E F7      [19]  368 	ld	a,-9 (ix)
-   3771 C6 04         [ 7]  369 	add	a, #0x04
-   3773 DD 77 F9      [19]  370 	ld	-7 (ix),a
-   3776 DD 7E F8      [19]  371 	ld	a,-8 (ix)
-   3779 CE 00         [ 7]  372 	adc	a, #0x00
-   377B DD 77 FA      [19]  373 	ld	-6 (ix),a
-   377E DD 6E F9      [19]  374 	ld	l,-7 (ix)
-   3781 DD 66 FA      [19]  375 	ld	h,-6 (ix)
-   3784 7E            [ 7]  376 	ld	a,(hl)
-   3785 DD 77 FF      [19]  377 	ld	-1 (ix),a
-   3788 C5            [11]  378 	push	bc
-   3789 D5            [11]  379 	push	de
-   378A DD 7E FE      [19]  380 	ld	a,-2 (ix)
-   378D F5            [11]  381 	push	af
-   378E 33            [ 6]  382 	inc	sp
-   378F C5            [11]  383 	push	bc
-   3790 33            [ 6]  384 	inc	sp
-   3791 DD 66 FB      [19]  385 	ld	h,-5 (ix)
-   3794 DD 6E FF      [19]  386 	ld	l,-1 (ix)
-   3797 E5            [11]  387 	push	hl
-   3798 CD D2 24      [17]  388 	call	_check_collision_enemies
-   379B F1            [10]  389 	pop	af
-   379C F1            [10]  390 	pop	af
-   379D 7D            [ 4]  391 	ld	a,l
-   379E D1            [10]  392 	pop	de
-   379F C1            [10]  393 	pop	bc
-   37A0 B7            [ 4]  394 	or	a, a
-   37A1 28 2F         [12]  395 	jr	Z,00104$
-                            396 ;src/entities/shoots.c:78: create_explosion(shoots[i].x,shoots[i].y,0);
-   37A3 1A            [ 7]  397 	ld	a,(de)
-   37A4 57            [ 4]  398 	ld	d,a
-   37A5 DD 6E F9      [19]  399 	ld	l,-7 (ix)
-   37A8 DD 66 FA      [19]  400 	ld	h,-6 (ix)
-   37AB 46            [ 7]  401 	ld	b,(hl)
-   37AC C5            [11]  402 	push	bc
-   37AD AF            [ 4]  403 	xor	a, a
-   37AE F5            [11]  404 	push	af
-   37AF 33            [ 6]  405 	inc	sp
-   37B0 D5            [11]  406 	push	de
-   37B1 33            [ 6]  407 	inc	sp
-   37B2 C5            [11]  408 	push	bc
-   37B3 33            [ 6]  409 	inc	sp
-   37B4 CD 0F 31      [17]  410 	call	_create_explosion
-   37B7 F1            [10]  411 	pop	af
-   37B8 33            [ 6]  412 	inc	sp
-   37B9 C1            [10]  413 	pop	bc
-                            414 ;src/entities/shoots.c:79: shoots[i].active=0;
-   37BA DD 6E FC      [19]  415 	ld	l,-4 (ix)
-   37BD DD 66 FD      [19]  416 	ld	h,-3 (ix)
-   37C0 36 00         [10]  417 	ld	(hl),#0x00
-                            418 ;src/entities/shoots.c:80: active_shoots--;
-   37C2 21 12 6B      [10]  419 	ld	hl, #_active_shoots+0
-   37C5 35            [11]  420 	dec	(hl)
-                            421 ;src/entities/shoots.c:81: add_score(10);
-   37C6 C5            [11]  422 	push	bc
-   37C7 21 0A 00      [10]  423 	ld	hl,#0x000A
-   37CA E5            [11]  424 	push	hl
-   37CB CD 25 3D      [17]  425 	call	_add_score
-   37CE F1            [10]  426 	pop	af
-   37CF C1            [10]  427 	pop	bc
-   37D0 18 36         [12]  428 	jr	00115$
-   37D2                     429 00104$:
-                            430 ;src/entities/shoots.c:83: shoots[i].frame++;
-   37D2 DD 7E F7      [19]  431 	ld	a,-9 (ix)
-   37D5 C6 0A         [ 7]  432 	add	a, #0x0A
-   37D7 5F            [ 4]  433 	ld	e,a
-   37D8 DD 7E F8      [19]  434 	ld	a,-8 (ix)
-   37DB CE 00         [ 7]  435 	adc	a, #0x00
-   37DD 57            [ 4]  436 	ld	d,a
-   37DE 1A            [ 7]  437 	ld	a,(de)
-   37DF 3C            [ 4]  438 	inc	a
-   37E0 DD 77 FF      [19]  439 	ld	-1 (ix), a
-   37E3 12            [ 7]  440 	ld	(de),a
-                            441 ;src/entities/shoots.c:84: if (shoots[i].frame==shoots[i].num_frames)
-   37E4 E1            [10]  442 	pop	hl
-   37E5 E5            [11]  443 	push	hl
-   37E6 C5            [11]  444 	push	bc
-   37E7 01 09 00      [10]  445 	ld	bc, #0x0009
-   37EA 09            [11]  446 	add	hl, bc
-   37EB C1            [10]  447 	pop	bc
-   37EC 7E            [ 7]  448 	ld	a,(hl)
-   37ED DD 77 F9      [19]  449 	ld	-7 (ix),a
-   37F0 DD 7E FF      [19]  450 	ld	a,-1 (ix)
-   37F3 DD 96 F9      [19]  451 	sub	a, -7 (ix)
-   37F6 20 10         [12]  452 	jr	NZ,00115$
-                            453 ;src/entities/shoots.c:85: shoots[i].frame=0;
-   37F8 AF            [ 4]  454 	xor	a, a
-   37F9 12            [ 7]  455 	ld	(de),a
-   37FA 18 0C         [12]  456 	jr	00115$
-   37FC                     457 00107$:
-                            458 ;src/entities/shoots.c:89: shoots[i].active=0;
-   37FC DD 6E FC      [19]  459 	ld	l,-4 (ix)
-   37FF DD 66 FD      [19]  460 	ld	h,-3 (ix)
-   3802 36 00         [10]  461 	ld	(hl),#0x00
-                            462 ;src/entities/shoots.c:90: active_shoots--;
-   3804 21 12 6B      [10]  463 	ld	hl, #_active_shoots+0
-   3807 35            [11]  464 	dec	(hl)
-   3808                     465 00115$:
-                            466 ;src/entities/shoots.c:73: for (i=0;i<MAX_SHOOTS;i++){
-   3808 0C            [ 4]  467 	inc	c
-   3809 79            [ 4]  468 	ld	a,c
-   380A D6 0A         [ 7]  469 	sub	a, #0x0A
-   380C DA 12 37      [10]  470 	jp	C,00114$
-   380F                     471 00116$:
-   380F DD F9         [10]  472 	ld	sp, ix
-   3811 DD E1         [14]  473 	pop	ix
-   3813 C9            [10]  474 	ret
-                            475 ;src/entities/shoots.c:102: void draw_shoots(u8* screen){
-                            476 ;	---------------------------------
-                            477 ; Function draw_shoots
-                            478 ; ---------------------------------
-   3814                     479 _draw_shoots::
-   3814 DD E5         [15]  480 	push	ix
-   3816 DD 21 00 00   [14]  481 	ld	ix,#0
-   381A DD 39         [15]  482 	add	ix,sp
-   381C F5            [11]  483 	push	af
-   381D F5            [11]  484 	push	af
-   381E 3B            [ 6]  485 	dec	sp
-                            486 ;src/entities/shoots.c:107: if (active_shoots>0){
-   381F 3A 12 6B      [13]  487 	ld	a,(#_active_shoots + 0)
-   3822 B7            [ 4]  488 	or	a, a
-   3823 CA C9 38      [10]  489 	jp	Z,00108$
-                            490 ;src/entities/shoots.c:108: for (k=0;k<MAX_SHOOTS;k++){
-   3826 0E 00         [ 7]  491 	ld	c,#0x00
-   3828                     492 00106$:
-                            493 ;src/entities/shoots.c:109: if (shoots[k].active){
-   3828 69            [ 4]  494 	ld	l,c
-   3829 26 00         [ 7]  495 	ld	h,#0x00
-   382B 29            [11]  496 	add	hl, hl
-   382C 29            [11]  497 	add	hl, hl
-   382D 29            [11]  498 	add	hl, hl
-   382E 29            [11]  499 	add	hl, hl
-   382F 3E 72         [ 7]  500 	ld	a,#<(_shoots)
-   3831 85            [ 4]  501 	add	a, l
-   3832 DD 77 FE      [19]  502 	ld	-2 (ix),a
-   3835 3E 6A         [ 7]  503 	ld	a,#>(_shoots)
-   3837 8C            [ 4]  504 	adc	a, h
-   3838 DD 77 FF      [19]  505 	ld	-1 (ix),a
-   383B DD 6E FE      [19]  506 	ld	l,-2 (ix)
-   383E DD 66 FF      [19]  507 	ld	h,-1 (ix)
-   3841 11 08 00      [10]  508 	ld	de, #0x0008
-   3844 19            [11]  509 	add	hl, de
-   3845 7E            [ 7]  510 	ld	a,(hl)
-   3846 B7            [ 4]  511 	or	a, a
-   3847 28 79         [12]  512 	jr	Z,00107$
-                            513 ;src/entities/shoots.c:110: pscreen = cpct_getScreenPtr(screen, shoots[k].x, shoots[k].y);
-   3849 DD 6E FE      [19]  514 	ld	l,-2 (ix)
-   384C DD 66 FF      [19]  515 	ld	h,-1 (ix)
-   384F 11 05 00      [10]  516 	ld	de, #0x0005
-   3852 19            [11]  517 	add	hl, de
-   3853 56            [ 7]  518 	ld	d,(hl)
-   3854 DD 6E FE      [19]  519 	ld	l,-2 (ix)
-   3857 DD 66 FF      [19]  520 	ld	h,-1 (ix)
-   385A 23            [ 6]  521 	inc	hl
-   385B 23            [ 6]  522 	inc	hl
-   385C 23            [ 6]  523 	inc	hl
-   385D 23            [ 6]  524 	inc	hl
-   385E 5E            [ 7]  525 	ld	e,(hl)
-   385F E5            [11]  526 	push	hl
-   3860 DD 6E 04      [19]  527 	ld	l,4 (ix)
-   3863 DD 66 05      [19]  528 	ld	h,5 (ix)
-   3866 E5            [11]  529 	push	hl
-   3867 FD E1         [14]  530 	pop	iy
-   3869 E1            [10]  531 	pop	hl
-   386A C5            [11]  532 	push	bc
-   386B D5            [11]  533 	push	de
-   386C FD E5         [15]  534 	push	iy
-   386E CD 25 56      [17]  535 	call	_cpct_getScreenPtr
-   3871 C1            [10]  536 	pop	bc
-   3872 5D            [ 4]  537 	ld	e, l
-   3873 54            [ 4]  538 	ld	d, h
-                            539 ;src/entities/shoots.c:111: cpct_drawSprite(shoots[k].sprite[shoots[k].frame],pscreen,shoots[k].w,shoots[k].h);
-   3874 E5            [11]  540 	push	hl
-   3875 DD 6E FE      [19]  541 	ld	l,-2 (ix)
-   3878 DD 66 FF      [19]  542 	ld	h,-1 (ix)
-   387B E5            [11]  543 	push	hl
-   387C FD E1         [14]  544 	pop	iy
-   387E E1            [10]  545 	pop	hl
-   387F FD 7E 07      [19]  546 	ld	a,7 (iy)
-   3882 DD 77 FD      [19]  547 	ld	-3 (ix),a
-   3885 DD 6E FE      [19]  548 	ld	l,-2 (ix)
-   3888 DD 66 FF      [19]  549 	ld	h,-1 (ix)
-   388B C5            [11]  550 	push	bc
-   388C 01 06 00      [10]  551 	ld	bc, #0x0006
-   388F 09            [11]  552 	add	hl, bc
-   3890 C1            [10]  553 	pop	bc
-   3891 46            [ 7]  554 	ld	b,(hl)
-   3892 33            [ 6]  555 	inc	sp
-   3893 33            [ 6]  556 	inc	sp
-   3894 D5            [11]  557 	push	de
-   3895 DD 6E FE      [19]  558 	ld	l,-2 (ix)
-   3898 DD 66 FF      [19]  559 	ld	h,-1 (ix)
-   389B 11 0A 00      [10]  560 	ld	de, #0x000A
-   389E 19            [11]  561 	add	hl, de
-   389F 7E            [ 7]  562 	ld	a,(hl)
-   38A0 87            [ 4]  563 	add	a, a
-   38A1 5F            [ 4]  564 	ld	e,a
-   38A2 DD 6E FE      [19]  565 	ld	l,-2 (ix)
-   38A5 DD 66 FF      [19]  566 	ld	h,-1 (ix)
-   38A8 16 00         [ 7]  567 	ld	d,#0x00
-   38AA 19            [11]  568 	add	hl, de
-   38AB 5E            [ 7]  569 	ld	e,(hl)
-   38AC 23            [ 6]  570 	inc	hl
-   38AD 56            [ 7]  571 	ld	d,(hl)
-   38AE C5            [11]  572 	push	bc
-   38AF DD 7E FD      [19]  573 	ld	a,-3 (ix)
-   38B2 F5            [11]  574 	push	af
-   38B3 33            [ 6]  575 	inc	sp
-   38B4 C5            [11]  576 	push	bc
-   38B5 33            [ 6]  577 	inc	sp
-   38B6 DD 6E FB      [19]  578 	ld	l,-5 (ix)
-   38B9 DD 66 FC      [19]  579 	ld	h,-4 (ix)
-   38BC E5            [11]  580 	push	hl
-   38BD D5            [11]  581 	push	de
-   38BE CD E0 52      [17]  582 	call	_cpct_drawSprite
-   38C1 C1            [10]  583 	pop	bc
-   38C2                     584 00107$:
-                            585 ;src/entities/shoots.c:108: for (k=0;k<MAX_SHOOTS;k++){
-   38C2 0C            [ 4]  586 	inc	c
-   38C3 79            [ 4]  587 	ld	a,c
-   38C4 D6 0A         [ 7]  588 	sub	a, #0x0A
-   38C6 DA 28 38      [10]  589 	jp	C,00106$
-   38C9                     590 00108$:
-   38C9 DD F9         [10]  591 	ld	sp, ix
-   38CB DD E1         [14]  592 	pop	ix
-   38CD C9            [10]  593 	ret
-                            594 	.area _CODE
-                            595 	.area _INITIALIZER
-                            596 	.area _CABS (ABS)
+   37CB E5            [11]  357 	push	hl
+   37CC DD 6E FE      [19]  358 	ld	l,-2 (ix)
+   37CF DD 66 FF      [19]  359 	ld	h,-1 (ix)
+   37D2 E5            [11]  360 	push	hl
+   37D3 FD E1         [14]  361 	pop	iy
+   37D5 E1            [10]  362 	pop	hl
+   37D6 FD 7E 07      [19]  363 	ld	a,7 (iy)
+   37D9 DD 77 FA      [19]  364 	ld	-6 (ix),a
+   37DC DD 6E FE      [19]  365 	ld	l,-2 (ix)
+   37DF DD 66 FF      [19]  366 	ld	h,-1 (ix)
+   37E2 C5            [11]  367 	push	bc
+   37E3 01 06 00      [10]  368 	ld	bc, #0x0006
+   37E6 09            [11]  369 	add	hl, bc
+   37E7 C1            [10]  370 	pop	bc
+   37E8 46            [ 7]  371 	ld	b,(hl)
+   37E9 DD 7E FE      [19]  372 	ld	a,-2 (ix)
+   37EC C6 04         [ 7]  373 	add	a, #0x04
+   37EE DD 77 F8      [19]  374 	ld	-8 (ix),a
+   37F1 DD 7E FF      [19]  375 	ld	a,-1 (ix)
+   37F4 CE 00         [ 7]  376 	adc	a, #0x00
+   37F6 DD 77 F9      [19]  377 	ld	-7 (ix),a
+   37F9 DD 6E F8      [19]  378 	ld	l,-8 (ix)
+   37FC DD 66 F9      [19]  379 	ld	h,-7 (ix)
+   37FF 7E            [ 7]  380 	ld	a,(hl)
+   3800 DD 77 F7      [19]  381 	ld	-9 (ix),a
+   3803 C5            [11]  382 	push	bc
+   3804 D5            [11]  383 	push	de
+   3805 DD 7E FA      [19]  384 	ld	a,-6 (ix)
+   3808 F5            [11]  385 	push	af
+   3809 33            [ 6]  386 	inc	sp
+   380A C5            [11]  387 	push	bc
+   380B 33            [ 6]  388 	inc	sp
+   380C DD 66 FB      [19]  389 	ld	h,-5 (ix)
+   380F DD 6E F7      [19]  390 	ld	l,-9 (ix)
+   3812 E5            [11]  391 	push	hl
+   3813 CD C5 24      [17]  392 	call	_check_collision_enemies
+   3816 F1            [10]  393 	pop	af
+   3817 F1            [10]  394 	pop	af
+   3818 7D            [ 4]  395 	ld	a,l
+   3819 D1            [10]  396 	pop	de
+   381A C1            [10]  397 	pop	bc
+   381B B7            [ 4]  398 	or	a, a
+   381C 28 2F         [12]  399 	jr	Z,00104$
+                            400 ;src/entities/shoots.c:78: create_explosion(shoots[i].x,shoots[i].y,0);
+   381E 1A            [ 7]  401 	ld	a,(de)
+   381F 57            [ 4]  402 	ld	d,a
+   3820 DD 6E F8      [19]  403 	ld	l,-8 (ix)
+   3823 DD 66 F9      [19]  404 	ld	h,-7 (ix)
+   3826 46            [ 7]  405 	ld	b,(hl)
+   3827 C5            [11]  406 	push	bc
+   3828 AF            [ 4]  407 	xor	a, a
+   3829 F5            [11]  408 	push	af
+   382A 33            [ 6]  409 	inc	sp
+   382B D5            [11]  410 	push	de
+   382C 33            [ 6]  411 	inc	sp
+   382D C5            [11]  412 	push	bc
+   382E 33            [ 6]  413 	inc	sp
+   382F CD 02 31      [17]  414 	call	_create_explosion
+   3832 F1            [10]  415 	pop	af
+   3833 33            [ 6]  416 	inc	sp
+   3834 C1            [10]  417 	pop	bc
+                            418 ;src/entities/shoots.c:79: shoots[i].active=0;
+   3835 DD 6E FC      [19]  419 	ld	l,-4 (ix)
+   3838 DD 66 FD      [19]  420 	ld	h,-3 (ix)
+   383B 36 00         [10]  421 	ld	(hl),#0x00
+                            422 ;src/entities/shoots.c:80: active_shoots--;
+   383D 21 76 6B      [10]  423 	ld	hl, #_active_shoots+0
+   3840 35            [11]  424 	dec	(hl)
+                            425 ;src/entities/shoots.c:81: add_score(10);
+   3841 C5            [11]  426 	push	bc
+   3842 21 0A 00      [10]  427 	ld	hl,#0x000A
+   3845 E5            [11]  428 	push	hl
+   3846 CD 97 3D      [17]  429 	call	_add_score
+   3849 F1            [10]  430 	pop	af
+   384A C1            [10]  431 	pop	bc
+   384B 18 3A         [12]  432 	jr	00115$
+   384D                     433 00104$:
+                            434 ;src/entities/shoots.c:83: shoots[i].frame++;
+   384D DD 7E FE      [19]  435 	ld	a,-2 (ix)
+   3850 C6 0A         [ 7]  436 	add	a, #0x0A
+   3852 5F            [ 4]  437 	ld	e,a
+   3853 DD 7E FF      [19]  438 	ld	a,-1 (ix)
+   3856 CE 00         [ 7]  439 	adc	a, #0x00
+   3858 57            [ 4]  440 	ld	d,a
+   3859 1A            [ 7]  441 	ld	a,(de)
+   385A 3C            [ 4]  442 	inc	a
+   385B DD 77 F7      [19]  443 	ld	-9 (ix), a
+   385E 12            [ 7]  444 	ld	(de),a
+                            445 ;src/entities/shoots.c:84: if (shoots[i].frame==shoots[i].num_frames)
+   385F DD 6E FE      [19]  446 	ld	l,-2 (ix)
+   3862 DD 66 FF      [19]  447 	ld	h,-1 (ix)
+   3865 C5            [11]  448 	push	bc
+   3866 01 09 00      [10]  449 	ld	bc, #0x0009
+   3869 09            [11]  450 	add	hl, bc
+   386A C1            [10]  451 	pop	bc
+   386B 7E            [ 7]  452 	ld	a,(hl)
+   386C DD 77 F8      [19]  453 	ld	-8 (ix),a
+   386F DD 7E F7      [19]  454 	ld	a,-9 (ix)
+   3872 DD 96 F8      [19]  455 	sub	a, -8 (ix)
+   3875 20 10         [12]  456 	jr	NZ,00115$
+                            457 ;src/entities/shoots.c:85: shoots[i].frame=0;
+   3877 AF            [ 4]  458 	xor	a, a
+   3878 12            [ 7]  459 	ld	(de),a
+   3879 18 0C         [12]  460 	jr	00115$
+   387B                     461 00107$:
+                            462 ;src/entities/shoots.c:89: shoots[i].active=0;
+   387B DD 6E FC      [19]  463 	ld	l,-4 (ix)
+   387E DD 66 FD      [19]  464 	ld	h,-3 (ix)
+   3881 36 00         [10]  465 	ld	(hl),#0x00
+                            466 ;src/entities/shoots.c:90: active_shoots--;
+   3883 21 76 6B      [10]  467 	ld	hl, #_active_shoots+0
+   3886 35            [11]  468 	dec	(hl)
+   3887                     469 00115$:
+                            470 ;src/entities/shoots.c:73: for (i=0;i<MAX_SHOOTS;i++){
+   3887 0C            [ 4]  471 	inc	c
+   3888 79            [ 4]  472 	ld	a,c
+   3889 D6 0A         [ 7]  473 	sub	a, #0x0A
+   388B DA 82 37      [10]  474 	jp	C,00114$
+   388E                     475 00116$:
+   388E DD F9         [10]  476 	ld	sp, ix
+   3890 DD E1         [14]  477 	pop	ix
+   3892 C9            [10]  478 	ret
+                            479 ;src/entities/shoots.c:102: void draw_shoots(u8* screen){
+                            480 ;	---------------------------------
+                            481 ; Function draw_shoots
+                            482 ; ---------------------------------
+   3893                     483 _draw_shoots::
+   3893 DD E5         [15]  484 	push	ix
+   3895 DD 21 00 00   [14]  485 	ld	ix,#0
+   3899 DD 39         [15]  486 	add	ix,sp
+   389B F5            [11]  487 	push	af
+   389C F5            [11]  488 	push	af
+   389D 3B            [ 6]  489 	dec	sp
+                            490 ;src/entities/shoots.c:107: if (active_shoots>0){
+   389E 3A 76 6B      [13]  491 	ld	a,(#_active_shoots + 0)
+   38A1 B7            [ 4]  492 	or	a, a
+   38A2 CA 4B 39      [10]  493 	jp	Z,00108$
+                            494 ;src/entities/shoots.c:108: for (k=0;k<MAX_SHOOTS;k++){
+   38A5 0E 00         [ 7]  495 	ld	c,#0x00
+   38A7                     496 00106$:
+                            497 ;src/entities/shoots.c:109: if (shoots[k].active){
+   38A7 69            [ 4]  498 	ld	l,c
+   38A8 26 00         [ 7]  499 	ld	h,#0x00
+   38AA 29            [11]  500 	add	hl, hl
+   38AB 29            [11]  501 	add	hl, hl
+   38AC 29            [11]  502 	add	hl, hl
+   38AD 29            [11]  503 	add	hl, hl
+   38AE 3E D6         [ 7]  504 	ld	a,#<(_shoots)
+   38B0 85            [ 4]  505 	add	a, l
+   38B1 DD 77 FE      [19]  506 	ld	-2 (ix),a
+   38B4 3E 6A         [ 7]  507 	ld	a,#>(_shoots)
+   38B6 8C            [ 4]  508 	adc	a, h
+   38B7 DD 77 FF      [19]  509 	ld	-1 (ix),a
+   38BA DD 6E FE      [19]  510 	ld	l,-2 (ix)
+   38BD DD 66 FF      [19]  511 	ld	h,-1 (ix)
+   38C0 11 08 00      [10]  512 	ld	de, #0x0008
+   38C3 19            [11]  513 	add	hl, de
+   38C4 7E            [ 7]  514 	ld	a,(hl)
+   38C5 B7            [ 4]  515 	or	a, a
+   38C6 28 7C         [12]  516 	jr	Z,00107$
+                            517 ;src/entities/shoots.c:110: pscreen = cpct_getScreenPtr(screen, shoots[k].x, shoots[k].y);
+   38C8 DD 6E FE      [19]  518 	ld	l,-2 (ix)
+   38CB DD 66 FF      [19]  519 	ld	h,-1 (ix)
+   38CE 11 05 00      [10]  520 	ld	de, #0x0005
+   38D1 19            [11]  521 	add	hl, de
+   38D2 56            [ 7]  522 	ld	d,(hl)
+   38D3 DD 6E FE      [19]  523 	ld	l,-2 (ix)
+   38D6 DD 66 FF      [19]  524 	ld	h,-1 (ix)
+   38D9 23            [ 6]  525 	inc	hl
+   38DA 23            [ 6]  526 	inc	hl
+   38DB 23            [ 6]  527 	inc	hl
+   38DC 23            [ 6]  528 	inc	hl
+   38DD 5E            [ 7]  529 	ld	e,(hl)
+   38DE E5            [11]  530 	push	hl
+   38DF DD 6E 04      [19]  531 	ld	l,4 (ix)
+   38E2 DD 66 05      [19]  532 	ld	h,5 (ix)
+   38E5 E5            [11]  533 	push	hl
+   38E6 FD E1         [14]  534 	pop	iy
+   38E8 E1            [10]  535 	pop	hl
+   38E9 C5            [11]  536 	push	bc
+   38EA D5            [11]  537 	push	de
+   38EB FD E5         [15]  538 	push	iy
+   38ED CD 89 56      [17]  539 	call	_cpct_getScreenPtr
+   38F0 C1            [10]  540 	pop	bc
+   38F1 5D            [ 4]  541 	ld	e, l
+   38F2 54            [ 4]  542 	ld	d, h
+                            543 ;src/entities/shoots.c:111: cpct_drawSprite(shoots[k].sprite[shoots[k].frame],pscreen,shoots[k].w,shoots[k].h);
+   38F3 E5            [11]  544 	push	hl
+   38F4 DD 6E FE      [19]  545 	ld	l,-2 (ix)
+   38F7 DD 66 FF      [19]  546 	ld	h,-1 (ix)
+   38FA E5            [11]  547 	push	hl
+   38FB FD E1         [14]  548 	pop	iy
+   38FD E1            [10]  549 	pop	hl
+   38FE FD 7E 07      [19]  550 	ld	a,7 (iy)
+   3901 DD 77 FB      [19]  551 	ld	-5 (ix),a
+   3904 DD 6E FE      [19]  552 	ld	l,-2 (ix)
+   3907 DD 66 FF      [19]  553 	ld	h,-1 (ix)
+   390A C5            [11]  554 	push	bc
+   390B 01 06 00      [10]  555 	ld	bc, #0x0006
+   390E 09            [11]  556 	add	hl, bc
+   390F C1            [10]  557 	pop	bc
+   3910 46            [ 7]  558 	ld	b,(hl)
+   3911 DD 73 FC      [19]  559 	ld	-4 (ix),e
+   3914 DD 72 FD      [19]  560 	ld	-3 (ix),d
+   3917 DD 6E FE      [19]  561 	ld	l,-2 (ix)
+   391A DD 66 FF      [19]  562 	ld	h,-1 (ix)
+   391D 11 0A 00      [10]  563 	ld	de, #0x000A
+   3920 19            [11]  564 	add	hl, de
+   3921 7E            [ 7]  565 	ld	a,(hl)
+   3922 87            [ 4]  566 	add	a, a
+   3923 5F            [ 4]  567 	ld	e,a
+   3924 DD 6E FE      [19]  568 	ld	l,-2 (ix)
+   3927 DD 66 FF      [19]  569 	ld	h,-1 (ix)
+   392A 16 00         [ 7]  570 	ld	d,#0x00
+   392C 19            [11]  571 	add	hl, de
+   392D 5E            [ 7]  572 	ld	e,(hl)
+   392E 23            [ 6]  573 	inc	hl
+   392F 56            [ 7]  574 	ld	d,(hl)
+   3930 C5            [11]  575 	push	bc
+   3931 DD 7E FB      [19]  576 	ld	a,-5 (ix)
+   3934 F5            [11]  577 	push	af
+   3935 33            [ 6]  578 	inc	sp
+   3936 C5            [11]  579 	push	bc
+   3937 33            [ 6]  580 	inc	sp
+   3938 DD 6E FC      [19]  581 	ld	l,-4 (ix)
+   393B DD 66 FD      [19]  582 	ld	h,-3 (ix)
+   393E E5            [11]  583 	push	hl
+   393F D5            [11]  584 	push	de
+   3940 CD 49 53      [17]  585 	call	_cpct_drawSprite
+   3943 C1            [10]  586 	pop	bc
+   3944                     587 00107$:
+                            588 ;src/entities/shoots.c:108: for (k=0;k<MAX_SHOOTS;k++){
+   3944 0C            [ 4]  589 	inc	c
+   3945 79            [ 4]  590 	ld	a,c
+   3946 D6 0A         [ 7]  591 	sub	a, #0x0A
+   3948 DA A7 38      [10]  592 	jp	C,00106$
+   394B                     593 00108$:
+   394B DD F9         [10]  594 	ld	sp, ix
+   394D DD E1         [14]  595 	pop	ix
+   394F C9            [10]  596 	ret
+                            597 	.area _CODE
+                            598 	.area _INITIALIZER
+                            599 	.area _CABS (ABS)

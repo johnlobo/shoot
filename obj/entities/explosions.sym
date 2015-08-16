@@ -10,7 +10,7 @@ Symbol Table
     _cpct_drawSprite                                               **** GX
     _cpct_getScreenPtr                                             **** GX
   0 _create_explosion                                              0080 GR
-  0 _draw_explosions                                               0190 GR
+  0 _draw_explosions                                               0198 GR
     _explosion02000                                                **** GX
     _explosion02001                                                **** GX
     _explosion02002                                                **** GX
@@ -33,7 +33,7 @@ Hexadecimal [16-Bits]
 
 Area Table
 
-   0 _CODE                                      size  244   flags    0
+   0 _CODE                                      size  24C   flags    0
    1 _DATA                                      size  1F5   flags    0
    2 _INITIALIZED                               size    0   flags    0
    3 _DABS                                      size    0   flags    8

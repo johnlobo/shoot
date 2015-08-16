@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
-; This file was generated Mon Aug 10 01:34:09 2015
+; This file was generated Sun Aug 16 01:00:18 2015
 ;--------------------------------------------------------
 	.module messages
 	.optsdcc -mz80
@@ -342,58 +342,58 @@ _draw_messages::
 ;src/entities/messages.c:97: if (messages[i].active){
 	ld	hl,#_messages
 	add	hl,de
-	ld	-2 (ix),l
-	ld	-1 (ix),h
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	-10 (ix),l
+	ld	-9 (ix),h
+	ld	l,-10 (ix)
+	ld	h,-9 (ix)
 	ld	a,(hl)
 	or	a, a
 	jp	Z,00109$
 ;src/entities/messages.c:98: pscreen = cpct_getScreenPtr(screen, messages[i].x-2, messages[i].y-4);
-	ld	a,-2 (ix)
+	ld	a,-10 (ix)
 	add	a, #0x02
-	ld	-6 (ix),a
-	ld	a,-1 (ix)
+	ld	-8 (ix),a
+	ld	a,-9 (ix)
 	adc	a, #0x00
-	ld	-5 (ix),a
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	-7 (ix),a
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	a,(hl)
 	add	a,#0xFC
 	ld	b,a
-	ld	a,-2 (ix)
+	ld	a,-10 (ix)
 	add	a, #0x01
-	ld	-4 (ix),a
-	ld	a,-1 (ix)
+	ld	-12 (ix),a
+	ld	a,-9 (ix)
 	adc	a, #0x00
-	ld	-3 (ix),a
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	-11 (ix),a
+	ld	l,-12 (ix)
+	ld	h,-11 (ix)
 	ld	c,(hl)
 	dec	c
 	dec	c
 	ld	a,4 (ix)
-	ld	-8 (ix),a
+	ld	-2 (ix),a
 	ld	a,5 (ix)
-	ld	-7 (ix),a
+	ld	-1 (ix),a
 	push	de
 	push	bc
-	ld	l,-8 (ix)
-	ld	h,-7 (ix)
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	push	hl
 	call	_cpct_getScreenPtr
 	pop	de
 	ld	c, l
 	ld	b, h
 ;src/entities/messages.c:99: cpct_drawSolidBox(pscreen , cpct_px2byteM0(3, 3), strlen(messages[i].text)*2+4, 18);
-	ld	a,-2 (ix)
+	ld	a,-10 (ix)
 	add	a, #0x03
-	ld	-10 (ix),a
-	ld	a,-1 (ix)
+	ld	-4 (ix),a
+	ld	a,-9 (ix)
 	adc	a, #0x00
-	ld	-9 (ix),a
-	ld	l,-10 (ix)
-	ld	h,-9 (ix)
+	ld	-3 (ix),a
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	push	bc
 	push	de
 	push	hl
@@ -404,22 +404,22 @@ _draw_messages::
 	pop	bc
 	add	a, a
 	add	a, #0x04
-	ld	-11 (ix),a
+	ld	-5 (ix),a
 	push	bc
 	push	de
 	ld	hl,#0x0303
 	push	hl
 	call	_cpct_px2byteM0
 	pop	af
-	ld	-12 (ix),l
+	ld	-6 (ix),l
 	pop	de
 	pop	bc
 	push	de
 	ld	a,#0x12
 	push	af
 	inc	sp
-	ld	h,-11 (ix)
-	ld	l,-12 (ix)
+	ld	h,-5 (ix)
+	ld	l,-6 (ix)
 	push	hl
 	push	bc
 	call	_cpct_drawSolidBox
@@ -428,24 +428,24 @@ _draw_messages::
 	inc	sp
 	pop	de
 ;src/entities/messages.c:100: cpc_PrintGphStr(messages[i].text, (int) cpct_getScreenPtr(screen, messages[i].x, messages[i].y));
-	ld	l,-6 (ix)
-	ld	h,-5 (ix)
+	ld	l,-8 (ix)
+	ld	h,-7 (ix)
 	ld	a,(hl)
-	ld	l,-4 (ix)
-	ld	h,-3 (ix)
+	ld	l,-12 (ix)
+	ld	h,-11 (ix)
 	ld	b,(hl)
 	push	de
 	push	af
 	inc	sp
 	push	bc
 	inc	sp
-	ld	l,-8 (ix)
-	ld	h,-7 (ix)
+	ld	l,-2 (ix)
+	ld	h,-1 (ix)
 	push	hl
 	call	_cpct_getScreenPtr
 	pop	de
-	ld	c,-10 (ix)
-	ld	b,-9 (ix)
+	ld	c,-4 (ix)
+	ld	b,-3 (ix)
 	push	de
 	push	hl
 	push	bc
@@ -454,10 +454,10 @@ _draw_messages::
 	pop	af
 	pop	de
 ;src/entities/messages.c:101: messages[i].time--;
-	ld	a,-2 (ix)
+	ld	a,-10 (ix)
 	add	a, #0x21
 	ld	l,a
-	ld	a,-1 (ix)
+	ld	a,-9 (ix)
 	adc	a, #0x00
 	ld	h,a
 	ld	a,(hl)
@@ -467,8 +467,8 @@ _draw_messages::
 	or	a, a
 	jr	NZ,00109$
 ;src/entities/messages.c:103: messages[i].active=0;
-	ld	l,-2 (ix)
-	ld	h,-1 (ix)
+	ld	l,-10 (ix)
+	ld	h,-9 (ix)
 	ld	(hl),#0x00
 ;src/entities/messages.c:104: active_messages--;
 	ld	hl, #_active_messages+0

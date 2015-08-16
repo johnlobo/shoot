@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
-; This file was generated Mon Aug 10 01:29:59 2015
+; This file was generated Sun Aug 16 01:47:07 2015
 ;--------------------------------------------------------
 	.module user
 	.optsdcc -mz80
@@ -258,9 +258,7 @@ _update_user::
 	call	_cpct_scanKeyboard_f
 ;src/entities/user.c:83: if ((cpct_isKeyPressed(Key_Q))){ 
 	ld	hl,#0x0808
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 ;src/entities/user.c:84: user.ay = -2;
 ;src/entities/user.c:83: if ((cpct_isKeyPressed(Key_Q))){ 
 	ld	a,l
@@ -273,9 +271,7 @@ _update_user::
 00104$:
 ;src/entities/user.c:85: } else if (cpct_isKeyPressed(Key_A)){
 	ld	hl,#0x2008
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	or	a, a
 	jr	Z,00105$
@@ -285,9 +281,7 @@ _update_user::
 00105$:
 ;src/entities/user.c:89: if ((cpct_isKeyPressed(Key_P))){ 
 	ld	hl,#0x0803
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	or	a, a
 	jr	Z,00109$
@@ -298,9 +292,7 @@ _update_user::
 00109$:
 ;src/entities/user.c:91: } else if (cpct_isKeyPressed(Key_O)){
 	ld	hl,#0x0404
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	or	a, a
 	jr	Z,00110$
@@ -310,9 +302,7 @@ _update_user::
 00110$:
 ;src/entities/user.c:96: if (cpct_isKeyPressed(Key_D)){
 	ld	hl,#0x2007
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	or	a, a
 	jr	Z,00112$
@@ -332,9 +322,7 @@ _update_user::
 00112$:
 ;src/entities/user.c:100: if (cpct_isKeyPressed(Key_H)){
 	ld	hl,#0x1005
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	or	a, a
 	jr	Z,00114$
@@ -353,7 +341,8 @@ _update_user::
 	push	hl
 	call	__modsint
 	pop	af
-	ex	(sp),hl
+	pop	af
+	push	hl
 	call	_rand
 	ld	de,#0x0050
 	push	de
@@ -361,7 +350,8 @@ _update_user::
 	call	__modsint
 	pop	af
 	pop	af
-	ex	de,hl
+	ld	e,l
+	ld	d,h
 	pop	bc
 	ld	a,-1 (ix)
 	push	af
@@ -375,9 +365,7 @@ _update_user::
 00114$:
 ;src/entities/user.c:104: if (cpct_isKeyPressed(Key_J)){
 	ld	hl,#0x2005
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	or	a, a
 	jp	Z,00116$
@@ -476,9 +464,7 @@ _update_user::
 00116$:
 ;src/entities/user.c:112: if (cpct_isKeyPressed(Key_K)){
 	ld	hl,#0x2004
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	or	a, a
 	jr	Z,00118$
@@ -497,7 +483,8 @@ _update_user::
 	push	hl
 	call	__modsint
 	pop	af
-	ex	(sp),hl
+	pop	af
+	push	hl
 	call	_rand
 	ld	de,#0x000A
 	push	de
@@ -505,7 +492,8 @@ _update_user::
 	call	__modsint
 	pop	af
 	pop	af
-	ex	de,hl
+	ld	e,l
+	ld	d,h
 	pop	bc
 	inc	de
 	inc	de
@@ -527,9 +515,7 @@ _update_user::
 00118$:
 ;src/entities/user.c:116: if (cpct_isKeyPressed(Key_Space)){
 	ld	hl,#0x8005
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 ;src/entities/user.c:117: create_shoot(user.x+2, user.y, shoot_type);
 ;src/entities/user.c:116: if (cpct_isKeyPressed(Key_Space)){
 	ld	a,l
@@ -553,9 +539,7 @@ _update_user::
 00120$:
 ;src/entities/user.c:121: if (cpct_isKeyPressed(Key_L)){
 	ld	hl,#0x1004
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	or	a, a
 	jr	Z,00122$

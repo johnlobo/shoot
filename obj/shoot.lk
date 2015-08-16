@@ -12,6 +12,7 @@ obj/entities/enemies.rel
 obj/entities/explosions.rel
 obj/entities/messages.rel
 obj/entities/movement.rel
+obj/entities/pattern.rel
 obj/entities/shoots.rel
 obj/entities/trajectories.rel
 obj/entities/user.rel

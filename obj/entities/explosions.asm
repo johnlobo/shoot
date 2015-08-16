@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
-; This file was generated Mon Aug 10 00:37:25 2015
+; This file was generated Sun Aug 16 01:00:18 2015
 ;--------------------------------------------------------
 	.module explosions
 	.optsdcc -mz80
@@ -112,7 +112,7 @@ _init_explosions::
 	ld	hl,#0x0006
 	add	hl,bc
 	ld	(hl),#0x00
-;src/entities/explosions.c:31: explosiones[i].lastmoved=0;
+;src/entities/explosions.c:31: explosiones[i].last_moved=0;
 	ld	hl,#0x000C
 	add	hl,bc
 	xor	a, a
@@ -271,27 +271,27 @@ _update_explosions::
 	or	a, a
 	jp	Z,00112$
 	call	_get_time
-	ld	-1 (ix),d
-	ld	-2 (ix),e
-	ld	-3 (ix),h
-	ld	-4 (ix),l
-	ld	hl, #0
+	ld	-5 (ix),d
+	ld	-6 (ix),e
+	ld	-7 (ix),h
+	ld	-8 (ix),l
+	ld	hl, #4
 	add	hl, sp
 	ex	de, hl
 	ld	hl, #_explosiones_lastUpdated
 	ld	bc, #4
 	ldir
-	ld	a,-4 (ix)
-	sub	a, -8 (ix)
+	ld	a,-8 (ix)
+	sub	a, -4 (ix)
 	ld	h,a
-	ld	a,-3 (ix)
-	sbc	a, -7 (ix)
+	ld	a,-7 (ix)
+	sbc	a, -3 (ix)
 	ld	l,a
-	ld	a,-2 (ix)
-	sbc	a, -6 (ix)
+	ld	a,-6 (ix)
+	sbc	a, -2 (ix)
 	ld	e,a
-	ld	a,-1 (ix)
-	sbc	a, -5 (ix)
+	ld	a,-5 (ix)
+	sbc	a, -1 (ix)
 	ld	d,a
 	ld	a,#0x1E
 	cp	a, h
@@ -314,20 +314,20 @@ _update_explosions::
 	add	hl, hl
 	ld	a,#<(_explosiones)
 	add	a, l
-	ld	-8 (ix),a
+	ld	-4 (ix),a
 	ld	a,#>(_explosiones)
 	adc	a, h
-	ld	-7 (ix),a
-	pop	de
-	push	de
+	ld	-3 (ix),a
+	ld	e,-4 (ix)
+	ld	d,-3 (ix)
 	inc	de
 	inc	de
 	ld	a,(de)
 	dec	a
 	jr	NZ,00111$
 ;src/entities/explosions.c:78: if (explosiones[i].fase<3){
-	pop	hl
-	push	hl
+	ld	l,-4 (ix)
+	ld	h,-3 (ix)
 	inc	hl
 	ld	b,(hl)
 	ld	a,b

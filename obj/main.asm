@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.5.0 #9253 (Aug  4 2015) (Mac OS X x86_64)
-; This file was generated Mon Aug 10 01:24:07 2015
+; This file was generated Sun Aug 16 00:46:06 2015
 ;--------------------------------------------------------
 	.module main
 	.optsdcc -mz80
@@ -133,11 +133,8 @@ _changeVideoMemoryPage::
 	or	a, a
 	jr	Z,00102$
 ;src/main.c:58: cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
-	ld	a,#0x30
-	push	af
-	inc	sp
+	ld	l,#0x30
 	call	_cpct_setVideoMemoryPage
-	inc	sp
 ;src/main.c:59: page = 0;  
 	ld	hl,#_changeVideoMemoryPage_page_1_89 + 0
 	ld	(hl), #0x00
@@ -146,11 +143,8 @@ _changeVideoMemoryPage::
 	ret
 00102$:
 ;src/main.c:62: cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
-	ld	a,#0x20
-	push	af
-	inc	sp
+	ld	l,#0x20
 	call	_cpct_setVideoMemoryPage
-	inc	sp
 ;src/main.c:63: page = 1;                              // Next page = 1
 	ld	hl,#_changeVideoMemoryPage_page_1_89 + 0
 	ld	(hl), #0x01
@@ -172,8 +166,8 @@ _clear_screen::
 	push	bc
 	ld	bc,#0x0000
 	push	bc
-	push    hl
-	call    _cpct_memset_f64
+	push	hl
+	call	_cpct_memset_f64
 	ret
 ;src/main.c:80: void clear_both_screens(){
 ;	---------------------------------
@@ -194,8 +188,8 @@ _clear_both_screens::
 	ld	h, #0x00
 	push	hl
 	ld	h, #0x80
-	push    hl
-	call    _cpct_memset_f64
+	push	hl
+	call	_cpct_memset_f64
 	ret
 ;src/main.c:89: void draw_scoreboard(u8* screen){
 ;	---------------------------------
@@ -283,7 +277,7 @@ _initialization::
 ;src/main.c:115: init_explosions();
 	call	_init_explosions
 ;src/main.c:116: init_messages();
-	jp    _init_messages
+	jp  _init_messages
 ;src/main.c:121: void initial_setup(){
 ;	---------------------------------
 ; Function initial_setup
@@ -315,7 +309,6 @@ _initial_setup::
 	ld	e,#0x10
 	push	de
 	call	_cpct_setPALColour
-	pop	af
 ;src/main.c:127: cpct_setVideoMode(0);               // Change to Mode 0 (160x200, 16 colours)
 	xor	a, a
 	push	af
@@ -443,9 +436,7 @@ _menu::
 	push	bc
 	call	_cpct_scanKeyboard_f
 	ld	hl,#0x0108
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	pop	bc
 	or	a, a
@@ -458,9 +449,7 @@ _menu::
 ;src/main.c:165: if (cpct_isKeyPressed(Key_2))    
 	push	bc
 	ld	hl,#0x0208
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	pop	bc
 	or	a, a
@@ -471,9 +460,7 @@ _menu::
 ;src/main.c:167: if (cpct_isKeyPressed(Key_3))    
 	push	bc
 	ld	hl,#0x0207
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	pop	bc
 	or	a, a
@@ -484,9 +471,7 @@ _menu::
 ;src/main.c:169: if (cpct_isKeyPressed(Key_Esc)){    
 	push	bc
 	ld	hl,#0x0408
-	push	hl
 	call	_cpct_isKeyPressed
-	pop	af
 	ld	a,l
 	pop	bc
 	or	a, a
@@ -709,17 +694,16 @@ _game::
 	ld	hl,(_pvmem)
 	push	hl
 	call	_draw_scoreboard
-;src/main.c:274: if (cpct_isKeyPressed(Key_Esc)){     // ESC
-	ld	hl, #0x0408
-	ex	(sp),hl
-	call	_cpct_isKeyPressed
 	pop	af
+;src/main.c:274: if (cpct_isKeyPressed(Key_Esc)){     // ESC
+	ld	hl,#0x0408
+	call	_cpct_isKeyPressed
 	ld	a,l
 	or	a, a
 	jr	Z,00109$
 ;src/main.c:275: state = STATE_MENU;
-	ld	hl,#_state + 0
-	ld	(hl), #0x02
+	ld	iy,#_state
+	ld	0 (iy),#0x02
 ;src/main.c:276: break;
 	jr	00112$
 00109$:

@@ -19,7 +19,7 @@ void init_shoots(){
 		shoots[k].w=0;
 		shoots[k].h=0;
 		shoots[k].frame=0;
-		shoots[k].lastmoved=0;
+		shoots[k].last_moved=0;
 	}
 	active_shoots=0;
 }

@@ -28,7 +28,7 @@ void init_explosions(){
 		explosiones[i].y=0;
 		explosiones[i].h=0;
 		explosiones[i].w=0;
-		explosiones[i].lastmoved=0;
+		explosiones[i].last_moved=0;
 	}
 	explosiones_activas=0;
 	explosion_sprite[0][0]= (u8*) explosion02000;
