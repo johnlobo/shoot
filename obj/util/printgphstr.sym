@@ -1,27 +1,0 @@
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 1.
-Hexadecimal [16-Bits]
-
-Symbol Table
-
-    .__.$$$.=  2710 L   |     .__.ABS.=  0000 G   |     .__.CPU.=  0000 L
-    .__.H$L.=  0000 L   |   0 _cpc_Pri   000B GR  |   0 _cpc_Pri   0000 GR
-  0 _cpc_Set   0151 GR  |   0 add_elem   0036 R   |   0 buc_dobl   00FE R
-  0 bucle_al   0116 R   |   0 bucle_co   0023 R   |   0 bucle_te   008C R
-  0 byte_tmp   0164 R   |   0 cola_imp   0080 R   |   0 colores_   0167 R
-  0 colores_   015F R   |   0 colores_   015F R   |   0 cont_dob   00C1 R
-  0 cont_tot   00C7 R   |   0 cpc_Char   019C R   |   0 cpc_Prin   0011 R
-  0 cpc_PutS   00DB R   |   0 dato       0163 R   |   0 direcc_d   00D9 R
-  0 doblar_l   00F6 R   |   0 doble      00D7 R   |   0 elemento   007C R
-  0 entrar_c   0035 R   |   0 escribe_   010F R   |   0 first_ch   019B R
-  0 imprimie   00D8 R   |   0 leer_ele   0059 R   |   0 letra_de   016B R
-  0 letra_de   017B R   |   0 loop_alt   00DE R   |   0 loop_anc   00DE R
-  0 op_color   0130 R   |   0 op_color   013D R   |   0 pos_cola   007E R
-  0 salto_li   00E7 R   |   0 terminar   0030 R
-
-ASxxxx Assembler V02.00 + NoICE + SDCC mods  (Zilog Z80 / Hitachi HD64180), page 2.
-Hexadecimal [16-Bits]
-
-Area Table
-
-   0 _CODE      size  304   flags    0
-
