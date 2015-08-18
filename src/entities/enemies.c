@@ -42,13 +42,6 @@ void init_enemies(){
 	u8 k;
 	for (k=0;k<MAX_ENEMIES;k++){
 		enemies[k].active=0;
-		enemies[k].x=0;
-		enemies[k].y=0;
-		enemies[k].w=0;
-		enemies[k].h=0;
-		enemies[k].dir=0;
-		enemies[k].frame=0;
-		enemies[k].last_moved=0;
 	}
 	active_enemies=0;
 }

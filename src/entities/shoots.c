@@ -14,12 +14,6 @@ void init_shoots(){
 	u8 k;
 	for (k=0;k<MAX_SHOOTS;k++){
 		shoots[k].active=0;
-		shoots[k].x=0;
-		shoots[k].y=0;
-		shoots[k].w=0;
-		shoots[k].h=0;
-		shoots[k].frame=0;
-		shoots[k].last_moved=0;
 	}
 	active_shoots=0;
 }
