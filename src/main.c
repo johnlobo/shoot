@@ -200,6 +200,22 @@ u8 end(){
 }
 
 u8 help(){
+  u8 choice =0;
+
+
+  clear_screen(SCR_VMEM);
+
+  color_test(SCR_VMEM);
+
+  while (choice==0) {
+     // Scan Keyboard
+    cpct_scanKeyboard_f();
+
+    if (cpct_isKeyPressed(Key_Esc)){    
+      choice=STATE_EXIT;
+    }
+  }
+
 
   return STATE_MENU;
 
@@ -258,9 +274,7 @@ u8 game(){
 
     clear_screen(pvmem);
 
-    //Animations
-    //if (!get_user_dead())
-      user_engine(pvmem);
+    
     
     //Draw Starfield
     if (STARFIELD_ACTIVE){
@@ -272,6 +286,10 @@ u8 game(){
     draw_shoots(pvmem);
     draw_enemies(pvmem);
     draw_explosions(pvmem);
+
+    //Animations
+    //if (!get_user_dead())
+    //  user_engine(pvmem);
 
     draw_messages(pvmem);
     draw_scoreboard(pvmem);

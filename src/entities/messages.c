@@ -31,7 +31,11 @@ u8 strlen(const char *str)
 /////////////////////////////////////////////////////////////////////////
 // 
 //
-//Valores que se ven bien --> 0, 2, 8, 10, 32, 34, 40, 42, 128, 130, 136, 138, 160, 162, 168, 170
+//Valores que se ven bien --> 0 (negro), 2 (verde), 8 (azul oscuro), 10 verde (claro), 
+//32 (morado), 34 (rojo), 40 azul (claro), 42 (amarillo), 128 (gris), 130 (caqui), 136 (azul), 
+//138 (rojo oscuro), 160 (azulillo), 162 (naranja), 168 (añil), 170 (blanoo)
+//
+// otros:  186 (blanco y morado)
     void colour_message (u8 backg, u8 t){
       cpc_SetInkGphStr(0,backg);
       cpc_SetInkGphStr(1,t);
@@ -46,8 +50,8 @@ void red_message(){
       //tintas para los textos
 	cpc_SetInkGphStr(0,0);
 	cpc_SetInkGphStr(1,34);
-	cpc_SetInkGphStr(2,42);
-	cpc_SetInkGphStr(3,34);
+	cpc_SetInkGphStr(2,138);
+	cpc_SetInkGphStr(3,162);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -56,9 +60,9 @@ void red_message(){
 void blue_message(){
       //tintas para los textos
 	cpc_SetInkGphStr(0,0);
-	cpc_SetInkGphStr(1,40);
+	cpc_SetInkGphStr(1,136);
 	cpc_SetInkGphStr(2,40);
-	cpc_SetInkGphStr(3,10);
+	cpc_SetInkGphStr(3,136);
 }    
 
 void init_messages(){
@@ -89,14 +93,14 @@ void create_message(u8 x, u8 y, u8 time, u8 *text){
 
 void draw_messages(u8* screen){
 	u8 i;
-	u8* pscreen;
+	//u8* pscreen;
 
 	if (active_messages){
 		blue_message();
 		for (i=0;i<MAX_MESSAGES;i++){
 			if (messages[i].active){
-				pscreen = cpct_getScreenPtr(screen, messages[i].x-2, messages[i].y-4);
-				cpct_drawSolidBox(pscreen , cpct_px2byteM0(3, 3), strlen(messages[i].text)*2+4, 18);
+				//pscreen = cpct_getScreenPtr(screen, messages[i].x-2, messages[i].y-4);
+				//cpct_drawSolidBox(pscreen , cpct_px2byteM0(3, 3), strlen(messages[i].text)*2+4, 18);
 				cpc_PrintGphStr(messages[i].text, (int) cpct_getScreenPtr(screen, messages[i].x, messages[i].y));
 				messages[i].time--;
 				if (!messages[i].time){
@@ -106,4 +110,22 @@ void draw_messages(u8* screen){
 			}
 		}
 	}
+}
+
+void color_test(u8* screen){
+	u8 i,x,y;
+	u8 aux_txt[3];
+
+	x=0;
+	y=0;
+	for (i=1;i<255;i++){
+		if ((i%15)==0){
+			x=0;
+			y+=12;
+		}
+		colour_message (0,i);
+		sprintf(aux_txt,"%02d",x);
+		cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, x, y));
+		x+=5;
+	} 
 }

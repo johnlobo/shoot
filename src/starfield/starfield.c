@@ -6,49 +6,18 @@
 
 TIPO_ESTRELLA aStars[STARS_NUM];
 long last_moved_stars;
+const u8 star_colors[3] = {STAR_COLOR1, STAR_COLOR2, STAR_COLOR3};
 
 //******************************************************************************
-// Función GetMode0PixelColorByte(unsigned char nColor, unsigned char nPixel)
+// Función get_screen_byte(u8 nColor, u8 nPixel)
 //
 //******************************************************************************
-u8 get_mode0_pixel_color_byte(u8 nColor, u8 nPixel)
-{
-   unsigned char nByte = 0;
 
-   if(nPixel == 0)
-   {
-      nByte &= 85;
-
-      if(nColor & 1)
-         nByte |= 128;
-
-      if(nColor & 2)
-         nByte |= 8;
-
-      if(nColor & 4)
-         nByte |= 32;
-
-      if(nColor & 8)
-         nByte |= 2;
-   }
+u8 get_screen_byte(u8 nColor, u8 nPixel){
+   if (nPixel)
+      return cpct_px2byteM0(0,star_colors[nColor]);
    else
-   {
-      nByte &= 170;
-
-      if(nColor & 1)
-         nByte |= 64;
-
-      if(nColor & 2)
-         nByte |= 4;
-
-      if(nColor & 4)
-         nByte |= 16;
-
-      if(nColor & 8)
-         nByte |= 1;
-   }
-
-   return nByte;
+      return cpct_px2byteM0(star_colors[nColor],0);
 }
 
 //******************************************************************************
@@ -87,10 +56,11 @@ void draw_stars(u8* screen){
    {
       pStar = &aStars[nStar];
       //paint star
-      pStar->pCurrentAddress = (u8 *) cpct_getScreenPtr(screen, pStar->nX, pStar->nY);
-      *pStar->pCurrentAddress ^= get_mode0_pixel_color_byte(pStar->nStarType + 1, pStar->nX % 2);
+      pStar->pCurrentAddress = (u8 *) cpct_getScreenPtr(screen, pStar->nX/2, pStar->nY);
+      *pStar->pCurrentAddress = get_screen_byte(pStar->nStarType, pStar->nX % 2);
+
    }
-   last_moved_stars = get_time();
+   last_moved_stars = get_time(); 
 }
 //******************************************************************************-
 // Función void moverEstrellas()
@@ -111,10 +81,10 @@ void update_stars(){
       pStar->nY += 1;
       break;
       case 1: //medium star
-      pStar->nY += 1;
+      pStar->nY += 2;
       break;
       case 2: //fast star
-      pStar->nY += 2;
+      pStar->nY += 4;
       break;
    }
 
