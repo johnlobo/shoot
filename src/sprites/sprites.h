@@ -96,6 +96,10 @@ extern const u8 G_baddie04_05[32];
 extern const u8 G_baddie04_06[32];
 extern const u8 G_baddie04_07[32];
 extern const u8 G_baddie05_00[32];
+
+void shiftSpritePixelsRight(u8* sprite, u8 size);
+void shiftSpritePixelsLeft(u8* sprite, u8 size);
+
 #endif
 
 

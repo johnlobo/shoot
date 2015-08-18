@@ -7,7 +7,7 @@
 //explosiones
 TIPO_EXPLOSION explosiones[MAX_EXPLOSIONES];
 u8 explosiones_activas;
-u8 *explosion_sprite[2][4];
+u8 *explosion_sprite[2][5];
 long explosiones_lastUpdated;
 
 //
@@ -31,10 +31,11 @@ void init_explosions(){
 		explosiones[i].last_moved=0;
 	}
 	explosiones_activas=0;
-	explosion_sprite[0][0]= (u8*) explosion02000;
-	explosion_sprite[0][1]= (u8*) explosion02001;
-	explosion_sprite[0][2]= (u8*) explosion02002;
-	explosion_sprite[0][3]= (u8*) explosion02003;
+	explosion_sprite[0][0]= (u8*) G_explosion_8x8_00;
+	explosion_sprite[0][1]= (u8*) G_explosion_8x8_01;
+	explosion_sprite[0][2]= (u8*) G_explosion_8x8_02;
+	explosion_sprite[0][3]= (u8*) G_explosion_8x8_03;
+	explosion_sprite[0][4]= (u8*) G_explosion_8x8_04;
 	explosion_sprite[1][0]= (u8*) toque000;
 	explosion_sprite[1][1]= (u8*) toque001;
 	explosion_sprite[1][2]= (u8*) toque002;
@@ -57,7 +58,7 @@ void create_explosion(u8 x, u8 y, u8 tipo){
 	explosiones[i].y=y;
 	//explosiones[i].memoriaPantalla[0] = cpct_getScreenPtr(screen, explosiones[i].x, explosiones[i].y);
 	if (!tipo){
-		explosiones[i].h=16;
+		explosiones[i].h=8;
 		explosiones[i].w=4;
 	} else {
 		explosiones[i].h=8;
@@ -75,7 +76,7 @@ void update_explosions(){
 	if ((explosiones_activas>0)&&((get_time()-explosiones_lastUpdated>EXPLOSIONS_SPEED))){
 		for (i=0;i<MAX_EXPLOSIONES;i++){
 			if (explosiones[i].activo==1){
-				if (explosiones[i].fase<3){
+				if (explosiones[i].fase<4){
 					explosiones[i].fase++;
 				}
 				else {

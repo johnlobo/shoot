@@ -42,6 +42,8 @@ u8* pvmem;     // Pointer to video memory (or backbuffer) where to draw sprites
 u8 aux_txt[40];
 u8 level = 0;
 
+long last_update, delta_time;
+
 ///////////////////////////////////////////////////////////////////////////////////////
 // Change Video Memory Page
 //    This function changes what is drawn on screen by changing video memory page. 
@@ -90,7 +92,11 @@ u8* changeVideoMemoryPage() {
       sprintf(aux_txt,"%08d",get_score());
       colour_message(0, 2);
       cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 4, 8));
+      colour_message(0, 10);
+      sprintf(aux_txt,"%03d",get_active_enemies());
+      cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 30, 8));
       red_message();
+      sprintf(aux_txt,"%08d",get_score());
       cpc_PrintGphStr("00000000",(int) cpct_getScreenPtr(screen, 60, 8));
     }
 
@@ -119,7 +125,6 @@ u8* changeVideoMemoryPage() {
 
 
  void initial_setup(){
-  cpct_disableFirmware();  // Disable firmware to prevent it from interfering
            
   cpct_fw2hw       (palette, 16);   // Convert Firmware colours to Hardware colours 
   cpct_setPalette  (palette, 16);   // Set up palette using hardware colours
@@ -210,6 +215,8 @@ u8 game_over(){
 }
 
 u8 game(){
+  last_update = 0;
+  delta_time = 0;
 
   timer_on();
   
@@ -224,18 +231,19 @@ u8 game(){
   
   while(1)
   {
+    delta_time=get_time()-last_update;
 
     //Espera al barrido
     //scr_waitVSYNC();
 
     //Starfield
-    if ((STARFIELD_ACTIVE) && (get_time()-get_last_moved_stars()>VELOCIDAD_ESTRELLAS)){
+    if ((STARFIELD_ACTIVE) && (delta_time>VELOCIDAD_ESTRELLAS)){
       update_stars();
     }
     //Explosions
     update_explosions();
     //User
-    if ((get_time()-get_last_moved_user())>get_user_speed()){
+    if (delta_time>get_user_speed()){
       update_user();
     }
     update_shoots();
@@ -310,8 +318,10 @@ u8 game(){
 //******************************************************************************
 int main() {
 
+  cpct_disableFirmware();  // Disable firmware to prevent it from interfering
+  
   // Reubico el stack
-  set_stack(0x1000);
+  set_stack(0x0200);
 
   initial_setup();
 

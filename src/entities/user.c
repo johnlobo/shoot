@@ -29,8 +29,11 @@ void init_user(){
   user.last_moved = 0;
   user.engine_state = 0;
 
+  user.shift = ON_EVEN_PIXEL;
+
   engine_anim[0] = (u8*) G_engine_00;
   engine_anim[1] = (u8*) G_engine_01;
+
 }
 
 void user_init_level(){

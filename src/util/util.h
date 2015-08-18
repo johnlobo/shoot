@@ -1,6 +1,10 @@
 #ifndef  __util_h__
 #define __util_h__
 
+#include <cpctelera.h>
+
+#define CHECK_BIT(var,pos) (((var)>>(pos)) & 1)
+
 void	cpc_PrintGphStr(char *text, int destino);
 void	cpc_PrintGphStr2X(char *text, int destino);
 void	cpc_SetInkGphStr(char a, char b);
@@ -11,4 +15,8 @@ void timer_off(void);
 unsigned long get_time();
 
 unsigned char fast_collision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2);
+
+i16 sine(i16 angle);
+i16 cosine(i16 angle);
+
 #endif

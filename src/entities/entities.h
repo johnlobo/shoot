@@ -26,12 +26,15 @@
 #define MAX_ENEMY_GROUPS 4
 #define ENEMY_GAP 3
 
+//EXPLOSIONS
 #define MAX_EXPLOSIONES 30
-#define EXPLOSIONS_SPEED 30
+#define EXPLOSIONS_SPEED 20
 
 #define MAX_MESSAGES 10
 
 #define MAX_WAYPOINTS 20
+
+
 
 typedef struct
 {
@@ -68,11 +71,6 @@ typedef struct
    u8 alive;
 } TEnemy2;
 
-typedef struct 
-{
-   u8 x;
-   u8 y;
-} TWaypoint;
 
 typedef struct 
 {
@@ -87,14 +85,6 @@ typedef struct
    TStage stages[8];
 } TMovement;
 
-typedef struct
-{
-   u8 waypoints;
-   TWaypoint wp[MAX_WAYPOINTS];
-   u8 vx[MAX_WAYPOINTS];
-   u8 vy[MAX_WAYPOINTS];
-} TTrajectory;
-
 typedef struct 
 {
    u8 active;
@@ -103,6 +93,20 @@ typedef struct
    u8 num_enemies;
    u8 sleep;
 }TEnemy_group;
+
+// Struct to note the shifting status of a sprite
+typedef enum {
+   ON_EVEN_PIXEL = 0,  // Sprite is un-shifted (starts on even pixel)
+   ON_ODD_PIXEL  = 1   // Sprite is shifted    (starts on odd pixel)
+} TShiftStatus;
+
+typedef struct {
+   u8  x,  y;          // Pixel Location
+   u8 nx, ny;          // Next pixel location
+   u8  w,  h;          // Width and height of the entity (in bytes!)
+   u8* sprite;         // Sprite
+   TShiftStatus shift; // Sprite shifting status (EVEN, ODD)
+} TEntity;
 
 typedef struct  {
    u8 *sprite;
@@ -118,6 +122,7 @@ typedef struct  {
    u32 score;
    u8 speed;
    u8 engine_state;
+   TShiftStatus shift;
    long last_moved;
 } TShip;
 
@@ -179,7 +184,6 @@ typedef struct {
    u8 time;
 } TMessage;
 
-extern const TTrajectory trajectories[1];
 extern const TMovement movements[2];
 
 //////////////////////////////////////////////////////////////////////////
@@ -203,6 +207,7 @@ void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void update_enemies();
 void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
+u8 get_active_enemies();
 
 //USER
 long get_last_moved_user();
