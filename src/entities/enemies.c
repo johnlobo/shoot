@@ -11,10 +11,6 @@ TEnemy_group groups [MAX_ENEMY_GROUPS];
 u8 active_groups;
 
 
-u8 detectColision(u8 x1,u8 y1,u8 w1,u8 h1,u8 x2,u8 y2,u8 w2,u8 h2){
-	return ((x1 < x2 + w2) && (x1 + w1 > x2) && (y1 < y2 + h2) && (h1 + y1 > y2));
-}
-
 //******************************************************************************
 // Función: check_collision_enemies(u8 x, u8 y, u8 w, u8 h)
 //
@@ -112,17 +108,17 @@ void create_enemy(i16 x, i16 y, u8 type){
 			default:
 			enemies[k].x=x;
 			enemies[k].y=y;
-			enemies[k].w=5;
-			enemies[k].h=16;
+			enemies[k].w=4;
+			enemies[k].h=8;
 			enemies[k].num_frames=0;
-			enemies[k].sprite[0]= (u8*) G_baddie01_00;
-			enemies[k].sprite[1]= (u8*) G_baddie01_01;
-			enemies[k].sprite[2]= (u8*) G_baddie01_02;
-			enemies[k].sprite[3]= (u8*) G_baddie01_03;
-			enemies[k].sprite[4]= (u8*) G_baddie01_04;
-			enemies[k].sprite[5]= (u8*) G_baddie01_05;
-			enemies[k].sprite[6]= (u8*) G_baddie01_06;
-			enemies[k].sprite[7]= (u8*) G_baddie01_07;
+			enemies[k].sprite[0]= (u8*) G_baddie03_00;
+			enemies[k].sprite[1]= (u8*) G_baddie03_01;
+			enemies[k].sprite[2]= (u8*) G_baddie03_02;
+			enemies[k].sprite[3]= (u8*) G_baddie03_03;
+			enemies[k].sprite[4]= (u8*) G_baddie03_04;
+			enemies[k].sprite[5]= (u8*) G_baddie03_05;
+			enemies[k].sprite[6]= (u8*) G_baddie03_06;
+			enemies[k].sprite[7]= (u8*) G_baddie03_07;
 			enemies[k].movement=1;
 			enemies[k].stage=0;
 			enemies[k].stage_step=0;

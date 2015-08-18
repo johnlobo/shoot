@@ -21,7 +21,10 @@
 
 #define INITIAL_STATE STATE_MENU
 
-
+// Memory management
+// Program Stack locations
+#define NEW_STACK_LOCATION       (void*)0x200
+#define PREVIOUS_STACK_LOCATION  (void*)0xC000
 #define SCR_VMEM  (u8*)0xC000
 #define SCR_BUFF  (u8*)0x8000
 
@@ -320,8 +323,9 @@ int main() {
 
   cpct_disableFirmware();  // Disable firmware to prevent it from interfering
   
-  // Reubico el stack
-  set_stack(0x0200);
+  // Stack copy and relocation
+  cpct_memcpy(NEW_STACK_LOCATION - 6, PREVIOUS_STACK_LOCATION - 6, 6);
+  cpct_setStackLocation(NEW_STACK_LOCATION - 6);
 
   initial_setup();
 

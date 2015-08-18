@@ -1,22 +1,4 @@
 ;******************************
-; 	void set_stack(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2){
-; 	Descripción:	Reubica la pila 
-;	Entrada:	Dirección en la que se reubica la pila
-;	Salida:		Ninguna
-;	Modificados: 
-;
-; @JohnLobo Nov15  
-;******************************
-.globl _set_stack
-_set_stack::
-	pop bc
-	pop hl
-	ld sp, hl
-	push hl
-	push bc
-	ret
-
-;******************************
 ; 	unsigned char fastCollision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2){
 ; 	Descripción:	Devuelve 1 si se ha producido una colisión y 0 en caso contrario
 ;	Entrada:	- Coordenada x objeto 1
