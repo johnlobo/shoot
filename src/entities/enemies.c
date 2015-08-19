@@ -151,93 +151,198 @@ void update_enemies2(){
 
 	if (active_enemies>0){
 		for (i=0;i<MAX_ENEMIES;i++){
-			pattern_set = enemies[i].patternQueue;
-			pattern_set = (TPatternSet*) &enemy->cur_pattern;
 
-		}
-	}
-}
+			if (!enemies[i].alive) 
+        		return;
+        		
+			pattern = (TPattern*) &enemies[i]->cur_pattern;
+   			
+   			switch (pattern->CMD) {
 
-//******************************************************************************
-// Función: update_enemies()
-//	Basado en movimientos
-//******************************************************************************
-void update_enemies(){
-	u8 i; 
-
-	i=0;
-	if (active_enemies>0){
-		for (i=0;i<MAX_ENEMIES;i++){
-			if (enemies[i].active){
-				if (enemies[i].movement<99){
-					if (enemies[i].stage_step<movements[enemies[i].movement].stages[enemies[i].stage].num_steps){
-						enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
-						enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
-						enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
-						enemies[i].stage_step++;
-					} else {
-						enemies[i].stage++;
-						enemies[i].stage_step=0;
-						if (enemies[i].stage>=movements[enemies[i].movement].num_stages){
-							enemies[i].stage=0;
-						}
-						enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
-						enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
-						enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
-						enemies[i].stage_step++;
-					}
-
-				}
-			}
-		}
-	}
-
-	if (active_groups>0){
-		i=0;
-		for (i=0;i<MAX_ENEMY_GROUPS;i++){
-			if (groups[i].active){
-				if (groups[i].sleep==0){
-					groups[i].sleep=ENEMY_GAP;
-					if (groups[i].num_enemies==0){
-						groups[i].active=0;
-						active_groups--;
-					}else{
-						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
-						groups[i].num_enemies--;
-					}
-				}else{
-					groups[i].sleep--;
-				}
-
-			}
-		}
-	}
-}
-
-u8 inside_screen(i16 x, i16 y, u8 w, u8 h){
+	        case ENTER_LEFT:
+	        enemies[i].v = pattern->v;
+	        if (enemies[i].x >= pattern->x) {
+	            enemies[i].cur_cmd++;
+	        }
+	        break;
 	
-	return ((x>=0) && ((x+w)<SCREEN_WIDTH) && (y>=0) && ((y+h)<SCREEN_HEIGHT));
-}
+	        case ENTER_RIGHT:
+	        enemies[i].v = pattern->v;
+	        if (enemies[i].x <= pattern->x) {
+	            enemies[i].cur_cmd++;
+	        }
+	        break;
+	
+	        case EXIT_LEFT:
+	        enemies[i].v = pattern->v;
+	        if (enemies[i].x <= pattern->x) {
+	            enemies[i].cur_cmd++;
+	        }
+	        break;
+	
+	        case EXIT_RIGHT:
+	        enemies[i].v = pattern->v;
+	        if (enemies[i].x >= pattern->x) {
+	            enemies[i].cur_cmd++;
+	        }
+	        break;
+	
+	        case TRANSLATE_TO:
+	        enemies[i].v = pattern->v;
+	
+	        if (enemies[i].v < 0) {
+	            if (enemies[i].x <= pattern->x) {
+	                enemy->cur_cmd++;
+	            }
+	        }
+	        else {
+	            if (enemies[i].x >= pattern->x) {
+	                enemies[i].cur_cmd++;
+	            }
+	        }
+	        break;
+	
+	        case TRANSLATE:
+	
+	        enemies[i].v = pattern->v;
+	        enemies[i].dt += enemies[i].v;
+	
+	        if (enemies[i].v < 0) {
+	            if (enemies[i].dt <= pattern->frames) {
+	                enemies[i].dt = 0;
+	                enemies[i].cur_cmd++;
+	            }
+	        }
+	        else {
+	            if (enemies[i].dt >= pattern->frames) {
+	                enemies[i].dt = 0;
+	                enemies[i].cur_cmd++;
+	            }
+	        }
+	        break;
+	
+	        case ROTATE:
+	        enemies[i].v = pattern->v;
+	        enemies[i].dtheta += pattern->theta;
+	        enemies[i].theta += pattern->theta;
+	
+	        if (pattern->max < 0) {
+	            if (enemies[i].dtheta <= pattern->max) {
+	                enemies[i].dtheta = 0;
+	                enemies[i].cur_cmd++;
+	            }
+	        }
+	        else {
+	            if (enemies[i].dtheta >= pattern->max) {
+	                enemies[i].dtheta = 0;
+	                enemies[i].cur_cmd++;
+	            }
+	        }
+	
+	        break;
+	    }
+	    
+	    //enemies[i].cosine = Math.cos(enemies[i].theta);
+        //enemies[i].sine = Math.sin(enemies[i].theta);
+        //enemies[i].x = (enemies[i].v * enemies[i].cosine) + enemies[i].x;
+        //enemies[i].y = (enemies[i].v * enemies[i].sine) + enemies[i].y;
 
-u8 get_active_enemies(){
-	return active_enemies;
-}
-
-//******************************************************************************
-// Función: 
-//
-//******************************************************************************
-void draw_enemies(u8* screen){
-	u8* pscreen;
-	u8 k;
-
-	k=0;
-	if (active_enemies>0){
-		for (k=0;k<MAX_ENEMIES;k++){
-			if ((enemies[k].active) && inside_screen(enemies[k].x,enemies[k].y,enemies[k].w,enemies[k].h)){
-				pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
-				cpct_drawSprite(enemies[k].sprite[enemies[k].dir],pscreen,enemies[k].w,enemies[k].h);
+        //if (enemies[i].cur_cmd >= patternlength) {
+        //    enemies[i].patternQueuePos++;
+        //    if (enemies[i].patternQueuePos >= enemy->patternQueue.length) {
+        //        enemies[i].alive = false;
+        //        NumShipsLeft--;
+        //    }
+        //    else {
+        //        enemies[i].cur_pattern = enemy->patternQueue[enemy->patternQueuePos];
+        //        enemies[i].cur_cmd = 0;
+        //    }
+        //}
+	
 			}
 		}
 	}
+	
+	//******************************************************************************
+	// Función: update_enemies()
+	//	Basado en movimientos
+	//******************************************************************************
+	void update_enemies(){
+		u8 i; 
+	
+		i=0;
+		if (active_enemies>0){
+			for (i=0;i<MAX_ENEMIES;i++){
+				if (enemies[i].active){
+					if (enemies[i].movement<99){
+						if (enemies[i].stage_step<movements[enemies[i].movement].stages[enemies[i].stage].num_steps){
+							enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
+							enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
+							enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
+							enemies[i].stage_step++;
+						} else {
+							enemies[i].stage++;
+							enemies[i].stage_step=0;
+							if (enemies[i].stage>=movements[enemies[i].movement].num_stages){
+								enemies[i].stage=0;
+							}
+							enemies[i].dir = movements[enemies[i].movement].stages[enemies[i].stage].dir;
+							enemies[i].x += movements[enemies[i].movement].stages[enemies[i].stage].vx;
+							enemies[i].y += movements[enemies[i].movement].stages[enemies[i].stage].vy;
+							enemies[i].stage_step++;
+						}
+	
+					}
+				}
+			}
+		}
+	
+		if (active_groups>0){
+			i=0;
+			for (i=0;i<MAX_ENEMY_GROUPS;i++){
+				if (groups[i].active){
+					if (groups[i].sleep==0){
+						groups[i].sleep=ENEMY_GAP;
+						if (groups[i].num_enemies==0){
+							groups[i].active=0;
+							active_groups--;
+						}else{
+							create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
+							groups[i].num_enemies--;
+						}
+					}else{
+						groups[i].sleep--;
+					}
+	
+				}
+			}
+		}
+	}
+	
+	u8 inside_screen(i16 x, i16 y, u8 w, u8 h){
+		
+		return ((x>=0) && ((x+w)<SCREEN_WIDTH) && (y>=0) && ((y+h)<SCREEN_HEIGHT));
+	}
+	
+	u8 get_active_enemies(){
+		return active_enemies;
+	}
+	
+	//******************************************************************************
+	// Función: 
+	//
+	//******************************************************************************
+	void draw_enemies(u8* screen){
+		u8* pscreen;
+		u8 k;
+	
+		k=0;
+		if (active_enemies>0){
+			for (k=0;k<MAX_ENEMIES;k++){
+				if ((enemies[k].active) && inside_screen(enemies[k].x,enemies[k].y,enemies[k].w,enemies[k].h)){
+					pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
+					cpct_drawSprite(enemies[k].sprite[enemies[k].dir],pscreen,enemies[k].w,enemies[k].h);
+				}
+			}
+		}
 }
