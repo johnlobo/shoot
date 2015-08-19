@@ -24,7 +24,7 @@
 
 #define MAX_ENEMIES 30
 #define MAX_ENEMY_GROUPS 4
-#define ENEMY_GAP 3
+#define ENEMY_GAP 2
 
 //EXPLOSIONS
 #define MAX_EXPLOSIONES 30

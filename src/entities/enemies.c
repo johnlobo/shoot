@@ -35,7 +35,7 @@ u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h){
 }
 
 //******************************************************************************
-// Función: inicializarDisparos()
+// Función: init_enemies()
 //
 //******************************************************************************
 void init_enemies(){
@@ -137,6 +137,24 @@ void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies ){
 		groups[k].num_enemies=num_enemies;
 		groups[k].sleep=ENEMY_GAP;
 		active_groups++;
+	}
+}
+
+//******************************************************************************
+// Función: update_enemies2()
+// Update based on patterns
+//******************************************************************************
+void update_enemies2(){
+	u8 i=0;
+	TPatternSet pattern_set;
+	TPattern pattern;
+
+	if (active_enemies>0){
+		for (i=0;i<MAX_ENEMIES;i++){
+			pattern_set = enemies[i].patternQueue;
+			pattern_set = (TPatternSet*) &enemy->cur_pattern;
+
+		}
 	}
 }
 

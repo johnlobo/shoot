@@ -4,8 +4,10 @@
 
 TEnemy2 ship0[12];
 TEnemy2 ship1[12];
+u8 active_enemies2;
 
-void reset_ship(TEnemy2* enemy){
+
+void reset_enemy2(TEnemy2* enemy){
 	enemy->x = 0.0;
     enemy->y = 0.0;
     enemy->v = 0;
@@ -23,14 +25,14 @@ void reset_ship(TEnemy2* enemy){
     enemy->alive = 0;
 }
 
-void mirror_ship(TEnemy2* enemy) {
+void mirror_enemy2(TEnemy2* enemy) {
     TEnemy2 *leader = (TEnemy2*) &enemy->leader;
     enemy->theta = leader->theta;
     enemy->x = (enemy->formation_offset * -leader->sine) + leader->x;
     enemy->y = (enemy->formation_offset * leader->cosine) + leader->y;
 }
 
-void update_ship(TEnemy2 *enemy) {
+void update_enemy2(TEnemy2 *enemy) {
 	TPattern *pattern;
 	u8 i;
 
