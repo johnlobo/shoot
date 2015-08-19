@@ -3,11 +3,11 @@
 
 #include <types.h>
 
+//SYSTEM
 #define MODE 0 
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 200
-
-//Patterns
+//PATTERNS
 #define TRANSLATE 0
 #define ROTATE  1
 #define TRANSLATE_TO 2
@@ -15,26 +15,22 @@
 #define EXIT_RIGHT 4
 #define ENTER_LEFT 5
 #define ENTER_RIGHT 6
-
+//MATH
 #define PI 3.1415926
-
+#define PIXEL_SCALE 256
+//SHOOTS
 #define SHOOT_JUMP 10
 #define SALTO_DISPARO_MALO 4
 #define MAX_SHOOTS 10
-
+//ENEMIES
 #define MAX_ENEMIES 30
 #define MAX_ENEMY_GROUPS 4
 #define ENEMY_GAP 2
-
 //EXPLOSIONS
 #define MAX_EXPLOSIONES 30
 #define EXPLOSIONS_SPEED 20
-
+//MESSAGES
 #define MAX_MESSAGES 10
-
-#define MAX_WAYPOINTS 20
-
-
 
 typedef struct
 {
@@ -101,10 +97,16 @@ typedef enum {
 } TShiftStatus;
 
 typedef struct {
+   u16   x,  y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
+   u8  v;         // Velocity scalar controlling entity movement (In pixels)
+   u16 sine, cosine;
+} TPhysics;
+
+typedef struct {
    u8  x,  y;          // Pixel Location
    u8 nx, ny;          // Next pixel location
    u8  w,  h;          // Width and height of the entity (in bytes!)
-   u8* sprite;         // Sprite
+   u8 **sprite_set;     // Sprite set
    TShiftStatus shift; // Sprite shifting status (EVEN, ODD)
 } TEntity;
 
@@ -143,6 +145,8 @@ typedef  struct {    // minimun sprite structure
 
 //ENEMY
 typedef  struct {    // minimun sprite structure
+   TEntity e;
+   TPhysics f;
    char *sprite[8];     //2 bytes   01
    i16 x,y;
    u8 w;
