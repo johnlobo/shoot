@@ -11,10 +11,7 @@
 #define TRANSLATE 0
 #define ROTATE  1
 #define TRANSLATE_TO 2
-#define EXIT_LEFT 3
-#define EXIT_RIGHT 4
-#define ENTER_LEFT 5
-#define ENTER_RIGHT 6
+#define TRANSLATE_HOME 3
 //MATH
 #define PI 3.1415926
 #define PIXEL_SCALE 256
@@ -37,6 +34,7 @@ typedef struct
    u8 CMD;
    u8 v;
    i8 x;
+   i8 y;
    f32 theta;
    f32 max;
    u8 frames;
@@ -162,6 +160,12 @@ typedef  struct {    // minimun sprite structure
    u8 stage;
    u8 stage_step;
    long last_moved;
+   u8 home_x;
+   u8 home_y;
+   TPattern *cur_pattern;
+   u8 cur_cmd;
+   TPatternSet *patternQueue;
+   u8 patternQueuePos;
 // u8 objetivox;
 } TEnemy;
 

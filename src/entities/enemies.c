@@ -146,68 +146,70 @@
 	//******************************************************************************
 	void update_enemies2(){
 		u8 i=0;
-		TPatternSet pattern_set;
-		TPattern pattern;
+		TPatternSet* pattern_set;
+		TPattern* pattern;
 	
 		if (active_enemies>0){
 			for (i=0;i<MAX_ENEMIES;i++){
 	
-				if (!enemies[i].alive) 
+				if (!enemies[i].active) 
 	        		return;
 	        		
-				pattern = (TPattern*) &enemies[i]->cur_pattern;
+				pattern = (TPattern*) &enemies[i].cur_pattern;
 	   			
 	   			switch (pattern->CMD) {
 	
-		        case ENTER_LEFT:
-		        enemies[i].v = pattern->v;
-		        if (enemies[i].x >= pattern->x) {
-		            enemies[i].cur_cmd++;
-		        }
-		        break;
-		
-		        case ENTER_RIGHT:
-		        enemies[i].v = pattern->v;
-		        if (enemies[i].x <= pattern->x) {
-		            enemies[i].cur_cmd++;
-		        }
-		        break;
-		
-		        case EXIT_LEFT:
-		        enemies[i].v = pattern->v;
-		        if (enemies[i].x <= pattern->x) {
-		            enemies[i].cur_cmd++;
-		        }
-		        break;
-		
-		        case EXIT_RIGHT:
-		        enemies[i].v = pattern->v;
-		        if (enemies[i].x >= pattern->x) {
-		            enemies[i].cur_cmd++;
-		        }
-		        break;
-		
 		        case TRANSLATE_TO:
-		        enemies[i].v = pattern->v;
-		
-		        if (enemies[i].v < 0) {
-		            if (enemies[i].x <= pattern->x) {
-		                enemy->cur_cmd++;
-		            }
-		        }
-		        else {
-		            if (enemies[i].x >= pattern->x) {
-		                enemies[i].cur_cmd++;
-		            }
-		        }
+		        	dtx = pattern->v*cosine(enemies[i].angle);
+		        	dty = pattern->v*sine(enemies[i].angle); 
+		        	
+		        	if ((enemies[i].x==pattern->x) && (enemies[i].y==pattern->y)){
+		        		enemies[i].cur_cmd++;
+		        	}
+		        	else if ((enemies[i].x<pattern->x) && (enemies[i].y == pattern->y)){
+		        			enemies[i].x++;
+		        			enemies[i].angle = 0;
+		        		}
+		        	else if ((enemies[i].x<pattern->x) && (enemies[i].y > pattern->y)){
+		        			enemies[i].x++;
+		        			enemies[i].y--;
+		        			enemies[i].angle = 45;
+		        		}
+		        	else if ((enemies[i].x==pattern->x) && (enemies[i].y > pattern->y)){
+		        			enemies[i].y--;
+		        			enemies[i].angle = 90;
+		        		}
+		        	else if ((enemies[i].x>pattern->x) && (enemies[i].y > pattern->y)){
+		        			enemies[i].x--;
+		        			enemies[i].y--;
+		        			enemies[i].angle=135;
+		        		}
+		        	else if ((enemies[i].x>pattern->x) && (enemies[i].y == pattern->y)){
+		        			enemies[i].x--;
+		        			enemies[i].angle=180;
+		        		}
+		        	else if ((enemies[i].x>pattern->x) && (enemies[i].y < pattern->y)){
+		        			enemies[i].x--;
+		        			enemies[i].y++;
+		        			enemies[i].angle=225;
+		        		}
+		        	else if ((enemies[i].x == pattern->x) && (enemies[i].y < pattern->y)){
+		        			enemies[i].y++;
+		        			enemies[i].angle=270;
+		        		}
+		        	else if ((enemies[i].x<pattern->x) && (enemies[i].y < pattern->y)){
+		        			enemies[i].x++;
+		        			enemies[i].y++;
+		        			enemies[i].angle=315;
+		        		}
 		        break;
 		
 		        case TRANSLATE:
 		
-		        enemies[i].v = pattern->v;
+		        enemies[i].f.v = pattern->v;
 		        enemies[i].dt += enemies[i].v;
 		
-		        if (enemies[i].v < 0) {
+		        if (enemies[i].f.v < 0) {
 		            if (enemies[i].dt <= pattern->frames) {
 		                enemies[i].dt = 0;
 		                enemies[i].cur_cmd++;
@@ -220,9 +222,24 @@
 		            }
 		        }
 		        break;
+
+		        case TRANSLATE_HOME:
+		        enemies[i].f.v = pattern->v;
+		
+		        if (enemies[i].f.v < 0) {
+		            if (enemies[i].f.x <= pattern->x) {
+		                enemy->cur_cmd++;
+		            }
+		        }
+		        else {
+		            if (enemies[i].f.x >= pattern->x) {
+		                enemies[i].cur_cmd++;
+		            }
+		        }
+		        break;
 		
 		        case ROTATE:
-		        enemies[i].v = pattern->v;
+		        enemies[i].f.v = pattern->v;
 		        enemies[i].dtheta += pattern->theta;
 		        enemies[i].theta += pattern->theta;
 		
@@ -242,22 +259,21 @@
 		        break;
 		    }
 		    
-		    enemies[i].cosine = cosine(enemies[i].theta);
-	        enemies[i].sine = sine(enemies[i].theta);
-	        enemies[i].x += (enemies[i].v * enemies[i].cosine);
-	        enemies[i].y += (enemies[i].v * enemies[i].sine);
-	
-	        //if (enemies[i].cur_cmd >= patternlength) {
-	        //    enemies[i].patternQueuePos++;
-	        //    if (enemies[i].patternQueuePos >= enemy->patternQueue.length) {
-	        //        enemies[i].alive = false;
-	        //        NumShipsLeft--;
-	        //    }
-	        //    else {
-	        //        enemies[i].cur_pattern = enemy->patternQueue[enemy->patternQueuePos];
-	        //        enemies[i].cur_cmd = 0;
-	        //    }
-	        //}
+	        enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].theta));
+	        enemies[i].f.y += (enemies[i].f.v * sine(enemies[i].theta));
+
+			pattern_set = (TPatternSet*) &enemies[i]->patternQueue;
+	        if (enemies[i].cur_cmd >= pattern_set) {
+	            enemies[i].patternQueuePos++;
+	            if (enemies[i].patternQueuePos >= enemy->patternQueue.length) {
+	                enemies[i].active = false;
+	                NumShipsLeft--;
+	            }
+	            else {
+	                enemies[i].cur_pattern = enemy->patternQueue[enemy->patternQueuePos];
+	                enemies[i].cur_cmd = 0;
+	            }
+	        }
 		
 				}
 			}
