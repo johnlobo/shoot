@@ -163,16 +163,18 @@
 		        	dtx = pattern->v*cosine(enemies[i].angle);
 		        	dty = pattern->v*sine(enemies[i].angle); 
 		        	
-		        	if ((enemies[i].x==pattern->x) && (enemies[i].y==pattern->y)){
+		        	if ((Math.abs(enemies[i].x-pattern->x)<pattern->v) && (Math.abs(enemies[i].y-pattern->y)<pattern->v)){
+		        		enemies[i].x=pattern->x;
+		        		enemies[i].y=pattern->y;
 		        		enemies[i].cur_cmd++;
 		        	}
 		        	else if ((enemies[i].x<pattern->x) && (enemies[i].y == pattern->y)){
-		        			enemies[i].x++;
+		        			enemies[i].x+=v;
 		        			enemies[i].angle = 0;
 		        		}
 		        	else if ((enemies[i].x<pattern->x) && (enemies[i].y > pattern->y)){
-		        			enemies[i].x++;
-		        			enemies[i].y--;
+		        			enemies[i].x+=v;
+		        			enemies[i].y-=v;
 		        			enemies[i].angle = 45;
 		        		}
 		        	else if ((enemies[i].x==pattern->x) && (enemies[i].y > pattern->y)){
