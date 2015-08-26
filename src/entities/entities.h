@@ -98,6 +98,7 @@ typedef struct {
    u16   x,  y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
    u8  v;         // Velocity scalar controlling entity movement (In pixels)
    u16 sine, cosine;
+   u16 angle;
 } TPhysics;
 
 typedef struct {
@@ -162,6 +163,7 @@ typedef  struct {    // minimun sprite structure
    long last_moved;
    u8 home_x;
    u8 home_y;
+   u8 step;
    TPattern *cur_pattern;
    u8 cur_cmd;
    TPatternSet *patternQueue;

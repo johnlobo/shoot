@@ -19,4 +19,6 @@ unsigned char fast_collision(unsigned char x1,unsigned char y1,unsigned char w1,
 i16 sine(i16 angle);
 i16 cosine(i16 angle);
 
+u16 absolute(i16 number) __z88dk_fastcall;
+
 #endif

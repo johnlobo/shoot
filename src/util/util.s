@@ -1,4 +1,22 @@
 ;******************************
+; 	u16 absolute(i16 number){
+; 	Descripción:	Devuelve el valor absoluto del parámetro recibido
+;	Entrada:	- Numero a calcular el valor absoluto
+;	Salida:		- HL = el valor absoluto del número recibido
+;	Modificados: 
+;
+; @z80-heaven
+;******************************
+.globl _absolute
+_absolute::
+
+     bit 7,h
+     ret z
+     xor a \ sub l \ ld l,a
+     sbc a,a \ sub h \ ld h,a
+     ret
+
+;******************************
 ; 	unsigned char fastCollision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2){
 ; 	Descripción:	Devuelve 1 si se ha producido una colisión y 0 en caso contrario
 ;	Entrada:	- Coordenada x objeto 1
@@ -12,7 +30,7 @@
 ;	Salida:		- HL = 1 si se ha producido una colisión, HL = 0 en caso contrario
 ;	Modificados: 
 ;
-; @JohnLobo Nov15  
+; @ 
 ;******************************
 .globl _fast_collision
 _fast_collision::	
