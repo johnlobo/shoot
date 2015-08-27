@@ -7,6 +7,7 @@
 #define MODE 0 
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 200
+#define SCALE_FACTOR 256
 //PATTERNS
 #define TRANSLATE 0
 #define ROTATE  1
@@ -35,8 +36,8 @@ typedef struct
    u8 v;
    i8 x;
    i8 y;
-   f32 theta;
-   f32 max;
+   i16 theta;
+   i16 max;
    u8 frames;
 }TPattern;
 
@@ -98,7 +99,9 @@ typedef struct {
    u16   x,  y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
    u8  v;         // Velocity scalar controlling entity movement (In pixels)
    u16 sine, cosine;
-   u16 angle;
+   i16 angle;
+   i16 acum_angle;
+   
 } TPhysics;
 
 typedef struct {

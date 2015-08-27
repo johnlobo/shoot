@@ -80,6 +80,10 @@
 				enemies[k].stage=0;
 				enemies[k].stage_step=0;
 				enemies[k].step=0;
+				enemies[k].f.x=x*SCALE_FACTOR;
+				enemies[k].f.y=y*SCALE_FACTOR;
+				enemies[k].f.angle = 270;
+				enemies[k].f.acum_angle = 0;
 				break;
 				case 2:
 				enemies[k].x=x;
@@ -99,6 +103,10 @@
 				enemies[k].stage=0;
 				enemies[k].stage_step=0;
 				enemies[k].step=0;
+				enemies[k].f.x=x*SCALE_FACTOR;
+				enemies[k].f.y=y*SCALE_FACTOR;
+				enemies[k].f.angle = 270;
+				enemies[k].f.acum_angle = 0;
 				break;
 				default:
 				enemies[k].x=x;
@@ -118,6 +126,10 @@
 				enemies[k].stage=0;
 				enemies[k].stage_step=0;
 				enemies[k].step=0;
+				enemies[k].f.x=x*SCALE_FACTOR;
+				enemies[k].f.y=y*SCALE_FACTOR;
+				enemies[k].f.angle = 270;
+				enemies[k].f.acum_angle = 0;
 				break;
 			}
 			active_enemies++;
@@ -144,6 +156,58 @@
 	}
 	
 	//******************************************************************************
+	// Función: translate_to()
+	// Updates the physics module of an enemy to move towards the x,y in the pattern
+	//******************************************************************************
+	u8 translate_to(TPhysics *f, TPattern *pattern ){
+		u8 advance_step = 0;
+		
+			if ((absolute(f->x-pattern->x)<(pattern->v*cosine(f->angle))) && 
+		        		(absolute(f->y-pattern->y)<(pattern->v*sine(f->angle)))){
+		        		f->x=pattern->x;
+		        		f->y=pattern->y;
+		        		advance_step=1;
+		        	}
+		        	else if ((f->x<pattern->x) && (f->y == pattern->y)){
+		        			f->x+=pattern->v;
+		        			f->angle = 0;
+		        		}
+		        	else if ((f->x<pattern->x) && (f->y > pattern->y)){
+		        			f->x+=pattern->v;
+		        			f->y-=pattern->v;
+		        			f->angle = 45;
+		        		}
+		        	else if ((f->x==pattern->x) && (f->y > pattern->y)){
+		        			f->y-=pattern->v;
+		        			f->angle = 90;
+		        		}
+		        	else if ((f->x>pattern->x) && (f->y > pattern->y)){
+		        			f->x-=pattern->v;
+		        			f->y-=pattern->v;
+		        			f->angle=135;
+		        		}
+		        	else if ((f->x>pattern->x) && (f->y == pattern->y)){
+		        			f->x-=pattern->v;
+		        			f->angle=180;
+		        		}
+		        	else if ((f->x>pattern->x) && (f->y < pattern->y)){
+		        			f->x-=pattern->v;
+		        			f->y+=pattern->v;
+		        			f->angle=225;
+		        		}
+		        	else if ((f->x == pattern->x) && (f->y < pattern->y)){
+		        			f->y+=pattern->v;
+		        			f->angle=270;
+		        		}
+		        	else if ((f->x<pattern->x) && (f->y < pattern->y)){
+		        			f->x+=pattern->v;
+		        			f->y+=pattern->v;
+		        			f->angle=315;
+		        		}
+		return advance_step;
+	}
+	
+	//******************************************************************************
 	// Función: update_enemies2()
 	// Update based on patterns
 	//******************************************************************************
@@ -151,7 +215,6 @@
 		u8 i=0;
 		TPatternSet* pattern_set;
 		TPattern* pattern;
-		u16 dtx, dty;
 	
 		if (active_enemies>0){
 			for (i=0;i<MAX_ENEMIES;i++){
@@ -164,8 +227,6 @@
 	   			switch (pattern->CMD) {
 	
 		        case TRANSLATE_TO:
-		        	dtx = pattern->v*cosine(enemies[i].f.angle);
-		        	dty = pattern->v*sine(enemies[i].f.angle); 
 		        	
 		        	if ((absolute(enemies[i].f.x-pattern->x)<(pattern->v*cosine(enemies[i].f.angle))) && 
 		        		(absolute(enemies[i].f.y-pattern->y)<(pattern->v*sine(enemies[i].f.angle)))){
@@ -224,34 +285,29 @@
 		        break;
 
 		        case TRANSLATE_HOME:
-		        enemies[i].f.v = pattern->v;
-		
-		        if (enemies[i].f.v < 0) {
-		            if (enemies[i].f.x <= pattern->x) {
-		                enemy->cur_cmd++;
-		            }
-		        }
-		        else {
-		            if (enemies[i].f.x >= pattern->x) {
-		                enemies[i].cur_cmd++;
-		            }
-		        }
+		        	pattern->x = enemies[i].home_x*SCALE_FACTOR;
+		        	palette->y = enemies[i].home_y*SCALE_FACTOR;
+		        	
+		        	if (translate_to(&enemies[i].f,&pattern))
+		        		enemies[i].cur_cmd++;
 		        break;
 		
 		        case ROTATE:
 		        enemies[i].f.v = pattern->v;
-		        enemies[i].dtheta += pattern->theta;
-		        enemies[i].theta += pattern->theta;
+		        enemies[i].f.angle += pattern->theta;
+		        enemies[i].f.acum_angle += pattern->theta;
+		        enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].angle));
+	        	enemies[i].f.y += (enemies[i].f.v * sine(enemies[i].angle));
 		
 		        if (pattern->max < 0) {
-		            if (enemies[i].dtheta <= pattern->max) {
-		                enemies[i].dtheta = 0;
+		            if (enemies[i].f.acum_angle <= pattern->max) {
+		                enemies[i].f.acum_angle = 0;
 		                enemies[i].cur_cmd++;
 		            }
 		        }
 		        else {
-		            if (enemies[i].dtheta >= pattern->max) {
-		                enemies[i].dtheta = 0;
+		            if (enemies[i].f.acum_angle >= pattern->max) {
+		                enemies[i].f.acum_angle = 0;
 		                enemies[i].cur_cmd++;
 		            }
 		        }
@@ -259,8 +315,7 @@
 		        break;
 		    }
 		    
-	        enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].theta));
-	        enemies[i].f.y += (enemies[i].f.v * sine(enemies[i].theta));
+	        
 
 			pattern_set = (TPatternSet*) &enemies[i]->patternQueue;
 	        if (enemies[i].cur_cmd >= pattern_set) {
