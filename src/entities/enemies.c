@@ -84,6 +84,8 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].f.y=y*SCALE_FACTOR;
 			enemies[k].f.angle = 270;
 			enemies[k].f.acum_angle = 0;
+			enemies[k].patternQueue = (TPatternSet*) &pattern01;
+			enemies[k].cur_cmd = 0;
 			break;
 			case 2:
 			enemies[k].x=x;
@@ -107,6 +109,8 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].f.y=y*SCALE_FACTOR;
 			enemies[k].f.angle = 270;
 			enemies[k].f.acum_angle = 0;
+			enemies[k].patternQueue = (TPatternSet*) &pattern01;
+			enemies[k].cur_cmd = 0;
 			break;
 			default:
 			enemies[k].x=x;
@@ -130,6 +134,8 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].f.y=y*SCALE_FACTOR;
 			enemies[k].f.angle = 270;
 			enemies[k].f.acum_angle = 0;
+			enemies[k].patternQueue = (TPatternSet*) &pattern01;
+			enemies[k].cur_cmd = 0;
 			break;
 		}
 		active_enemies++;
@@ -152,6 +158,36 @@ void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies ){
 		groups[k].num_enemies=num_enemies;
 		groups[k].sleep=ENEMY_GAP;
 		active_groups++;
+	}
+}
+
+//******************************************************************************
+// Función: 
+// 
+//******************************************************************************
+
+void update_enemy_groups(){
+	u8 i;
+
+	if (active_groups>0){
+		i=0;
+		for (i=0;i<MAX_ENEMY_GROUPS;i++){
+			if (groups[i].active){
+				if (groups[i].sleep==0){
+					groups[i].sleep=ENEMY_GAP;
+					if (groups[i].num_enemies==0){
+						groups[i].active=0;
+						active_groups--;
+					}else{
+						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
+						groups[i].num_enemies--;
+					}
+				}else{
+					groups[i].sleep--;
+				}
+
+			}
+		}
 	}
 }
 
@@ -287,6 +323,8 @@ void update_enemies2(){
 		}
 		
 	}
+
+	update_enemy_groups();
 }
 
 		//******************************************************************************
@@ -323,27 +361,10 @@ void update_enemies(){
 		}
 	}
 
-	if (active_groups>0){
-		i=0;
-		for (i=0;i<MAX_ENEMY_GROUPS;i++){
-			if (groups[i].active){
-				if (groups[i].sleep==0){
-					groups[i].sleep=ENEMY_GAP;
-					if (groups[i].num_enemies==0){
-						groups[i].active=0;
-						active_groups--;
-					}else{
-						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
-						groups[i].num_enemies--;
-					}
-				}else{
-					groups[i].sleep--;
-				}
-
-			}
-		}
-	}
+	update_enemy_groups();
 }
+
+
 
 u8 inside_screen(i16 x, i16 y, u8 w, u8 h){
 
