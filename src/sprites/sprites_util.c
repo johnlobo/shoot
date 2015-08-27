@@ -22,6 +22,7 @@ void shiftSpritePixelsRight(u8* sprite, u8 size) {
    } while(--size);
 }
 
+/*
 //////////////////////////////////////////////////////////////////////////////////////////
 // Shift all pixels of a sprite to the left
 //
@@ -59,3 +60,4 @@ void shiftSprite(TEntity *e) {
       e->shift = ON_EVEN_PIXEL;
    }
 }
+*/
