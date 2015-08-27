@@ -68,13 +68,13 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].w=4;
 			enemies[k].h=8;
 			enemies[k].num_frames=0;
-			enemies[k].sprite[0]= (u8*) G_baddie04_00;
-			enemies[k].sprite[1]= (u8*) G_baddie04_01;
-			enemies[k].sprite[2]= (u8*) G_baddie04_02;
+			enemies[k].sprite[0]= (u8*) G_baddie04_06;
+			enemies[k].sprite[1]= (u8*) G_baddie04_05;
+			enemies[k].sprite[2]= (u8*) G_baddie04_04;
 			enemies[k].sprite[3]= (u8*) G_baddie04_03;
-			enemies[k].sprite[4]= (u8*) G_baddie04_04;
-			enemies[k].sprite[5]= (u8*) G_baddie04_05;
-			enemies[k].sprite[6]= (u8*) G_baddie04_06;
+			enemies[k].sprite[4]= (u8*) G_baddie04_02;
+			enemies[k].sprite[5]= (u8*) G_baddie04_01;
+			enemies[k].sprite[6]= (u8*) G_baddie04_00;
 			enemies[k].sprite[7]= (u8*) G_baddie04_07;
 			enemies[k].movement=0;
 			enemies[k].stage=0;
@@ -91,13 +91,13 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].w=4;
 			enemies[k].h=8;
 			enemies[k].num_frames=0;
-			enemies[k].sprite[0]= (u8*) G_baddie03_00;
-			enemies[k].sprite[1]= (u8*) G_baddie03_01;
-			enemies[k].sprite[2]= (u8*) G_baddie03_02;
+			enemies[k].sprite[0]= (u8*) G_baddie03_06;
+			enemies[k].sprite[1]= (u8*) G_baddie03_05;
+			enemies[k].sprite[2]= (u8*) G_baddie03_04;
 			enemies[k].sprite[3]= (u8*) G_baddie03_03;
-			enemies[k].sprite[4]= (u8*) G_baddie03_04;
-			enemies[k].sprite[5]= (u8*) G_baddie03_05;
-			enemies[k].sprite[6]= (u8*) G_baddie03_06;
+			enemies[k].sprite[4]= (u8*) G_baddie03_02;
+			enemies[k].sprite[5]= (u8*) G_baddie03_01;
+			enemies[k].sprite[6]= (u8*) G_baddie03_00;
 			enemies[k].sprite[7]= (u8*) G_baddie03_07;
 			enemies[k].movement=0;
 			enemies[k].stage=0;
@@ -114,13 +114,13 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].w=4;
 			enemies[k].h=8;
 			enemies[k].num_frames=0;
-			enemies[k].sprite[0]= (u8*) G_baddie03_00;
-			enemies[k].sprite[1]= (u8*) G_baddie03_01;
-			enemies[k].sprite[2]= (u8*) G_baddie03_02;
+			enemies[k].sprite[0]= (u8*) G_baddie03_06;
+			enemies[k].sprite[1]= (u8*) G_baddie03_05;
+			enemies[k].sprite[2]= (u8*) G_baddie03_04;
 			enemies[k].sprite[3]= (u8*) G_baddie03_03;
-			enemies[k].sprite[4]= (u8*) G_baddie03_04;
-			enemies[k].sprite[5]= (u8*) G_baddie03_05;
-			enemies[k].sprite[6]= (u8*) G_baddie03_06;
+			enemies[k].sprite[4]= (u8*) G_baddie03_02;
+			enemies[k].sprite[5]= (u8*) G_baddie03_01;
+			enemies[k].sprite[6]= (u8*) G_baddie03_00;
 			enemies[k].sprite[7]= (u8*) G_baddie03_07;
 			enemies[k].movement=1;
 			enemies[k].stage=0;
@@ -229,96 +229,60 @@ void update_enemies2(){
 
 				case TRANSLATE_TO:
 
-				if ((absolute(enemies[i].f.x-pattern->x)<(pattern->v*cosine(enemies[i].f.angle))) && 
-					(absolute(enemies[i].f.y-pattern->y)<(pattern->v*sine(enemies[i].f.angle)))){
-					enemies[i].f.x=pattern->x;
-				enemies[i].f.y=pattern->y;
-				enemies[i].cur_cmd++;
-			}
-			else if ((enemies[i].f.x<pattern->x) && (enemies[i].f.y == pattern->y)){
-				enemies[i].f.x+=pattern->v;
-				enemies[i].f.angle = 0;
-			}
-			else if ((enemies[i].f.x<pattern->x) && (enemies[i].f.y > pattern->y)){
-				enemies[i].f.x+=pattern->v;
-				enemies[i].f.y-=pattern->v;
-				enemies[i].f.angle = 45;
-			}
-			else if ((enemies[i].f.x==pattern->x) && (enemies[i].f.y > pattern->y)){
-				enemies[i].f.y-=pattern->v;
-				enemies[i].f.angle = 90;
-			}
-			else if ((enemies[i].f.x>pattern->x) && (enemies[i].f.y > pattern->y)){
-				enemies[i].f.x-=pattern->v;
-				enemies[i].f.y-=pattern->v;
-				enemies[i].f.angle=135;
-			}
-			else if ((enemies[i].f.x>pattern->x) && (enemies[i].f.y == pattern->y)){
-				enemies[i].f.x-=pattern->v;
-				enemies[i].f.angle=180;
-			}
-			else if ((enemies[i].f.x>pattern->x) && (enemies[i].f.y < pattern->y)){
-				enemies[i].f.x-=pattern->v;
-				enemies[i].f.y+=pattern->v;
-				enemies[i].f.angle=225;
-			}
-			else if ((enemies[i].f.x == pattern->x) && (enemies[i].f.y < pattern->y)){
-				enemies[i].f.y+=pattern->v;
-				enemies[i].f.angle=270;
-			}
-			else if ((enemies[i].f.x<pattern->x) && (enemies[i].f.y < pattern->y)){
-				enemies[i].f.x+=pattern->v;
-				enemies[i].f.y+=pattern->v;
-				enemies[i].f.angle=315;
-			}
-			break;
-
-			case TRANSLATE:
-			enemies[i].f.v=pattern->v;
-			enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
-			enemies[i].f.y += (enemies[i].f.v * sine(enemies[i].f.angle));
-
-			if (enemies[i].step==pattern->frames){
-				enemies[i].step=0;
-				enemies[i].cur_cmd++;
-			} else enemies[i].step++;
-
-			break;
-
-			case TRANSLATE_HOME:
-			pattern->x = enemies[i].home_x*SCALE_FACTOR;
-			pattern->y = enemies[i].home_y*SCALE_FACTOR;
-
-			if (translate_to((TPhysics*) &enemies[i].f,(TPattern*) &pattern))
-				enemies[i].cur_cmd++;
-			break;
-
-			case ROTATE:
-			enemies[i].f.v = pattern->v;
-			enemies[i].f.angle += pattern->theta;
-			enemies[i].f.acum_angle += pattern->theta;
-			enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
-			enemies[i].f.y += (enemies[i].f.v * sine(enemies[i].f.angle));
-
-			if (pattern->max < 0) {
-				if (enemies[i].f.acum_angle <= pattern->max) {
-					enemies[i].f.acum_angle = 0;
+				if (translate_to((TPhysics*) &enemies[i].f,(TPattern*) &pattern))
 					enemies[i].cur_cmd++;
-				}
-			}
-			else {
-				if (enemies[i].f.acum_angle >= pattern->max) {
-					enemies[i].f.acum_angle = 0;
+
+				break;
+
+				case TRANSLATE:
+				enemies[i].f.v=pattern->v;
+				enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
+				enemies[i].f.y += (enemies[i].f.v * sine(enemies[i].f.angle));
+
+				if (enemies[i].step==pattern->frames){
+					enemies[i].step=0;
 					enemies[i].cur_cmd++;
+				} else enemies[i].step++;
+
+				break;
+
+				case TRANSLATE_HOME:
+				pattern->x = enemies[i].home_x*SCALE_FACTOR;
+				pattern->y = enemies[i].home_y*SCALE_FACTOR;
+
+				if (translate_to((TPhysics*) &enemies[i].f,(TPattern*) &pattern))
+					enemies[i].cur_cmd++;
+				break;
+
+				case ROTATE:
+				enemies[i].f.v = pattern->v;
+				enemies[i].f.angle += pattern->theta;
+				enemies[i].f.acum_angle += pattern->theta;
+				enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
+				enemies[i].f.y += (enemies[i].f.v * sine(enemies[i].f.angle));
+
+				if (pattern->max < 0) {
+					if (enemies[i].f.acum_angle <= pattern->max) {
+						enemies[i].f.acum_angle = 0;
+						enemies[i].cur_cmd++;
+					}
 				}
+				else {
+					if (enemies[i].f.acum_angle >= pattern->max) {
+						enemies[i].f.acum_angle = 0;
+						enemies[i].cur_cmd++;
+					}
+				}
+
+				break;
 			}
 
-			break;
-		}
+			enemies[i].x = enemies[i].f.x>>8;
+			enemies[i].y = enemies[i].f.y>>8;
+			enemies[i].dir = (enemies[i].f.angle/45);
 
-
-		if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
-			enemies[i].cur_cmd=0;
+			if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
+				enemies[i].cur_cmd=0;
 			}
 		}
 		
@@ -390,10 +354,10 @@ u8 get_active_enemies(){
 	return active_enemies;
 }
 
-		//******************************************************************************
-		// Función: 
-		//
-		//******************************************************************************
+//******************************************************************************
+// Función: 
+//
+//******************************************************************************
 void draw_enemies(u8* screen){
 	u8* pscreen;
 	u8 k;

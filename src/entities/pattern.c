@@ -1,22 +1,22 @@
 #include "entities.h"
 
 const TPatternSet pattern01 = {
-		.num_CMDs=6,   // 0 movement
+		.num_CMDs=1,   // 0 movement
 		{
 
             {
                 .CMD = TRANSLATE_TO,
-                .v = 10,
-                .x = 20,
-                .y = 100,
+                .v = 1*SCALE_FACTOR,
+                .x = 20*SCALE_FACTOR,
+                .y = 100*SCALE_FACTOR,
                 .theta = 0.0,
                 .max = 0.0, 
                 .frames = 0
-            },
+            }  /*,
 
             {
                 .CMD = ROTATE,
-                .v = 10,
+                .v = 1*SCALE_FACTOR,
                 .x = 0,
                 .y = 0,
                 .theta = - PI / 20,
@@ -92,7 +92,7 @@ const TPatternSet pattern01 = {
                 .theta = 0.0,
                 .max = 0.0,
                 .frames = 0
-            }
+            }*/
 
         }
     };

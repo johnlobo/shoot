@@ -22,7 +22,7 @@ void shiftSpritePixelsRight(u8* sprite, u8 size) {
    } while(--size);
 }
 
-/*
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // Shift all pixels of a sprite to the left
 //
@@ -44,6 +44,7 @@ void shiftSpritePixelsLeft(u8* sprite, u8 size) {
    *sprite = (*sprite & 0b01010101) << 1;
 }
 
+/*
 //////////////////////////////////////////////////////////////////////////////////////////
 // Shift an sprite to draw it at an even or odd location
 //

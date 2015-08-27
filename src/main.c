@@ -289,7 +289,7 @@ u8 game(){
       update_user();
     }
     update_shoots();
-    update_enemies();
+    update_enemies2();
     
     // Synchronize next frame drawing with VSYNC
     //   cpct_waitVSYNC(); 
