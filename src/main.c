@@ -257,6 +257,9 @@ u8 game_over(){
 }
 
 u8 game(){
+  u16 i = 0;
+  u8* pscreen;
+
   last_update = 0;
   delta_time = 0;
 
@@ -289,16 +292,15 @@ u8 game(){
       update_user();
     }
     update_shoots();
-    update_enemies2();
-    
-    // Synchronize next frame drawing with VSYNC
-    //   cpct_waitVSYNC(); 
-    
 
+    //  Synchronize next frame drawing with VSYNC
+       cpct_waitVSYNC(); 
+  
     clear_screen(pvmem);
 
+    update_enemies2(pvmem);
     
-    
+   
     //Draw Starfield
     if (STARFIELD_ACTIVE){
       draw_stars(pvmem);
@@ -316,6 +318,11 @@ u8 game(){
 
     draw_messages(pvmem);
     draw_scoreboard(pvmem);
+
+    pscreen = cpct_getScreenPtr(pvmem, 20, 80);
+    cpct_drawSprite((u8*) G_heart,pscreen ,3,5);
+    pscreen = cpct_getScreenPtr(pvmem, 40, 100);
+    cpct_drawSprite((u8*) G_heart,pscreen ,3,5);
     
     
     //if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos) && (!explosion_prota_activada)){
@@ -340,6 +347,15 @@ u8 game(){
     //  break;
     //}
 
+    if (DEBUG){
+      debug_enemies(pvmem);
+      i=0;
+      while(1){
+        i++;
+        if (i==40000) break;
+      }
+    }
+    
 
      pvmem = changeVideoMemoryPage();
     

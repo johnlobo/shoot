@@ -1,4 +1,4 @@
-#include <types.h>
+#include <cpctelera.h>
 
 static unsigned int timer0;
 static unsigned int timer1;

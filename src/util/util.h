@@ -5,9 +5,9 @@
 
 #define CHECK_BIT(var,pos) (((var)>>(pos)) & 1)
 
-void	cpc_PrintGphStr(char *text, int destino);
-void	cpc_PrintGphStr2X(char *text, int destino);
-void	cpc_SetInkGphStr(char a, char b);
+void	cpc_PrintGphStr(u8 *text, int destino);
+void	cpc_PrintGphStr2X(u8 *text, int destino);
+void	cpc_SetInkGphStr(u8 a, u8 b);
 void 	set_stack(int destino);
 
 void timer_on(void);

@@ -34,10 +34,10 @@ typedef struct
 {
    u8 CMD;
    u8 v;
-   i8 x;
-   i8 y;
-   i16 theta;
-   i16 max;
+   u32 x;
+   u32 y; 
+   u8 theta;
+   u8 max;
    u8 frames;
 }TPattern;
 
@@ -96,11 +96,10 @@ typedef enum {
 } TShiftStatus;
 
 typedef struct {
-   u16   x,  y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
+   u32 x,  y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
    u8  v;         // Velocity scalar controlling entity movement (In pixels)
-   u16 sine, cosine;
-   i16 angle;
-   i16 acum_angle;
+   u8 angle;
+   u8 acum_angle;
    
 } TPhysics;
 
@@ -167,7 +166,6 @@ typedef  struct {    // minimun sprite structure
    u8 home_x;
    u8 home_y;
    u8 step;
-   TPattern *cur_pattern;
    u8 cur_cmd;
    TPatternSet *patternQueue;
    u8 patternQueuePos;
@@ -222,6 +220,8 @@ void update_enemies();
 void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 u8 get_active_enemies();
+void update_enemies2(u8* screen);
+void debug_enemies(u8* screen);
 
 //USER
 long get_last_moved_user();

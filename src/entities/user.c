@@ -108,8 +108,8 @@ void update_user() {
     x=rand()%80;
     y=rand()%199;
     create_enemy(x,y,(rand()%3));
-    create_enemy(x+8,y,(rand()%3));
-    create_enemy(x+16,y,(rand()%3));
+    create_enemy(x+10,y,(rand()%3));
+    create_enemy(x+20,y,(rand()%3));
   }  
     // KEY = K
   if (cpct_isKeyPressed(Key_K)){

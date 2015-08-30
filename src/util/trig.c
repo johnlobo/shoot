@@ -15,20 +15,20 @@ const i16 sine_table[91]={
      };
 
 i16 sine(i16 angle){
-     if (angle<90){
+     if (angle<64){
           return sine_table[angle];
-     } else if (angle<180){
-          return sine_table[180-angle];
-     } else if (angle<270){
-          return -sine_table[angle-180];
+     } else if (angle<128){
+          return sine_table[128-angle];
+     } else if (angle<192){
+          return -sine_table[angle-128];
      } else {
-          return -sine_table[360-angle];
+          return -sine_table[255-angle];
      }
 }
 
 i16 cosine(i16 angle){
-     if (angle<=90)
-          return (sine(90-angle));
+     if (angle<=64)
+          return (sine(64-angle));
      else
-          return(-sine(angle-90));
+          return(-sine(angle-64));
 }

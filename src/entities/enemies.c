@@ -9,6 +9,8 @@ TEnemy enemies[MAX_ENEMIES];
 u8 active_enemies;
 TEnemy_group groups [MAX_ENEMY_GROUPS];
 u8 active_groups;
+TPatternSet* pattern_set;
+TPattern* pattern;
 
 
 	//******************************************************************************
@@ -82,7 +84,8 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].step=0;
 			enemies[k].f.x=x*SCALE_FACTOR;
 			enemies[k].f.y=y*SCALE_FACTOR;
-			enemies[k].f.angle = 270;
+			enemies[k].f.v=0;
+			enemies[k].f.angle = 220;
 			enemies[k].f.acum_angle = 0;
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			enemies[k].cur_cmd = 0;
@@ -107,7 +110,8 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].step=0;
 			enemies[k].f.x=x*SCALE_FACTOR;
 			enemies[k].f.y=y*SCALE_FACTOR;
-			enemies[k].f.angle = 270;
+			enemies[k].f.v=0;
+			enemies[k].f.angle = 224;
 			enemies[k].f.acum_angle = 0;
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			enemies[k].cur_cmd = 0;
@@ -132,7 +136,8 @@ void create_enemy(i16 x, i16 y, u8 type){
 			enemies[k].step=0;
 			enemies[k].f.x=x*SCALE_FACTOR;
 			enemies[k].f.y=y*SCALE_FACTOR;
-			enemies[k].f.angle = 270;
+			enemies[k].f.v=0;
+			enemies[k].f.angle = 224;
 			enemies[k].f.acum_angle = 0;
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			enemies[k].cur_cmd = 0;
@@ -191,54 +196,86 @@ void update_enemy_groups(){
 	}
 }
 
+void debug_enemies(u8* screen){
+	u8 i=0;
+	u8 aux_txt[80];
+	u8 line=0;
+	
+	sprintf(aux_txt,"%03d",active_enemies);
+    colour_message(0, 2);
+    cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 0, 16));
+	for (i=0;i<MAX_ENEMIES;i++){
+		if (enemies[i].active){
+			sprintf(aux_txt,"%08d:%08d:%08d:%02d",enemies[i].f.x,enemies[i].f.y,enemies[i].f.v,enemies[i].cur_cmd);
+	    	cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 0, 8*line+24));
+	    	line++;	
+		}
+		
+	}
+}
+
 	//******************************************************************************
 	// Función: translate_to()
 	// Updates the physics module of an enemy to move towards the x,y in the pattern
 	//******************************************************************************
-u8 translate_to(TPhysics *f, TPattern *pattern ){
+u8 translate_to(TPhysics *f, TPattern *pattern , u8* screen){
 	u8 advance_step = 0;
+	i16 x_comp, y_comp = 0;
+	u16 x_abs, y_abs = 0;
+	u8 aux_txt[40];
 
-	if ((absolute(f->x-pattern->x)<(pattern->v*cosine(f->angle))) && 
-		(absolute(f->y-pattern->y)<(pattern->v*sine(f->angle)))){
-		f->x=pattern->x;
+	x_abs = absolute(f->x-pattern->x);
+	y_abs = absolute(f->y-pattern->y);
+
+	x_comp = pattern->v*cosine(f->angle);
+	y_comp = pattern->v*sine(f->angle);
+
+	advance_step = 0;
+	f->v = pattern->v;
+
+	sprintf(aux_txt,"%06d:%06d:%03d:%02d",x_abs,x_comp,cosine(f->angle),f->angle);
+	cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 0, 180));
+
+if ((x_abs<x_comp) && (y_abs<y_comp)){
+	f->x=pattern->x;
 	f->y=pattern->y;
 	advance_step=1;
-}
+	}
 else if ((f->x<pattern->x) && (f->y == pattern->y)){
-	f->x+=pattern->v;
+	f->x+=x_comp;
 	f->angle = 0;
 }
 else if ((f->x<pattern->x) && (f->y > pattern->y)){
-	f->x+=pattern->v;
-	f->y-=pattern->v;
-	f->angle = 45;
+	f->x+=x_comp;
+	f->y-=y_comp;
+	f->angle = 32;  //equivalent to 45
 }
 else if ((f->x==pattern->x) && (f->y > pattern->y)){
-	f->y-=pattern->v;
-	f->angle = 90;
+	f->y-=y_comp;
+	f->angle = 64; //equivalent to 90
 }
 else if ((f->x>pattern->x) && (f->y > pattern->y)){
-	f->x-=pattern->v;
-	f->y-=pattern->v;
-	f->angle=135;
+	f->x-=x_comp;
+	f->y-=y_comp;
+	f->angle=96; //equivalent to 135
 }
 else if ((f->x>pattern->x) && (f->y == pattern->y)){
-	f->x-=pattern->v;
-	f->angle=180;
+	f->x-=x_comp;
+	f->angle=128; //equivalent to 180
 }
 else if ((f->x>pattern->x) && (f->y < pattern->y)){
-	f->x-=pattern->v;
-	f->y+=pattern->v;
-	f->angle=225;
+	f->x-=x_comp;
+	f->y+=y_comp;
+	f->angle=160; //equivalent to 225
 }
 else if ((f->x == pattern->x) && (f->y < pattern->y)){
-	f->y+=pattern->v;
-	f->angle=270;
+	f->y+=y_comp;
+	f->angle=192; //equivalent to 270
 }
 else if ((f->x<pattern->x) && (f->y < pattern->y)){
-	f->x+=pattern->v;
-	f->y+=pattern->v;
-	f->angle=315;
+	f->x+=x_comp;
+	f->y+=y_comp;
+	f->angle=224; //equivalent to 315
 }
 return advance_step;
 }
@@ -247,10 +284,10 @@ return advance_step;
 	// Función: update_enemies2()
 	// Update based on patterns
 	//******************************************************************************
-void update_enemies2(){
+void update_enemies2(u8* screen){
 	u8 i=0;
-	TPatternSet* pattern_set;
-	TPattern* pattern;
+	//TPatternSet* pattern_set;
+	//TPattern* pattern;
 	
 	if (active_enemies>0){
 		for (i=0;i<MAX_ENEMIES;i++){
@@ -258,16 +295,15 @@ void update_enemies2(){
 			if (!enemies[i].active) 
 				return;
 
-			pattern_set = (TPatternSet*) &enemies[i].patternQueue;
-			pattern = (TPattern*) &pattern_set->patterns[enemies[i].cur_cmd];
+			pattern_set = (TPatternSet*) &(*enemies[i].patternQueue);
+			pattern = (TPattern*) &(*pattern_set->patterns[enemies[i].cur_cmd]);
 
 			switch (pattern->CMD) {
 
 				case TRANSLATE_TO:
 
-				if (translate_to((TPhysics*) &enemies[i].f,(TPattern*) &pattern))
+				if (translate_to((TPhysics*) &(enemies[i].f),(TPattern*) (*pattern), screen))
 					enemies[i].cur_cmd++;
-
 				break;
 
 				case TRANSLATE:
@@ -286,8 +322,8 @@ void update_enemies2(){
 				pattern->x = enemies[i].home_x*SCALE_FACTOR;
 				pattern->y = enemies[i].home_y*SCALE_FACTOR;
 
-				if (translate_to((TPhysics*) &enemies[i].f,(TPattern*) &pattern))
-					enemies[i].cur_cmd++;
+				//if (translate_to((TPhysics*) &(enemies[i].f),(TPattern*) (*pattern), screen))
+				//	enemies[i].cur_cmd++;
 				break;
 
 				case ROTATE:
@@ -315,7 +351,7 @@ void update_enemies2(){
 
 			enemies[i].x = enemies[i].f.x>>8;
 			enemies[i].y = enemies[i].f.y>>8;
-			enemies[i].dir = (enemies[i].f.angle/45);
+			enemies[i].dir = (enemies[i].f.angle/32);
 
 			if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
 				enemies[i].cur_cmd=0;
