@@ -34,10 +34,10 @@ typedef struct
 {
    u8 CMD;
    u8 v;
-   u32 x;
-   u32 y; 
-   u8 theta;
-   u8 max;
+   i32 x;
+   i32 y; 
+   i16 theta;
+   i16 max;
    u8 frames;
 }TPattern;
 
@@ -46,26 +46,6 @@ typedef struct
    u8 num_CMDs;
    TPattern patterns[10];
 } TPatternSet;
-
-typedef struct 
-{
-   f32 x;
-   f32 y;
-   u8 v;
-   f32 theta;
-   f32 cosine;
-   f32 sine;
-   f32 dt;
-   f32 dtheta;
-   void *leader;
-   f32 formation_offset;
-   TPattern *cur_pattern;
-   u8 cur_cmd;
-   TPatternSet *patternQueue;
-   u8 patternQueuePos;
-   u8 alive;
-} TEnemy2;
-
 
 typedef struct 
 {
@@ -96,10 +76,10 @@ typedef enum {
 } TShiftStatus;
 
 typedef struct {
-   u32 x,  y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
+   i32 x,  y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
    u8  v;         // Velocity scalar controlling entity movement (In pixels)
-   u8 angle;
-   u8 acum_angle;
+   i16 angle;
+   i16 acum_angle;
    
 } TPhysics;
 
@@ -146,19 +126,15 @@ typedef  struct {    // minimun sprite structure
 
 //ENEMY
 typedef  struct {    // minimun sprite structure
-   TEntity e;
+   u8 active;
    TPhysics f;
-   char *sprite[8];     //2 bytes   01
    i16 x,y;
    u8 w;
    u8 h;
    u8 dir;
-   u8 active;
    u8 num_frames;
    u8 frame;
    u8 speed;
-   u8 trajectory;
-   u8 trajectory_step;
    u8 movement;
    u8 stage;
    u8 stage_step;
@@ -169,6 +145,8 @@ typedef  struct {    // minimun sprite structure
    u8 cur_cmd;
    TPatternSet *patternQueue;
    u8 patternQueuePos;
+   TEntity e;
+   char *sprite[8];     //2 bytes   01
 // u8 objetivox;
 } TEnemy;
 
@@ -214,7 +192,7 @@ void draw_shoots(u8* screen);
 
 //ENEMIES
 void init_enemies();
-void create_enemy(i16 x, i16 y, u8 type);
+void create_enemy(i32 x, i32 y, u8 type);
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void update_enemies();
 void draw_enemies(u8* screen);

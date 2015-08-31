@@ -348,7 +348,7 @@ u8 game(){
     //}
 
     if (DEBUG){
-      debug_enemies(pvmem);
+      //debug_enemies(pvmem);
       i=0;
       while(1){
         i++;

@@ -101,7 +101,8 @@ void update_user() {
   }
     // KEY = H
   if (cpct_isKeyPressed(Key_H)){
-    create_enemy((rand()%80),(rand()%199),(rand()%3));
+    //create_enemy((rand()%80),(rand()%199),(rand()%3));
+    create_enemy(10,100,(rand()%3));
   }
     // KEY = J
   if (cpct_isKeyPressed(Key_J)){

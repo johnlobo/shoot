@@ -53,7 +53,7 @@ void init_enemies(){
 	// Función: create_enemy
 	//	basado en trayectorias
 	//******************************************************************************
-void create_enemy(i16 x, i16 y, u8 type){
+void create_enemy(i32 x, i32 y, u8 type){
 	u8 k;
 	if (active_enemies < MAX_ENEMIES){
 		k=0;
@@ -220,21 +220,24 @@ void debug_enemies(u8* screen){
 	//******************************************************************************
 u8 translate_to(TPhysics *f, TPattern *pattern , u8* screen){
 	u8 advance_step = 0;
-	i16 x_comp, y_comp = 0;
-	u16 x_abs, y_abs = 0;
-	u8 aux_txt[40];
+	i32 x_comp, y_comp = 0;
+	u32 x_abs, y_abs = 0;
+	u8 aux_txt[80];
 
-	x_abs = absolute(f->x-pattern->x);
-	y_abs = absolute(f->y-pattern->y);
+	x_abs = absolute(f->x - pattern->x);
+	y_abs = absolute(f->y - pattern->y);
 
 	x_comp = pattern->v*cosine(f->angle);
-	y_comp = pattern->v*sine(f->angle);
+	y_comp = - pattern->v*sine(f->angle);
 
 	advance_step = 0;
-	f->v = pattern->v;
+	
 
-	sprintf(aux_txt,"%06d:%06d:%03d:%02d",x_abs,x_comp,cosine(f->angle),f->angle);
-	cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 0, 180));
+	colour_message(0, 2);
+	sprintf(aux_txt,"%d:%d:%d:%i:%i:%i;;;;;;;;",f->x,f->y,x_abs,x_comp,cosine(f->angle),f->angle);
+	cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 0, 24));
+	sprintf(aux_txt,"%d:%d:%d:%i:%i:%i;;;;;;;;",f->x,f->y,y_abs,y_comp,cosine(f->angle),f->angle);
+	cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 0, 32));
 
 if ((x_abs<x_comp) && (y_abs<y_comp)){
 	f->x=pattern->x;
@@ -248,35 +251,38 @@ else if ((f->x<pattern->x) && (f->y == pattern->y)){
 else if ((f->x<pattern->x) && (f->y > pattern->y)){
 	f->x+=x_comp;
 	f->y-=y_comp;
-	f->angle = 32;  //equivalent to 45
+	f->angle = 45;  //equivalent to 45
 }
 else if ((f->x==pattern->x) && (f->y > pattern->y)){
 	f->y-=y_comp;
-	f->angle = 64; //equivalent to 90
+	f->angle = 90; //equivalent to 90
 }
 else if ((f->x>pattern->x) && (f->y > pattern->y)){
 	f->x-=x_comp;
 	f->y-=y_comp;
-	f->angle=96; //equivalent to 135
+	f->angle=135; //equivalent to 135
 }
 else if ((f->x>pattern->x) && (f->y == pattern->y)){
 	f->x-=x_comp;
-	f->angle=128; //equivalent to 180
+	f->angle=180; //equivalent to 180
 }
 else if ((f->x>pattern->x) && (f->y < pattern->y)){
 	f->x-=x_comp;
 	f->y+=y_comp;
-	f->angle=160; //equivalent to 225
+	f->angle=225; //equivalent to 225
 }
 else if ((f->x == pattern->x) && (f->y < pattern->y)){
 	f->y+=y_comp;
-	f->angle=192; //equivalent to 270
+	f->angle=270; //equivalent to 270
 }
 else if ((f->x<pattern->x) && (f->y < pattern->y)){
 	f->x+=x_comp;
 	f->y+=y_comp;
-	f->angle=224; //equivalent to 315
+	f->angle=315; //equivalent to 315
 }
+
+f->v = pattern->v;
+
 return advance_step;
 }
 
@@ -351,7 +357,7 @@ void update_enemies2(u8* screen){
 
 			enemies[i].x = enemies[i].f.x>>8;
 			enemies[i].y = enemies[i].f.y>>8;
-			enemies[i].dir = (enemies[i].f.angle/32);
+			enemies[i].dir = (enemies[i].f.angle/45);
 
 			if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
 				enemies[i].cur_cmd=0;
