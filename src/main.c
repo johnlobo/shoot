@@ -270,7 +270,7 @@ u8 game(){
 
   initialization(); 
 
-  create_message(25,96,30,";VAMOS;AL;ATAQUE;");
+  create_message(25,96,30,";UNDER ATTACK!!;SHOOT!!;");
   
   init_level();
   

@@ -17,7 +17,7 @@ const TPatternSet pattern01 = {
             {
                 .CMD = TRANSLATE_TO,
                 .v = 4,
-                .x = 40*SCALE_FACTOR,
+                .x = 70*SCALE_FACTOR,
                 .y = 80*SCALE_FACTOR, 
                 .theta = 0,
                 .max =  0,
