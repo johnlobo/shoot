@@ -85,7 +85,7 @@ void create_enemy(i32 x, i32 y, u8 type){
 			enemies[k].f.x=x*SCALE_FACTOR;
 			enemies[k].f.y=y*SCALE_FACTOR;
 			enemies[k].f.v=0;
-			enemies[k].f.angle = 220;
+			enemies[k].f.angle = 270;
 			enemies[k].f.acum_angle = 0;
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			enemies[k].cur_cmd = 0;
@@ -111,7 +111,7 @@ void create_enemy(i32 x, i32 y, u8 type){
 			enemies[k].f.x=x*SCALE_FACTOR;
 			enemies[k].f.y=y*SCALE_FACTOR;
 			enemies[k].f.v=0;
-			enemies[k].f.angle = 224;
+			enemies[k].f.angle = 270;
 			enemies[k].f.acum_angle = 0;
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			enemies[k].cur_cmd = 0;
@@ -137,7 +137,7 @@ void create_enemy(i32 x, i32 y, u8 type){
 			enemies[k].f.x=x*SCALE_FACTOR;
 			enemies[k].f.y=y*SCALE_FACTOR;
 			enemies[k].f.v=0;
-			enemies[k].f.angle = 224;
+			enemies[k].f.angle = 270;
 			enemies[k].f.acum_angle = 0;
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			enemies[k].cur_cmd = 0;
@@ -234,47 +234,49 @@ u8 translate_to(TPhysics *f, TPattern *pattern , u8* screen){
 	
 
 	colour_message(0, 2);
-	sprintf(aux_txt,"%d:%d:%d:%i:%i:%i;;;;;;;;",f->x,f->y,x_abs,x_comp,cosine(f->angle),f->angle);
+	sprintf(aux_txt,"%i:%i:%i:%i:%i:%i:%i;;;;;;;;",f->x,pattern->x,x_abs,x_comp,pattern->v,f->angle,cosine(f->angle));
 	cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 0, 24));
-	sprintf(aux_txt,"%d:%d:%d:%i:%i:%i;;;;;;;;",f->x,f->y,y_abs,y_comp,cosine(f->angle),f->angle);
+	sprintf(aux_txt,"%i:%i:%i:%i:%i:%i:%i;;;;;;;;",f->y,pattern->y,y_abs,y_comp,pattern->v,f->angle,cosine(f->angle));
 	cpc_PrintGphStr(aux_txt,(int) cpct_getScreenPtr(screen, 0, 32));
 
-if ((x_abs<x_comp) && (y_abs<y_comp)){
+if ((x_abs <= x_comp) && (y_abs <= y_comp)){
 	f->x=pattern->x;
 	f->y=pattern->y;
 	advance_step=1;
 	}
-else if ((f->x<pattern->x) && (f->y == pattern->y)){
+else if ((x_abs > x_comp) && (y_abs <= y_comp) && (f->x < pattern->x)){
 	f->x+=x_comp;
 	f->angle = 0;
+}
+else if ((x_abs > x_comp) && (y_abs <= y_comp) && (f->x > pattern->x)){
+	f->x-=x_comp;
+	f->angle=180; //equivalent to 180
+}
+else if ((x_abs <= x_comp) && (y_abs > y_comp) && (f->y > pattern->y)){
+	f->y-=y_comp;
+	f->angle = 90; //equivalent to 90
+}
+else if ((x_abs <= x_comp) && (y_abs > y_comp) && (f->y < pattern->y)){
+	f->y+=y_comp;
+	f->angle=270; //equivalent to 270
 }
 else if ((f->x<pattern->x) && (f->y > pattern->y)){
 	f->x+=x_comp;
 	f->y-=y_comp;
 	f->angle = 45;  //equivalent to 45
 }
-else if ((f->x==pattern->x) && (f->y > pattern->y)){
-	f->y-=y_comp;
-	f->angle = 90; //equivalent to 90
-}
 else if ((f->x>pattern->x) && (f->y > pattern->y)){
 	f->x-=x_comp;
 	f->y-=y_comp;
 	f->angle=135; //equivalent to 135
 }
-else if ((f->x>pattern->x) && (f->y == pattern->y)){
-	f->x-=x_comp;
-	f->angle=180; //equivalent to 180
-}
+
 else if ((f->x>pattern->x) && (f->y < pattern->y)){
 	f->x-=x_comp;
 	f->y+=y_comp;
 	f->angle=225; //equivalent to 225
 }
-else if ((f->x == pattern->x) && (f->y < pattern->y)){
-	f->y+=y_comp;
-	f->angle=270; //equivalent to 270
-}
+
 else if ((f->x<pattern->x) && (f->y < pattern->y)){
 	f->x+=x_comp;
 	f->y+=y_comp;
