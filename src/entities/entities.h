@@ -4,7 +4,7 @@
 #include <types.h>
 
 //SYSTEM
-#define MODE 0 
+#define MODE 0
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 200
 #define SCALE_FACTOR 256
@@ -14,7 +14,7 @@
 #define TRANSLATE_TO 2
 #define TRANSLATE_HOME 3
 //MATH
-#define PI 3.1415926
+//#define PI 3.1415926
 #define PIXEL_SCALE 256
 //SHOOTS
 #define SHOOT_JUMP 10
@@ -34,12 +34,12 @@ typedef struct
 {
    u8 CMD;
    u8 v;
-   i32 x;
-   i32 y; 
+   u8 x;
+   u8 y;
    i16 theta;
    i16 max;
    u8 frames;
-}TPattern;
+} TPattern;
 
 typedef struct
 {
@@ -47,27 +47,27 @@ typedef struct
    TPattern patterns[10];
 } TPatternSet;
 
-typedef struct 
+typedef struct
 {
    u8 dir;
-   i8 vx,vy;
+   i8 vx, vy;
    u8 num_steps;
 } TStage;
 
-typedef struct 
+typedef struct
 {
    u8 num_stages;
    TStage stages[8];
 } TMovement;
 
-typedef struct 
+typedef struct
 {
    u8 active;
-   i16 x,y;
+   i16 x, y;
    u8 enemy_type;
    u8 num_enemies;
    u8 sleep;
-}TEnemy_group;
+} TEnemy_group;
 
 // Struct to note the shifting status of a sprite
 typedef enum {
@@ -76,11 +76,13 @@ typedef enum {
 } TShiftStatus;
 
 typedef struct {
-   i32 x,  y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
+   i32 x;  
+   i32 y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
    u8  v;         // Velocity scalar controlling entity movement (In pixels)
+   u8 dir;
    i16 angle;
    i16 acum_angle;
-   
+
 } TPhysics;
 
 typedef struct {
@@ -93,11 +95,11 @@ typedef struct {
 
 typedef struct  {
    u8 *sprite;
-   i8 x; 
+   i8 x;
    u8 y;  // X, Y coordinates of entity in the screen (in bytes)
-   i8 vx,vy;
+   i8 vx, vy;
    i8 topvx, topvy;
-   i8 ax,ay;
+   i8 ax, ay;
    u8 w, h;
    u8 max_shoots;
    u8 shield;
@@ -113,7 +115,7 @@ typedef struct  {
 typedef  struct {    // minimun sprite structure
    char *sprite[2];     //2 bytes   01
    u8 x;
-   u8 y; 
+   u8 y;
    u8 w;
    u8 h;
    u8 active;
@@ -128,7 +130,7 @@ typedef  struct {    // minimun sprite structure
 typedef  struct {    // minimun sprite structure
    u8 active;
    TPhysics f;
-   i16 x,y;
+   u8 x, y;
    u8 w;
    u8 h;
    u8 dir;
