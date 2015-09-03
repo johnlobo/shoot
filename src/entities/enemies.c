@@ -286,7 +286,6 @@ void update_enemies2(u8* screen) {
 			switch (pattern->CMD) {
 
 			case TRANSLATE_TO:
-
 				if (translate_to((TPhysics*) &(enemies[i].f), (TPattern*) (*pattern), screen))
 					enemies[i].cur_cmd++;
 				break;
@@ -306,8 +305,8 @@ void update_enemies2(u8* screen) {
 				break;
 
 			case TRANSLATE_HOME:
-				pattern->x = enemies[i].home_x * SCALE_FACTOR;
-				pattern->y = enemies[i].home_y * SCALE_FACTOR;
+				pattern->x = enemies[i].home_x;
+				pattern->y = enemies[i].home_y;
 
 				//if (translate_to((TPhysics*) &(enemies[i].f),(TPattern*) (*pattern), screen))
 				//	enemies[i].cur_cmd++;
