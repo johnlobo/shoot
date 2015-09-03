@@ -36,8 +36,8 @@ typedef struct
    u8 v;
    u8 x;
    u8 y;
-   i16 theta;
-   i16 max;
+   i16 angle;
+   i16 max_angle;
    u8 frames;
 } TPattern;
 
@@ -47,18 +47,7 @@ typedef struct
    TPattern patterns[10];
 } TPatternSet;
 
-typedef struct
-{
-   u8 dir;
-   i8 vx, vy;
-   u8 num_steps;
-} TStage;
 
-typedef struct
-{
-   u8 num_stages;
-   TStage stages[8];
-} TMovement;
 
 typedef struct
 {
@@ -196,7 +185,6 @@ void draw_shoots(u8* screen);
 void init_enemies();
 void create_enemy(i32 x, i32 y, u8 type);
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
-void update_enemies();
 void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 u8 get_active_enemies();

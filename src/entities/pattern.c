@@ -41,7 +41,16 @@ const TPatternSet pattern01 = {
             .theta = 0,
             .max = 0,
             .frames = 0
-        }/*,
+        },
+        {
+                .CMD = TRANSLATE,
+                .v = 10,
+                .x = 0,
+                .y = 0,
+                .theta = 315 ,
+                .max = ,
+                .frames = 10
+            }/*,
 
             {
                 .CMD = ROTATE,
@@ -51,16 +60,6 @@ const TPatternSet pattern01 = {
                 .theta = -PI / 20,
                 .max = -PI/ 2,
                 .frames = 0
-            },
-
-            {
-                .CMD = TRANSLATE,
-                .v = 10,
-                .x = 0,
-                .y = 0,
-                .theta = 0.0,
-                .max = 0.0,
-                .frames = 20
             },
 
             {
