@@ -37,7 +37,6 @@ typedef struct
    u8 x;
    u8 y;
    i16 angle;
-   i16 max_angle;
    u8 frames;
 } TPattern;
 
@@ -65,7 +64,7 @@ typedef enum {
 } TShiftStatus;
 
 typedef struct {
-   i32 x;  
+   i32 x;
    i32 y;   // X, Y coordinates of entity in a subpixel world (in pixels*SCALE)
    u8  v;         // Velocity scalar controlling entity movement (In pixels)
    u8 dir;
@@ -162,9 +161,9 @@ typedef struct {
    u8 y; //2 bytes 89   current coordinates
    u8 text[30];
    u8 time;
+   u8 delay;
 } TMessage;
 
-extern const TMovement movements[2];
 extern const TPatternSet pattern01;
 
 //////////////////////////////////////////////////////////////////////////
@@ -188,7 +187,7 @@ void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 u8 get_active_enemies();
-void update_enemies2(u8* screen);
+void update_enemies2();
 void debug_enemies(u8* screen);
 
 //USER
@@ -219,7 +218,7 @@ void blue_message();
 void red_message();
 void colour_message (u8 backg, u8 t);
 void init_messages();
-void create_message(u8 x, u8 y, u8 time, u8 *message);
+void create_message(u8 x, u8 y, u8 delay, u8 time, u8 *message);
 void draw_messages(u8* screen);
 void color_test(u8* screen);
 

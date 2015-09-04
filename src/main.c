@@ -153,36 +153,36 @@ u8 test01() {
   u8 *pscreen;
   u8 choice = 0;
 
-/*
-  clear_screen(SCR_VMEM);
+  /*
+    clear_screen(SCR_VMEM);
 
-  for (i=0;i<360;i+=4){
-    pscreen = cpct_getScreenPtr(SCR_VMEM, i-(50*(i/50)), (i/50)*6);
-    cpct_drawSprite((u8*) G_heart, pscreen , 3, 5);
-    for (j=0;j<10000;j++){
+    for (i=0;i<360;i+=4){
+      pscreen = cpct_getScreenPtr(SCR_VMEM, i-(50*(i/50)), (i/50)*6);
+      cpct_drawSprite((u8*) G_heart, pscreen , 3, 5);
+      for (j=0;j<10000;j++){
+      }
     }
-  }
 
-  blue_message();
-  cpc_PrintGphStr("ESC;SALIR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 7 * 22));
+    blue_message();
+    cpc_PrintGphStr("ESC;SALIR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 7 * 22));
 
-  while (choice == 0) {
-    // Scan Keyboard
-    cpct_scanKeyboard_f();
+    while (choice == 0) {
+      // Scan Keyboard
+      cpct_scanKeyboard_f();
 
-    if (cpct_isKeyPressed(Key_Esc)) {
-      choice = STATE_MENU;
+      if (cpct_isKeyPressed(Key_Esc)) {
+        choice = STATE_MENU;
+      }
     }
-  }
-*/
+  */
   choice = 0;
 
   clear_screen(SCR_VMEM);
 
-  for (i=0;i<360;i+=12){
-    pscreen = cpct_getScreenPtr(SCR_VMEM, (15*cosine(i))/256+40, (30*-sine(i))/256+80);
+  for (i = 0; i < 360; i += 12) {
+    pscreen = cpct_getScreenPtr(SCR_VMEM, (15 * cosine(i)) / 256 + 40, (30 * -sine(i)) / 256 + 80);
     cpct_drawSprite((u8*) G_heart, pscreen , 3, 5);
-    for (j=0;j<5000;j++){
+    for (j = 0; j < 5000; j++) {
     }
   }
 
@@ -326,7 +326,8 @@ u8 game() {
 
   initialization();
 
-  create_message(25, 96, 30, ";UNDER;ATTACK!!;SHOOT!!;");
+  create_message(21, 96, 0, 30, "BASE;UNDER;ATTACK");
+  create_message(31, 96, 30, 30, "SHOOT");
 
   init_level();
 
@@ -349,14 +350,14 @@ u8 game() {
     }
     update_shoots();
 
-    update_enemies2(pvmem);
+    update_enemies2();
 
     //  Synchronize next frame drawing with VSYNC
     cpct_waitVSYNC();
 
     clear_screen(pvmem);
 
-   
+
 
 
     //Draw Starfield

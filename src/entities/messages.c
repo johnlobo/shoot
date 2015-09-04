@@ -77,7 +77,7 @@ void init_messages(){
 	active_messages=0;
 }
 
-void create_message(u8 x, u8 y, u8 time, u8 *text){
+void create_message(u8 x, u8 y, u8 delay, u8 time, u8 *text){
 	u8 i;
 	i=0;
 	while (messages[i].active==1) { 
@@ -87,6 +87,7 @@ void create_message(u8 x, u8 y, u8 time, u8 *text){
 	messages[i].x = x;
 	messages[i].y = y;
 	messages[i].time = time;
+	messages[i].delay = delay;
 	strcpy(messages[i].text,text);
 	active_messages++;
 }
@@ -99,6 +100,9 @@ void draw_messages(u8* screen){
 		blue_message();
 		for (i=0;i<MAX_MESSAGES;i++){
 			if (messages[i].active){
+				if (messages[i].delay)
+					messages[i].delay--;
+				else{
 				//pscreen = cpct_getScreenPtr(screen, messages[i].x-2, messages[i].y-4);
 				//cpct_drawSolidBox(pscreen , cpct_px2byteM0(3, 3), strlen(messages[i].text)*2+4, 18);
 				cpc_PrintGphStr(messages[i].text, (int) cpct_getScreenPtr(screen, messages[i].x, messages[i].y));
@@ -107,6 +111,7 @@ void draw_messages(u8* screen){
 					messages[i].active=0;
 					active_messages--;
 				}
+			}
 			}
 		}
 	}
