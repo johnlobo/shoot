@@ -103,15 +103,15 @@ void update_user() {
   // KEY = H
   if (cpct_isKeyPressed(Key_H)) {
     //create_enemy((rand()%80),(rand()%199),(rand()%3));
-    create_enemy(10, 120, (rand() % 3));
+    create_enemy(10, 120, (rand() % 3), 10, 10);
   }
   // KEY = J
   if (cpct_isKeyPressed(Key_J)) {
     x = rand() % 80;
     y = rand() % 199;
-    create_enemy(x, y, (rand() % 3));
-    create_enemy(x + 10, y, (rand() % 3));
-    create_enemy(x + 20, y, (rand() % 3));
+    create_enemy(x, y, (rand() % 3), 10, 10);
+    create_enemy(x + 10, y, (rand() % 3), 10, 10);
+    create_enemy(x + 20, y, (rand() % 3), 10, 10);
   }
   // KEY = K
   if (cpct_isKeyPressed(Key_K)) {

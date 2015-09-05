@@ -164,7 +164,7 @@ typedef struct {
    u8 delay;
 } TMessage;
 
-extern const TPatternSet pattern01;
+extern const TPatternSet pattern01, pattern02;
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -182,7 +182,7 @@ void draw_shoots(u8* screen);
 
 //ENEMIES
 void init_enemies();
-void create_enemy(i32 x, i32 y, u8 type);
+void create_enemy(i32 x, i32 y, u8 type, u8 home_x, u8 home_y);
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
@@ -222,12 +222,8 @@ void create_message(u8 x, u8 y, u8 delay, u8 time, u8 *message);
 void draw_messages(u8* screen);
 void color_test(u8* screen);
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-//////
-//////  UTILITY GLOBALS
-//////
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
+//LEVELS
+void updateLevel(u8 level);
+
 
 #endif

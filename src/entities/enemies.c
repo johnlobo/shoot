@@ -54,7 +54,7 @@ void init_enemies() {
 // Función: create_enemy
 //	basado en trayectorias
 //******************************************************************************
-void create_enemy(i32 x, i32 y, u8 type) {
+void create_enemy(i32 x, i32 y, u8 type, u8 home_x, u8 home_y) {
 	u8 k;
 	if (active_enemies < MAX_ENEMIES) {
 		k = 0;
@@ -67,6 +67,8 @@ void create_enemy(i32 x, i32 y, u8 type) {
 		enemies[k].y = y;
 		enemies[k].w = 4;
 		enemies[k].h = 8;
+		enemies[k].home_x = home_x;
+		enemies[k].home_y = home_y;
 		enemies[k].num_frames = 0;
 		enemies[k].movement = 0;
 		enemies[k].step = 0;
@@ -76,7 +78,6 @@ void create_enemy(i32 x, i32 y, u8 type) {
 		enemies[k].f.dir = 0;
 		enemies[k].f.angle = 270;
 		enemies[k].f.acum_angle = 0;
-		enemies[k].patternQueue = (TPatternSet*) &pattern01;
 		enemies[k].cur_cmd = 0;
 
 		switch (type) {
@@ -91,7 +92,7 @@ void create_enemy(i32 x, i32 y, u8 type) {
 			enemies[k].sprite[5] = (u8*) G_baddie04_01;
 			enemies[k].sprite[6] = (u8*) G_baddie04_00;
 			enemies[k].sprite[7] = (u8*) G_baddie04_07;
-
+			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			break;
 		case 2:
 			enemies[k].sprite[0] = (u8*) G_baddie03_06;
@@ -102,6 +103,7 @@ void create_enemy(i32 x, i32 y, u8 type) {
 			enemies[k].sprite[5] = (u8*) G_baddie03_01;
 			enemies[k].sprite[6] = (u8*) G_baddie03_00;
 			enemies[k].sprite[7] = (u8*) G_baddie03_07;
+			enemies[k].patternQueue = (TPatternSet*) &pattern02;
 			break;
 		default:
 			enemies[k].sprite[0] = (u8*) G_baddie03_06;
@@ -112,6 +114,7 @@ void create_enemy(i32 x, i32 y, u8 type) {
 			enemies[k].sprite[5] = (u8*) G_baddie03_01;
 			enemies[k].sprite[6] = (u8*) G_baddie03_00;
 			enemies[k].sprite[7] = (u8*) G_baddie03_07;
+			enemies[k].patternQueue = (TPatternSet*) &pattern02;
 			break;
 		}
 		active_enemies++;
@@ -155,7 +158,7 @@ void update_enemy_groups() {
 						groups[i].active = 0;
 						active_groups--;
 					} else {
-						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type);
+						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type,10+groups[i].num_enemies*5,20);
 						groups[i].num_enemies--;
 					}
 				} else {
@@ -271,85 +274,79 @@ u8 translate_to(TPhysics *f, TPattern *pattern) {
 void update_enemies2() {
 	u8 i = 0;
 
+	update_enemy_groups();
+
 	if (active_enemies > 0) {
 		for (i = 0; i < MAX_ENEMIES; i++) {
 
-			if (!enemies[i].active)
-				return;
+			if (enemies[i].active) {
 
-			pattern_set = (TPatternSet*) & (*enemies[i].patternQueue);
-			pattern = (TPattern*) & (*pattern_set->patterns[enemies[i].cur_cmd]);
+				pattern_set = (TPatternSet*) & (*enemies[i].patternQueue);
+				pattern = (TPattern*) & (*pattern_set->patterns[enemies[i].cur_cmd]);
 
-			switch (pattern->CMD) {
+				switch (pattern->CMD) {
 
-			case TRANSLATE_TO:
-				if (translate_to((TPhysics*) & (enemies[i].f), (TPattern*) (*pattern)))
-					enemies[i].cur_cmd++;
-				break;
+				case TRANSLATE_TO:
+					if (translate_to((TPhysics*) & (enemies[i].f), (TPattern*) (*pattern)))
+						enemies[i].cur_cmd++;
+					break;
 
-			case TRANSLATE:
-				enemies[i].f.v = pattern->v;
-				enemies[i].f.angle = pattern-> angle;
-				enemies[i].f.dir = pattern -> angle / 45;
-				enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
-				enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle))*2;
+				case TRANSLATE:
+					enemies[i].f.v = pattern->v;
+					enemies[i].f.angle = pattern-> angle;
+					enemies[i].f.dir = pattern -> angle / 45;
+					enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
+					enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
 
-				if (enemies[i].step == pattern->frames) {
-					enemies[i].step = 0;
-					enemies[i].cur_cmd++;
-				} else enemies[i].step++;
+					if (enemies[i].step == pattern->frames) {
+						enemies[i].step = 0;
+						enemies[i].cur_cmd++;
+					} else enemies[i].step++;
 
-				break;
+					break;
 
-			case TRANSLATE_HOME:
-				pattern->x = enemies[i].home_x;
-				pattern->y = enemies[i].home_y;
+				case TRANSLATE_HOME:
+					pattern->x = enemies[i].home_x;
+					pattern->y = enemies[i].home_y;
 
-				//if (translate_to((TPhysics*) &(enemies[i].f),(TPattern*) (*pattern)))
-				//	enemies[i].cur_cmd++;
-				break;
+					//if (translate_to((TPhysics*) &(enemies[i].f),(TPattern*) (*pattern)))
+					//	enemies[i].cur_cmd++;
+					break;
 
-			case ROTATE:
-				enemies[i].f.v = pattern->v;
-				enemies[i].f.angle += pattern->angle;
+				case ROTATE:
+					enemies[i].f.v = pattern->v;
+					enemies[i].f.angle += pattern->angle;
 
-				if (enemies[i].f.angle > 360)
-					enemies[i].f.angle -= 360;
-				else if (enemies[i].f.angle<0)
-					enemies[i].f.angle=360 - enemies[i].f.angle;
-				else if (enemies[i].f.angle==360)
-					enemies[i].f.angle=0;
-				
-				enemies[i].f.dir = enemies[i].f.angle / 45;
-				enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
-				enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle))*2;
-				if (enemies[i].step == pattern->frames) {
-					enemies[i].step = 0;
-					enemies[i].cur_cmd++;
-				} else enemies[i].step++;
+					if (enemies[i].f.angle > 360)
+						enemies[i].f.angle -= 360;
+					else if (enemies[i].f.angle < 0)
+						enemies[i].f.angle = 360 - enemies[i].f.angle;
+					else if (enemies[i].f.angle == 360)
+						enemies[i].f.angle = 0;
 
-
-				break;
-			}
-
-			enemies[i].y = enemies[i].f.y >> 8;
-			enemies[i].x = enemies[i].f.x >> 8;
-
-			//colour_message(0, 2);
-			//sprintf(aux_txt, "%i:%i:%i;;;;;;;;", enemies[i].f.x, enemies[i].x, pattern->x);
-			//cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 0, 24));
-			//sprintf(aux_txt, "%i:%i:%i;;;;;;;;", enemies[i].f.y, enemies[i].y, pattern->y);
-			//cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 0, 32));
+					enemies[i].f.dir = enemies[i].f.angle / 45;
+					enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
+					enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
+					if (enemies[i].step == pattern->frames) {
+						enemies[i].step = 0;
+						enemies[i].cur_cmd++;
+					} else enemies[i].step++;
 
 
-			if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
-				enemies[i].cur_cmd = 0;
+					break;
+				}
+
+				enemies[i].y = enemies[i].f.y >> 8;
+				enemies[i].x = enemies[i].f.x >> 8;
+
+				if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
+					enemies[i].cur_cmd = 0;
+				}
 			}
 		}
 
 	}
 
-	update_enemy_groups();
 }
 
 
