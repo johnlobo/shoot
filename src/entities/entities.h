@@ -46,8 +46,6 @@ typedef struct
    TPattern patterns[10];
 } TPatternSet;
 
-
-
 typedef struct
 {
    u8 active;
@@ -187,7 +185,8 @@ void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 u8 get_active_enemies();
-void update_enemies2();
+u8 get_active_groups();
+void update_enemies();
 void debug_enemies(u8* screen);
 
 //USER
@@ -223,7 +222,8 @@ void draw_messages(u8* screen);
 void color_test(u8* screen);
 
 //LEVELS
-void updateLevel(u8 level);
-
+void start_level(u8 lev);
+void update_level();
+u8 get_end_level();
 
 #endif

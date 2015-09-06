@@ -271,7 +271,7 @@ u8 translate_to(TPhysics *f, TPattern *pattern) {
 // Función: update_enemies2()
 // Update based on patterns
 //******************************************************************************
-void update_enemies2() {
+void update_enemies() {
 	u8 i = 0;
 
 	update_enemy_groups();
@@ -358,6 +358,10 @@ u8 inside_screen(i16 x, i16 y, u8 w, u8 h) {
 
 u8 get_active_enemies() {
 	return active_enemies;
+}
+
+u8 get_active_groups(){
+	return active_groups;
 }
 
 //******************************************************************************

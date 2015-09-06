@@ -144,10 +144,6 @@ void init_game() {
 
 }
 
-void init_level() {
-
-}
-
 u8 test01() {
   u16 i,j;
   u8 *pscreen;
@@ -302,6 +298,18 @@ u8 help() {
 
 u8 win() {
 
+  red_message();
+  cpc_PrintGphStr2X("CONGRATULATIONS;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
+  blue_message();
+  cpc_PrintGphStr2X("YOU;WIN", (int) cpct_getScreenPtr(SCR_VMEM, 32, 100));
+  cpc_PrintGphStr2X("PRESS;ESC;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
+
+  while(1){
+    cpct_scanKeyboard_f();
+    if (cpct_isKeyPressed(Key_Esc))
+      break;
+  }
+
   return STATE_MENU;
 
 }
@@ -312,7 +320,7 @@ u8 game_over() {
 
 }
 
-u8 game() {
+u8 game(u8 level) {
   u16 i = 0;
 
   last_update = 0;
@@ -325,17 +333,11 @@ u8 game() {
 
   initialization();
 
-  create_message(21, 96, 0, 30, "BASE;UNDER;ATTACK");
-  create_message(31, 96, 30, 30, "SHOOT");
+  start_level(level);
 
-  init_level();
-
-  while (1)
+  while (state==STATE_GAME)
   {
     delta_time = get_time() - last_update;
-
-    //Espera al barrido
-    //scr_waitVSYNC();
 
     //Starfield
     if ((STARFIELD_ACTIVE) && (delta_time > VELOCIDAD_ESTRELLAS)) {
@@ -343,21 +345,20 @@ u8 game() {
     }
     //Explosions
     update_explosions();
+
     //User
     if (delta_time > get_user_speed()) {
       update_user();
     }
+
     update_shoots();
 
-    update_enemies2();
+    update_enemies();
 
     //  Synchronize next frame drawing with VSYNC
     cpct_waitVSYNC();
 
     clear_screen(pvmem);
-
-
-
 
     //Draw Starfield
     if (STARFIELD_ACTIVE) {
@@ -376,12 +377,6 @@ u8 game() {
 
     draw_messages(pvmem);
     draw_scoreboard(pvmem);
-
-    //pscreen = cpct_getScreenPtr(pvmem, 20, 50);
-    //cpct_drawSprite((u8*) G_heart, pscreen , 3, 5);
-    //pscreen = cpct_getScreenPtr(pvmem, 70, 80);
-    //cpct_drawSprite((u8*) G_heart, pscreen , 3, 5);
-
 
     //if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos) && (!explosion_prota_activada)){
     //  state = STATE_DEAD;
@@ -414,9 +409,12 @@ u8 game() {
       }
     }
 
+  update_level();
 
     pvmem = changeVideoMemoryPage();
 
+    if (get_end_level())
+      state = STATE_WIN;
   }
 
   //Desactivar sonido
@@ -469,7 +467,7 @@ int main() {
         if (SONIDO_ACTIVADO) {
 
         }
-        state = game();
+        state = game(level);
         if (SONIDO_ACTIVADO) {
           //cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
           //cpc_WyzLoadSong(0);
