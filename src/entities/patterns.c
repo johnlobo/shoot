@@ -1,7 +1,7 @@
 #include "entities.h"
 
 const TPatternSet pattern01 = {
-    .num_CMDs = 5, // 0 movement
+    .num_CMDs = 4, // 0 movement
     {
 
         {
@@ -35,22 +35,6 @@ const TPatternSet pattern01 = {
             .y = 0,
             .angle = -15,
             .frames = 18
-        },
-        {
-            .CMD = TRANSLATE_TO,
-            .v = 3,
-            .x = 70,
-            .y = 80,
-            .angle = 0,
-            .frames = 0
-        },
-        {
-            .CMD = TRANSLATE_TO,
-            .v = 3,
-            .x = 20,
-            .y = 50,
-            .angle = 0,
-            .frames = 0
         }
 
     }

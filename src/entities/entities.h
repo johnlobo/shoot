@@ -72,28 +72,26 @@ typedef struct {
 } TPhysics;
 
 typedef struct {
-   u8  x,  y;          // Pixel Location
-   u8 nx, ny;          // Next pixel location
+   i16  x,  y;          // Pixel Location
    u8  w,  h;          // Width and height of the entity (in bytes!)
-   u8 **sprite_set;     // Sprite set
+   i8 vx, vy;
+   i8 topvx, topvy;
+   i8 ax, ay;
+   u8 *sprite_set;     // Sprite set
+   u8 num_frames;
+   u8 frame;
    TShiftStatus shift; // Sprite shifting status (EVEN, ODD)
 } TEntity;
 
 typedef struct  {
+   TEntity e;
    u8 *sprite;
-   i8 x;
-   u8 y;  // X, Y coordinates of entity in the screen (in bytes)
-   i8 vx, vy;
-   i8 topvx, topvy;
-   i8 ax, ay;
-   u8 w, h;
    u8 max_shoots;
    u8 shield;
    u8 lives;
    u32 score;
    u8 speed;
    u8 engine_state;
-   TShiftStatus shift;
    long last_moved;
 } TShip;
 
