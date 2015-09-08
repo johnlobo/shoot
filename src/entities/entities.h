@@ -5,8 +5,8 @@
 
 //SYSTEM
 #define MODE 0
-#define SCREEN_WIDTH 80
-#define SCREEN_HEIGHT 200
+#define SCREEN_WIDTH 159
+#define SCREEN_HEIGHT 199
 #define SCALE_FACTOR 256
 //PATTERNS
 #define TRANSLATE 0

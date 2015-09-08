@@ -12,9 +12,9 @@ const u8* engine_anim[2] = {G_engine_00, G_engine_01};
 
 void init_user() {
 
-  user.e.w = 4;
+  user.e.w = 5;
   user.e.h = 8;
-  user.e.x = 39 - (user.e.w / 2);
+  user.e.x = (SCREEN_WIDTH + user.e.w) / 2;
   user.e.y = 199 - (user.e.h);
   user.e.sprite_set = (u8*) &user_anim[0];
   user.e.num_frames = 3;
@@ -121,13 +121,17 @@ void update_user() {
 
   if (user.e.x < 0)
     user.e.x = 0;
-  else if (user.e.x > 79 - user.e.w) {
-    user.e.x = 79 - user.e.w;
+  else if (user.e.x > SCREEN_WIDTH - user.e.w) {
+    user.e.x = SCREEN_WIDTH - user.e.w;
   }
 }
 
 void draw_user(u8* screen) {
   u8* pscreen;
+  
+  if (user.e.shift != (TShiftStatus) user.e.x & 1)  //"value AND 1" returns the first bit of value
+      shiftSprite(user.e);
+      
   pscreen = cpct_getScreenPtr(screen, user.e.x, user.e.y);
   cpct_drawSprite( (u8*) user.e.sprite_set[user.e.frame], pscreen, user.e.w, user.e.h);
 }

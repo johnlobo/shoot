@@ -44,7 +44,7 @@ void shiftSpritePixelsLeft(u8* sprite, u8 size) {
    *sprite = (*sprite & 0b01010101) << 1;
 }
 
-/*
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // Shift an sprite to draw it at an even or odd location
 //
@@ -53,12 +53,11 @@ void shiftSprite(TEntity *e) {
    // We always assume that the original sprite had its rightmost pixel column free (zeroed)
    if (e->shift == ON_EVEN_PIXEL) {     
       // Shift sprite right & update shifting status
-      shiftSpritePixelsRight(e->sprite, e->w * e->h);
+      shiftSpritePixelsRight(e->sprite_set[e->frame], e->w * e->h);
       e->shift = ON_ODD_PIXEL;
    } else {
       // Shift sprite left & update shifting status
-      shiftSpritePixelsLeft(e->sprite, e->w * e->h);
+      shiftSpritePixelsLeft(e->sprite_set[e->frame], e->w * e->h);
       e->shift = ON_EVEN_PIXEL;
    }
 }
-*/
