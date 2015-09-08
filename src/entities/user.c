@@ -6,7 +6,7 @@
 TShip user;
 u8 shoot_type;
 u8 choice=0;
-const u8* user_anim[3] = {G_ship_00, G_ship_01, G_ship_02};
+u8* const user_anim[3] = {G_ship_00, G_ship_01, G_ship_02};
 const u8* engine_anim[2] = {G_engine_00, G_engine_01};
 
 
@@ -16,13 +16,14 @@ void init_user() {
   user.e.h = 8;
   user.e.x = (SCREEN_WIDTH + user.e.w) / 2;
   user.e.y = 199 - (user.e.h);
-  user.e.sprite_set = (u8*) &user_anim[0];
+  user.e.sprite_set = (u8**) user_anim;
   user.e.num_frames = 3;
+  user.e.frame = 0;
   user.e.shift = ON_EVEN_PIXEL;
   user.e.vx = 0;
   user.e.vy = 0;
-  user.e.topvx = 4;
-  user.e.topvy = 5;
+  user.e.topvx = 8;
+  user.e.topvy = 10;
   user.e.ax = 0;
   user.e.ay = 0;
 
@@ -72,7 +73,6 @@ void user_engine(u8* screen) {
 }
 
 void update_user() {
-  u8 x, y;
 
   user.e.ax = 0;
 
@@ -91,17 +91,17 @@ void update_user() {
   }
   // KEY =  Right or Left
   if ((cpct_isKeyPressed(Key_P))) {
-    user.e.ax = 2;
+    user.e.ax = 3;
     user.e.frame = 2;
   } else if (cpct_isKeyPressed(Key_O)) {
-    user.e.ax = -2;
+    user.e.ax = -3;
     user.e.frame = 1;
   } else
     user.e.frame = 0;
 
   // KEY = Space
   if (cpct_isKeyPressed(Key_Space)) {
-    create_shoot(user.e.x + 2, user.e.y, shoot_type);
+    create_shoot(user.e.x/2, user.e.y, shoot_type);
   }
 
   //Kinematics
@@ -129,11 +129,16 @@ void update_user() {
 void draw_user(u8* screen) {
   u8* pscreen;
   
-  if (user.e.shift != (TShiftStatus) user.e.x & 1)  //"value AND 1" returns the first bit of value
-      shiftSprite(user.e);
-      
-  pscreen = cpct_getScreenPtr(screen, user.e.x, user.e.y);
-  cpct_drawSprite( (u8*) user.e.sprite_set[user.e.frame], pscreen, user.e.w, user.e.h);
+ /* if (user.e.shift != (TShiftStatus) user.e.x % 2)  //"value AND 1" returns the first bit of value
+      shiftSprite((TEntity*) &(user.e));
+  */
+  pscreen = cpct_getScreenPtr(screen, user.e.x/2, user.e.y);
+
+  if (user.e.x & 1){ 
+      shiftSpritePixelsRightToBuffer((u8*) user.e.sprite_set[user.e.frame], user.e.w * user.e.h);
+      cpct_drawSprite( (u8*) sprite_buffer, pscreen, user.e.w, user.e.h);
+    } else
+      cpct_drawSprite( (u8*) user.e.sprite_set[user.e.frame], pscreen, user.e.w, user.e.h);
 }
 
 void set_score(u32 new_score) {

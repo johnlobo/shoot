@@ -77,7 +77,7 @@ typedef struct {
    i8 vx, vy;
    i8 topvx, topvy;
    i8 ax, ay;
-   u8 *sprite_set;     // Sprite set
+   u8 **sprite_set;     // Sprite set
    u8 num_frames;
    u8 frame;
    TShiftStatus shift; // Sprite shifting status (EVEN, ODD)
