@@ -117,13 +117,14 @@ void initialization() {
   cpct_setRandomSeedUniform_u8((u8) get_time());
 
   if (STARFIELD_ACTIVE)
-    init_stars();
+    init_starfield();
 
   init_user();
   init_shoots();
   init_enemies();
   init_explosions();
   init_messages();
+  init_stars();
 
 }
 
@@ -213,6 +214,12 @@ u8 menu() {
   cpc_PrintGphStr("C;2015;JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 10 * 16));
 
   while (choice == 0) {
+    //STARS
+    if (get_active_stars()<4)
+      create_star(cpct_getRandomUniform_u8_f(0) % 75, cpct_getRandomUniform_u8_f(0) % 191);
+    update_stars();
+    draw_stars(SCR_VMEM);
+
     // Scan Keyboard
     cpct_scanKeyboard_f();
 
@@ -341,7 +348,7 @@ u8 game(u8 level) {
 
     //Starfield
     if ((STARFIELD_ACTIVE) && (delta_time > VELOCIDAD_ESTRELLAS)) {
-      update_stars();
+      update_starfield();
     }
     //Explosions
     update_explosions();
@@ -362,7 +369,7 @@ u8 game(u8 level) {
 
     //Draw Starfield
     if (STARFIELD_ACTIVE) {
-      draw_stars(pvmem);
+      draw_starfield(pvmem);
     }
 
     //Draw all elements

@@ -38,7 +38,7 @@ typedef struct{
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 long get_last_moved_stars();
-void init_stars();
-void draw_stars(u8* screen);
-void update_stars();
+void init_starfield();
+void draw_starfield(u8* screen);
+void update_starfield();
 #endif

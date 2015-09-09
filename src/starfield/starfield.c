@@ -24,7 +24,7 @@ u8 get_screen_byte(u8 nColor, u8 nPixel){
 // Función inicializarEstrellas()
 //
 //******************************************************************************
-long get_last_moved_stars(){
+long get_last_moved_starfield(){
    return last_moved_stars;
 }
 
@@ -32,7 +32,7 @@ long get_last_moved_stars(){
 // Función inicializarEstrellas()
 //
 //******************************************************************************
-void init_stars(){
+void init_starfield(){
 	u8 randomNumber=0;
 	u8 nStar;
 	//Inicializar estrellas
@@ -48,7 +48,7 @@ void init_stars(){
 // Función void pintarEstrellas()
 //
 //******************************************************************************
-void draw_stars(u8* screen){
+void draw_starfield(u8* screen){
    u8 nStar;
    TIPO_ESTRELLA *pStar;
 
@@ -66,7 +66,7 @@ void draw_stars(u8* screen){
 // Función void moverEstrellas()
 //
 //******************************************************************************
-void update_stars(){
+void update_starfield(){
    u8 nStar;
    TIPO_ESTRELLA *pStar = NULL;
 

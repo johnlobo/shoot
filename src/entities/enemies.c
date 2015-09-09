@@ -65,7 +65,7 @@ void create_enemy(i32 x, i32 y, u8 type, u8 home_x, u8 home_y) {
 		enemies[k].frame = 0;
 		enemies[k].x = x;
 		enemies[k].y = y;
-		enemies[k].w = 4;
+		enemies[k].w = 5;
 		enemies[k].h = 8;
 		enemies[k].home_x = home_x;
 		enemies[k].home_y = home_y;
@@ -158,7 +158,7 @@ void update_enemy_groups() {
 						groups[i].active = 0;
 						active_groups--;
 					} else {
-						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type,10+groups[i].num_enemies*5,20);
+						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type, 10 + groups[i].num_enemies * 5, 20);
 						groups[i].num_enemies--;
 					}
 				} else {
@@ -360,7 +360,7 @@ u8 get_active_enemies() {
 	return active_enemies;
 }
 
-u8 get_active_groups(){
+u8 get_active_groups() {
 	return active_groups;
 }
 
@@ -376,8 +376,13 @@ void draw_enemies(u8* screen) {
 	if (active_enemies > 0) {
 		for (k = 0; k < MAX_ENEMIES; k++) {
 			if ((enemies[k].active) && inside_screen(enemies[k].x, enemies[k].y, enemies[k].w, enemies[k].h)) {
-				pscreen = cpct_getScreenPtr(screen, enemies[k].x, enemies[k].y);
-				cpct_drawSprite(enemies[k].sprite[enemies[k].f.dir], pscreen, enemies[k].w, enemies[k].h);
+				pscreen = cpct_getScreenPtr(screen, enemies[k].x/2, enemies[k].y);
+
+				if (enemies[k].x & 1) {
+					shiftSpritePixelsRightToBuffer((u8*) enemies[k].sprite[enemies[k].f.dir], enemies[k].w * enemies[k].h);
+					cpct_drawSprite( (u8*) sprite_buffer, pscreen, enemies[k].w, enemies[k].h);
+				} else
+					cpct_drawSprite(enemies[k].sprite[enemies[k].f.dir], pscreen, enemies[k].w, enemies[k].h);
 			}
 		}
 	}

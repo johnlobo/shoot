@@ -27,6 +27,8 @@
 //EXPLOSIONS
 #define MAX_EXPLOSIONES 30
 #define EXPLOSIONS_SPEED 20
+#define MAX_STARS 10
+#define STARS_SPEED 50
 //MESSAGES
 #define MAX_MESSAGES 10
 
@@ -207,6 +209,13 @@ void init_explosions();
 void create_explosion(u8 x, u8 y, u8 tipo);
 void update_explosions();
 void draw_explosions(u8* screen);
+
+//STARS
+void init_stars();
+void create_star(u8 x, u8 y);
+void update_stars();
+void draw_stars(u8* screen);
+u8 get_active_stars();
 
 //MESSAGES
 void strcpy(i8* to, const i8* from);
