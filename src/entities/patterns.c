@@ -6,7 +6,7 @@ const TPatternSet pattern01 = {
 
         {
             .CMD = TRANSLATE_TO,
-            .v = 2,
+            .v = 3,
             .x = 1,
             .y = 180,
             .angle = 0,
@@ -14,27 +14,27 @@ const TPatternSet pattern01 = {
         },
         {
             .CMD = TRANSLATE,
-            .v = 2,
+            .v = 3,
             .x = 0,
             .y = 0,
             .angle = 0,
-            .frames = 15
+            .frames = 25
         },
         {
             .CMD = ROTATE,
-            .v = 4,
+            .v = 5,
             .x = 0,
             .y = 0,
-            .angle = 12,
-            .frames = 15
+            .angle = 15,
+            .frames = 10
         },
         {
             .CMD = ROTATE,
-            .v = 4,
+            .v = 5,
             .x = 0,
             .y = 0,
             .angle = -15,
-            .frames = 18
+            .frames = 10
         }
 
     }

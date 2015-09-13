@@ -2,7 +2,10 @@
 #include "entities.h"
 #include "../util/util.h"
 
-u8 active_level, level_step, level_end = 0;
+u8 active_level = 0;
+u8 level_step = 0;
+u8 level_end = 0;
+long level_timer = 0;
 
 void start_level(u8 level) {
 	u8 aux_txt[60];
@@ -16,7 +19,6 @@ void start_level(u8 level) {
 }
 
 void update_level() {
-	static long level_timer = 0;
 
 	switch (active_level) {
 
@@ -34,7 +36,8 @@ void update_level() {
 			}
 			break;
 		case 2:
-			create_enemy_group(0, 92, 1, 5);
+			create_enemy_group(10, 92, 4, 5);
+			//create_star(cpct_getRandomUniform_u8_f(0) % 75, cpct_getRandomUniform_u8_f(0) % 191);
 			level_step++;
 			break;
 		case 3:
@@ -42,13 +45,13 @@ void update_level() {
 			level_step++;
 			break;
 		case 4:
-			if ((get_time() - level_timer) > 300) {
+			if ((get_time() - level_timer) > 600) {
 				level_step++;
 			}
 			break;
 		case 5:
 			if ((!get_active_groups()) && (!get_active_enemies())) {
-				create_enemy_group(80, 0, 2, 5);
+				create_enemy_group(80, 0, 5, 5);
 				level_step++;
 			}
 			break;

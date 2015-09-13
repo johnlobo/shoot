@@ -65,8 +65,7 @@ void create_enemy(i32 x, i32 y, u8 type, u8 home_x, u8 home_y) {
 		enemies[k].frame = 0;
 		enemies[k].x = x;
 		enemies[k].y = y;
-		enemies[k].w = 5;
-		enemies[k].h = 8;
+		
 		enemies[k].home_x = home_x;
 		enemies[k].home_y = home_y;
 		enemies[k].num_frames = 0;
@@ -83,38 +82,82 @@ void create_enemy(i32 x, i32 y, u8 type, u8 home_x, u8 home_y) {
 		switch (type) {
 
 		case 1:
-
-			enemies[k].sprite[0] = (u8*) G_baddie04_06;
-			enemies[k].sprite[1] = (u8*) G_baddie04_05;
-			enemies[k].sprite[2] = (u8*) G_baddie04_04;
+			enemies[k].w = 4;
+			enemies[k].h = 12;
+			enemies[k].sprite[0] = (u8*) G_baddie01_00;
+			enemies[k].sprite[1] = (u8*) G_baddie01_01;
+			enemies[k].sprite[2] = (u8*) G_baddie01_02;
+			enemies[k].sprite[3] = (u8*) G_baddie01_03;
+			enemies[k].sprite[4] = (u8*) G_baddie01_04;
+			enemies[k].sprite[5] = (u8*) G_baddie01_05;
+			enemies[k].sprite[6] = (u8*) G_baddie01_06;
+			enemies[k].sprite[7] = (u8*) G_baddie01_07;
+			enemies[k].patternQueue = (TPatternSet*) &pattern02;
+			break;
+		case 2:
+			enemies[k].w = 6;
+			enemies[k].h = 12;
+			enemies[k].sprite[0] = (u8*) G_baddie02_00;
+			enemies[k].sprite[1] = (u8*) G_baddie02_01;
+			enemies[k].sprite[2] = (u8*) G_baddie02_02;
+			enemies[k].sprite[3] = (u8*) G_baddie02_03;
+			enemies[k].sprite[4] = (u8*) G_baddie02_04;
+			enemies[k].sprite[5] = (u8*) G_baddie02_05;
+			enemies[k].sprite[6] = (u8*) G_baddie02_06;
+			enemies[k].sprite[7] = (u8*) G_baddie02_07;
+			enemies[k].patternQueue = (TPatternSet*) &pattern01;
+			break;
+		case 3:
+			enemies[k].w = 6;
+			enemies[k].h = 8;
+			enemies[k].sprite[0] = (u8*) G_baddie03_00;
+			enemies[k].sprite[1] = (u8*) G_baddie03_01;
+			enemies[k].sprite[2] = (u8*) G_baddie03_02;
+			enemies[k].sprite[3] = (u8*) G_baddie03_03;
+			enemies[k].sprite[4] = (u8*) G_baddie03_04;
+			enemies[k].sprite[5] = (u8*) G_baddie03_05;
+			enemies[k].sprite[6] = (u8*) G_baddie03_06;
+			enemies[k].sprite[7] = (u8*) G_baddie03_07;
+			enemies[k].patternQueue = (TPatternSet*) &pattern02;
+			break;
+		case 4:
+			enemies[k].w = 5;
+			enemies[k].h = 9;
+			enemies[k].sprite[0] = (u8*) G_baddie04_00;
+			enemies[k].sprite[1] = (u8*) G_baddie04_01;
+			enemies[k].sprite[2] = (u8*) G_baddie04_02;
 			enemies[k].sprite[3] = (u8*) G_baddie04_03;
-			enemies[k].sprite[4] = (u8*) G_baddie04_02;
-			enemies[k].sprite[5] = (u8*) G_baddie04_01;
-			enemies[k].sprite[6] = (u8*) G_baddie04_00;
+			enemies[k].sprite[4] = (u8*) G_baddie04_04;
+			enemies[k].sprite[5] = (u8*) G_baddie04_05;
+			enemies[k].sprite[6] = (u8*) G_baddie04_06;
 			enemies[k].sprite[7] = (u8*) G_baddie04_07;
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			break;
-		case 2:
-			enemies[k].sprite[0] = (u8*) G_baddie03_06;
-			enemies[k].sprite[1] = (u8*) G_baddie03_05;
-			enemies[k].sprite[2] = (u8*) G_baddie03_04;
-			enemies[k].sprite[3] = (u8*) G_baddie03_03;
-			enemies[k].sprite[4] = (u8*) G_baddie03_02;
-			enemies[k].sprite[5] = (u8*) G_baddie03_01;
-			enemies[k].sprite[6] = (u8*) G_baddie03_00;
-			enemies[k].sprite[7] = (u8*) G_baddie03_07;
+		case 5:
+			enemies[k].w = 5;
+			enemies[k].h = 9;
+			enemies[k].sprite[0] = (u8*) G_baddie05_00;
+			enemies[k].sprite[1] = (u8*) G_baddie05_01;
+			enemies[k].sprite[2] = (u8*) G_baddie05_02;
+			enemies[k].sprite[3] = (u8*) G_baddie05_03;
+			enemies[k].sprite[4] = (u8*) G_baddie05_04;
+			enemies[k].sprite[5] = (u8*) G_baddie05_05;
+			enemies[k].sprite[6] = (u8*) G_baddie05_06;
+			enemies[k].sprite[7] = (u8*) G_baddie05_07;
 			enemies[k].patternQueue = (TPatternSet*) &pattern02;
 			break;
 		default:
-			enemies[k].sprite[0] = (u8*) G_baddie03_06;
-			enemies[k].sprite[1] = (u8*) G_baddie03_05;
-			enemies[k].sprite[2] = (u8*) G_baddie03_04;
-			enemies[k].sprite[3] = (u8*) G_baddie03_03;
-			enemies[k].sprite[4] = (u8*) G_baddie03_02;
-			enemies[k].sprite[5] = (u8*) G_baddie03_01;
-			enemies[k].sprite[6] = (u8*) G_baddie03_00;
-			enemies[k].sprite[7] = (u8*) G_baddie03_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern02;
+			enemies[k].w = 4;
+			enemies[k].h = 12;
+			enemies[k].sprite[0] = (u8*) G_baddie01_00;
+			enemies[k].sprite[1] = (u8*) G_baddie01_01;
+			enemies[k].sprite[2] = (u8*) G_baddie01_02;
+			enemies[k].sprite[3] = (u8*) G_baddie01_03;
+			enemies[k].sprite[4] = (u8*) G_baddie01_04;
+			enemies[k].sprite[5] = (u8*) G_baddie01_05;
+			enemies[k].sprite[6] = (u8*) G_baddie01_06;
+			enemies[k].sprite[7] = (u8*) G_baddie01_07;
+			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			break;
 		}
 		active_enemies++;
@@ -375,14 +418,15 @@ void draw_enemies(u8* screen) {
 	k = 0;
 	if (active_enemies > 0) {
 		for (k = 0; k < MAX_ENEMIES; k++) {
+
 			if ((enemies[k].active) && inside_screen(enemies[k].x, enemies[k].y, enemies[k].w, enemies[k].h)) {
 				pscreen = cpct_getScreenPtr(screen, enemies[k].x/2, enemies[k].y);
 
-				if (enemies[k].x & 1) {
+				if (enemies[k].x % 2) {
 					shiftSpritePixelsRightToBuffer((u8*) enemies[k].sprite[enemies[k].f.dir], enemies[k].w * enemies[k].h);
 					cpct_drawSprite( (u8*) sprite_buffer, pscreen, enemies[k].w, enemies[k].h);
 				} else
-					cpct_drawSprite(enemies[k].sprite[enemies[k].f.dir], pscreen, enemies[k].w, enemies[k].h);
+					cpct_drawSprite( (u8*) enemies[k].sprite[enemies[k].f.dir], pscreen, enemies[k].w, enemies[k].h);
 			}
 		}
 	}

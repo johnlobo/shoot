@@ -201,6 +201,8 @@ u8 test01() {
 u8 menu() {
   u8 choice = 0;
 
+
+
   clear_screen(SCR_VMEM);
 
   red_message();
@@ -213,12 +215,16 @@ u8 menu() {
   red_message();
   cpc_PrintGphStr("C;2015;JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 10 * 16));
 
-  while (choice == 0) {
+
+while (choice == 0) {
+  //  Synchronize next frame drawing with VSYNC
+    cpct_waitVSYNC();
+ 
     //STARS
-    if (get_active_stars()<4)
-      create_star(cpct_getRandomUniform_u8_f(0) % 75, cpct_getRandomUniform_u8_f(0) % 191);
-    update_stars();
-    draw_stars(SCR_VMEM);
+  //  if (get_active_stars()<4)
+   //   create_star(cpct_getRandomUniform_u8_f(0) % 75, cpct_getRandomUniform_u8_f(0) % 191);
+   // update_stars();
+   // draw_stars(SCR_VMEM);
 
     // Scan Keyboard
     cpct_scanKeyboard_f();
