@@ -45,27 +45,43 @@ void update_level() {
 			level_step++;
 			break;
 		case 4:
-			if ((get_time() - level_timer) > 600) {
+			if ((get_time() - level_timer) > 200) {
 				level_step++;
 			}
 			break;
 		case 5:
 			if ((!get_active_groups()) && (!get_active_enemies())) {
-				create_enemy_group(80, 0, 5, 5);
+				create_enemy_group(80, 0, 5	, 5);
 				level_step++;
 			}
 			break;
 		case 6:
+			level_timer = get_time();
+			level_step++;
+			break;
+		case 7:
+			if ((get_time() - level_timer) > 200) {
+				level_step++;
+			}
+			break;
+		case 8:
+			if ((!get_active_groups()) && (!get_active_enemies())) {
+				create_enemy(5,0,1,5,0);
+				create_enemy(0,5,1,0,5);
+				level_step++;
+			}
+			break;
+		case 9:
 			if ((!get_active_groups()) && (!get_active_enemies())) {
 				create_message(18, 96, 0, 10, "WELL;DONE;PILOT");
 				level_end = 1;
 			}
 			break;
-		case 7:
+		case 10:
 			level_timer = get_time();
 			level_step++;
 			break;
-		case 8:
+		case 11:
 			if ( (get_time() - level_timer) > 3000) {
 				level_step++;
 			}

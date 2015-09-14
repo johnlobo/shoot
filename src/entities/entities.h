@@ -116,7 +116,7 @@ typedef  struct {    // minimun sprite structure
 typedef  struct {    // minimun sprite structure
    u8 active;
    TPhysics f;
-   u8 x, y;
+   i16 x, y;
    u8 w;
    u8 h;
    u8 dir;
@@ -127,8 +127,7 @@ typedef  struct {    // minimun sprite structure
    u8 stage;
    u8 stage_step;
    long last_moved;
-   u8 home_x;
-   u8 home_y;
+   i16 home_x, home_y;
    u8 step;
    u8 cur_cmd;
    TPatternSet *patternQueue;
@@ -162,7 +161,7 @@ typedef struct {
    u8 delay;
 } TMessage;
 
-extern const TPatternSet pattern01, pattern02;
+extern const TPatternSet pattern01, pattern02, pattern03;
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -180,7 +179,7 @@ void draw_shoots(u8* screen);
 
 //ENEMIES
 void init_enemies();
-void create_enemy(i32 x, i32 y, u8 type, u8 home_x, u8 home_y);
+void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y);
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);

@@ -54,7 +54,7 @@ void init_enemies() {
 // Función: create_enemy
 //	basado en trayectorias
 //******************************************************************************
-void create_enemy(i32 x, i32 y, u8 type, u8 home_x, u8 home_y) {
+void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
 	u8 k;
 	if (active_enemies < MAX_ENEMIES) {
 		k = 0;
@@ -92,7 +92,7 @@ void create_enemy(i32 x, i32 y, u8 type, u8 home_x, u8 home_y) {
 			enemies[k].sprite[5] = (u8*) G_baddie01_05;
 			enemies[k].sprite[6] = (u8*) G_baddie01_06;
 			enemies[k].sprite[7] = (u8*) G_baddie01_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern02;
+			enemies[k].patternQueue = (TPatternSet*) &pattern03;
 			break;
 		case 2:
 			enemies[k].w = 6;
@@ -235,7 +235,7 @@ void debug_enemies(u8* screen) {
 // Función: translate_to()
 // Updates the physics module of an enemy to move towards the x,y in the pattern
 //******************************************************************************
-u8 translate_to(TPhysics *f, TPattern *pattern) {
+u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 	u8 advance_step;
 	u8 x_comp, y_comp;
 	u8 x_prev, y_prev;
@@ -255,24 +255,29 @@ u8 translate_to(TPhysics *f, TPattern *pattern) {
 	x_close = 0;
 	y_close = 0;
 
-	if ((x_comp == pattern->x) || ((MIN(x_prev, x_comp) <= pattern->x) && ((MAX(x_prev, x_comp) >= pattern->x)))) {
+	if ((x==-100) && (y==-100)){  //si x e y son distintas de -100,-100 (por convención) cargo el valor de pattern
+		x = pattern->x;
+		y = pattern->y;
+	}
+
+	if ((x_comp == x) || ((MIN(x_prev, x_comp) <= x) && ((MAX(x_prev, x_comp) >= x)))) {
 		x_close = 1;
-		f->x = pattern->x * SCALE_FACTOR;
+		f->x = x * SCALE_FACTOR;
 		x_comp = pattern->x;
 	}
 
-	if ((y_comp == pattern->y) || ((MIN(y_prev, y_comp) <= pattern->y) && ((MAX(y_prev, y_comp) >= pattern->y)))) {
+	if ((y_comp == y) || ((MIN(y_prev, y_comp) <= y) && ((MAX(y_prev, y_comp) >= y)))) {
 		y_close = 1;
-		f->y = pattern->y * SCALE_FACTOR;
+		f->y = y * SCALE_FACTOR;
 		y_comp = pattern->y;
 	}
 
 	if (x_close && y_close) {
-		f->x = pattern->x * SCALE_FACTOR;
-		f->y = pattern->y * SCALE_FACTOR;
+		f->x = x * SCALE_FACTOR;
+		f->y = y * SCALE_FACTOR;
 		advance_step = 1;
 	} else if (y_close) {
-		if (x_comp < pattern->x) {
+		if (x_comp < x) {
 			f->angle = 0;
 			f->dir = 0;
 		}
@@ -282,14 +287,14 @@ u8 translate_to(TPhysics *f, TPattern *pattern) {
 		}
 
 	} else if (x_close) {
-		if (y_comp < pattern->y) {
+		if (y_comp < y) {
 			f->angle = 270;
 			f->dir = 6;
 		} else {
 			f->angle = 90;
 			f->dir = 2;
 		}
-	} else if (x_comp < pattern->x) {
+	} else if (x_comp < x) {
 		if (y_comp < pattern->y) {
 			f->angle = 315;
 			f->dir = 7;
@@ -297,7 +302,7 @@ u8 translate_to(TPhysics *f, TPattern *pattern) {
 			f->angle = 45;
 			f->dir = 1;
 		}
-	} else if (y_comp < pattern->y) {
+	} else if (y_comp < y) {
 		f->angle = 225;
 		f->dir = 5;
 	} else {
@@ -330,7 +335,7 @@ void update_enemies() {
 				switch (pattern->CMD) {
 
 				case TRANSLATE_TO:
-					if (translate_to((TPhysics*) & (enemies[i].f), (TPattern*) (*pattern)))
+					if (translate_to((TPhysics*) & (enemies[i].f), (TPattern*) (*pattern), -100, -100))
 						enemies[i].cur_cmd++;
 					break;
 
@@ -349,11 +354,9 @@ void update_enemies() {
 					break;
 
 				case TRANSLATE_HOME:
-					pattern->x = enemies[i].home_x;
-					pattern->y = enemies[i].home_y;
-
-					//if (translate_to((TPhysics*) &(enemies[i].f),(TPattern*) (*pattern)))
-					//	enemies[i].cur_cmd++;
+					
+					if (translate_to((TPhysics*) &(enemies[i].f),(TPattern*) (*pattern), enemies[i].home_x, enemies[i].home_y))
+						enemies[i].cur_cmd++;
 					break;
 
 				case ROTATE:
@@ -422,7 +425,7 @@ void draw_enemies(u8* screen) {
 			if ((enemies[k].active) && inside_screen(enemies[k].x, enemies[k].y, enemies[k].w, enemies[k].h)) {
 				pscreen = cpct_getScreenPtr(screen, enemies[k].x/2, enemies[k].y);
 
-				if (enemies[k].x % 2) {
+				if (enemies[k].x & 1) {
 					shiftSpritePixelsRightToBuffer((u8*) enemies[k].sprite[enemies[k].f.dir], enemies[k].w * enemies[k].h);
 					cpct_drawSprite( (u8*) sprite_buffer, pscreen, enemies[k].w, enemies[k].h);
 				} else

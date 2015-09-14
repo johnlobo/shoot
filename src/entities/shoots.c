@@ -101,8 +101,12 @@ void draw_shoots(u8* screen){
 	if (active_shoots>0){
 		for (k=0;k<MAX_SHOOTS;k++){
 			if (shoots[k].active){
-       		pscreen = cpct_getScreenPtr(screen, shoots[k].x, shoots[k].y);
- 	      	cpct_drawSprite(shoots[k].sprite[shoots[k].frame],pscreen,shoots[k].w,shoots[k].h);
+       		pscreen = cpct_getScreenPtr(screen, shoots[k].x/2, shoots[k].y);
+       		if (shoots[k].x & 1) {
+					shiftSpritePixelsRightToBuffer((u8*) shoots[k].sprite[shoots[k].frame], shoots[k].w * shoots[k].h);
+					cpct_drawSprite( (u8*) sprite_buffer, pscreen, shoots[k].w, shoots[k].h);
+				} else
+ 	      			cpct_drawSprite(shoots[k].sprite[shoots[k].frame],pscreen,shoots[k].w,shoots[k].h);
 			}
 		}
 	}

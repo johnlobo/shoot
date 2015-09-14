@@ -101,8 +101,30 @@ void update_user() {
 
   // KEY = Space
   if (cpct_isKeyPressed(Key_Space)) {
-    create_shoot(user.e.x/2, user.e.y, shoot_type);
+    create_shoot(user.e.x+3, user.e.y, shoot_type);
   }
+
+  // KEY = 1
+  if (cpct_isKeyPressed(Key_1)) {
+    create_enemy(10, 10, 1, 10, 10);
+  }
+  // KEY = 2
+  if (cpct_isKeyPressed(Key_2)) {
+    create_enemy(10, 10, 2, 10, 10);
+  }
+  // KEY = 3
+  if (cpct_isKeyPressed(Key_3)) {
+    create_enemy(10, 10, 3, 10, 10);
+  }
+  // KEY = 4
+  if (cpct_isKeyPressed(Key_4)) {
+    create_enemy(10, 10, 4, 10, 10);
+  }
+  // KEY = 5
+  if (cpct_isKeyPressed(Key_5)) {
+    create_enemy(10, 10, 5, 10, 10);
+  }
+
 
   //Kinematics
   if (user.e.ax != 0) {
@@ -129,9 +151,6 @@ void update_user() {
 void draw_user(u8* screen) {
   u8* pscreen;
   
- /* if (user.e.shift != (TShiftStatus) user.e.x % 2)  //"value AND 1" returns the first bit of value
-      shiftSprite((TEntity*) &(user.e));
-  */
   pscreen = cpct_getScreenPtr(screen, user.e.x/2, user.e.y);
 
   if (user.e.x & 1){ 

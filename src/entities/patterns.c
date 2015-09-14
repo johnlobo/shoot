@@ -71,3 +71,33 @@ const TPatternSet pattern02 = {
     }
 };
 
+const TPatternSet pattern03 = {
+    .num_CMDs = 3, // 0 movement
+    {
+
+        {
+            .CMD = TRANSLATE,
+            .v = 5,
+            .x = 0,
+            .y = 0,
+            .angle = 315,
+            .frames = 8
+        },
+        {
+            .CMD = TRANSLATE_TO,
+            .v = 10,
+            .x = 0,
+            .y = 200,
+            .angle = 0,
+            .frames = 0
+        },
+        {
+            .CMD = TRANSLATE_HOME,
+            .v = 10,
+            .x = 0,
+            .y = 0,
+            .angle = 0,
+            .frames = 0
+        }
+    }
+};
