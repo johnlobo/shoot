@@ -2,7 +2,6 @@
 #define _SPRITES_H_
 
 #include <types.h>
-#include "../entities/entities.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Palette Definition
@@ -27,52 +26,14 @@ extern const u8 G_ship_02[40];
 extern const u8 G_shoot_00[4];
 extern const u8 G_shoot_00[4];
 extern const u8 G_shoot_00[4];
-extern const u8 G_baddie01_00[48];
-extern const u8 G_baddie01_01[48];
-extern const u8 G_baddie01_02[48];
-extern const u8 G_baddie01_03[48];
-extern const u8 G_baddie01_04[48];
-extern const u8 G_baddie01_05[48];
-extern const u8 G_baddie01_06[48];
-extern const u8 G_baddie01_07[48];
-extern const u8 G_baddie02_00[72];
-extern const u8 G_baddie02_01[72];
-extern const u8 G_baddie02_02[72];
-extern const u8 G_baddie02_03[72];
-extern const u8 G_baddie02_04[72];
-extern const u8 G_baddie02_05[72];
-extern const u8 G_baddie02_06[72];
-extern const u8 G_baddie02_07[72];
-extern const u8 G_baddie03_00[40];
-extern const u8 G_baddie03_01[40];
-extern const u8 G_baddie03_02[40];
-extern const u8 G_baddie03_03[40];
-extern const u8 G_baddie03_04[40];
-extern const u8 G_baddie03_05[40];
-extern const u8 G_baddie03_06[40];
-extern const u8 G_baddie03_07[40];
-extern const u8 G_baddie04_00[45];
-extern const u8 G_baddie04_01[45];
-extern const u8 G_baddie04_02[45];
-extern const u8 G_baddie04_03[45];
-extern const u8 G_baddie04_04[45];
-extern const u8 G_baddie04_05[45];
-extern const u8 G_baddie04_06[45];
-extern const u8 G_baddie04_07[45];
-extern const u8 G_baddie05_00[45];
-extern const u8 G_baddie05_01[45];
-extern const u8 G_baddie05_02[45];
-extern const u8 G_baddie05_03[45];
-extern const u8 G_baddie05_04[45];
-extern const u8 G_baddie05_05[45];
-extern const u8 G_baddie05_06[45];
-extern const u8 G_baddie05_07[45];
-extern const u8 G_star_00[32];
-extern const u8 G_star_01[32];
-extern const u8 G_star_02[32];
-extern const u8 G_star_03[32];
-extern const u8 G_star_04[32];
-extern const u8 G_star_05[32];
+extern const u8 G_baddie03_00[32];
+extern const u8 G_baddie03_01[32];
+extern const u8 G_baddie03_02[32];
+extern const u8 G_baddie03_03[32];
+extern const u8 G_baddie03_04[32];
+extern const u8 G_baddie03_05[32];
+extern const u8 G_baddie03_06[32];
+extern const u8 G_baddie03_07[32];
 extern const u8 toque000[18];
 extern const u8 toque001[18];
 extern const u8 toque002[18];
@@ -91,23 +52,28 @@ extern const u8 G_explosion_8x8_14[32];
 extern const u8 G_heart[15];
 extern const u8 G_green_flag[10];
 extern const u8 G_red_flag[10];
-extern const u8 G_skull_still[48];
-extern const u8 G_skull_left_00[48];
-extern const u8 G_skull_left_01[48];
-extern const u8 G_skull_right_00[48];
-extern const u8 G_skull_right_01[48];
+extern const u8 G_skull_still[40];
+extern const u8 G_skull_left_00[40];
+extern const u8 G_skull_left_01[40];
+extern const u8 G_skull_right_00[40];
+extern const u8 G_skull_right_01[40];
 extern const u8 G_baddie_shot_00[8];
 extern const u8 G_baddie_shot_01[6];
 extern const u8 G_baddie_shot_02[2];
 extern const u8 G_engine_00[2];
 extern const u8 G_engine_01[2];
+extern const u8 G_baddie04_00[32];
+extern const u8 G_baddie04_01[32];
+extern const u8 G_baddie04_02[32];
+extern const u8 G_baddie04_03[32];
+extern const u8 G_baddie04_04[32];
+extern const u8 G_baddie04_05[32];
+extern const u8 G_baddie04_06[32];
+extern const u8 G_baddie04_07[32];
+extern const u8 G_baddie05_00[32];
 
-extern const u8 sprite_buffer[80];
-
-void shiftSpritePixelsRightToBuffer(u8* sprite, u8 size);
 void shiftSpritePixelsRight(u8* sprite, u8 size);
 void shiftSpritePixelsLeft(u8* sprite, u8 size);
-void shiftSprite(TEntity *e);
 
 #endif
 

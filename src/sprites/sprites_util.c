@@ -1,30 +1,5 @@
 #include <cpctelera.h>
-#include "sprites.h"
 #include "../entities/entities.h"
-
-//////////////////////////////////////////////////////////////////////////////////////////
-// Shift all pixels of a sprite to the right and store them in the sprite buffer
-//
-void shiftSpritePixelsRightToBuffer(u8* sprite, u8 size) {
-   u8* sp_buffer;
-   u8 prev_rightpixel,
-      rightpixel;       // Values of the right-pixel of a byte, and the right-pixel of the previous byte
-
-   sp_buffer = (u8*) sprite_buffer;
-   // Shift all bits to the right, to move sprite 1 pixel to the right    
-   prev_rightpixel = 0;
-   do {
-      // Save the right pixel value of this byte (even bits)
-      rightpixel      = *sprite & 0b01010101;
-      // Mix the right pixel of the previous byte (that now is left pixel) with 
-      // the left pixel of the present byte (that now should be right pixel)
-      *sp_buffer         = (prev_rightpixel << 1) | ((*sprite & 0b10101010) >> 1);
-      // Saved right pixel is stored as the previous byte right pixel, for next iteration
-      prev_rightpixel = rightpixel;
-      ++sprite;
-      ++sp_buffer;
-   } while(--size);
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Shift all pixels of a sprite to the right

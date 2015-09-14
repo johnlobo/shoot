@@ -7,7 +7,7 @@ TShip user;
 u8 shoot_type;
 u8 choice=0;
 u8* const user_anim[3] = {G_ship_00, G_ship_01, G_ship_02};
-const u8* engine_anim[2] = {G_engine_00, G_engine_01};
+u8* const engine_anim[2] = {G_engine_00, G_engine_01};
 
 
 void init_user() {

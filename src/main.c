@@ -149,31 +149,6 @@ u8 test01() {
   u16 i,j;
   u8 *pscreen;
   u8 choice = 0;
-
-  /*
-    clear_screen(SCR_VMEM);
-
-    for (i=0;i<360;i+=4){
-      pscreen = cpct_getScreenPtr(SCR_VMEM, i-(50*(i/50)), (i/50)*6);
-      cpct_drawSprite((u8*) G_heart, pscreen , 3, 5);
-      for (j=0;j<10000;j++){
-      }
-    }
-
-    blue_message();
-    cpc_PrintGphStr("ESC;SALIR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 7 * 22));
-
-    while (choice == 0) {
-      // Scan Keyboard
-      cpct_scanKeyboard_f();
-
-      if (cpct_isKeyPressed(Key_Esc)) {
-        choice = STATE_MENU;
-      }
-    }
-  */
-  choice = 0;
-
   clear_screen(SCR_VMEM);
 
   for (i = 0; i < 360; i += 12) {
@@ -201,7 +176,7 @@ u8 test01() {
 u8 menu() {
   u8 choice = 0;
 
-
+  timer_on();
 
   clear_screen(SCR_VMEM);
 
@@ -243,6 +218,9 @@ while (choice == 0) {
       choice = STATE_EXIT;
     }
   }
+  
+  timer_off();
+  
   return choice;
 }
 
@@ -365,7 +343,6 @@ u8 game(u8 level) {
     }
 
     update_shoots();
-
     update_enemies();
 
     //  Synchronize next frame drawing with VSYNC
@@ -379,9 +356,9 @@ u8 game(u8 level) {
     }
 
     //Draw all elements
+    draw_enemies(pvmem);
     draw_user(pvmem);
     draw_shoots(pvmem);
-    draw_enemies(pvmem);
     draw_explosions(pvmem);
 
     //Animations

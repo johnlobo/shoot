@@ -21,9 +21,11 @@
 #define SALTO_DISPARO_MALO 4
 #define MAX_SHOOTS 10
 //ENEMIES
-#define MAX_ENEMIES 30
+#define MAX_ENEMIES 20
 #define MAX_ENEMY_GROUPS 4
 #define ENEMY_GAP 3
+//ENEMY_SHOOTS
+#define MAX_ENEMY_SHOOTS 20
 //EXPLOSIONS
 #define MAX_EXPLOSIONES 30
 #define EXPLOSIONS_SPEED 20
@@ -48,14 +50,7 @@ typedef struct
    TPattern patterns[10];
 } TPatternSet;
 
-typedef struct
-{
-   u8 active;
-   i16 x, y;
-   u8 enemy_type;
-   u8 num_enemies;
-   u8 sleep;
-} TEnemy_group;
+
 
 // Struct to note the shifting status of a sprite
 typedef enum {
@@ -136,6 +131,25 @@ typedef  struct {    // minimun sprite structure
    char *sprite[8];     //2 bytes   01
 // u8 objetivox;
 } TEnemy;
+
+typedef struct
+{
+   u8 active;
+   i16 x, y;
+   u8 enemy_type;
+   u8 num_enemies;
+   u8 sleep;
+} TEnemy_group;
+
+//ENEMY SHOOT
+typedef  struct {    // minimun sprite structure
+   TEntity e;
+   TPhysics f;
+   u8 active;
+   u8 type;
+   long last_moved;
+// u8 objetivox;
+} TEnemy_shoot;
 
 //EXPLOSION
 typedef struct {

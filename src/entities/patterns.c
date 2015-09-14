@@ -63,7 +63,7 @@ const TPatternSet pattern02 = {
         {
             .CMD = TRANSLATE_TO,
             .v = 3,
-            .x = 75,
+            .x = 150,
             .y = 190,
             .angle = 0,
             .frames = 0
