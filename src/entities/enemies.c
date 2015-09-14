@@ -399,7 +399,7 @@ void update_enemies() {
 
 u8 inside_screen(i16 x, i16 y, u8 w, u8 h) {
 
-	return ((x >= 0) && ((x + w) < SCREEN_WIDTH) && (y >= 0) && ((y + h) < SCREEN_HEIGHT));
+	return ((x >= 0) && ((x + w) < SCREEN_WIDTH) && (y >= 0 ) && ((y + h) < SCREEN_HEIGHT));
 }
 
 u8 get_active_enemies() {

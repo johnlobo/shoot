@@ -47,7 +47,7 @@ const TPatternSet pattern02 = {
         {
             .CMD = TRANSLATE_TO,
             .v = 3,
-            .x = 75,
+            .x = 150,
             .y = 5,
             .angle = 0,
             .frames = 0
@@ -55,7 +55,7 @@ const TPatternSet pattern02 = {
         {
             .CMD = TRANSLATE_TO,
             .v = 3,
-            .x = 40,
+            .x = 80,
             .y = 100,
             .angle = 0,
             .frames = 0
@@ -81,7 +81,7 @@ const TPatternSet pattern03 = {
             .x = 0,
             .y = 0,
             .angle = 315,
-            .frames = 8
+            .frames = 12
         },
         {
             .CMD = TRANSLATE_TO,

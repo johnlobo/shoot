@@ -110,7 +110,7 @@ void draw_explosions(u8* screen) {
 	if (explosiones_activas > 0) {
 		for (i = 0; i < MAX_EXPLOSIONES; i++) {
 			if (explosiones[i].activo == 1) {
-				pscreen = cpct_getScreenPtr(screen, explosiones[i].x, explosiones[i].y);
+				pscreen = cpct_getScreenPtr(screen, explosiones[i].x/2, explosiones[i].y);
 				cpct_drawSprite(explosion_sprite[explosiones[i].tipo][explosiones[i].fase], pscreen, explosiones[i].w, explosiones[i].h);
 			}
 		}
