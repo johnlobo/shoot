@@ -19,6 +19,8 @@ unsigned long get_time();
 
 unsigned char fast_collision(unsigned char x1, unsigned char y1, unsigned char w1, unsigned char h1, unsigned char x2, unsigned char y2, unsigned char w2, unsigned char h2);
 
+cpct_keyID espera_una_tecla();
+
 i16 sine(i16 angle);
 i16 cosine(i16 angle);
 

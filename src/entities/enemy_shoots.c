@@ -1,9 +1,10 @@
 #include <cpctelera.h>
 #include "entities.h"
 #include "../sprites/sprites.h"
+#include "../util/util.h"
 
 
-TEnemy_shoot enemy_shoots[MAX_ENEMY_enemy_shoots];
+TEnemy_shoot enemy_shoots[MAX_ENEMY_SHOOTS];
 u8 active_enemy_shoots;
 u8* const es_0_anim[1] = {bullet02_0};
 u8* const es_1_anim[2] = {bullet01_0, bullet01_1};
@@ -25,7 +26,7 @@ void init_enemy_shoots(){
 //******************************************************************************
 void create_enemy_shoot(u8 x, u8 y, u8 type, i16 angle, u8 speed){
 	u8 k;
-	if (active_enemy_shoots < MAX_ENEMY_SHOOTS{
+	if (active_enemy_shoots < MAX_ENEMY_SHOOTS){
 	k=0;
 	while (enemy_shoots[k].active){
 		k++;
@@ -50,7 +51,7 @@ void create_enemy_shoot(u8 x, u8 y, u8 type, i16 angle, u8 speed){
 			enemy_shoots[k].e.w=1;
 			enemy_shoots[k].e.h=8;
 			enemy_shoots[k].e.num_frames=2;
-			nemy_shoots[k].e.sprite_set = (u8**) es_1_anim;
+			enemy_shoots[k].e.sprite_set = (u8**) es_1_anim;
 			break;
 		}
 	active_enemy_shoots++;
@@ -104,15 +105,19 @@ void draw_enemy_shoots(u8* screen){
 
 	k=0;
 	if (active_enemy_shoots>0){
-		for (k=0;k<MAX_enemy_shoots;k++){
+		for (k=0;k<MAX_ENEMY_SHOOTS;k++){
 			if (enemy_shoots[k].active){
        		pscreen = cpct_getScreenPtr(screen, enemy_shoots[k].e.x/2, enemy_shoots[k].e.y);
-       		if (enemy_shoots[k].x & 1) {
+       		if (enemy_shoots[k].e.x & 1) {
 					shiftSpritePixelsRightToBuffer((u8*) enemy_shoots[k].e.sprite_set[enemy_shoots[k].e.frame], enemy_shoots[k].e.w * enemy_shoots[k].e.h);
-					cpct_drawSprite( (u8*) sprite_buffer, pscreen, enemy_shoots[k].w, enemy_shoots[k].h);
+					cpct_drawSprite( (u8*) sprite_buffer, pscreen, enemy_shoots[k].e.w, enemy_shoots[k].e.h);
 				} else
- 	      			cpct_drawSprite((u8*) enemy_shoots[k].e.sprite_set[enemy_shoots[k].e.frame],pscreen,enemy_shoots[k].w,enemy_shoots[k].h);
+ 	      			cpct_drawSprite((u8*) enemy_shoots[k].e.sprite_set[enemy_shoots[k].e.frame],pscreen,enemy_shoots[k].e.w,enemy_shoots[k].e.h);
 			}
 		}
 	}
+}
+
+u8 get_active_enemy_shoots(){
+	return active_enemy_shoots;
 }

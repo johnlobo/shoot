@@ -7,8 +7,8 @@ const TPatternSet pattern01 = {
         {
             .CMD = TRANSLATE_TO,
             .v = 3,
-            .x = 1,
-            .y = 180,
+            .x = 20,
+            .y = 100,
             .angle = 0,
             .frames = 0
         },
@@ -18,11 +18,11 @@ const TPatternSet pattern01 = {
             .x = 0,
             .y = 0,
             .angle = 0,
-            .frames = 25
+            .frames = 10
         },
         {
             .CMD = ROTATE,
-            .v = 5,
+            .v = 4,
             .x = 0,
             .y = 0,
             .angle = 15,
@@ -30,7 +30,7 @@ const TPatternSet pattern01 = {
         },
         {
             .CMD = ROTATE,
-            .v = 5,
+            .v = 4,
             .x = 0,
             .y = 0,
             .angle = -15,

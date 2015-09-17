@@ -104,6 +104,7 @@ extern const u8 G_engine_01[2];
 
 extern const u8 sprite_buffer[80];
 
+u8 inside_screen(i16 x, i16 y, u8 w, u8 h);
 void shiftSpritePixelsRightToBuffer(u8* sprite, u8 size);
 void shiftSpritePixelsRight(u8* sprite, u8 size);
 void shiftSpritePixelsLeft(u8* sprite, u8 size);

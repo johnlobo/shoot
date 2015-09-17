@@ -191,6 +191,13 @@ void create_shoot(u8 x, u8 y, u8 type);
 void update_shoots();
 void draw_shoots(u8* screen);
 
+//ENEMY SHOOTS
+u8 get_active_enemy_shoots();
+void init_enemy_shoots();
+void create_enemy_shoot(u8 x, u8 y, u8 type, i16 angle, u8 speed);
+void update_enemy_shoots();
+void draw_enemy_shoots(u8* screen);
+
 //ENEMIES
 void init_enemies();
 void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y);

@@ -108,7 +108,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			break;
 		case 3:
-			enemies[k].w = 6;
+			enemies[k].w = 5;
 			enemies[k].h = 8;
 			enemies[k].sprite[0] = (u8*) G_baddie03_00;
 			enemies[k].sprite[1] = (u8*) G_baddie03_01;
@@ -223,7 +223,7 @@ void debug_enemies(u8* screen) {
 	cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 0, 16));
 	for (i = 0; i < MAX_ENEMIES; i++) {
 		if (enemies[i].active) {
-			sprintf(aux_txt, "%08d:%08d:%08d:%02d", enemies[i].f.x, enemies[i].f.y, enemies[i].f.v, enemies[i].cur_cmd);
+			sprintf(aux_txt, "%08i:%08i:%08i:%02i", enemies[i].x, enemies[i].y, enemies[i].f.angle, enemies[i].cur_cmd);
 			cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 0, 8 * line + 24));
 			line++;
 		}
@@ -247,7 +247,9 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 	y_prev = (f->y >> 8);
 
 	f->x += f->v * cosine(f->angle);
-	f->y -= f->v * sine(f->angle) * 2; //multiply by two two mantain aspect ration in the speed
+	//multiply by two two mantain aspect ration in the speed
+	//multiply by the sigh of the y coord to act properly when y is less than 0
+	f->y = ((f->y<0) - (f->y>=0)) * (f->v * sine(f->angle) * 2); 
 
 	x_comp = (f->x >> 8);
 	y_comp = (f->y >> 8);
@@ -263,13 +265,14 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 	if ((x_comp == x) || ((MIN(x_prev, x_comp) <= x) && ((MAX(x_prev, x_comp) >= x)))) {
 		x_close = 1;
 		f->x = x * SCALE_FACTOR;
-		x_comp = pattern->x;
+		x_comp = x;
 	}
 
 	if ((y_comp == y) || ((MIN(y_prev, y_comp) <= y) && ((MAX(y_prev, y_comp) >= y)))) {
+		espera_una_tecla();
 		y_close = 1;
 		f->y = y * SCALE_FACTOR;
-		y_comp = pattern->y;
+		y_comp = y;
 	}
 
 	if (x_close && y_close) {
@@ -295,7 +298,7 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 			f->dir = 2;
 		}
 	} else if (x_comp < x) {
-		if (y_comp < pattern->y) {
+		if (y_comp < y) {
 			f->angle = 315;
 			f->dir = 7;
 		} else {
@@ -344,7 +347,10 @@ void update_enemies() {
 					enemies[i].f.angle = pattern-> angle;
 					enemies[i].f.dir = pattern -> angle / 45;
 					enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
-					enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
+					//multiply by two two mantain aspect ration in the speed
+					//multiply by the sigh of the y coord to act properly when y is less than 0
+					enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2); 
+					//enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
 
 					if (enemies[i].step == pattern->frames) {
 						enemies[i].step = 0;
@@ -372,7 +378,10 @@ void update_enemies() {
 
 					enemies[i].f.dir = enemies[i].f.angle / 45;
 					enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
-					enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
+					//multiply by two two mantain aspect ration in the speed
+					//multiply by the sigh of the y coord to act properly when y is less than 0
+					enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2); 
+					//enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
 					if (enemies[i].step == pattern->frames) {
 						enemies[i].step = 0;
 						enemies[i].cur_cmd++;
