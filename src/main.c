@@ -7,7 +7,7 @@
 
 
 // Modo Debug
-#define DEBUG 0
+#define DEBUG 1
 // Automata de estados
 #define STATE_MENU      2
 #define STATE_HELP      3
@@ -146,7 +146,7 @@ void init_game() {
 }
 
 u8 test01() {
-  u16 i,j;
+  u16 i, j;
   u8 *pscreen;
   u8 choice = 0;
   clear_screen(SCR_VMEM);
@@ -191,15 +191,15 @@ u8 menu() {
   cpc_PrintGphStr("C;2015;JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 10 * 16));
 
 
-while (choice == 0) {
-  //  Synchronize next frame drawing with VSYNC
+  while (choice == 0) {
+    //  Synchronize next frame drawing with VSYNC
     cpct_waitVSYNC();
- 
+
     //STARS
-  //  if (get_active_stars()<4)
-   //   create_star(cpct_getRandomUniform_u8_f(0) % 75, cpct_getRandomUniform_u8_f(0) % 191);
-   // update_stars();
-   // draw_stars(SCR_VMEM);
+    //  if (get_active_stars()<4)
+    //   create_star(cpct_getRandomUniform_u8_f(0) % 75, cpct_getRandomUniform_u8_f(0) % 191);
+    // update_stars();
+    // draw_stars(SCR_VMEM);
 
     // Scan Keyboard
     cpct_scanKeyboard_f();
@@ -218,9 +218,9 @@ while (choice == 0) {
       choice = STATE_EXIT;
     }
   }
-  
+
   timer_off();
-  
+
   return choice;
 }
 
@@ -275,7 +275,7 @@ u8 win() {
   cpc_PrintGphStr2X("YOU;WIN", (int) cpct_getScreenPtr(SCR_VMEM, 32, 100));
   cpc_PrintGphStr2X("PRESS;ESC;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
 
-  while(1){
+  while (1) {
     cpct_scanKeyboard_f();
     if (cpct_isKeyPressed(Key_Esc))
       break;
@@ -306,7 +306,7 @@ u8 game(u8 level) {
 
   start_level(level);
 
-  while (state==STATE_GAME)
+  while (state == STATE_GAME)
   {
     delta_time = get_time() - last_update;
 
@@ -323,7 +323,8 @@ u8 game(u8 level) {
     }
 
     update_shoots();
-    update_enemies();
+    update_enemies(pvmem);
+
     update_enemy_shoots();
 
     //  Synchronize next frame drawing with VSYNC
@@ -335,8 +336,6 @@ u8 game(u8 level) {
     if (STARFIELD_ACTIVE) {
       draw_starfield(pvmem);
     }
-
-    debug_enemies(pvmem);
 
     //Draw all elements
     draw_enemies(pvmem);
@@ -374,16 +373,16 @@ u8 game(u8 level) {
     //  break;
     //}
 
-    if (DEBUG) {
-      //debug_enemies(pvmem);
+if (DEBUG) {
+      debug_enemies();
       i = 0;
       while (1) {
         i++;
-        if (i == 40000) break;
+        if (i == 20000) break;
       }
     }
 
-  update_level();
+    update_level();
 
     pvmem = changeVideoMemoryPage();
 

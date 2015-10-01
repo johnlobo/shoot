@@ -12,7 +12,7 @@ TEnemy_group groups [MAX_ENEMY_GROUPS];
 u8 active_groups;
 TPatternSet* pattern_set;
 TPattern* pattern;
-
+u8* cur_screen;
 
 //******************************************************************************
 // Función: check_collision_enemies(u8 x, u8 y, u8 w, u8 h)
@@ -65,7 +65,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
 		enemies[k].frame = 0;
 		enemies[k].x = x;
 		enemies[k].y = y;
-		
+
 		enemies[k].home_x = home_x;
 		enemies[k].home_y = home_y;
 		enemies[k].num_frames = 0;
@@ -213,18 +213,18 @@ void update_enemy_groups() {
 	}
 }
 
-void debug_enemies(u8* screen) {
+void debug_enemies() {
 	u8 i = 0;
 	u8 aux_txt[80];
 	u8 line = 0;
 
 	sprintf(aux_txt, "%03d", active_enemies);
 	colour_message(0, 2);
-	cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 0, 16));
+	cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(cur_screen, 0, 16));
 	for (i = 0; i < MAX_ENEMIES; i++) {
 		if (enemies[i].active) {
-			sprintf(aux_txt, "%08i:%08i:%08i:%02i", enemies[i].x, enemies[i].y, enemies[i].f.angle, enemies[i].cur_cmd);
-			cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 0, 8 * line + 24));
+			sprintf(aux_txt, "%i:%i:%i:%i", enemies[i].x, enemies[i].y, enemies[i].f.angle, enemies[i].cur_cmd);
+			cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(cur_screen, 40, 8 * line + 40));
 			line++;
 		}
 
@@ -237,27 +237,32 @@ void debug_enemies(u8* screen) {
 //******************************************************************************
 u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 	u8 advance_step;
-	u8 x_comp, y_comp;
-	u8 x_prev, y_prev;
-	u8 x_close, y_close;
+	i16 x_comp, y_comp;
+	i16 x_prev, y_prev;
+	i16 x_close, y_close;
+	u8 aux_txt[80];
 
 	advance_step = 0;
 
-	x_prev = (f->x >> 8);
-	y_prev = (f->y >> 8);
+	x_prev = (f->x /256);
+	y_prev = (f->y /256);
 
 	f->x += f->v * cosine(f->angle);
 	//multiply by two two mantain aspect ration in the speed
 	//multiply by the sigh of the y coord to act properly when y is less than 0
-	f->y = ((f->y<0) - (f->y>=0)) * (f->v * sine(f->angle) * 2); 
+	//f->y = ((f->y<0) - (f->y>=0)) * (f->v * sine(f->angle) * 2);
+	f->y -= (f->v * sine(f->angle) * 2);
 
-	x_comp = (f->x >> 8);
-	y_comp = (f->y >> 8);
+	//debug_enemies();
+	//espera_una_tecla();
+
+	x_comp = (f->x /256);
+	y_comp = (f->y /256);
 
 	x_close = 0;
 	y_close = 0;
 
-	if ((x==-100) && (y==-100)){  //si x e y son distintas de -100,-100 (por convención) cargo el valor de pattern
+	if ((x == -100) && (y == -100)) { //si x e y son distintas de -100,-100 (por convención) cargo el valor de pattern
 		x = pattern->x;
 		y = pattern->y;
 	}
@@ -269,7 +274,7 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 	}
 
 	if ((y_comp == y) || ((MIN(y_prev, y_comp) <= y) && ((MAX(y_prev, y_comp) >= y)))) {
-		espera_una_tecla();
+		//espera_una_tecla();
 		y_close = 1;
 		f->y = y * SCALE_FACTOR;
 		y_comp = y;
@@ -279,6 +284,8 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 		f->x = x * SCALE_FACTOR;
 		f->y = y * SCALE_FACTOR;
 		advance_step = 1;
+		//debug_enemies();
+		//espera_una_tecla();
 	} else if (y_close) {
 		if (x_comp < x) {
 			f->angle = 0;
@@ -322,8 +329,10 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 // Función: update_enemies2()
 // Update based on patterns
 //******************************************************************************
-void update_enemies() {
+void update_enemies(u8* screen) {
 	u8 i = 0;
+
+	cur_screen = screen;
 
 	update_enemy_groups();
 
@@ -349,8 +358,8 @@ void update_enemies() {
 					enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
 					//multiply by two two mantain aspect ration in the speed
 					//multiply by the sigh of the y coord to act properly when y is less than 0
-					enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2); 
-					//enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
+					//enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2);
+					enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
 
 					if (enemies[i].step == pattern->frames) {
 						enemies[i].step = 0;
@@ -360,8 +369,8 @@ void update_enemies() {
 					break;
 
 				case TRANSLATE_HOME:
-					
-					if (translate_to((TPhysics*) &(enemies[i].f),(TPattern*) (*pattern), enemies[i].home_x, enemies[i].home_y))
+
+					if (translate_to((TPhysics*) & (enemies[i].f), (TPattern*) (*pattern), enemies[i].home_x, enemies[i].home_y))
 						enemies[i].cur_cmd++;
 					break;
 
@@ -380,8 +389,8 @@ void update_enemies() {
 					enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
 					//multiply by two two mantain aspect ration in the speed
 					//multiply by the sigh of the y coord to act properly when y is less than 0
-					enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2); 
-					//enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
+					//enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2);
+					enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
 					if (enemies[i].step == pattern->frames) {
 						enemies[i].step = 0;
 						enemies[i].cur_cmd++;
@@ -391,8 +400,8 @@ void update_enemies() {
 					break;
 				}
 
-				enemies[i].y = enemies[i].f.y >> 8;
-				enemies[i].x = enemies[i].f.x >> 8;
+				enemies[i].x = enemies[i].f.x /256;
+				enemies[i].y = enemies[i].f.y /256;
 
 				if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
 					enemies[i].cur_cmd = 0;
@@ -427,7 +436,7 @@ void draw_enemies(u8* screen) {
 		for (k = 0; k < MAX_ENEMIES; k++) {
 
 			if ((enemies[k].active) && inside_screen(enemies[k].x, enemies[k].y, enemies[k].w, enemies[k].h)) {
-				pscreen = cpct_getScreenPtr(screen, enemies[k].x/2, enemies[k].y);
+				pscreen = cpct_getScreenPtr(screen, enemies[k].x / 2, enemies[k].y);
 
 				if (enemies[k].x & 1) {
 					shiftSpritePixelsRightToBuffer((u8*) enemies[k].sprite[enemies[k].f.dir], enemies[k].w * enemies[k].h);

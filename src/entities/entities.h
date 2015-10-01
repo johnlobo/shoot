@@ -37,9 +37,9 @@
 typedef struct
 {
    u8 CMD;
-   u8 v;
-   u8 x;
-   u8 y;
+   i16 v;
+   i16 x;
+   i16 y;
    i16 angle;
    u8 frames;
 } TPattern;
@@ -112,6 +112,7 @@ typedef  struct {    // minimun sprite structure
    u8 active;
    TPhysics f;
    i16 x, y;
+   i16 obj_x, obj_y;
    u8 w;
    u8 h;
    u8 dir;
@@ -206,8 +207,8 @@ void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 u8 get_active_enemies();
 u8 get_active_groups();
-void update_enemies();
-void debug_enemies(u8* screen);
+void update_enemies(u8* screen);
+void debug_enemies();
 
 //USER
 long get_last_moved_user();
