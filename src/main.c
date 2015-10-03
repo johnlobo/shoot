@@ -7,7 +7,7 @@
 
 
 // Modo Debug
-#define DEBUG 1
+#define DEBUG 0
 // Automata de estados
 #define STATE_MENU      2
 #define STATE_HELP      3

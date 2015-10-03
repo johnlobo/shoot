@@ -13,6 +13,8 @@
 #define ROTATE  1
 #define TRANSLATE_TO 2
 #define TRANSLATE_HOME 3
+#define TRANSPORT_TO 4
+#define SLEEP 5
 //MATH
 //#define PI 3.1415926
 #define PIXEL_SCALE 256
@@ -65,6 +67,7 @@ typedef struct {
    u8 dir;
    i16 angle;
    i16 acum_angle;
+   u8 sleep;
 
 } TPhysics;
 

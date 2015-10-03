@@ -36,7 +36,7 @@ void update_level() {
 			}
 			break;
 		case 2:
-			create_enemy_group(100, 92, 1, 5);
+			create_enemy_group(100, 150, 1, 5);
 			//create_star(cpct_getRandomUniform_u8_f(0) % 75, cpct_getRandomUniform_u8_f(0) % 191);
 			level_step++;
 			break;

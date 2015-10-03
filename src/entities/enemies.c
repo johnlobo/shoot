@@ -71,12 +71,13 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
 		enemies[k].num_frames = 0;
 		enemies[k].movement = 0;
 		enemies[k].step = 0;
-		enemies[k].f.x = x * SCALE_FACTOR;
-		enemies[k].f.y = y * SCALE_FACTOR;
+		enemies[k].f.x = (i32) x * (i32) SCALE_FACTOR;
+		enemies[k].f.y = (i32) y * (i32) SCALE_FACTOR;
 		enemies[k].f.v = 0;
 		enemies[k].f.dir = 0;
 		enemies[k].f.angle = 270;
 		enemies[k].f.acum_angle = 0;
+		enemies[k].f.sleep = 0;
 		enemies[k].cur_cmd = 0;
 
 		switch (type) {
@@ -92,7 +93,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
 			enemies[k].sprite[5] = (u8*) G_baddie01_05;
 			enemies[k].sprite[6] = (u8*) G_baddie01_06;
 			enemies[k].sprite[7] = (u8*) G_baddie01_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern03;
+			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			break;
 		case 2:
 			enemies[k].w = 6;
@@ -105,7 +106,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
 			enemies[k].sprite[5] = (u8*) G_baddie02_05;
 			enemies[k].sprite[6] = (u8*) G_baddie02_06;
 			enemies[k].sprite[7] = (u8*) G_baddie02_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern01;
+			enemies[k].patternQueue = (TPatternSet*) &pattern02;
 			break;
 		case 3:
 			enemies[k].w = 5;
@@ -118,7 +119,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
 			enemies[k].sprite[5] = (u8*) G_baddie03_05;
 			enemies[k].sprite[6] = (u8*) G_baddie03_06;
 			enemies[k].sprite[7] = (u8*) G_baddie03_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern02;
+			enemies[k].patternQueue = (TPatternSet*) &pattern03;
 			break;
 		case 4:
 			enemies[k].w = 5;
@@ -164,6 +165,10 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
 		//prota.lastShot = getTime();
 		//if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 	}
+
+	//debug_enemies();
+	//espera_una_tecla();
+
 }
 
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies ) {
@@ -244,20 +249,20 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 
 	advance_step = 0;
 
-	x_prev = (f->x /256);
-	y_prev = (f->y /256);
+	x_prev = (f->x >> 8);
+	y_prev = (f->y >> 8);
 
-	f->x += f->v * cosine(f->angle);
+	f->x += (i32) f->v * cosine(f->angle);
 	//multiply by two two mantain aspect ration in the speed
 	//multiply by the sigh of the y coord to act properly when y is less than 0
 	//f->y = ((f->y<0) - (f->y>=0)) * (f->v * sine(f->angle) * 2);
-	f->y -= (f->v * sine(f->angle) * 2);
+	f->y -= (i32)(f->v * sine(f->angle) * 2);
 
 	//debug_enemies();
 	//espera_una_tecla();
 
-	x_comp = (f->x /256);
-	y_comp = (f->y /256);
+	x_comp = (f->x >> 8);
+	y_comp = (f->y >> 8);
 
 	x_close = 0;
 	y_close = 0;
@@ -269,20 +274,20 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 
 	if ((x_comp == x) || ((MIN(x_prev, x_comp) <= x) && ((MAX(x_prev, x_comp) >= x)))) {
 		x_close = 1;
-		f->x = x * SCALE_FACTOR;
+		f->x = (i32) x * (i32) SCALE_FACTOR;
 		x_comp = x;
 	}
 
 	if ((y_comp == y) || ((MIN(y_prev, y_comp) <= y) && ((MAX(y_prev, y_comp) >= y)))) {
 		//espera_una_tecla();
 		y_close = 1;
-		f->y = y * SCALE_FACTOR;
+		f->y = (i32) y * (i32) SCALE_FACTOR;
 		y_comp = y;
 	}
 
 	if (x_close && y_close) {
-		f->x = x * SCALE_FACTOR;
-		f->y = y * SCALE_FACTOR;
+		f->x = (i32) x * (i32) SCALE_FACTOR;
+		f->y = (i32) y * (i32) SCALE_FACTOR;
 		advance_step = 1;
 		//debug_enemies();
 		//espera_una_tecla();
@@ -347,8 +352,11 @@ void update_enemies(u8* screen) {
 				switch (pattern->CMD) {
 
 				case TRANSLATE_TO:
-					if (translate_to((TPhysics*) & (enemies[i].f), (TPattern*) (*pattern), -100, -100))
+					if (translate_to((TPhysics*) & (enemies[i].f), (TPattern*) (*pattern), -100, -100)){
 						enemies[i].cur_cmd++;
+						//debug_enemies();
+						//espera_una_tecla();
+					}
 					break;
 
 				case TRANSLATE:
@@ -398,10 +406,25 @@ void update_enemies(u8* screen) {
 
 
 					break;
+
+				case TRANSPORT_TO:
+					enemies[i].f.x = (i32) pattern->x * (i32) SCALE_FACTOR;
+					enemies[i].f.y = (i32) pattern->y * (i32) SCALE_FACTOR;
+					enemies[i].f.angle = pattern->angle;
+					enemies[i].f.dir = enemies[i].f.angle / 45;
+					enemies[i].cur_cmd++;
+					break;
+
+				case SLEEP:
+					if (enemies[i].f.sleep == pattern->frames){
+						enemies[i].f.sleep=0;
+						enemies[i].cur_cmd++;
+					} else
+						enemies[i].f.sleep++;
 				}
 
-				enemies[i].x = enemies[i].f.x /256;
-				enemies[i].y = enemies[i].f.y /256;
+				enemies[i].x = enemies[i].f.x >> 8;
+				enemies[i].y = enemies[i].f.y >> 8;
 
 				if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
 					enemies[i].cur_cmd = 0;
