@@ -2,6 +2,7 @@
 #include <cpctelera.h>
 #include "entities.h"
 #include "../sprites/sprites.h"
+#include "../util/util.h"
 
 TShip user;
 u8 shoot_type;
@@ -168,4 +169,15 @@ void add_score(u16 new_add_score) {
 }
 u32 get_score() {
   return user.score;
+}
+u8 check_collision_user(u8 x, u8 y, u8 w, u8 h) {
+  u8 i;
+  u8 collision;
+
+  i = 0;
+  collision = 0;
+  if (fast_collision(x, y, w, h, user.e.x, user.e.y, user.e.w, user.e.h)) {
+        collision = 1;
+    }
+  return collision;
 }

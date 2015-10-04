@@ -27,7 +27,7 @@
 #define MAX_ENEMY_GROUPS 4
 #define ENEMY_GAP 3
 //ENEMY_SHOOTS
-#define MAX_ENEMY_SHOOTS 20
+#define MAX_ENEMY_SHOTS 20
 //EXPLOSIONS
 #define MAX_EXPLOSIONES 30
 #define EXPLOSIONS_SPEED 20
@@ -153,7 +153,7 @@ typedef  struct {    // minimun sprite structure
    u8 type;
    long last_moved;
 // u8 objetivox;
-} TEnemy_shoot;
+} TEnemy_shot;
 
 //EXPLOSION
 typedef struct {
@@ -195,12 +195,12 @@ void create_shoot(u8 x, u8 y, u8 type);
 void update_shoots();
 void draw_shoots(u8* screen);
 
-//ENEMY SHOOTS
-u8 get_active_enemy_shoots();
-void init_enemy_shoots();
-void create_enemy_shoot(u8 x, u8 y, u8 type, i16 angle, u8 speed);
-void update_enemy_shoots();
-void draw_enemy_shoots(u8* screen);
+//ENEMY SHOTS
+u8 get_active_enemy_shots();
+void init_enemy_shots();
+void create_enemy_shot(u8 x, u8 y, u8 type, i16 angle, u8 speed);
+void update_enemy_shots();
+void draw_enemy_shots(u8* screen);
 
 //ENEMIES
 void init_enemies();
@@ -226,6 +226,7 @@ void draw_user(u8* screen);
 void set_score(u32 new_score);
 void add_score(u16 new_add_score);
 u32 get_score();
+u8 check_collision_user(u8 x, u8 y, u8 w, u8 h);
 
 //EXPLOSIONES
 long get_last_moved_explosions();
@@ -256,5 +257,6 @@ void color_test(u8* screen);
 void start_level(u8 lev);
 void update_level();
 u8 get_end_level();
+u8 get_level_max_enemy_shots();
 
 #endif

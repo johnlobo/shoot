@@ -240,7 +240,7 @@ void debug_enemies() {
 // Función: translate_to()
 // Updates the physics module of an enemy to move towards the x,y in the pattern
 //******************************************************************************
-u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
+u8 translate_to(TPhysics *f, i16 x, i16 y, u8 v) {
 	u8 advance_step;
 	i16 x_comp, y_comp;
 	i16 x_prev, y_prev;
@@ -252,7 +252,7 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 	x_prev = (f->x >> 8);
 	y_prev = (f->y >> 8);
 
-	f->x += (i32) f->v * cosine(f->angle);
+	f->x += (i32) (f->v * cosine(f->angle));
 	//multiply by two two mantain aspect ration in the speed
 	//multiply by the sigh of the y coord to act properly when y is less than 0
 	//f->y = ((f->y<0) - (f->y>=0)) * (f->v * sine(f->angle) * 2);
@@ -266,11 +266,6 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 
 	x_close = 0;
 	y_close = 0;
-
-	if ((x == -100) && (y == -100)) { //si x e y son distintas de -100,-100 (por convención) cargo el valor de pattern
-		x = pattern->x;
-		y = pattern->y;
-	}
 
 	if ((x_comp == x) || ((MIN(x_prev, x_comp) <= x) && ((MAX(x_prev, x_comp) >= x)))) {
 		x_close = 1;
@@ -325,7 +320,7 @@ u8 translate_to(TPhysics *f, TPattern *pattern, i16 x, i16 y) {
 		f->dir = 3;
 	}
 
-	f->v = pattern->v;
+	f->v = v;
 
 	return advance_step;
 }
@@ -352,7 +347,7 @@ void update_enemies(u8* screen) {
 				switch (pattern->CMD) {
 
 				case TRANSLATE_TO:
-					if (translate_to((TPhysics*) & (enemies[i].f), (TPattern*) (*pattern), -100, -100)){
+					if (translate_to((TPhysics*) & (enemies[i].f), pattern->x, pattern->y, pattern->v)) {
 						enemies[i].cur_cmd++;
 						//debug_enemies();
 						//espera_una_tecla();
@@ -362,7 +357,7 @@ void update_enemies(u8* screen) {
 				case TRANSLATE:
 					enemies[i].f.v = pattern->v;
 					enemies[i].f.angle = pattern-> angle;
-					enemies[i].f.dir = pattern -> angle / 45;
+					enemies[i].f.dir = (pattern -> angle + 15) / 45;
 					enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
 					//multiply by two two mantain aspect ration in the speed
 					//multiply by the sigh of the y coord to act properly when y is less than 0
@@ -378,7 +373,7 @@ void update_enemies(u8* screen) {
 
 				case TRANSLATE_HOME:
 
-					if (translate_to((TPhysics*) & (enemies[i].f), (TPattern*) (*pattern), enemies[i].home_x, enemies[i].home_y))
+					if (translate_to((TPhysics*) & (enemies[i].f), enemies[i].home_x, enemies[i].home_y, pattern->v))
 						enemies[i].cur_cmd++;
 					break;
 
@@ -389,16 +384,16 @@ void update_enemies(u8* screen) {
 					if (enemies[i].f.angle > 360)
 						enemies[i].f.angle -= 360;
 					else if (enemies[i].f.angle < 0)
-						enemies[i].f.angle = 360 - enemies[i].f.angle;
+						enemies[i].f.angle = 360 + enemies[i].f.angle;
 					else if (enemies[i].f.angle == 360)
 						enemies[i].f.angle = 0;
 
-					enemies[i].f.dir = enemies[i].f.angle / 45;
-					enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
+					enemies[i].f.dir = (enemies[i].f.angle + 15) / 45;
+					enemies[i].f.x += (i32) (enemies[i].f.v * cosine(enemies[i].f.angle));
 					//multiply by two two mantain aspect ration in the speed
 					//multiply by the sigh of the y coord to act properly when y is less than 0
 					//enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2);
-					enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
+					enemies[i].f.y -= (i32) (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
 					if (enemies[i].step == pattern->frames) {
 						enemies[i].step = 0;
 						enemies[i].cur_cmd++;
@@ -411,13 +406,13 @@ void update_enemies(u8* screen) {
 					enemies[i].f.x = (i32) pattern->x * (i32) SCALE_FACTOR;
 					enemies[i].f.y = (i32) pattern->y * (i32) SCALE_FACTOR;
 					enemies[i].f.angle = pattern->angle;
-					enemies[i].f.dir = enemies[i].f.angle / 45;
+					enemies[i].f.dir = (enemies[i].f.angle + 15) / 45;
 					enemies[i].cur_cmd++;
 					break;
 
 				case SLEEP:
-					if (enemies[i].f.sleep == pattern->frames){
-						enemies[i].f.sleep=0;
+					if (enemies[i].f.sleep == pattern->frames) {
+						enemies[i].f.sleep = 0;
 						enemies[i].cur_cmd++;
 					} else
 						enemies[i].f.sleep++;
@@ -426,14 +421,25 @@ void update_enemies(u8* screen) {
 				enemies[i].x = enemies[i].f.x >> 8;
 				enemies[i].y = enemies[i].f.y >> 8;
 
-				if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
-					enemies[i].cur_cmd = 0;
+
+
+				if (check_collision_user(enemies[i].x, enemies[i].y, enemies[i].w, enemies[i].h)) {
+					create_explosion(enemies[i].x, enemies[i].y, 0);
+					enemies[i].active = 0;
+					active_enemies--;
+				} else {
+
+					if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
+						enemies[i].cur_cmd = 0;
+					}
+
+					if ((get_active_enemy_shots() < get_level_max_enemy_shots()) && (enemies[i].f.dir > 4)) {
+						create_enemy_shot(enemies[i].x, enemies[i].y, 0, 270, 5);
+					}
 				}
 			}
 		}
-
 	}
-
 }
 
 

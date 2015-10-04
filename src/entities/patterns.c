@@ -1,56 +1,58 @@
 #include "entities.h"
 
 const TPatternSet pattern01 = {
-    .num_CMDs = 7, // 0 movement
+    .num_CMDs = 5, // 0 movement
     {
 
         {
             .CMD = TRANSPORT_TO,
             .v = 0,
-            .x = -5,
-            .y = 100,
-            .angle = 0,
-            .frames = 0
-        },
-        {
-            .CMD = TRANSLATE_TO,
-            .v = 5,
-            .x = 40,
-            .y = 100,
-            .angle = 0,
-            .frames = 0
-        },
-        {
-            .CMD = ROTATE,
-            .v = 4,
-            .x = 0,
+            .x = 165,
             .y = 0,
-            .angle = 10,
-            .frames = 35
+            .angle = 0,
+            .frames = 0
         },
         {
             .CMD = TRANSLATE,
             .v = 5,
             .x = 0,
             .y = 0,
-            .angle = 0,
-            .frames = 15
+            .angle = 210,
+            .frames = 20
+        },
+
+        
+        {
+            .CMD = ROTATE,
+            .v = 6,
+            .x = 0,
+            .y = 0,
+            .angle = -19,
+            .frames = 18
+        },
+        /*{
+            .CMD = TRANSLATE,
+            .v = 5,
+            .x = 0,
+            .y = 0,
+            .angle = 210,
+            .frames = 10
         },
         {
             .CMD = ROTATE,
-            .v = 4,
+            .v = 5,
             .x = 0,
             .y = 0,
-            .angle = 10,
-            .frames = 35
-        },
+            .angle = -19,
+            .frames = 18
+        },*/
         {
-            .CMD = TRANSLATE_TO,
+            .CMD = TRANSLATE,
             .v = 5,
-            .x = 165,
-            .y = 100,
-            .angle = 0,
-            .frames = 0
+            .x = 0,
+            .y = 0,
+            .angle = 210,
+            .frames = 16
         },
         {
             .CMD = SLEEP,
@@ -60,7 +62,6 @@ const TPatternSet pattern01 = {
             .angle = 0,
             .frames = 30
         }
-
     }
 };
 

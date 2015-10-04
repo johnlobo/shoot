@@ -94,12 +94,8 @@ void clear_both_screens() {
 
 void draw_scoreboard(u8* screen) {
   sprintf(aux_txt, "%08d", get_score());
-  colour_message(0, 2);
-  cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 4, 8));
-  colour_message(0, 10);
-  sprintf(aux_txt, "%03d", get_active_enemies());
-  cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 30, 8));
   red_message();
+  cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 4, 8));
   sprintf(aux_txt, "%08d", get_score());
   cpc_PrintGphStr("00000000", (int) cpct_getScreenPtr(screen, 60, 8));
 }
@@ -183,12 +179,11 @@ u8 menu() {
   red_message();
   cpc_PrintGphStr2X("SPACE;RETRO;INVADERS", (int) cpct_getScreenPtr(SCR_VMEM, 20, 16));
   blue_message();
-  cpc_PrintGphStr("1;JUGAR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 4 * 16));
-  cpc_PrintGphStr("2;AYUDA", (int) cpct_getScreenPtr(SCR_VMEM, 28, 5 * 16));
-  cpc_PrintGphStr("3;REDEFINIR;TECLAS", (int) cpct_getScreenPtr(SCR_VMEM, 28, 6 * 16));
-  cpc_PrintGphStr("ESC;SALIR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 7 * 16));
+  cpc_PrintGphStr("1;JUGAR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 5 * 16));
+  cpc_PrintGphStr("2;AYUDA", (int) cpct_getScreenPtr(SCR_VMEM, 28, 6 * 16));
+  cpc_PrintGphStr("3;REDEFINIR;TECLAS", (int) cpct_getScreenPtr(SCR_VMEM, 28, 7 * 16));
   red_message();
-  cpc_PrintGphStr("C;2015;JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 10 * 16));
+  cpc_PrintGphStr("C;2015;JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 24, 11 * 16));
 
 
   while (choice == 0) {
@@ -214,9 +209,6 @@ u8 menu() {
       choice = STATE_REDEFINE;
     if (cpct_isKeyPressed(Key_4))
       choice = STATE_TEST01;
-    if (cpct_isKeyPressed(Key_Esc)) {
-      choice = STATE_EXIT;
-    }
   }
 
   timer_off();
@@ -325,7 +317,7 @@ u8 game(u8 level) {
     update_shoots();
     update_enemies(pvmem);
 
-    update_enemy_shoots();
+    update_enemy_shots();
 
     //  Synchronize next frame drawing with VSYNC
     cpct_waitVSYNC();
@@ -341,7 +333,7 @@ u8 game(u8 level) {
     draw_enemies(pvmem);
     draw_user(pvmem);
     draw_shoots(pvmem);
-    draw_enemy_shoots(pvmem);
+    draw_enemy_shots(pvmem);
     draw_explosions(pvmem);
 
     //Animations

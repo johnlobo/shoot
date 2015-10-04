@@ -6,6 +6,8 @@ u8 active_level = 0;
 u8 level_step = 0;
 u8 level_end = 0;
 long level_timer = 0;
+const u8 level_titles[2][20] = {"PROLOGUE","THE;BEGINNING"};
+u8 level_max_enemy_shots = 0;
 
 void start_level(u8 level) {
 	u8 aux_txt[60];
@@ -15,7 +17,13 @@ void start_level(u8 level) {
 	level_end = 0;
 	sprintf(aux_txt, "LEVEL;%d", active_level);
 	create_message(31, 96, 0, 10, aux_txt);
-	create_message(31, 96, 10, 10, "SHOOT");
+	create_message(31, 96, 10, 10, (u8*) &level_titles[active_level-1]);
+	create_message(31, 96, 20, 10, "SHOOT");
+	switch (active_level){
+		case 1:
+			level_max_enemy_shots = 2;
+		break;
+	}
 }
 
 void update_level() {
@@ -94,4 +102,8 @@ void update_level() {
 
 u8 get_end_level() {
 	return level_end;
+}
+
+u8 get_level_max_enemy_shots() {
+	return level_max_enemy_shots;
 }
