@@ -54,7 +54,7 @@ void init_enemies() {
 // Función: create_enemy
 //	basado en trayectorias
 //******************************************************************************
-void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
+void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 	u8 k;
 	if (active_enemies < MAX_ENEMIES) {
 		k = 0;
@@ -161,6 +161,19 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y) {
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			break;
 		}
+		if (pattern > 0) {
+			switch (pattern) {
+			case 1 :
+				enemies[k].patternQueue = (TPatternSet*) &pattern01;
+				break;
+			case 2 :
+				enemies[k].patternQueue = (TPatternSet*) &pattern02;
+				break;
+			case 3 :
+				enemies[k].patternQueue = (TPatternSet*) &pattern03;
+				break;
+			}
+		}
 		active_enemies++;
 		//prota.lastShot = getTime();
 		//if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
@@ -206,7 +219,7 @@ void update_enemy_groups() {
 						groups[i].active = 0;
 						active_groups--;
 					} else {
-						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type, 10 + groups[i].num_enemies * 5, 20);
+						create_enemy(groups[i].x, groups[i].y, groups[i].enemy_type, 4 + groups[i].num_enemies * 20, 70, 0);
 						groups[i].num_enemies--;
 					}
 				} else {
@@ -342,99 +355,111 @@ void update_enemies(u8* screen) {
 			if (enemies[i].active) {
 
 				pattern_set = (TPatternSet*) & (*enemies[i].patternQueue);
-				pattern = (TPattern*) & (*pattern_set->patterns[enemies[i].cur_cmd]);
 
-				switch (pattern->CMD) {
 
-				case TRANSLATE_TO:
-					if (translate_to((TPhysics*) & (enemies[i].f), pattern->x, pattern->y, pattern->v)) {
+				if (enemies[i].cur_cmd < pattern_set->num_CMDs) {
+
+					pattern = (TPattern*) & (*pattern_set->patterns[enemies[i].cur_cmd]);
+
+					switch (pattern->CMD) {
+
+					case TRANSLATE_TO:
+						if (translate_to((TPhysics*) & (enemies[i].f), pattern->x, pattern->y, pattern->v)) {
+							enemies[i].cur_cmd++;
+							//debug_enemies();
+							//espera_una_tecla();
+						}
+						break;
+
+					case TRANSLATE:
+						enemies[i].f.v = pattern->v;
+						enemies[i].f.angle = pattern-> angle;
+						enemies[i].f.dir = (pattern -> angle + 15) / 45;
+						enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
+						//multiply by two two mantain aspect ration in the speed
+						//multiply by the sigh of the y coord to act properly when y is less than 0
+						//enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2);
+						enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
+
+						if (enemies[i].step == pattern->frames) {
+							enemies[i].step = 0;
+							enemies[i].cur_cmd++;
+						} else enemies[i].step++;
+
+						break;
+
+					case TRANSLATE_HOME:
+
+						if (translate_to((TPhysics*) & (enemies[i].f), enemies[i].home_x, enemies[i].home_y, pattern->v))
+							enemies[i].cur_cmd++;
+						break;
+
+					case ROTATE:
+						enemies[i].f.v = pattern->v;
+						enemies[i].f.angle += pattern->angle;
+
+						if (enemies[i].f.angle > 360)
+							enemies[i].f.angle -= 360;
+						else if (enemies[i].f.angle < 0)
+							enemies[i].f.angle = 360 + enemies[i].f.angle;
+						else if (enemies[i].f.angle == 360)
+							enemies[i].f.angle = 0;
+
+						enemies[i].f.dir = (enemies[i].f.angle + 15) / 45;
+						enemies[i].f.x += (i32) (enemies[i].f.v * cosine(enemies[i].f.angle));
+						//multiply by two two mantain aspect ration in the speed
+						//multiply by the sigh of the y coord to act properly when y is less than 0
+						//enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2);
+						enemies[i].f.y -= (i32) (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
+						if (enemies[i].step == pattern->frames) {
+							enemies[i].step = 0;
+							enemies[i].cur_cmd++;
+						} else enemies[i].step++;
+
+
+						break;
+					case ROTATE_TO:
+						enemies[i].f.v = pattern->v;
+						enemies[i].f.angle = pattern->angle;
+						enemies[i].f.dir = (enemies[i].f.angle + 15) / 45;
+						break;
+
+					case TRANSPORT_TO:
+						enemies[i].f.x = (i32) pattern->x * (i32) SCALE_FACTOR;
+						enemies[i].f.y = (i32) pattern->y * (i32) SCALE_FACTOR;
+						enemies[i].f.angle = pattern->angle;
+						enemies[i].f.dir = (enemies[i].f.angle + 15) / 45;
 						enemies[i].cur_cmd++;
-						//debug_enemies();
-						//espera_una_tecla();
-					}
-					break;
+						break;
 
-				case TRANSLATE:
-					enemies[i].f.v = pattern->v;
-					enemies[i].f.angle = pattern-> angle;
-					enemies[i].f.dir = (pattern -> angle + 15) / 45;
-					enemies[i].f.x += (enemies[i].f.v * cosine(enemies[i].f.angle));
-					//multiply by two two mantain aspect ration in the speed
-					//multiply by the sigh of the y coord to act properly when y is less than 0
-					//enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2);
-					enemies[i].f.y -= (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
-
-					if (enemies[i].step == pattern->frames) {
-						enemies[i].step = 0;
-						enemies[i].cur_cmd++;
-					} else enemies[i].step++;
-
-					break;
-
-				case TRANSLATE_HOME:
-
-					if (translate_to((TPhysics*) & (enemies[i].f), enemies[i].home_x, enemies[i].home_y, pattern->v))
-						enemies[i].cur_cmd++;
-					break;
-
-				case ROTATE:
-					enemies[i].f.v = pattern->v;
-					enemies[i].f.angle += pattern->angle;
-
-					if (enemies[i].f.angle > 360)
-						enemies[i].f.angle -= 360;
-					else if (enemies[i].f.angle < 0)
-						enemies[i].f.angle = 360 + enemies[i].f.angle;
-					else if (enemies[i].f.angle == 360)
-						enemies[i].f.angle = 0;
-
-					enemies[i].f.dir = (enemies[i].f.angle + 15) / 45;
-					enemies[i].f.x += (i32) (enemies[i].f.v * cosine(enemies[i].f.angle));
-					//multiply by two two mantain aspect ration in the speed
-					//multiply by the sigh of the y coord to act properly when y is less than 0
-					//enemies[i].f.y = ((enemies[i].f.y<0) - (enemies[i].f.y>=0)) * (enemies[i].f.v * sine(enemies[i].f.angle) * 2);
-					enemies[i].f.y -= (i32) (enemies[i].f.v * sine(enemies[i].f.angle)) * 2;
-					if (enemies[i].step == pattern->frames) {
-						enemies[i].step = 0;
-						enemies[i].cur_cmd++;
-					} else enemies[i].step++;
-
-
-					break;
-
-				case TRANSPORT_TO:
-					enemies[i].f.x = (i32) pattern->x * (i32) SCALE_FACTOR;
-					enemies[i].f.y = (i32) pattern->y * (i32) SCALE_FACTOR;
-					enemies[i].f.angle = pattern->angle;
-					enemies[i].f.dir = (enemies[i].f.angle + 15) / 45;
-					enemies[i].cur_cmd++;
-					break;
-
-				case SLEEP:
-					if (enemies[i].f.sleep == pattern->frames) {
-						enemies[i].f.sleep = 0;
-						enemies[i].cur_cmd++;
-					} else
-						enemies[i].f.sleep++;
-				}
-
-				enemies[i].x = enemies[i].f.x >> 8;
-				enemies[i].y = enemies[i].f.y >> 8;
-
-
-
-				if (check_collision_user(enemies[i].x, enemies[i].y, enemies[i].w, enemies[i].h)) {
-					create_explosion(enemies[i].x, enemies[i].y, 0);
-					enemies[i].active = 0;
-					active_enemies--;
-				} else {
-
-					if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
-						enemies[i].cur_cmd = 0;
+					case SLEEP:
+						if (enemies[i].f.sleep == pattern->frames) {
+							enemies[i].f.sleep = 0;
+							enemies[i].cur_cmd++;
+						} else
+							enemies[i].f.sleep++;
 					}
 
-					if ((get_active_enemy_shots() < get_level_max_enemy_shots()) && (enemies[i].f.dir > 4)) {
-						create_enemy_shot(enemies[i].x, enemies[i].y, 0, 270, 5);
+					enemies[i].x = enemies[i].f.x >> 8;
+					enemies[i].y = enemies[i].f.y >> 8;
+
+
+
+					if (check_collision_user(enemies[i].x, enemies[i].y, enemies[i].w, enemies[i].h)) {
+						create_explosion(enemies[i].x, enemies[i].y, 0);
+						enemies[i].active = 0;
+						active_enemies--;
+					} else {
+
+						if ((pattern_set->repeat) && (enemies[i].cur_cmd >= pattern_set->num_CMDs)) {
+							enemies[i].cur_cmd = 0;
+						}
+
+						if ((get_active_enemy_shots() < get_level_max_enemy_shots()) && 
+							(cpct_getRandomUniform_u8_f(0)<10) &&
+							(enemies[i].f.dir > 4)) {
+							create_enemy_shot(enemies[i].x, enemies[i].y, 0, 270, 4);
+						}
 					}
 				}
 			}

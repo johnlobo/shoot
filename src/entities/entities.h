@@ -11,10 +11,11 @@
 //PATTERNS
 #define TRANSLATE 0
 #define ROTATE  1
-#define TRANSLATE_TO 2
-#define TRANSLATE_HOME 3
-#define TRANSPORT_TO 4
-#define SLEEP 5
+#define ROTATE_TO 2
+#define TRANSLATE_TO 3
+#define TRANSLATE_HOME 4
+#define TRANSPORT_TO 5
+#define SLEEP 6
 //MATH
 //#define PI 3.1415926
 #define PIXEL_SCALE 256
@@ -49,6 +50,7 @@ typedef struct
 typedef struct
 {
    u8 num_CMDs;
+   u8 repeat;
    TPattern patterns[10];
 } TPatternSet;
 
@@ -204,7 +206,7 @@ void draw_enemy_shots(u8* screen);
 
 //ENEMIES
 void init_enemies();
-void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y);
+void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern);
 void create_enemy_group(i16 x, i16 y, u8 type, u8 num_enemies);
 void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);

@@ -32,7 +32,7 @@ void init_user() {
   user.shield = 0;
   user.lives = 0;
 
-  user.max_shoots = 3;
+  user.max_shoots = 2;
   shoot_type = 1;
   user.last_moved = 0;
   user.engine_state = 0;
@@ -105,6 +105,7 @@ void update_user() {
     create_shoot(user.e.x+3, user.e.y, shoot_type);
   }
 
+  /*
   // KEY = 1
   if (cpct_isKeyPressed(Key_1)) {
     create_enemy(10, 10, 1, 10, 10);
@@ -125,6 +126,7 @@ void update_user() {
   if (cpct_isKeyPressed(Key_5)) {
     create_enemy(10, 10, 5, 10, 10);
   }
+  */
 
 
   //Kinematics

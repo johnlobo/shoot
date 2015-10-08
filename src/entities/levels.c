@@ -21,7 +21,7 @@ void start_level(u8 level) {
 	create_message(31, 96, 20, 10, "SHOOT");
 	switch (active_level){
 		case 1:
-			level_max_enemy_shots = 2;
+			level_max_enemy_shots = 3;
 		break;
 	}
 }
@@ -44,8 +44,9 @@ void update_level() {
 			}
 			break;
 		case 2:
-			create_enemy_group(100, 150, 1, 5);
-			//create_star(cpct_getRandomUniform_u8_f(0) % 75, cpct_getRandomUniform_u8_f(0) % 191);
+			create_enemy(15,180,1,34,50,1);
+			create_enemy(8,195,3,45,30,1);
+			create_enemy(0,180,1,55,50,1);
 			level_step++;
 			break;
 		case 3:
@@ -53,31 +54,34 @@ void update_level() {
 			level_step++;
 			break;
 		case 4:
-			if ((get_time() - level_timer) > 200) {
+			if ((get_time() - level_timer) > 1500) {
 				level_step++;
 			}
 			break;
 		case 5:
-			if ((!get_active_groups()) && (!get_active_enemies())) {
-				create_enemy_group(80, 0, 5	, 5);
-				level_step++;
-			}
+			create_enemy(145,180,1,95,50,2);
+			create_enemy(152,195,3,105,30,2);
+			create_enemy(160,180,1,115,50,2);
+			level_step++;
 			break;
 		case 6:
 			level_timer = get_time();
 			level_step++;
 			break;
 		case 7:
-			if ((get_time() - level_timer) > 200) {
+			if ((get_time() - level_timer) > 1500) {
 				level_step++;
 			}
 			break;
 		case 8:
-			if ((!get_active_groups()) && (!get_active_enemies())) {
-				create_enemy(5,0,1,5,0);
-				create_enemy(0,5,1,0,5);
-				level_step++;
-			}
+			/*create_enemy(0,195,1,24,70,1);
+			create_enemy(-20,215,1,44,70,1);
+			create_enemy(-40,235,1,64,70,1);
+			create_enemy(-60,255,1,84,70,1);
+			create_enemy(-80,235,1,104,70,1);
+			create_enemy(-100,255,1,124,70,1);*/
+			create_enemy_group(0,195,4,6);
+			level_step++;
 			break;
 		case 9:
 			if ((!get_active_groups()) && (!get_active_enemies())) {
