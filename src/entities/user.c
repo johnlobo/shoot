@@ -92,10 +92,10 @@ void update_user() {
   }
   // KEY =  Right or Left
   if ((cpct_isKeyPressed(Key_P))) {
-    user.e.ax = 3;
+    user.e.ax = 2;
     user.e.frame = 2;
   } else if (cpct_isKeyPressed(Key_O)) {
-    user.e.ax = -3;
+    user.e.ax = -2;
     user.e.frame = 1;
   } else
     user.e.frame = 0;
@@ -178,7 +178,7 @@ u8 check_collision_user(u8 x, u8 y, u8 w, u8 h) {
 
   i = 0;
   collision = 0;
-  if (fast_collision(x, y, w, h, user.e.x, user.e.y, user.e.w, user.e.h)) {
+  if (fast_collision(x, y, (w*2)-1, h, user.e.x, user.e.y, (user.e.w*2)-1, user.e.h)) {
         collision = 1;
     }
   return collision;

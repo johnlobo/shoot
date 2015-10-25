@@ -135,3 +135,43 @@ const TPatternSet pattern03 = {
         }
     }
 };
+
+const TPatternSet attack01 = {
+    .num_CMDs = 4, // 0 movement
+    .repeat = 0,
+    {
+        {
+            .CMD = ROTATE,
+            .v = 3,
+            .x = 0,
+            .y = 0,
+            .angle = 19,
+            .frames = 18
+        },
+        {
+            .CMD = TRANSLATE,
+            .v = 5,
+            .x = 0,
+            .y = 0,
+            .angle = 315,
+            .frames = 15
+        },
+        {
+            .CMD = TRANSPORT_TO,
+            .v = 0,
+            .x = 80,
+            .y = -10,
+            .angle = 270,
+            .frames = 0
+        },
+
+        {
+            .CMD = TRANSLATE_HOME,
+            .v = 2,
+            .x = 0,
+            .y = 0,
+            .angle = 0,
+            .frames = 0
+        }
+    }
+};

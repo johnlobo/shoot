@@ -69,7 +69,6 @@ void update_shoots(){
 				shoots[i].y-=SHOOT_JUMP;
 				if (shoots[i].y<200){
 					if (check_collision_enemies(shoots[i].x,shoots[i].y,shoots[i].w,shoots[i].h)){
-						create_explosion(shoots[i].x,shoots[i].y,0);
 						shoots[i].active=0;
 						active_shoots--;
 						add_score(10);

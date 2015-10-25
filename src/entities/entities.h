@@ -134,7 +134,8 @@ typedef  struct {    // minimun sprite structure
    TPatternSet *patternQueue;
    u8 patternQueuePos;
    TEntity e;
-   char *sprite[8];     //2 bytes   01
+   char *sprite[8];
+   u8 in_movement;
 // u8 objetivox;
 } TEnemy;
 
@@ -181,7 +182,7 @@ typedef struct {
    u8 delay;
 } TMessage;
 
-extern const TPatternSet pattern01, pattern02, pattern03;
+extern const TPatternSet pattern01, pattern02, pattern03, attack01;
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -214,6 +215,7 @@ u8 get_active_enemies();
 u8 get_active_groups();
 void update_enemies(u8* screen);
 void debug_enemies();
+void enemies_full_attack();
 
 //USER
 long get_last_moved_user();

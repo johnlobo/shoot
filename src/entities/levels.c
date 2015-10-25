@@ -21,7 +21,7 @@ void start_level(u8 level) {
 	create_message(31, 96, 20, 10, "SHOOT");
 	switch (active_level){
 		case 1:
-			level_max_enemy_shots = 3;
+			level_max_enemy_shots = 4;
 		break;
 	}
 }
@@ -74,29 +74,36 @@ void update_level() {
 			}
 			break;
 		case 8:
-			/*create_enemy(0,195,1,24,70,1);
-			create_enemy(-20,215,1,44,70,1);
-			create_enemy(-40,235,1,64,70,1);
-			create_enemy(-60,255,1,84,70,1);
-			create_enemy(-80,235,1,104,70,1);
-			create_enemy(-100,255,1,124,70,1);*/
 			create_enemy_group(0,195,4,6);
 			level_step++;
 			break;
 		case 9:
-			if ((!get_active_groups()) && (!get_active_enemies())) {
-				create_message(18, 96, 0, 10, "WELL;DONE;PILOT");
-				level_end = 1;
-			}
-			break;
-		case 10:
 			level_timer = get_time();
 			level_step++;
 			break;
-		case 11:
-			if ( (get_time() - level_timer) > 3000) {
+		case 10:
+			if ( (get_time() - level_timer) > 1000) {
 				level_step++;
 			}
+			break;
+		case 11:
+			if ((!get_active_groups()) && (!get_active_enemies())) {
+				create_message(20, 96, 0, 10, "WELL;DONE;PILOT");
+			} else {
+				enemies_full_attack();
+			}
+			break;
+		case 12:
+			level_timer = get_time();
+			level_step++;
+			break;
+		case 13:
+			if ( (get_time() - level_timer) > 1000) {
+				level_step++;
+			}
+			break;
+		case 14:
+			level_end = 1;
 			break;
 		}
 
