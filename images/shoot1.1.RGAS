@@ -31,9 +31,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "BgYAAAAAAAAABgYAAAoKAAAABgYKAAAAAAwMBgoAAAAMDAwKAAAAAAwODAwMDA0ADAwMCgAAAAAADAwGCgAAAAAABgYKAAAAAAYGAAAKCgAGBgAAAAAAAAAAAAAAAAAAAA=="
+          "$value": "BgYAAAAAAAAAAAAFBgAAAAAKCgAAAAUGAAAKCAgAAAwMDAoKCAAAAAwMDg0MCAAAAAAMDg4MDAwMDQAADAwODQwIAAAAAAAMDAwKCggAAAAAAAUGAAAKCAgAAAUGAAAAAAoKAAYGAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
-        "Width": 8,
+        "Width": 10,
         "Height": 12,
         "_guid": "5f0335fd-4e94-499d-bb09-ee545e9b8703",
         "_name": "baddie01_00",
@@ -47,9 +47,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAAAAAAAAAAAAAACgAAAAAAAAoAAAAAAAAACgANAAAGBgYKDA0AAAAADAwMAAAADAwMDAAACgAMDgwGCgoAAAwODAYAAAAADAwMBgAAAAAAAAAGAAAAAAAABgAAAAAAAA=="
+          "$value": "AAAAAAAKAAAAAAAAAAAKAAAAAAAAAAAACgANAAAAAAAAAAoADQAAAAAAAAAKDAwAAAAABQUFDAwAAAoABQYGDAwMCAgKAAYABAwMCgoKAAAAAAwODAUAAAAAAAAMDgwFAAAAAAAADAwMBQAAAAAAAAAABQUAAAAAAA=="
         },
-        "Width": 8,
+        "Width": 10,
         "Height": 12,
         "_guid": "5f0335fd-4e94-499d-bb09-ee545e9b8703",
         "_name": "baddie01_01",
@@ -63,9 +63,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "CgAAAAAACgAKAAANAAAKAAoKAAwACgoAAAoKDAoKAAAAAAoMCgAAAAAABgwGAAAAAAYMDAwGAAAABgwMDAYAAAAGDA4MBgAABgYMDgwGBgAGAAwMDAAGAAYAAAwAAAYAAA=="
+          "$value": "AAoAAAAAAAoAAAAKAAANAAAKAAAACggADAAICgAAAAAKCAwICgAAAAAACggMCAoAAAAAAAAKDAoAAAAAAAAGDAwMBgAAAAAGBQwODAUGAAAGBQAMDgwABQYABgAAAAwAAAAGAAYAAAAMAAAABgAAAAAAAAAAAAAAAA=="
         },
-        "Width": 8,
+        "Width": 10,
         "Height": 12,
         "_guid": "5f0335fd-4e94-499d-bb09-ee545e9b8703",
         "_name": "baddie01_02",
@@ -79,9 +79,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAAAAAAAAAAAAoAAAAAAAAAAAoAAAAAAA0ACgAAAAAADQwKBgYGAAAADAwMAAAACgAADAwMDAAACgoGDA4MAAAAAAYMDgwAAAAABgwMDAAAAAAGAAAAAAAAAAAGAAAAAA=="
+          "$value": "AAAAAAoAAAAAAAAAAAAACgAAAAAAAA0NAAoAAAAAAAAADAAKAAAAAAAAAAwMCgAAAAAACgAADAwFBQUAAAoICAwMDAYGBQAACgoKDAwEAAYAAAAABQwODAAAAAAAAAUMDgwAAAAAAAAFDAwMAAAAAAAABQUAAAAAAA=="
         },
-        "Width": 8,
+        "Width": 10,
         "Height": 12,
         "_guid": "5f0335fd-4e94-499d-bb09-ee545e9b8703",
         "_name": "baddie01_03",
@@ -95,9 +95,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAAAAAGBgAKCgAABgYAAAAACgYGAAAAAAAKBgwMAAAAAAAKDAwMAA0MDAwMDgwAAAAACgwMDAAAAAoGDAwAAAAACgYGAAAACgoAAAYGAAAAAAAAAAYGAAAAAAAAAAAAAA=="
+          "$value": "AAAAAAAAAAAGBgAKCgAAAAAGBQAACAgKAAAGBQAAAAAACAoKDAwMAAAAAAAIDAwODAwAAA0MDAwMDg4MAAAAAAgMDA4MDAAAAAgKCgwMDAAACAgKAAAGBQAAAAoKAAAAAAYFAAAAAAAAAAAABgYAAAAAAAAAAAAAAA=="
         },
-        "Width": 8,
+        "Width": 10,
         "Height": 12,
         "_guid": "5f0335fd-4e94-499d-bb09-ee545e9b8703",
         "_name": "baddie01_04",
@@ -111,9 +111,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAAAAYAAAAAAAAGAAAAAAAAAAYMDAwAAAAABgwODAAACgoGDA4MAAoAAAwMDAwAAAAMDAwAAAAADQwKBgYGAAANAAoAAAAAAAAACgAAAAAAAAoAAAAAAAAAAAAAAAAAAA=="
+          "$value": "AAAAAAUFAAAAAAAAAAAFDAwMAAAAAAAABQwODAAAAAAAAAUMDgwAAAAACgoKDAwEAAYACggIDAwMBgYFAAoAAAwMBQUFAAAAAAwMCgAAAAAAAAAMAAoAAAAAAAANDQAKAAAAAAAAAAAACgAAAAAAAAAACgAAAAAAAA=="
         },
-        "Width": 8,
+        "Width": 10,
         "Height": 12,
         "_guid": "5f0335fd-4e94-499d-bb09-ee545e9b8703",
         "_name": "baddie01_05",
@@ -127,9 +127,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "BgAADAAABgAGAAwMDAAGAAYGDA4MBgYAAAYMDgwGAAAABgwMDAYAAAAGDAwMBgAAAAAGDAYAAAAAAAoMCgAAAAAKCgwKCgAACgoADAAKCgAKAAANAAAKAAoAAAAAAAoAAA=="
+          "$value": "BgAAAAwAAAAGAAYAAAAMAAAABgAGBQAMDgwABQYAAAYFDA4MBQYAAAAABgwMDAYAAAAAAAAKDAoAAAAAAAAKCAwICgAAAAAACggMCAoAAAAACggADAAICgAAAAoAAA0AAAoAAAAKAAAAAAAKAAAAAAAAAAAAAAAAAA=="
         },
-        "Width": 8,
+        "Width": 10,
         "Height": 12,
         "_guid": "5f0335fd-4e94-499d-bb09-ee545e9b8703",
         "_name": "baddie01_06",
@@ -143,9 +143,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAGAAAAAAAAAAAGAAAAAAwMDAYAAAAADA4MBgAAAAAMDgwGCgoAAAwMDAwAAAoAAAAMDAwAAAAGBgYKDA0AAAAAAAoADQAAAAAACgAAAAAAAAAACgAAAAAAAAAAAAAAAA=="
+          "$value": "AAAAAAUFAAAAAAAADAwMBQAAAAAAAAwODAUAAAAAAAAMDgwFAAAAAAYABAwMCgoKAAAFBgYMDAwICAoAAAUFBQwMAAAKAAAAAAAKDAwAAAAAAAAACgAMAAAAAAAAAAoADQ0AAAAAAAAKAAAAAAAAAAAAAAoAAAAAAA=="
         },
-        "Width": 8,
+        "Width": 10,
         "Height": 12,
         "_guid": "5f0335fd-4e94-499d-bb09-ee545e9b8703",
         "_name": "baddie01_07",
@@ -159,9 +159,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAQEBwAAAAAAAAAABAAAAAAAAAAAAAAABAQAAAAEBwAAAAAAAwMDAwQAAAAAAAAAAwMDAwAAAAAAAAAAAwcHAwMDAwMDAwcAAwcHAwMDAwMDAwcAAwMDAwAAAAAAAAAAAwMDAwQAAAAAAAAABAQAAAAEBwAAAAAABAAAAAAAAAAAAAAAAAQEBwAAAAAAAAAAAA=="
+          "$value": "AAUFBwAAAAAAAAUAAAAAAAAAAAAFBQAAAAUHAAAABQMDBQUAAAAAAAMDAwMAAAAAAAADBQUDAwMDAwcAAw4OAgICAgICAAMDAwICAAAAAAAFAwMFBQAAAAAABQUAAAAFBwAAAAUAAAAAAAAAAAAABQUHAAAAAAAAAA=="
         },
-        "Width": 12,
+        "Width": 10,
         "Height": 12,
         "_guid": "7b78d383-6b3f-4edc-ab41-f88e666824c0",
         "_name": "baddie02_00",
@@ -175,9 +175,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAEBwAAAAAAAAAAAAcEAAAAAAAHAAAABAAEAAAAAAMDBwAABAACAgAAAwMDAwAAAAQDAgIDAwMDAAAAAAIDAwMDAwMCAAAAAAIDBgMDAgIAAAAAAAADBwYDAgAAAAAAAAACBwcCAAAABwAAAAAABgcDAAQEAAAAAAAAAgMDBAAHAAAAAAAAAAMDBAQAAAAAAA=="
+          "$value": "AAcAAAcAAAIAAAUAAAUAAAICBwAFAAAFAAICAwMABQUDAgICAwMAAAAFAwMDAwMCAAAABQMGAwMCAAAAAAAFDgYDAAcAAAAABQ4FAgUAAAAAAAAFBQAAAAAAAAAAAAUFAAcAAAAAAAAAAwUAAAAAAAAAAAAAAAAAAA=="
         },
-        "Width": 12,
+        "Width": 10,
         "Height": 12,
         "_guid": "1c752398-21c0-4abd-88b5-1763546c56ae",
         "_name": "baddie02_01",
@@ -191,9 +191,9 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAAAAAHAAAAAAAAAAAAAAADAAAAAAAAAAAAAAADAAAAAAAAAAAAAAADAAAAAAAAAAAHAAADAAAHAAAAAAAEAAADAAAEAAAAAAAEAAADAAAEAAAAAAAABAADAAQAAAAABwAAAwMDAwMAAAcABAAAAwMHAwMAAAQABAAEAwMHAwMEAAQAAAQEAwMDAwMEBAAAAA=="
+          "$value": "AAAAAAcAAAAAAAAAAAADAAAAAAAAAAcAAwAHAAAAAAAFAAMABQAAAAAABQADAAUAAAAAAAAFAwUAAAAABwAAAwMDAAAHAAUAAAMOAwAABQAFAAUDDgMFAAUAAAUFAwMDBQUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
-        "Width": 12,
+        "Width": 10,
         "Height": 12,
         "_guid": "2993f997-ebf9-421f-b22a-ea1038ba30e3",
         "_name": "baddie02_02",
@@ -207,11 +207,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAAAAAAAAcEAAAAAAAHAAAAAAAEBwAAAAcDAwAAAAAEAAQAAAMDAwMAAAICAAQAAAADAwMDAgIDBAAAAAACAwMDAwMDAgAAAAAAAgIDAwYDAgAAAAAAAAIDBgcDAAAAAAcAAAACBwcCAAAAAAAEBAADBwYAAAAAAAAHAAQDAwIAAAAAAAAABAQDAwAAAAAAAA=="
+          "$value": "AAcAAAcAAAcAAAIDAwAABQAABQACAwMAAAUAAAUAAgIDAwICAwUFAAACAgMDAwMFAAAAAAICAwYDBQAAAAcAAgYOBQAAAAAABQIFDgUAAAAAAAAABQUAAAAAAAcABQUAAAAAAAAABQMAAAAAAAAAAAAAAAAAAAAAAA=="
         },
-        "Width": 12,
+        "Width": 10,
         "Height": 12,
-        "_guid": "138e8510-4c5f-4fbf-b5b8-3b5df8703e42",
+        "_guid": "1c752398-21c0-4abd-88b5-1763546c56ae",
         "_name": "baddie02_03",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -223,11 +223,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAAAAAAAAcEBAAAAAAAAAAAAAAAAAQAAAAAAAcEAAAABAQAAAAAAAAABAMDAwMAAAAAAAAAAAMDAwMABwMDAwMDAwMHBwMABwMDAwMDAwMHBwMAAAAAAAAAAAMDAwMAAAAAAAAABAMDAwMAAAAAAAcEAAAABAQAAAAAAAAAAAAAAAQAAAAAAAAAAAcEBAAAAA=="
+          "$value": "AAAAAAAHBQUAAAAAAAAAAAAABQAAAAcFAAAABQUAAAAAAAUFAwMFAAAAAAAAAwMDAwAHAwMDAwMODgMAAgICAgICBQUDAAAAAAAAAgMDAwAAAAAABQUDAwUAAAAHBQAAAAUFAAAAAAAAAAAABQAAAAAAAAcFBQAAAA=="
         },
-        "Width": 12,
+        "Width": 10,
         "Height": 12,
-        "_guid": "885889ff-55f2-4da7-8fec-f8101e7cf25a",
+        "_guid": "7b78d383-6b3f-4edc-ab41-f88e666824c0",
         "_name": "baddie02_04",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -239,11 +239,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAABAQDAwAAAAAAAAAHAAQDAwIAAAAAAAAEBAADBwYAAAAAAAcAAAACBwcCAAAAAAAAAAIDBgcDAAAAAAAAAgIDAwYDAgAAAAACAwMDAwMDAgAAAAADAwMDAgIDBAAAAAMDAwMAAAICAAQAAAcDAwAAAAAEAAQAAAAHAAAAAAAEBwAAAAAAAAAAAAcEAAAAAA=="
+          "$value": "AAAFAwAAAAAAAAAHAAUFAAAAAAAAAAAABQUAAAAAAAAFAgUOBQAAAAAHAAMGDgUAAAAAAAIDAwYDBQAAAAIDAwIDAwUAAAADAwICAgMFBQADAwICAAUAAAUABwMCAAAFAAAFAAACAAAHAAAHAAAAAAAAAAAAAAAAAA=="
         },
-        "Width": 12,
+        "Width": 10,
         "Height": 12,
-        "_guid": "ecd2b17f-fc21-47b5-a8ad-81f51533b64b",
+        "_guid": "1c752398-21c0-4abd-88b5-1763546c56ae",
         "_name": "baddie02_05",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -255,11 +255,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAQEAwMDAwMEBAAABAAEAwMHAwMEAAQABAAAAwMHAwMAAAQABwAAAwMDAwMAAAcAAAAABAADAAQAAAAAAAAEAAADAAAEAAAAAAAEAAADAAAEAAAAAAAHAAADAAAHAAAAAAAAAAADAAAAAAAAAAAAAAADAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAHAAAAAAAAAA=="
+          "$value": "AAUFAwMDBQUAAAUABQMOAwUABQAFAAADDgMAAAUABwAAAwMDAAAHAAAAAAUDBQAAAAAAAAUAAwAFAAAAAAAFAAMABQAAAAAABwADAAcAAAAAAAAAAwAAAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
-        "Width": 12,
+        "Width": 10,
         "Height": 12,
-        "_guid": "ad3eadb4-1411-4e3b-aae8-44339d743e88",
+        "_guid": "2993f997-ebf9-421f-b22a-ea1038ba30e3",
         "_name": "baddie02_06",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -271,11 +271,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAAAAMDBAQAAAAAAAAAAgMDBAAHAAAAAAAABgcDAAQEAAAAAAACBwcCAAAABwAAAAADBwYDAgAAAAAAAAIDBgMDAgIAAAAAAAIDAwMDAwMCAAAAAAQDAgIDAwMDAAAABAACAgAAAwMDAwAABAAEAAAAAAMDBwAAAAcEAAAAAAAHAAAAAAAEBwAAAAAAAAAAAA=="
+          "$value": "AAAAAAADBQAAAAAAAAAFBQAHAAAAAAAFBQAAAAAAAAAFDgUCBQAAAAAABQ4GAwAHAAAABQMGAwMCAAAAAAUDAwIDAwIAAAUFAwICAgMDAAAFAAAFAAICAwMABQAABQAAAgMHAAAHAAAHAAACAAAAAAAAAAAAAAAAAA=="
         },
-        "Width": 12,
+        "Width": 10,
         "Height": 12,
-        "_guid": "9858128e-c98b-4bbb-8def-1fc6601ee643",
+        "_guid": "1c752398-21c0-4abd-88b5-1763546c56ae",
         "_name": "baddie02_07",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -431,12 +431,44 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAAAAAADwAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAAQPDwAAAAAAAAAAAAAEDw8AAAAAAAAAAAAABA8PAAAAAAAAAAAABAQPDw8AAAAAAAAAAAQEBQ8PAAAAAAAAAAAEBAUPDwAAAAAAAAAEBAUFBQ8EAAAAAAAADwQFBQUPDwAAAAAABA8EBAUPBA8PAAAABA8PDwQPDwQEDw8AAAQEAAQEDw8EAAQEAAAAAAAAAA8AAAAAAAAA"
+          "$value": "AAAAAAAPAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAEPDwAAAAAAAAAAAAEPDwAAAAAAAAAAAAEPDwAAAAAAAAAAAQEPDw8AAAAAAAAAAQENDw8AAAAAAAAAAQENDw8AAAAAAAABAQ0NDQ8BAAAAAAAPAQ0NDQ8PAAAAAAEPAQENDwEPDwAAAQ8PDwEPDwEBDw8AAQEAAQEPDwEAAQEAAAAAAAAPAAAAAAAAAA=="
         },
-        "Width": 13,
+        "Width": 12,
         "Height": 14,
         "_guid": "99a4f642-9cae-4f43-8a7e-a1cfadb7dae8",
         "_name": "ship_01_00",
+        "MaskDataInline": false,
+        "UseInLevelDesigner": false
+      },
+      {
+        "$type": "RGAS.CPCSprite, RGAS",
+        "Align256": false,
+        "GenerateVerticalMirror": false,
+        "GenerateHorizontalMirror": false,
+        "pixels": {
+          "$type": "System.Byte[], mscorlib",
+          "$value": "AAAAAAAPAAAAAAAAAAAAAAAPAAAAAAAAAAAAAA8PAgAAAAAAAAAAAA8PAgAAAAAAAAAAAA8PAgAAAAAAAAAADw8PAgIAAAAAAAAADw8NAgIAAAAAAAAADw8NAgIAAAAAAAAPDw0NBgICAAAAAAAPDw0NBgIDAAAAAA8PDw8NAgIDAgAADw8PDw8PAgMDAwIADw8ADw8PAgIAAgIAAAAAAAAPAAAAAAAAAA=="
+        },
+        "Width": 12,
+        "Height": 14,
+        "_guid": "99a4f642-9cae-4f43-8a7e-a1cfadb7dae8",
+        "_name": "ship_01_01",
+        "MaskDataInline": false,
+        "UseInLevelDesigner": false
+      },
+      {
+        "$type": "RGAS.CPCSprite, RGAS",
+        "Align256": false,
+        "GenerateVerticalMirror": false,
+        "GenerateHorizontalMirror": false,
+        "pixels": {
+          "$type": "System.Byte[], mscorlib",
+          "$value": "AAAAAAAPAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAIPDwAAAAAAAAAAAAIPDwAAAAAAAAAAAAIPDwAAAAAAAAAAAgIPDw8AAAAAAAAAAgINDw8AAAAAAAAAAgINDw8AAAAAAAACAgYNDQ8PAAAAAAADAgYNDQ8PAAAAAAIDAgINDw8PDwAAAgMDAwIPDw8PDw8AAgIAAgIPDw8ADw8AAAAAAAAPAAAAAAAAAA=="
+        },
+        "Width": 12,
+        "Height": 14,
+        "_guid": "99a4f642-9cae-4f43-8a7e-a1cfadb7dae8",
+        "_name": "ship_01_02",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
       },
@@ -495,10 +527,10 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAFBQUFAAAAAAAFDg4ODgUAAAAADg4ODg4OAAAADg4OBQUODg4AAA4OAAUFAA4OAAANAAAFBQAADQAADQAABQUAAA0AAAAAAAcHAAAAAAAA"
+          "$value": "AAAFBQUFAAAAAAAFDg4ODgUAAAAADg4ODg4OAAAADg4OBQUODg4AAA4OAAUFAA4OAAANAAAFBQAADQAADQAABQUAAA0AAAAAAAcHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
-        "Height": 8,
+        "Height": 12,
         "_guid": "7e3bf8f9-8c98-45f1-a091-f676179ee361",
         "_name": "baddie03_00",
         "MaskDataInline": false,
@@ -511,10 +543,10 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AA0ODg4AAAAAAAANDg4OBQAAAAAAAAAADg4FAAAAAAAABQUOBQAAAAAABQUFDg4AAAAABwUFBQ4OAAAAAAcFBQAADgAAAAAHBwAAAA0AAAAA"
+          "$value": "AA0ODg4AAAAAAAANDg4OBQAAAAAAAAAADg4FAAAAAAAABQUOBQAAAAAABQUFDg4AAAAABwUFBQ4OAAAAAAcFBQAADgAAAAAHBwAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
-        "Height": 8,
+        "Height": 12,
         "_guid": "92accba9-1c7a-4a42-9f8c-3ed429304a50",
         "_name": "baddie03_01",
         "MaskDataInline": false,
@@ -527,10 +559,10 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AA0NDg4AAAAAAAAAAA4ODgUAAAAAAAAABQ4OBQAABwUFBQUODgUAAAcFBQUFDg4FAAAAAAAABQ4OBQAAAAAADg4OBQAAAAANDQ4OAAAAAAAA"
+          "$value": "AA0NDg4AAAAAAAAAAA4ODgUAAAAAAAAABQ4OBQAABwUFBQUODgUAAAcFBQUFDg4FAAAAAAAABQ4OBQAAAAAADg4OBQAAAAANDQ4OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
-        "Height": 8,
+        "Height": 12,
         "_guid": "5654cc53-e9b4-4772-8088-3adf165c3024",
         "_name": "baddie03_02",
         "MaskDataInline": false,
@@ -543,10 +575,10 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAcHAAAADQAAAAAHBQUAAA4AAAAABwUFBQ4OAAAAAAAFBQUODgAAAAAAAAUFDgUAAAAAAAAADg4FAAAAAA0ODg4FAAAAAAANDg4OAAAAAAAA"
+          "$value": "AAcHAAAADQAAAAAHBQUAAA4AAAAABwUFBQ4OAAAAAAAFBQUODgAAAAAAAAUFDgUAAAAAAAAADg4FAAAAAA0ODg4FAAAAAAANDg4OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
-        "Height": 8,
+        "Height": 12,
         "_guid": "2d0f0880-fc08-4751-98e8-ace3392c6bda",
         "_name": "baddie03_04",
         "MaskDataInline": false,
@@ -559,10 +591,10 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAABwcAAAAAAA0AAAUFAAANAAANAAAFBQAADQAADg4ABQUADg4AAA4ODgUFDg4OAAAADg4ODg4OAAAAAAUODg4OBQAAAAAABQUFBQAAAAAA"
+          "$value": "AAAABwcAAAAAAA0AAAUFAAANAAANAAAFBQAADQAADg4ABQUADg4AAA4ODgUFDg4OAAAADg4ODg4OAAAAAAUODg4OBQAAAAAABQUFBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
-        "Height": 8,
+        "Height": 12,
         "_guid": "161f68b9-ba83-44a7-b300-f66f19c6d676",
         "_name": "baddie03_05",
         "MaskDataInline": false,
@@ -575,10 +607,10 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AA0AAAAHBwAAAAAOAAAFBQcAAAAADg4FBQUHAAAAAA4OBQUFAAAAAAAFDgUFAAAAAAAABQ4OAAAAAAAAAAAFDg4ODQAAAAAAAA4ODg0AAAAA"
+          "$value": "AA0AAAAHBwAAAAAOAAAFBQcAAAAADg4FBQUHAAAAAA4OBQUFAAAAAAAFDgUFAAAAAAAABQ4OAAAAAAAAAAAFDg4ODQAAAAAAAA4ODg0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
-        "Height": 8,
+        "Height": 12,
         "_guid": "83dce0c5-7f96-4a02-9735-bd8ca07c2f63",
         "_name": "baddie03_06",
         "MaskDataInline": false,
@@ -591,10 +623,10 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAADg4NDQAAAAAFDg4OAAAAAAAFDg4FAAAAAAAABQ4OBQUFBQcAAAUODgUFBQUHAAAFDg4FAAAAAAAAAAUODg4AAAAAAAAAAA4ODQ0AAAAA"
+          "$value": "AAAADg4NDQAAAAAFDg4OAAAAAAAFDg4FAAAAAAAABQ4OBQUFBQcAAAUODgUFBQUHAAAFDg4FAAAAAAAAAAUODg4AAAAAAAAAAA4ODQ0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
-        "Height": 8,
+        "Height": 12,
         "_guid": "9c8a8244-eeca-4dd4-a738-3da96b69e852",
         "_name": "baddie03_07",
         "MaskDataInline": false,
@@ -700,5 +732,5 @@
     "$value": "AA0BAgQOCxQJDBIDBg8YGg=="
   },
   "_formatterType": "RGAS.PlatformProviders.AmstradSpriteSet+AmstradCPCRSLibCArrayFormatter, RGAS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-  "OSPlatform": "Microsoft Windows NT 6.1.7601 Service Pack 1 C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\"
+  "OSPlatform": "Microsoft Windows NT 6.2.9200.0 C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\"
 }
