@@ -98,7 +98,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 		switch (type) {
 
 		case 1:
-			enemies[k].w = 4;
+			enemies[k].w = 5;
 			enemies[k].h = 12;
 			enemies[k].sprite[0] = (u8*) G_baddie01_00;
 			enemies[k].sprite[1] = (u8*) G_baddie01_01;
@@ -111,7 +111,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			enemies[k].patternQueue = (TPatternSet*) &pattern01;
 			break;
 		case 2:
-			enemies[k].w = 6;
+			enemies[k].w = 5;
 			enemies[k].h = 12;
 			enemies[k].sprite[0] = (u8*) G_baddie02_00;
 			enemies[k].sprite[1] = (u8*) G_baddie02_01;
@@ -125,7 +125,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			break;
 		case 3:
 			enemies[k].w = 5;
-			enemies[k].h = 8;
+			enemies[k].h = 12;
 			enemies[k].sprite[0] = (u8*) G_baddie03_00;
 			enemies[k].sprite[1] = (u8*) G_baddie03_01;
 			enemies[k].sprite[2] = (u8*) G_baddie03_02;
@@ -163,7 +163,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			enemies[k].patternQueue = (TPatternSet*) &pattern02;
 			break;
 		default:
-			enemies[k].w = 4;
+			enemies[k].w = 5;
 			enemies[k].h = 12;
 			enemies[k].sprite[0] = (u8*) G_baddie01_00;
 			enemies[k].sprite[1] = (u8*) G_baddie01_01;

@@ -7,14 +7,14 @@
 TShip user;
 u8 shoot_type;
 u8 choice=0;
-u8* const user_anim[3] = {G_ship_00, G_ship_01, G_ship_02};
+u8* const user_anim[3] = {G_ship_01_00, G_ship_01_01, G_ship_01_02};
 u8* const engine_anim[2] = {G_engine_00, G_engine_01};
 
 
 void init_user() {
 
-  user.e.w = 5;
-  user.e.h = 8;
+  user.e.w = 6;
+  user.e.h = 14;
   user.e.x = (SCREEN_WIDTH + user.e.w) / 2;
   user.e.y = 199 - (user.e.h);
   user.e.sprite_set = (u8**) user_anim;

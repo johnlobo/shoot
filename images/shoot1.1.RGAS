@@ -527,7 +527,7 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAFBQUFAAAAAAAFDg4ODgUAAAAADg4ODg4OAAAADg4OBQUODg4AAA4OAAUFAA4OAAANAAAFBQAADQAADQAABQUAAA0AAAAAAAcHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          "$value": "AAAADg4NDQAAAAAABg4ODQAAAAAABg4OAAAAAAAAAAYODgAAAAAAAAAGDgYGBgYHAAAABQ4FBwcFBQcAAAUOBQUFBQcAAAAFDg4AAAAAAAAABQ4OAAAAAAAAAAAFDg4NAAAAAAAAAA4ODQ0AAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
         "Height": 12,
@@ -543,11 +543,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AA0ODg4AAAAAAAANDg4OBQAAAAAAAAAADg4FAAAAAAAABQUOBQAAAAAABQUFDg4AAAAABwUFBQ4OAAAAAAcFBQAADgAAAAAHBwAAAA0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          "$value": "AA0AAAAAAAAAAAANDQAAAAAHBwAADg4AAAAFBQcAAA4OAAAFBQUHAAAODgAFBQcFBgAADg4FBQcFBgAAAAUODgUFBgAAAAAFDg4FBgAAAAAAAAUODg4AAAAAAAAGDg4ODg0AAAAAAAYODg4NDQAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
         "Height": 12,
-        "_guid": "92accba9-1c7a-4a42-9f8c-3ed429304a50",
+        "_guid": "7e3bf8f9-8c98-45f1-a091-f676179ee361",
         "_name": "baddie03_01",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -559,11 +559,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AA0NDg4AAAAAAAAAAA4ODgUAAAAAAAAABQ4OBQAABwUFBQUODgUAAAcFBQUFDg4FAAAAAAAABQ4OBQAAAAAADg4OBQAAAAANDQ4OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          "$value": "AAAAAAcAAAAAAAAAAAcFBwAAAAAAAAAGBQUAAAAAAAAABgUFAAAAAA0AAAYHBQAADQANAAAGBwUAAA0ADg4ABgcFAA4OAA4ODgYFBQ4ODgAADg4ODg4ODgAAAAYODg4ODgUAAAAABgYFBQUAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
         "Height": 12,
-        "_guid": "5654cc53-e9b4-4772-8088-3adf165c3024",
+        "_guid": "7e3bf8f9-8c98-45f1-a091-f676179ee361",
         "_name": "baddie03_02",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -575,11 +575,27 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAcHAAAADQAAAAAHBQUAAA4AAAAABwUFBQ4OAAAAAAAFBQUODgAAAAAAAAUFDgUAAAAAAAAADg4FAAAAAA0ODg4FAAAAAAANDg4OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          "$value": "AAAAAAAAAAANAAAHBwAAAAANDQAABwUFAAAADg4AAAcFBQUAAA4OAAAGBQcFBQAODgAAAAYFBwUFDg4AAAAABgUFDg4FAAAAAAAGBQ4OBQAAAAAADg4OBQAAAAANDg4ODgYAAAANDQ4ODgYAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
         "Height": 12,
-        "_guid": "2d0f0880-fc08-4751-98e8-ace3392c6bda",
+        "_guid": "7e3bf8f9-8c98-45f1-a091-f676179ee361",
+        "_name": "baddie03_03",
+        "MaskDataInline": false,
+        "UseInLevelDesigner": false
+      },
+      {
+        "$type": "RGAS.CPCSprite, RGAS",
+        "Align256": false,
+        "GenerateVerticalMirror": false,
+        "GenerateHorizontalMirror": false,
+        "pixels": {
+          "$type": "System.Byte[], mscorlib",
+          "$value": "AAAADQ0ODgAAAAAAAAANDg4GAAAAAAAAAAAODgYAAAAAAAAADg4GAAAABwYGBgYOBgAABwUFBwcFDgUAAAAHBQUFBQ4FAAAAAAAAAA4OBQAAAAAAAAAODgUAAAAAAA0ODgUAAAAAAA0NDg4AAAAAAAAAAAAAAAAAAA=="
+        },
+        "Width": 10,
+        "Height": 12,
+        "_guid": "7e3bf8f9-8c98-45f1-a091-f676179ee361",
         "_name": "baddie03_04",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -591,11 +607,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAABwcAAAAAAA0AAAUFAAANAAANAAAFBQAADQAADg4ABQUADg4AAA4ODgUFDg4OAAAADg4ODg4OAAAAAAUODg4OBQAAAAAABQUFBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          "$value": "AA0NDg4OBgAAAAAADQ4ODg4GAAAAAAAADg4OBQAAAAAAAAYFDg4FAAAAAAYFBQ4OBQAAAAYFBwUFDg4AAAYFBwUFAA4OAAAHBQUFAAAODgAABwUFAAAADg4AAAcHAAAAAA0NAAAAAAAAAAAADQAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
         "Height": 12,
-        "_guid": "161f68b9-ba83-44a7-b300-f66f19c6d676",
+        "_guid": "7e3bf8f9-8c98-45f1-a091-f676179ee361",
         "_name": "baddie03_05",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -607,11 +623,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AA0AAAAHBwAAAAAOAAAFBQcAAAAADg4FBQUHAAAAAA4OBQUFAAAAAAAFDgUFAAAAAAAABQ4OAAAAAAAAAAAFDg4ODQAAAAAAAA4ODg0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          "$value": "AAAGBgUFBQAAAAAGDg4ODg4FAAAADg4ODg4ODgAADg4OBgUFDg4OAA4OAAYHBQAODgANDQAGBwUADQ0ADQAABgcFAAANAAAAAAYFBQAAAAAAAAAGBQUAAAAAAAAABwUHAAAAAAAAAAAHAAAAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
         "Height": 12,
-        "_guid": "83dce0c5-7f96-4a02-9735-bd8ca07c2f63",
+        "_guid": "7e3bf8f9-8c98-45f1-a091-f676179ee361",
         "_name": "baddie03_06",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -623,11 +639,11 @@
         "GenerateHorizontalMirror": false,
         "pixels": {
           "$type": "System.Byte[], mscorlib",
-          "$value": "AAAADg4NDQAAAAAFDg4OAAAAAAAFDg4FAAAAAAAABQ4OBQUFBQcAAAUODgUFBQUHAAAFDg4FAAAAAAAAAAUODg4AAAAAAAAAAA4ODQ0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          "$value": "AAAABg4ODg0NAAAABg4ODg4NAAAAAAUODg4AAAAAAAUODgUGAAAAAAAFDg4FBQYAAAAADg4FBQcFBgAAAA4OAAUFBwUGAAAODgAABQUFBwAADg4AAAAFBQcAAA0NAAAAAAcHAAANAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
         "Width": 10,
         "Height": 12,
-        "_guid": "9c8a8244-eeca-4dd4-a738-3da96b69e852",
+        "_guid": "7e3bf8f9-8c98-45f1-a091-f676179ee361",
         "_name": "baddie03_07",
         "MaskDataInline": false,
         "UseInLevelDesigner": false
@@ -732,5 +748,5 @@
     "$value": "AA0BAgQOCxQJDBIDBg8YGg=="
   },
   "_formatterType": "RGAS.PlatformProviders.AmstradSpriteSet+AmstradCPCRSLibCArrayFormatter, RGAS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-  "OSPlatform": "Microsoft Windows NT 6.2.9200.0 C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\"
+  "OSPlatform": "Microsoft Windows NT 6.1.7601 Service Pack 1 C:\\Windows\\Microsoft.NET\\Framework\\v2.0.50727\\"
 }
