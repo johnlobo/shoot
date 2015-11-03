@@ -14,6 +14,7 @@ u8 active_groups;
 TPatternSet* pattern_set;
 TPattern* pattern;
 u8* cur_screen;
+long open_attack_timer = 0;
 
 //******************************************************************************
 // Función: check_collision_enemies(u8 x, u8 y, u8 w, u8 h)
@@ -50,14 +51,15 @@ void init_enemies() {
 	}
 	active_enemies = 0;
 	enemies_in_movement = 0;
+	open_attack_timer = 0;
 }
 
-void switch_movement(u8 enemy, u8 move){
-	if ((move) && (!enemies[enemy].in_movement)){
-		enemies[enemy].in_movement = 1;
+void switch_movement(u8 enemy, u8 state) {
+	if ((state == ENEMY_MOVING) && (enemies[enemy].state != ENEMY_MOVING)) {
+		enemies[enemy].state = ENEMY_MOVING;
 		enemies_in_movement++;
-	} else if ((!move) && (enemies[enemy].in_movement)){
-		enemies[enemy].in_movement = 0;
+	} else if ((state != ENEMY_MOVING) && (enemies[enemy].state == ENEMY_MOVING)) {
+		enemies[enemy].state = state;
 		enemies_in_movement--;
 	}
 }
@@ -91,7 +93,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 		enemies[k].f.acum_angle = 0;
 		enemies[k].f.sleep = 0;
 		enemies[k].cur_cmd = 0;
-		enemies[k].in_movement = 0;
+		enemies[k].state = ENEMY_STILL;
 
 		switch (type) {
 
@@ -188,12 +190,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			}
 		}
 		active_enemies++;
-		//prota.lastShot = getTime();
-		//if (SONIDO_ACTIVADO) cpc_WyzStartEffect(0,0);
 	}
-
-	//debug_enemies();
-	//espera_una_tecla();
 
 }
 
@@ -271,7 +268,6 @@ u8 translate_to(TPhysics *f, i16 x, i16 y, u8 v) {
 	i16 x_comp, y_comp;
 	i16 x_prev, y_prev;
 	i16 x_close, y_close;
-	u8 aux_txt[80];
 
 	advance_step = 0;
 
@@ -377,7 +373,7 @@ void update_enemies(u8* screen) {
 						break;
 
 					case TRANSLATE:
-						switch_movement(i,1);
+						switch_movement(i, ENEMY_MOVING);
 						enemies[i].f.v = pattern->v;
 						enemies[i].f.angle = pattern-> angle;
 						enemies[i].f.dir = (pattern -> angle + 15) / 45;
@@ -395,13 +391,13 @@ void update_enemies(u8* screen) {
 						break;
 
 					case TRANSLATE_HOME:
-						switch_movement(i,1);
+						switch_movement(i, ENEMY_MOVING);
 						if (translate_to((TPhysics*) & (enemies[i].f), enemies[i].home_x, enemies[i].home_y, pattern->v))
 							enemies[i].cur_cmd++;
 						break;
 
 					case ROTATE:
-						switch_movement(i,1);
+						switch_movement(i, ENEMY_MOVING);
 						enemies[i].f.v = pattern->v;
 						enemies[i].f.angle += pattern->angle;
 
@@ -428,7 +424,7 @@ void update_enemies(u8* screen) {
 
 						break;
 					case ROTATE_TO:
-						switch_movement(i,1);
+						switch_movement(i, ENEMY_MOVING);
 						enemies[i].f.v = pattern->v;
 						enemies[i].f.angle = pattern->angle;
 						enemies[i].f.dir = (enemies[i].f.angle + 15) / 45;
@@ -436,7 +432,7 @@ void update_enemies(u8* screen) {
 						break;
 
 					case TRANSPORT_TO:
-						switch_movement(i,1);
+						switch_movement(i, ENEMY_SLEEP);
 						enemies[i].f.x = (i32) pattern->x * (i32) SCALE_FACTOR;
 						enemies[i].f.y = (i32) pattern->y * (i32) SCALE_FACTOR;
 						enemies[i].f.angle = pattern->angle;
@@ -445,7 +441,7 @@ void update_enemies(u8* screen) {
 						break;
 
 					case SLEEP:
-						switch_movement(i,0);
+						switch_movement(i, ENEMY_SLEEP);
 						if (enemies[i].f.sleep == pattern->frames) {
 							enemies[i].f.sleep = 0;
 							enemies[i].cur_cmd++;
@@ -464,10 +460,10 @@ void update_enemies(u8* screen) {
 						if ((pattern_set->repeat) && (enemies[i].cur_cmd >= pattern_set->num_CMDs)) {
 							enemies[i].cur_cmd = 0;
 						} else if (enemies[i].cur_cmd >= pattern_set->num_CMDs) {
-							switch_movement(i,0);
+							switch_movement(i, ENEMY_STILL);
 						}
 						if ((get_active_enemy_shots() < get_level_max_enemy_shots()) &&
-						        (enemies[i].in_movement) &&
+						        (enemies[i].state == ENEMY_MOVING) &&
 						        (cpct_getRandomUniform_u8_f(0) < 60) &&
 						        (enemies[i].f.dir > 4)) {
 							create_enemy_shot(enemies[i].x, enemies[i].y, 0, 270, 4);
@@ -479,17 +475,22 @@ void update_enemies(u8* screen) {
 	}
 }
 
-void enemies_full_attack(){
-	u8 i;
-	if (enemies_in_movement<3){
-		i=0;
-		while(enemies[i].in_movement){
-			i++;
-		}
-		enemies[i].patternQueue = (TPatternSet*) &attack01;
-		enemies[i].cur_cmd = 0; 
-	}
+void enemies_full_attack() {
+	u8 i, found;
 
+	if (((get_time() - open_attack_timer) > 500) && (enemies_in_movement < 3) && (active_enemies > 0)) {
+		found = 0;
+		for (i = 0; i < MAX_ENEMIES; i++)
+			if ((enemies[i].active) && (enemies[i].state == ENEMY_STILL)) {
+				found = 1;
+				break;
+			}
+		if (found) {
+			enemies[i].patternQueue = (TPatternSet*) &attack01;
+			enemies[i].cur_cmd = 0;
+			open_attack_timer = get_time();
+		}
+	}
 }
 
 

@@ -137,7 +137,7 @@ const TPatternSet pattern03 = {
 };
 
 const TPatternSet attack01 = {
-    .num_CMDs = 4, // 0 movement
+    .num_CMDs = 6, // 0 movement
     .repeat = 0,
     {
         {
@@ -154,7 +154,7 @@ const TPatternSet attack01 = {
             .x = 0,
             .y = 0,
             .angle = 315,
-            .frames = 15
+            .frames = 20
         },
         {
             .CMD = TRANSPORT_TO,
@@ -172,6 +172,22 @@ const TPatternSet attack01 = {
             .y = 0,
             .angle = 0,
             .frames = 0
+        },
+        {
+            .CMD = ROTATE_TO,
+            .v = 0,
+            .x = 0,
+            .y = 0,
+            .angle = 270,
+            .frames = 0
+        },
+        {
+            .CMD = SLEEP,
+            .v = 0,
+            .x = 0,
+            .y = 0,
+            .angle = 0,
+            .frames = 20
         }
     }
 };

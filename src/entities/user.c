@@ -91,10 +91,10 @@ void update_user() {
     user.e.ay = 2;
   }
   // KEY =  Right or Left
-  if ((cpct_isKeyPressed(Key_P))) {
+  if ((cpct_isKeyPressed(Key_P) || (cpct_isKeyPressed(Key_CursorRight)))) {
     user.e.ax = 2;
     user.e.frame = 2;
-  } else if (cpct_isKeyPressed(Key_O)) {
+  } else if ((cpct_isKeyPressed(Key_O)) || (cpct_isKeyPressed(Key_CursorLeft))) {
     user.e.ax = -2;
     user.e.frame = 1;
   } else

@@ -16,6 +16,10 @@
 #define TRANSLATE_HOME 4
 #define TRANSPORT_TO 5
 #define SLEEP 6
+//ENEMY STATES
+#define ENEMY_STILL 0
+#define ENEMY_MOVING 1
+#define ENEMY_SLEEP 2
 //MATH
 //#define PI 3.1415926
 #define PIXEL_SCALE 256
@@ -135,7 +139,7 @@ typedef  struct {    // minimun sprite structure
    u8 patternQueuePos;
    TEntity e;
    char *sprite[8];
-   u8 in_movement;
+   u8 state;
 // u8 objetivox;
 } TEnemy;
 

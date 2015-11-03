@@ -88,16 +88,39 @@ void clear_both_screens() {
   cpct_memset_f64(SCR_BUFF, 0x00, 0x4000);
 }
 
+void draw_lives_flags(u8* screen){
+  u8 i;
+  u8 avance;
+  u8 aux;
+  u8 aux2;
+  u8 *pscreen;
+  
+  avance=0;
+  //Pînto Banderas verdes una cada cinco niveles
+  aux=level/5;
+  for (i=0;i<aux;i++){
+    pscreen = cpct_getScreenPtr(screen, avance, 0);
+    cpct_drawSprite((u8*) G_green_flag, pscreen , 2, 5);
+    avance=avance+3;
+  }
+  //Pînto Banderas rojas una cada nivel
+  aux2=level-(aux*5);
+  for (i=0;i<aux2;i++){
+    pscreen = cpct_getScreenPtr(screen, avance, 0);
+    cpct_drawSprite((u8*) G_red_flag, pscreen, 2, 5);
+    avance=avance+3;
+  }
+}
+
 /////////////////////////////////////////////////////////////////////////
 // Draw scoreboard
 //
 
 void draw_scoreboard(u8* screen) {
-  sprintf(aux_txt, "%08d", get_score());
   red_message();
-  cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 4, 8));
   sprintf(aux_txt, "%08d", get_score());
-  cpc_PrintGphStr("00000000", (int) cpct_getScreenPtr(screen, 60, 8));
+  cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 30, 0));
+  draw_lives_flags(screen);
 }
 
 /////////////////////////////////////////////////////////////////////////
