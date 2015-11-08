@@ -6,7 +6,7 @@ u8 active_level = 0;
 u8 level_step = 0;
 u8 level_end = 0;
 long level_timer = 0;
-const u8 level_titles[2][20] = {"PROLOGUE","THE;BEGINNING"};
+const u8 level_titles[2][20] = {"PROLOGUE", "THE;BEGINNING"};
 u8 level_max_enemy_shots = 0;
 
 void start_level(u8 level) {
@@ -17,11 +17,11 @@ void start_level(u8 level) {
 	level_end = 0;
 	sprintf(aux_txt, "LEVEL;%d", active_level);
 	create_message(31, 96, 0, 10, aux_txt);
-	create_message(31, 96, 10, 10, (u8*) &level_titles[active_level-1]);
+	create_message(31, 96, 10, 10, (u8*) &level_titles[active_level - 1]);
 	create_message(31, 96, 20, 10, "SHOOT");
-	switch (active_level){
-		case 1:
-			level_max_enemy_shots = 4;
+	switch (active_level) {
+	case 1:
+		level_max_enemy_shots = 4;
 		break;
 	}
 }
@@ -31,6 +31,46 @@ void update_level() {
 	switch (active_level) {
 
 	case 1:
+		switch (level_step) {
+		case 0:
+			level_timer = get_time();
+			level_step++;
+			break;
+		case 1:
+			if ((get_time() - level_timer) > 600) {
+				level_step++;
+			}
+			break;
+		case 2:
+			create_enemy(75, 0, 1, 55, 50, 1);
+			create_enemy(85, 0, 1, 65, 50, 2);
+			level_step++;
+			break;
+		case 3:
+			if ((!get_active_groups()) && (!get_active_enemies())) {
+				create_message(20, 90, 0, 10, "LEVEL;COMPLETE");
+				create_message(20, 108, 0, 10, "WELL;DONE;PILOT");
+				level_step++;
+			}
+			break;
+		case 12:
+			level_timer = get_time();
+			level_step++;
+			break;
+		case 13:
+			if ( (get_time() - level_timer) > 1000) {
+				level_step++;
+			}
+			break;
+		case 14:
+			level_end = 1;
+			break;
+
+		}
+
+		break;
+
+	case 2:
 
 		switch (level_step) {
 
@@ -44,9 +84,9 @@ void update_level() {
 			}
 			break;
 		case 2:
-			create_enemy(15,180,1,34,50,1);
-			create_enemy(8,195,3,45,30,1);
-			create_enemy(0,180,1,55,50,1);
+			create_enemy(15, 180, 1, 34, 50, 1);
+			create_enemy(8, 195, 3, 45, 30, 1);
+			create_enemy(0, 180, 1, 55, 50, 1);
 			level_step++;
 			break;
 		case 3:
@@ -59,9 +99,9 @@ void update_level() {
 			}
 			break;
 		case 5:
-			create_enemy(145,180,1,95,50,2);
-			create_enemy(152,195,3,105,30,2);
-			create_enemy(160,180,1,115,50,2);
+			create_enemy(145, 180, 1, 95, 50, 2);
+			create_enemy(152, 195, 3, 105, 30, 2);
+			create_enemy(160, 180, 1, 115, 50, 2);
 			level_step++;
 			break;
 		case 6:
@@ -74,7 +114,7 @@ void update_level() {
 			}
 			break;
 		case 8:
-			create_enemy_group(0,195,4,6);
+			create_enemy_group(0, 195, 4, 6);
 			level_step++;
 			break;
 		case 9:
@@ -89,6 +129,7 @@ void update_level() {
 		case 11:
 			if ((!get_active_groups()) && (!get_active_enemies())) {
 				create_message(20, 96, 0, 10, "WELL;DONE;PILOT");
+				level_step++;
 			} else {
 				enemies_full_attack();
 			}

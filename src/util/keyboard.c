@@ -1,6 +1,6 @@
 #include <cpctelera.h>
 
-cpct_keyID espera_una_tecla() {
+cpct_keyID wait_for_keypress() {
   // Recorreremos el vector de teclas desde el final hacia el principio,
   // para poder hacer que el bucle acabe en 0 (así el compilador podrá optimizarlo)
   u8 i = 10, *keys = cpct_keyboardStatusBuffer + 9;

@@ -15,6 +15,7 @@ TPatternSet* pattern_set;
 TPattern* pattern;
 u8* cur_screen;
 long open_attack_timer = 0;
+u8 hostility;
 
 //******************************************************************************
 // Función: check_collision_enemies(u8 x, u8 y, u8 w, u8 h)
@@ -108,7 +109,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			enemies[k].sprite[5] = (u8*) G_baddie01_05;
 			enemies[k].sprite[6] = (u8*) G_baddie01_06;
 			enemies[k].sprite[7] = (u8*) G_baddie01_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern01;
+			enemies[k].patternQueue = (TPatternSet*) &pattern01_left;
 			break;
 		case 2:
 			enemies[k].w = 5;
@@ -147,7 +148,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			enemies[k].sprite[5] = (u8*) G_baddie04_05;
 			enemies[k].sprite[6] = (u8*) G_baddie04_06;
 			enemies[k].sprite[7] = (u8*) G_baddie04_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern01;
+			enemies[k].patternQueue = (TPatternSet*) &pattern01_left;
 			break;
 		case 5:
 			enemies[k].w = 5;
@@ -173,16 +174,16 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			enemies[k].sprite[5] = (u8*) G_baddie01_05;
 			enemies[k].sprite[6] = (u8*) G_baddie01_06;
 			enemies[k].sprite[7] = (u8*) G_baddie01_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern01;
+			enemies[k].patternQueue = (TPatternSet*) &pattern01_left;
 			break;
 		}
 		if (pattern > 0) {
 			switch (pattern) {
 			case 1 :
-				enemies[k].patternQueue = (TPatternSet*) &pattern01;
+				enemies[k].patternQueue = (TPatternSet*) &pattern01_left;
 				break;
 			case 2 :
-				enemies[k].patternQueue = (TPatternSet*) &pattern02;
+				enemies[k].patternQueue = (TPatternSet*) &pattern01_right;
 				break;
 			case 3 :
 				enemies[k].patternQueue = (TPatternSet*) &pattern03;
@@ -465,7 +466,8 @@ void update_enemies(u8* screen) {
 						if ((get_active_enemy_shots() < get_level_max_enemy_shots()) &&
 						        (enemies[i].state == ENEMY_MOVING) &&
 						        (cpct_getRandomUniform_u8_f(0) < 60) &&
-						        (enemies[i].f.dir > 4)) {
+						        (enemies[i].f.dir > 4) &&
+						        (hostility)) {
 							create_enemy_shot(enemies[i].x, enemies[i].y, 0, 270, 4);
 						}
 					}
@@ -478,7 +480,7 @@ void update_enemies(u8* screen) {
 void enemies_full_attack() {
 	u8 i, found;
 
-	if (((get_time() - open_attack_timer) > 500) && (enemies_in_movement < 3) && (active_enemies > 0)) {
+	if ((hostility) && ((get_time() - open_attack_timer) > 500) && (enemies_in_movement < 3) && (active_enemies > 0)) {
 		found = 0;
 		for (i = 0; i < MAX_ENEMIES; i++)
 			if ((enemies[i].active) && (enemies[i].state == ENEMY_STILL)) {
@@ -525,4 +527,12 @@ void draw_enemies(u8* screen) {
 			}
 		}
 	}
+}
+
+void set_hostility(u8 onoff){
+	hostility = onoff;
+}
+
+u8 get_hostility(){
+	return hostility;
 }

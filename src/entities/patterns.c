@@ -1,16 +1,16 @@
 #include "entities.h"
 
-const TPatternSet pattern01 = {
+const TPatternSet pattern01_left = {
     .num_CMDs = 5, // 0 movement
-    .repeat = 0,
+    .repeat = 1,
     {
         {
             .CMD = TRANSLATE,
             .v = 5,
             .x = 0,
             .y = 0,
-            .angle = 30,
-            .frames = 9
+            .angle = 270,
+            .frames = 8
         },
         {
             .CMD = ROTATE,
@@ -25,23 +25,70 @@ const TPatternSet pattern01 = {
             .v = 5,
             .x = 0,
             .y = 0,
-            .angle = 30,
-            .frames = 5
+            .angle = 225,
+            .frames = 12
         },
         {
-            .CMD = TRANSLATE_HOME,
-            .v = 4,
-            .x = 0,
-            .y = 0,
-            .angle = 0,
-            .frames = 0
-        },
-        {
-            .CMD = ROTATE_TO,
+            .CMD = SLEEP,
             .v = 0,
             .x = 0,
             .y = 0,
+            .angle = 0,
+            .frames = 40
+        },
+        {
+            .CMD = TRANSPORT_TO,
+            .v = 0,
+            .x = 75,
+            .y = -5,
+            .angle = 0,
+            .frames = 0
+        }
+    }
+};
+
+const TPatternSet pattern01_right = {
+    .num_CMDs = 5, // 0 movement
+    .repeat = 1,
+    {
+        {
+            .CMD = TRANSLATE,
+            .v = 5,
+            .x = 0,
+            .y = 0,
             .angle = 270,
+            .frames = 8
+        },
+        {
+            .CMD = ROTATE,
+            .v = 6,
+            .x = 0,
+            .y = 0,
+            .angle = -19,
+            .frames = 18
+        },
+        {
+            .CMD = TRANSLATE,
+            .v = 5,
+            .x = 0,
+            .y = 0,
+            .angle = 315,
+            .frames = 12
+        },
+        {
+            .CMD = SLEEP,
+            .v = 0,
+            .x = 0,
+            .y = 0,
+            .angle = 0,
+            .frames = 40
+        },
+        {
+            .CMD = TRANSPORT_TO,
+            .v = 0,
+            .x = 75,
+            .y = -5,
+            .angle = 0,
             .frames = 0
         }
     }
@@ -131,6 +178,53 @@ const TPatternSet pattern03 = {
             .x = 150,
             .y = 10,
             .angle = 0,
+            .frames = 0
+        }
+    }
+};
+
+const TPatternSet pattern04 = {
+    .num_CMDs = 5, // 0 movement
+    .repeat = 0,
+    {
+        {
+            .CMD = TRANSLATE,
+            .v = 5,
+            .x = 0,
+            .y = 0,
+            .angle = 30,
+            .frames = 9
+        },
+        {
+            .CMD = ROTATE,
+            .v = 6,
+            .x = 0,
+            .y = 0,
+            .angle = 19,
+            .frames = 18
+        },
+        {
+            .CMD = TRANSLATE,
+            .v = 5,
+            .x = 0,
+            .y = 0,
+            .angle = 30,
+            .frames = 5
+        },
+        {
+            .CMD = TRANSLATE_HOME,
+            .v = 4,
+            .x = 0,
+            .y = 0,
+            .angle = 0,
+            .frames = 0
+        },
+        {
+            .CMD = ROTATE_TO,
+            .v = 0,
+            .x = 0,
+            .y = 0,
+            .angle = 270,
             .frames = 0
         }
     }

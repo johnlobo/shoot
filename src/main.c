@@ -88,28 +88,34 @@ void clear_both_screens() {
   cpct_memset_f64(SCR_BUFF, 0x00, 0x4000);
 }
 
-void draw_lives_flags(u8* screen){
+void draw_lives_flags(u8* screen) {
   u8 i;
   u8 avance;
   u8 aux;
   u8 aux2;
   u8 *pscreen;
-  
-  avance=0;
+
+  avance = 0;
   //Pînto Banderas verdes una cada cinco niveles
-  aux=level/5;
-  for (i=0;i<aux;i++){
+  aux = level / 5;
+  for (i = 0; i < aux; i++) {
     pscreen = cpct_getScreenPtr(screen, avance, 0);
     cpct_drawSprite((u8*) G_green_flag, pscreen , 2, 5);
-    avance=avance+3;
+    avance = avance + 3;
   }
   //Pînto Banderas rojas una cada nivel
-  aux2=level-(aux*5);
-  for (i=0;i<aux2;i++){
+  aux2 = level - (aux * 5);
+  for (i = 0; i < aux2; i++) {
     pscreen = cpct_getScreenPtr(screen, avance, 0);
     cpct_drawSprite((u8*) G_red_flag, pscreen, 2, 5);
-    avance=avance+3;
+    avance = avance + 3;
   }
+  //Pînto corazones por cada vida
+  for (i = 0; i < get_user_lives(); i++) {
+    pscreen = cpct_getScreenPtr(screen, 65 + (i * 3), 0);
+    cpct_drawSprite((u8*) G_heart, pscreen, 3, 5);
+  }
+
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -139,7 +145,7 @@ void initialization() {
     init_starfield();
 
   init_user();
-  init_shoots();
+  init_shots();
   init_enemies();
   init_explosions();
   init_messages();
@@ -163,34 +169,6 @@ void initial_setup() {
 void init_game() {
 
 }
-
-u8 test01() {
-  u16 i, j;
-  u8 *pscreen;
-  u8 choice = 0;
-  clear_screen(SCR_VMEM);
-
-  for (i = 0; i < 360; i += 12) {
-    pscreen = cpct_getScreenPtr(SCR_VMEM, (15 * cosine(i)) / 256 + 40, (30 * -sine(i)) / 256 + 80);
-    cpct_drawSprite((u8*) G_heart, pscreen , 3, 5);
-    for (j = 0; j < 5000; j++) {
-    }
-  }
-
-  blue_message();
-  cpc_PrintGphStr("ESC;SALIR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 7 * 22));
-
-  while (choice == 0) {
-    // Scan Keyboard
-    cpct_scanKeyboard_f();
-
-    if (cpct_isKeyPressed(Key_Esc)) {
-      choice = STATE_MENU;
-    }
-  }
-  return choice;
-}
-
 
 u8 menu() {
   u8 choice = 0;
@@ -242,44 +220,52 @@ u8 menu() {
 
 u8 redefine_keys() {
 
-
-
   return STATE_MENU;
-
 }
 
 u8 level_up() {
+  if (level < MAX_LEVEL) {
+    level++;
+    user_init_level();
+  }
+  return STATE_GAME;
+}
 
-  return STATE_MENU;
+u8 dead() {
 
+
+  red_message();
+  cpc_PrintGphStr2X("TOUGH;LUCK;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
+  blue_message();
+  cpc_PrintGphStr2X("YOU;VE;BEEN;HITTED", (int) cpct_getScreenPtr(SCR_VMEM, 18, 100));
+  cpc_PrintGphStr2X("PREPARE;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
+
+  wait_for_keypress();
+
+  if (get_user_lives() > 0)
+    return STATE_GAME;
+  else
+    return STATE_LOSE;
 }
 
 u8 end() {
 
   return STATE_MENU;
-
 }
 
 u8 help() {
   u8 choice = 0;
 
-
   clear_screen(SCR_VMEM);
 
-  color_test(SCR_VMEM);
+  red_message();
+  cpc_PrintGphStr2X("HELP", (int) cpct_getScreenPtr(SCR_VMEM, 40, 10));
+  blue_message();
+  cpc_PrintGphStr2X("PRES;A;KEY", (int) cpct_getScreenPtr(SCR_VMEM, 30, 140));
 
-  while (choice == 0) {
-    // Scan Keyboard
-    cpct_scanKeyboard_f();
-
-    if (cpct_isKeyPressed(Key_Esc)) {
-      choice = STATE_EXIT;
-    }
-  }
-
+  wait_for_keypress();
 
   return STATE_MENU;
-
 }
 
 u8 win() {
@@ -300,10 +286,15 @@ u8 win() {
 
 }
 
+
 u8 game_over() {
+  red_message();
+  cpc_PrintGphStr2X("GAME;OVER;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
 
-  return STATE_LOSE;
-
+  last_update = get_time();
+  while ((get_time() - last_update) < 1000) {
+  }
+  return STATE_MENU;
 }
 
 u8 game(u8 level) {
@@ -316,8 +307,6 @@ u8 game(u8 level) {
 
   if (SONIDO_ACTIVADO) {
   }
-
-  initialization();
 
   start_level(level);
 
@@ -333,17 +322,17 @@ u8 game(u8 level) {
     update_explosions();
 
     //User
-    if (delta_time > get_user_speed()) {
+    if ((delta_time > get_user_speed()) && (!get_user_dead())) {
       update_user();
     }
 
-    update_shoots();
+    update_shots();
     update_enemies(pvmem);
 
     update_enemy_shots();
 
     //  Synchronize next frame drawing with VSYNC
-    cpct_waitVSYNC();
+    //cpct_waitVSYNC();
 
     clear_screen(pvmem);
 
@@ -354,8 +343,9 @@ u8 game(u8 level) {
 
     //Draw all elements
     draw_enemies(pvmem);
-    draw_user(pvmem);
-    draw_shoots(pvmem);
+    if (!get_user_dead())
+      draw_user(pvmem);
+    draw_shots(pvmem);
     draw_enemy_shots(pvmem);
     draw_explosions(pvmem);
 
@@ -366,10 +356,10 @@ u8 game(u8 level) {
     draw_messages(pvmem);
     draw_scoreboard(pvmem);
 
-    //if ((prota.dead) && (!explosiones_activas) && (!disparos_activos) && (!disparos_malos_activos) && (!explosion_prota_activada)){
-    //  state = STATE_DEAD;
-    //  break;
-    //}
+    if ((get_user_dead()) && (!get_active_explosions()) && (!get_active_shots()) && (!get_active_enemy_shots())) {
+      state = STATE_DEAD;
+      break;
+    }
 
     if (cpct_isKeyPressed(Key_Esc)) {    // ESC
       state = STATE_MENU;
@@ -388,7 +378,7 @@ u8 game(u8 level) {
     //  break;
     //}
 
-if (DEBUG) {
+    if (DEBUG) {
       debug_enemies();
       i = 0;
       while (1) {
@@ -403,6 +393,10 @@ if (DEBUG) {
 
     if (get_end_level())
       state = STATE_WIN;
+  }
+
+  if (get_user_dead()) {
+    state = STATE_DEAD;
   }
 
   //Desactivar sonido
@@ -429,6 +423,7 @@ int main() {
   cpct_setStackLocation(NEW_STACK_LOCATION - 6);
 
   initial_setup();
+  initialization();
 
   while (state != STATE_EXIT) {
     switch (state) {
@@ -446,25 +441,33 @@ int main() {
 
     case STATE_GAME:
       level = 1;
-      user_init_level();
+
       //Inicializo putuacion
       set_score(0);
+
       //bucle de juego y subida de nivel
       while ((state != STATE_LOSE) && (state != STATE_WIN) && (state != STATE_MENU)) {
+        //Inicializar usuario nivel
+        user_init_level();
+
 
         if (SONIDO_ACTIVADO) {
-
         }
+
         state = game(level);
+
         if (SONIDO_ACTIVADO) {
           //cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
           //cpc_WyzLoadSong(0);
           //cpc_WyzSetPlayerOn();
         }
-        if (state == STATE_LEVELUP)
+
+        if (state == STATE_LEVELUP) {
           state = level_up();
+        }
+
         if (state == STATE_DEAD) {
-          state = end();
+          state = dead();
         }
       }
       break;
@@ -477,15 +480,8 @@ int main() {
       state = game_over();
       break;
 
-    case STATE_TEST01:
-      state = test01();
-      break;
-
     default:
       state = STATE_EXIT;
-
-
-
       break;
     }
   }

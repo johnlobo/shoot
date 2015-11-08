@@ -6,7 +6,7 @@
 
 //explosiones
 TIPO_EXPLOSION explosiones[MAX_EXPLOSIONES];
-u8 explosiones_activas;
+u8 active_explosions;
 u8 *explosion_sprite[2][5];
 long explosiones_lastUpdated;
 
@@ -31,7 +31,7 @@ void init_explosions() {
 		explosiones[i].w = 0;
 		explosiones[i].last_moved = 0;
 	}
-	explosiones_activas = 0;
+	active_explosions = 0;
 	explosion_sprite[0][0] = (u8*) G_explosion_8x8_00;
 	explosion_sprite[0][1] = (u8*) G_explosion_8x8_01;
 	explosion_sprite[0][2] = (u8*) G_explosion_8x8_02;
@@ -65,7 +65,7 @@ void create_explosion(u8 x, u8 y, u8 tipo) {
 		explosiones[i].h = 8;
 		explosiones[i].w = 2;
 	}
-	explosiones_activas++;
+	active_explosions++;
 }
 
 //******************************************************************************
@@ -74,7 +74,7 @@ void create_explosion(u8 x, u8 y, u8 tipo) {
 //******************************************************************************
 void update_explosions() {
 	u8 i = 0;
-	if ((explosiones_activas > 0) && ((get_time() - explosiones_lastUpdated > EXPLOSIONS_SPEED))) {
+	if ((active_explosions > 0) && ((get_time() - explosiones_lastUpdated > EXPLOSIONS_SPEED))) {
 		for (i = 0; i < MAX_EXPLOSIONES; i++) {
 			if (explosiones[i].activo == 1) {
 				if (explosiones[i].fase < 5) {
@@ -83,7 +83,7 @@ void update_explosions() {
 				else {
 					//borrar explosion
 					explosiones[i].activo = 0;
-					explosiones_activas--;
+					active_explosions--;
 				}
 
 			}
@@ -102,7 +102,7 @@ void draw_explosions(u8* screen) {
 
 	i = 0;
 
-	if (explosiones_activas > 0) {
+	if (active_explosions > 0) {
 		for (i = 0; i < MAX_EXPLOSIONES; i++) {
 			if (explosiones[i].activo == 1) {
 				pscreen = cpct_getScreenPtr(screen, explosiones[i].x/2, explosiones[i].y);
@@ -110,4 +110,8 @@ void draw_explosions(u8* screen) {
 			}
 		}
 	}
+}
+
+u8 get_active_explosions(){
+	return active_explosions;
 }

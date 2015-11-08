@@ -76,8 +76,7 @@ void update_enemy_shots(){
 				enemy_shots[i].e.y = enemy_shots[i].f.y >> 8;
 				if (inside_screen(enemy_shots[i].e.x, enemy_shots[i].e.y, enemy_shots[i].e.w, enemy_shots[i].e.h)){
 					if (check_collision_user(enemy_shots[i].e.x,enemy_shots[i].e.y,enemy_shots[i].e.w,enemy_shots[i].e.h)){
-						create_explosion(enemy_shots[i].e.x,enemy_shots[i].e.y,0);
-						enemy_shots[i].active=0;
+						enemy_shots[i].active=OFF;
 						active_enemy_shots--;
 					} else {
 						enemy_shots[i].e.frame++;
@@ -86,7 +85,7 @@ void update_enemy_shots(){
 						}
 				} else {
 					//Borro Disparo
-					enemy_shots[i].active=0;
+					enemy_shots[i].active=OFF;
 					active_enemy_shots--;
 				}
 			}

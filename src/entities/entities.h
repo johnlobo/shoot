@@ -8,6 +8,10 @@
 #define SCREEN_WIDTH 159
 #define SCREEN_HEIGHT 199
 #define SCALE_FACTOR 256
+#define DEFAULT_USER_LIVES 3
+#define MAX_LEVEL 2
+#define ON 1
+#define OFF 0
 //PATTERNS
 #define TRANSLATE 0
 #define ROTATE  1
@@ -23,10 +27,10 @@
 //MATH
 //#define PI 3.1415926
 #define PIXEL_SCALE 256
-//SHOOTS
+//SHOTS
 #define SHOOT_JUMP 10
 #define SALTO_DISPARO_MALO 4
-#define MAX_SHOOTS 10
+#define MAX_SHOTS 10
 //ENEMIES
 #define MAX_ENEMIES 20
 #define MAX_ENEMY_GROUPS 4
@@ -59,7 +63,6 @@ typedef struct
 } TPatternSet;
 
 
-
 // Struct to note the shifting status of a sprite
 typedef enum {
    ON_EVEN_PIXEL = 0,  // Sprite is un-shifted (starts on even pixel)
@@ -74,7 +77,6 @@ typedef struct {
    i16 angle;
    i16 acum_angle;
    u8 sleep;
-
 } TPhysics;
 
 typedef struct {
@@ -92,12 +94,13 @@ typedef struct {
 typedef struct  {
    TEntity e;
    u8 *sprite;
-   u8 max_shoots;
+   u8 max_shots;
    u8 shield;
    u8 lives;
    u32 score;
    u8 speed;
    u8 engine_state;
+   u8 dead;
    long last_moved;
 } TShip;
 
@@ -186,7 +189,8 @@ typedef struct {
    u8 delay;
 } TMessage;
 
-extern const TPatternSet pattern01, pattern02, pattern03, attack01;
+extern const TPatternSet pattern01_left, pattern01_right, pattern02, pattern03, pattern04;
+extern const TPatternSet attack01;
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -197,10 +201,11 @@ extern const TPatternSet pattern01, pattern02, pattern03, attack01;
 //////////////////////////////////////////////////////////////////////////
 
 //SHOOTS
-void init_shoots();
-void create_shoot(u8 x, u8 y, u8 type);
-void update_shoots();
-void draw_shoots(u8* screen);
+void init_shots();
+void create_shot(u8 x, u8 y, u8 type);
+void update_shots();
+void draw_shots(u8* screen);
+u8 get_active_shots();
 
 //ENEMY SHOTS
 u8 get_active_enemy_shots();
@@ -220,13 +225,16 @@ u8 get_active_groups();
 void update_enemies(u8* screen);
 void debug_enemies();
 void enemies_full_attack();
+void set_hostility(u8 onoff);
+u8 get_hostility();
 
 //USER
 long get_last_moved_user();
 void init_user();
 void user_init_level();
-u8 get_user_max_shoots();
+u8 get_user_max_shots();
 u8 get_user_speed();
+u8 get_user_lives();
 u8 get_user_dead();
 void user_engine(u8* screen);
 void update_user();
@@ -242,6 +250,7 @@ void init_explosions();
 void create_explosion(u8 x, u8 y, u8 tipo);
 void update_explosions();
 void draw_explosions(u8* screen);
+u8 get_active_explosions();
 
 //STARS
 void init_stars();
