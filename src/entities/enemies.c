@@ -99,29 +99,29 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 		switch (type) {
 
 		case 1:
-			enemies[k].w = 5;
-			enemies[k].h = 12;
-			enemies[k].sprite[0] = (u8*) G_baddie01_00;
-			enemies[k].sprite[1] = (u8*) G_baddie01_01;
-			enemies[k].sprite[2] = (u8*) G_baddie01_02;
-			enemies[k].sprite[3] = (u8*) G_baddie01_03;
-			enemies[k].sprite[4] = (u8*) G_baddie01_04;
-			enemies[k].sprite[5] = (u8*) G_baddie01_05;
-			enemies[k].sprite[6] = (u8*) G_baddie01_06;
-			enemies[k].sprite[7] = (u8*) G_baddie01_07;
+			enemies[k].w = 4;
+			enemies[k].h = 8;
+			enemies[k].sprite[0] = (u8*) G_baddie_fly_0;
+			enemies[k].sprite[1] = (u8*) G_baddie_fly_1;
+			enemies[k].sprite[2] = (u8*) G_baddie_fly_2;
+			enemies[k].sprite[3] = (u8*) G_baddie_fly_3;
+			enemies[k].sprite[4] = (u8*) G_baddie_fly_4;
+			enemies[k].sprite[5] = (u8*) G_baddie_fly_5;
+			enemies[k].sprite[6] = (u8*) G_baddie_fly_6;
+			enemies[k].sprite[7] = (u8*) G_baddie_fly_7;
 			enemies[k].patternQueue = (TPatternSet*) &pattern01_left;
 			break;
 		case 2:
-			enemies[k].w = 5;
-			enemies[k].h = 12;
-			enemies[k].sprite[0] = (u8*) G_baddie02_00;
-			enemies[k].sprite[1] = (u8*) G_baddie02_01;
-			enemies[k].sprite[2] = (u8*) G_baddie02_02;
-			enemies[k].sprite[3] = (u8*) G_baddie02_03;
-			enemies[k].sprite[4] = (u8*) G_baddie02_04;
-			enemies[k].sprite[5] = (u8*) G_baddie02_05;
-			enemies[k].sprite[6] = (u8*) G_baddie02_06;
-			enemies[k].sprite[7] = (u8*) G_baddie02_07;
+			enemies[k].w = 4;
+			enemies[k].h = 8;
+			enemies[k].sprite[0] = (u8*) G_baddie_ship_0;
+			enemies[k].sprite[1] = (u8*) G_baddie_ship_1;
+			enemies[k].sprite[2] = (u8*) G_baddie_ship_2;
+			enemies[k].sprite[3] = (u8*) G_baddie_ship_3;
+			enemies[k].sprite[4] = (u8*) G_baddie_ship_4;
+			enemies[k].sprite[5] = (u8*) G_baddie_ship_5;
+			enemies[k].sprite[6] = (u8*) G_baddie_ship_6;
+			enemies[k].sprite[7] = (u8*) G_baddie_ship_7;
 			enemies[k].patternQueue = (TPatternSet*) &pattern02;
 			break;
 		case 3:
@@ -242,23 +242,6 @@ void update_enemy_groups() {
 	}
 }
 
-void debug_enemies() {
-	u8 i = 0;
-	u8 aux_txt[80];
-	u8 line = 0;
-
-	sprintf(aux_txt, "%03d", active_enemies);
-	colour_message(0, 2);
-	cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(cur_screen, 0, 16));
-	for (i = 0; i < MAX_ENEMIES; i++) {
-		if (enemies[i].active) {
-			sprintf(aux_txt, "%i:%i:%i:%i", enemies[i].x, enemies[i].y, enemies[i].f.angle, enemies[i].cur_cmd);
-			cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(cur_screen, 40, 8 * line + 40));
-			line++;
-		}
-
-	}
-}
 
 //******************************************************************************
 // Función: translate_to()

@@ -53,16 +53,16 @@ void update_level() {
 				level_step++;
 			}
 			break;
-		case 12:
+		case 4:
 			level_timer = get_time();
 			level_step++;
 			break;
-		case 13:
+		case 5:
 			if ( (get_time() - level_timer) > 1000) {
 				level_step++;
 			}
 			break;
-		case 14:
+		case 6:
 			level_end = 1;
 			break;
 

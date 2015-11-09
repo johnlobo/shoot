@@ -149,8 +149,6 @@ void initialization() {
   init_enemies();
   init_explosions();
   init_messages();
-  init_stars();
-
 }
 
 
@@ -191,12 +189,6 @@ u8 menu() {
     //  Synchronize next frame drawing with VSYNC
     cpct_waitVSYNC();
 
-    //STARS
-    //  if (get_active_stars()<4)
-    //   create_star(cpct_getRandomUniform_u8_f(0) % 75, cpct_getRandomUniform_u8_f(0) % 191);
-    // update_stars();
-    // draw_stars(SCR_VMEM);
-
     // Scan Keyboard
     cpct_scanKeyboard_f();
 
@@ -224,11 +216,22 @@ u8 redefine_keys() {
 }
 
 u8 level_up() {
+  red_message();
+  cpc_PrintGphStr2X("CONGRATULATIONS;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
+  blue_message();
+  cpc_PrintGphStr2X("LEVEL COMPLETE", (int) cpct_getScreenPtr(SCR_VMEM, 18, 100));
+  cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
+
+  wait_for_keypress();
+
   if (level < MAX_LEVEL) {
     level++;
     user_init_level();
-  }
-  return STATE_GAME;
+    return STATE_GAME;
+  } else
+    return STATE_WIN;
+
+  
 }
 
 u8 dead() {
@@ -238,7 +241,7 @@ u8 dead() {
   cpc_PrintGphStr2X("TOUGH;LUCK;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
   blue_message();
   cpc_PrintGphStr2X("YOU;VE;BEEN;HITTED", (int) cpct_getScreenPtr(SCR_VMEM, 18, 100));
-  cpc_PrintGphStr2X("PREPARE;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
+  cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
 
   wait_for_keypress();
 
@@ -332,7 +335,7 @@ u8 game(u8 level) {
     update_enemy_shots();
 
     //  Synchronize next frame drawing with VSYNC
-    //cpct_waitVSYNC();
+    cpct_waitVSYNC();
 
     clear_screen(pvmem);
 
@@ -366,33 +369,12 @@ u8 game(u8 level) {
       break;
     }
 
-
-    // Hostilidad
-    //if ((DEBUG) && (cpc_TestKey(KEY_HOSTILITY)==1)){
-    //  hostilidad=!hostilidad;
-    //}
-
-
-    //if ((malos_activos==0) && (explosiones_activas==0) && (!disparos_activos) && (!disparos_malos_activos)){
-    //  state = STATE_LEVELUP;
-    //  break;
-    //}
-
-    if (DEBUG) {
-      debug_enemies();
-      i = 0;
-      while (1) {
-        i++;
-        if (i == 20000) break;
-      }
-    }
-
     update_level();
 
     pvmem = changeVideoMemoryPage();
 
     if (get_end_level())
-      state = STATE_WIN;
+      state = STATE_LEVELUP;
   }
 
   if (get_user_dead()) {

@@ -10,7 +10,7 @@ const TPatternSet pattern01_left = {
             .x = 0,
             .y = 0,
             .angle = 270,
-            .frames = 8
+            .frames = 4
         },
         {
             .CMD = ROTATE,
@@ -26,7 +26,7 @@ const TPatternSet pattern01_left = {
             .x = 0,
             .y = 0,
             .angle = 225,
-            .frames = 12
+            .frames = 20
         },
         {
             .CMD = SLEEP,
@@ -57,7 +57,7 @@ const TPatternSet pattern01_right = {
             .x = 0,
             .y = 0,
             .angle = 270,
-            .frames = 8
+            .frames = 4
         },
         {
             .CMD = ROTATE,
@@ -73,7 +73,7 @@ const TPatternSet pattern01_right = {
             .x = 0,
             .y = 0,
             .angle = 315,
-            .frames = 12
+            .frames = 20
         },
         {
             .CMD = SLEEP,

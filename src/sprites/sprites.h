@@ -3,11 +3,8 @@
 
 #include <types.h>
 #include "../entities/entities.h"
-
-///////////////////////////////////////////////////////////////////////////////////////
-// Palette Definition
-//       Palette defined using Firmware Colours (Mode 0, 16 colours + border)
-
+#include "baddie_fly.h"
+#include "baddie_ship.h"
 
 extern const u8 palette[16];
 extern const u8 bullet01_0[8];
