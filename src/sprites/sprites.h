@@ -5,6 +5,8 @@
 #include "../entities/entities.h"
 #include "baddie_fly.h"
 #include "baddie_ship.h"
+#include "baddie_bird.h"
+#include "baddie_ball.h"
 
 extern const u8 palette[16];
 extern const u8 bullet01_0[8];
@@ -27,38 +29,6 @@ extern const u8 G_ship_01_02[84];
 extern const u8 G_shoot_00[4];
 extern const u8 G_shoot_00[4];
 extern const u8 G_shoot_00[4];
-extern const u8 G_baddie01_00[60];
-extern const u8 G_baddie01_01[60];
-extern const u8 G_baddie01_02[60];
-extern const u8 G_baddie01_03[60];
-extern const u8 G_baddie01_04[60];
-extern const u8 G_baddie01_05[60];
-extern const u8 G_baddie01_06[60];
-extern const u8 G_baddie01_07[60];
-extern const u8 G_baddie02_00[60];
-extern const u8 G_baddie02_01[60];
-extern const u8 G_baddie02_02[60];
-extern const u8 G_baddie02_03[60];
-extern const u8 G_baddie02_04[60];
-extern const u8 G_baddie02_05[60];
-extern const u8 G_baddie02_06[60];
-extern const u8 G_baddie02_07[60];
-extern const u8 G_baddie03_00[60];
-extern const u8 G_baddie03_01[60];
-extern const u8 G_baddie03_02[60];
-extern const u8 G_baddie03_03[60];
-extern const u8 G_baddie03_04[60];
-extern const u8 G_baddie03_05[60];
-extern const u8 G_baddie03_06[60];
-extern const u8 G_baddie03_07[60];
-extern const u8 G_baddie04_00[45];
-extern const u8 G_baddie04_01[45];
-extern const u8 G_baddie04_02[45];
-extern const u8 G_baddie04_03[45];
-extern const u8 G_baddie04_04[45];
-extern const u8 G_baddie04_05[45];
-extern const u8 G_baddie04_06[45];
-extern const u8 G_baddie04_07[45];
 extern const u8 G_baddie05_00[45];
 extern const u8 G_baddie05_01[45];
 extern const u8 G_baddie05_02[45];

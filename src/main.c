@@ -24,7 +24,7 @@
 
 // Memory management
 // Program Stack locations
-#define NEW_STACK_LOCATION       (void*)0x200
+#define NEW_STACK_LOCATION       (void*)0x400
 #define PREVIOUS_STACK_LOCATION  (void*)0xC000
 #define SCR_VMEM  (u8*)0xC000
 #define SCR_BUFF  (u8*)0x8000
@@ -231,22 +231,21 @@ u8 level_up() {
   } else
     return STATE_WIN;
 
-  
+
 }
 
 u8 dead() {
+  if (get_user_lives() > 0) {
+    red_message();
+    cpc_PrintGphStr2X("TOUGH;LUCK;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
+    blue_message();
+    cpc_PrintGphStr2X("YOU;VE;BEEN;HITTED", (int) cpct_getScreenPtr(SCR_VMEM, 18, 100));
+    cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
 
+    wait_for_keypress();
 
-  red_message();
-  cpc_PrintGphStr2X("TOUGH;LUCK;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
-  blue_message();
-  cpc_PrintGphStr2X("YOU;VE;BEEN;HITTED", (int) cpct_getScreenPtr(SCR_VMEM, 18, 100));
-  cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
-
-  wait_for_keypress();
-
-  if (get_user_lives() > 0)
     return STATE_GAME;
+  }
   else
     return STATE_LOSE;
 }
@@ -272,18 +271,13 @@ u8 help() {
 }
 
 u8 win() {
-
   red_message();
   cpc_PrintGphStr2X("CONGRATULATIONS;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
   blue_message();
   cpc_PrintGphStr2X("YOU;WIN", (int) cpct_getScreenPtr(SCR_VMEM, 32, 100));
-  cpc_PrintGphStr2X("PRESS;ESC;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
+  cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
 
-  while (1) {
-    cpct_scanKeyboard_f();
-    if (cpct_isKeyPressed(Key_Esc))
-      break;
-  }
+  wait_for_keypress();
 
   return STATE_MENU;
 
@@ -293,10 +287,11 @@ u8 win() {
 u8 game_over() {
   red_message();
   cpc_PrintGphStr2X("GAME;OVER;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
+  blue_message();
+  cpc_PrintGphStr2X("MAYBE;NEXT;TIME", (int) cpct_getScreenPtr(SCR_VMEM, 32, 100));
+  cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
 
-  last_update = get_time();
-  while ((get_time() - last_update) < 1000) {
-  }
+  wait_for_keypress();
   return STATE_MENU;
 }
 
@@ -351,10 +346,6 @@ u8 game(u8 level) {
     draw_shots(pvmem);
     draw_enemy_shots(pvmem);
     draw_explosions(pvmem);
-
-    //Animations
-    //if (!get_user_dead())
-    //  user_engine(pvmem);
 
     draw_messages(pvmem);
     draw_scoreboard(pvmem);

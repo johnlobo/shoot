@@ -114,23 +114,3 @@ void draw_messages(u8* screen) {
 		}
 	}
 }
-
-/*
-void color_test(u8* screen){
-	u8 i,x,y;
-	u8 aux_txt[3];
-
-	x=0;
-	y=0;
-	for (i=1;i<255;i++){
-		if ((i%15)==0){
-			x=0;
-			y+=12;
-		}
-		colour_message (0,i);
-		sprintf(aux_txt,"%02d",x);
-		cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, x, y));
-		x+=5;
-	}
-}
-*/

@@ -113,7 +113,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			break;
 		case 2:
 			enemies[k].w = 4;
-			enemies[k].h = 8;
+			enemies[k].h = 7;
 			enemies[k].sprite[0] = (u8*) G_baddie_ship_0;
 			enemies[k].sprite[1] = (u8*) G_baddie_ship_1;
 			enemies[k].sprite[2] = (u8*) G_baddie_ship_2;
@@ -125,30 +125,30 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			enemies[k].patternQueue = (TPatternSet*) &pattern02;
 			break;
 		case 3:
-			enemies[k].w = 5;
-			enemies[k].h = 12;
-			enemies[k].sprite[0] = (u8*) G_baddie03_00;
-			enemies[k].sprite[1] = (u8*) G_baddie03_01;
-			enemies[k].sprite[2] = (u8*) G_baddie03_02;
-			enemies[k].sprite[3] = (u8*) G_baddie03_03;
-			enemies[k].sprite[4] = (u8*) G_baddie03_04;
-			enemies[k].sprite[5] = (u8*) G_baddie03_05;
-			enemies[k].sprite[6] = (u8*) G_baddie03_06;
-			enemies[k].sprite[7] = (u8*) G_baddie03_07;
+			enemies[k].w = 4;
+			enemies[k].h = 7;
+			enemies[k].sprite[0] = (u8*) G_baddie_bird_0;
+			enemies[k].sprite[1] = (u8*) G_baddie_bird_1;
+			enemies[k].sprite[2] = (u8*) G_baddie_bird_2;
+			enemies[k].sprite[3] = (u8*) G_baddie_bird_3;
+			enemies[k].sprite[4] = (u8*) G_baddie_bird_4;
+			enemies[k].sprite[5] = (u8*) G_baddie_bird_5;
+			enemies[k].sprite[6] = (u8*) G_baddie_bird_6;
+			enemies[k].sprite[7] = (u8*) G_baddie_bird_7;
 			enemies[k].patternQueue = (TPatternSet*) &pattern03;
 			break;
 		case 4:
-			enemies[k].w = 5;
-			enemies[k].h = 9;
-			enemies[k].sprite[0] = (u8*) G_baddie04_00;
-			enemies[k].sprite[1] = (u8*) G_baddie04_01;
-			enemies[k].sprite[2] = (u8*) G_baddie04_02;
-			enemies[k].sprite[3] = (u8*) G_baddie04_03;
-			enemies[k].sprite[4] = (u8*) G_baddie04_04;
-			enemies[k].sprite[5] = (u8*) G_baddie04_05;
-			enemies[k].sprite[6] = (u8*) G_baddie04_06;
-			enemies[k].sprite[7] = (u8*) G_baddie04_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern01_left;
+			enemies[k].w = 4;
+			enemies[k].h = 7;
+			enemies[k].sprite[0] = (u8*) G_baddie_ball_0;
+			enemies[k].sprite[1] = (u8*) G_baddie_ball_1;
+			enemies[k].sprite[2] = (u8*) G_baddie_ball_2;
+			enemies[k].sprite[3] = (u8*) G_baddie_ball_3;
+			enemies[k].sprite[4] = (u8*) G_baddie_ball_4;
+			enemies[k].sprite[5] = (u8*) G_baddie_ball_5;
+			enemies[k].sprite[6] = (u8*) G_baddie_ball_6;
+			enemies[k].sprite[7] = (u8*) G_baddie_ball_7;
+			enemies[k].patternQueue = (TPatternSet*) &pattern04;
 			break;
 		case 5:
 			enemies[k].w = 5;
@@ -164,16 +164,16 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			enemies[k].patternQueue = (TPatternSet*) &pattern02;
 			break;
 		default:
-			enemies[k].w = 5;
-			enemies[k].h = 12;
-			enemies[k].sprite[0] = (u8*) G_baddie01_00;
-			enemies[k].sprite[1] = (u8*) G_baddie01_01;
-			enemies[k].sprite[2] = (u8*) G_baddie01_02;
-			enemies[k].sprite[3] = (u8*) G_baddie01_03;
-			enemies[k].sprite[4] = (u8*) G_baddie01_04;
-			enemies[k].sprite[5] = (u8*) G_baddie01_05;
-			enemies[k].sprite[6] = (u8*) G_baddie01_06;
-			enemies[k].sprite[7] = (u8*) G_baddie01_07;
+			enemies[k].w = 4;
+			enemies[k].h = 8;
+			enemies[k].sprite[0] = (u8*) G_baddie_fly_0;
+			enemies[k].sprite[1] = (u8*) G_baddie_fly_1;
+			enemies[k].sprite[2] = (u8*) G_baddie_fly_2;
+			enemies[k].sprite[3] = (u8*) G_baddie_fly_3;
+			enemies[k].sprite[4] = (u8*) G_baddie_fly_4;
+			enemies[k].sprite[5] = (u8*) G_baddie_fly_5;
+			enemies[k].sprite[6] = (u8*) G_baddie_fly_6;
+			enemies[k].sprite[7] = (u8*) G_baddie_fly_7;
 			enemies[k].patternQueue = (TPatternSet*) &pattern01_left;
 			break;
 		}
@@ -186,9 +186,17 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 				enemies[k].patternQueue = (TPatternSet*) &pattern01_right;
 				break;
 			case 3 :
+				enemies[k].patternQueue = (TPatternSet*) &pattern02;
+				break;
+			case 4 :
 				enemies[k].patternQueue = (TPatternSet*) &pattern03;
 				break;
+			case 5 :
+				enemies[k].patternQueue = (TPatternSet*) &pattern04;
+				break;
+
 			}
+
 		}
 		active_enemies++;
 	}
@@ -512,10 +520,10 @@ void draw_enemies(u8* screen) {
 	}
 }
 
-void set_hostility(u8 onoff){
+void set_hostility(u8 onoff) {
 	hostility = onoff;
 }
 
-u8 get_hostility(){
+u8 get_hostility() {
 	return hostility;
 }

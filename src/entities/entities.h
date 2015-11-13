@@ -99,7 +99,6 @@ typedef struct  {
    u8 lives;
    u32 score;
    u8 speed;
-   u8 engine_state;
    u8 dead;
    long last_moved;
 } TShip;
@@ -236,7 +235,6 @@ u8 get_user_max_shots();
 u8 get_user_speed();
 u8 get_user_lives();
 u8 get_user_dead();
-void user_engine(u8* screen);
 void update_user();
 void draw_user(u8* screen);
 void set_score(u32 new_score);

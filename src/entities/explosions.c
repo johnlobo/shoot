@@ -47,25 +47,26 @@ void init_explosions() {
 //
 //******************************************************************************
 void create_explosion(u8 x, u8 y, u8 tipo) {
-	u8 i;
-	i = 0;
-	while (explosiones[i].activo == 1) {
-		i++;
-	} //buscar explosion no activa disponible
-	explosiones[i].activo = 1;
-	explosiones[i].tipo = tipo;
-	explosiones[i].fase = 0;
-	explosiones[i].x = x;
-	explosiones[i].y = y;
-	//explosiones[i].memoriaPantalla[0] = cpct_getScreenPtr(screen, explosiones[i].x, explosiones[i].y);
-	if (!tipo) {
-		explosiones[i].h = 8;
-		explosiones[i].w = 4;
-	} else {
-		explosiones[i].h = 8;
-		explosiones[i].w = 2;
+	u8 i = 0;
+	if (active_explosions < MAX_EXPLOSIONES) {
+		while (explosiones[i].activo == 1) {
+			i++;
+		} //buscar explosion no activa disponible
+		explosiones[i].activo = 1;
+		explosiones[i].tipo = tipo;
+		explosiones[i].fase = 0;
+		explosiones[i].x = x;
+		explosiones[i].y = y;
+		//explosiones[i].memoriaPantalla[0] = cpct_getScreenPtr(screen, explosiones[i].x, explosiones[i].y);
+		if (!tipo) {
+			explosiones[i].h = 8;
+			explosiones[i].w = 4;
+		} else {
+			explosiones[i].h = 8;
+			explosiones[i].w = 2;
+		}
+		active_explosions++;
 	}
-	active_explosions++;
 }
 
 //******************************************************************************
@@ -105,13 +106,13 @@ void draw_explosions(u8* screen) {
 	if (active_explosions > 0) {
 		for (i = 0; i < MAX_EXPLOSIONES; i++) {
 			if (explosiones[i].activo == 1) {
-				pscreen = cpct_getScreenPtr(screen, explosiones[i].x/2, explosiones[i].y);
+				pscreen = cpct_getScreenPtr(screen, explosiones[i].x / 2, explosiones[i].y);
 				cpct_drawSprite(explosion_sprite[explosiones[i].tipo][explosiones[i].fase], pscreen, explosiones[i].w, explosiones[i].h);
 			}
 		}
 	}
 }
 
-u8 get_active_explosions(){
+u8 get_active_explosions() {
 	return active_explosions;
 }

@@ -8,7 +8,6 @@ TShip user;
 u8 shoot_type;
 u8 choice = 0;
 u8* const user_anim[3] = {G_ship_01_00, G_ship_01_02, G_ship_01_01};
-u8* const engine_anim[2] = {G_engine_00, G_engine_01};
 
 
 void init_user() {
@@ -20,7 +19,7 @@ void init_user() {
   user.score = 0;
   user.shield = 0;
   user.lives = DEFAULT_USER_LIVES;
-  user.max_shots = 2;
+  user.max_shots = 3;
 }
 
 void user_init_level() {
@@ -39,8 +38,9 @@ void user_init_level() {
   user.shield = 0;
   user.dead = 0;
   user.last_moved = 0;
-  user.engine_state = 0;
   shoot_type = 1;
+  init_shots();
+  init_enemies();
   set_hostility(ON);
 }
 
@@ -63,16 +63,6 @@ u8 get_user_lives() {
 }
 u8 get_user_dead() {
   return user.dead;
-}
-
-void user_engine(u8* screen) {
-  u8* pscreen;
-
-  user.engine_state++;
-  if (user.engine_state == 2) user.engine_state = 0;
-
-  pscreen = cpct_getScreenPtr(screen, user.e.x + 1, user.e.y + 7);
-  cpct_drawSprite( (u8*) engine_anim[user.engine_state], pscreen, 2, 1);
 }
 
 void update_user() {
@@ -106,29 +96,6 @@ void update_user() {
   if (cpct_isKeyPressed(Key_Space)) {
     create_shot(user.e.x + 5, user.e.y, shoot_type);
   }
-
-  /*
-  // KEY = 1
-  if (cpct_isKeyPressed(Key_1)) {
-    create_enemy(10, 10, 1, 10, 10);
-  }
-  // KEY = 2
-  if (cpct_isKeyPressed(Key_2)) {
-    create_enemy(10, 10, 2, 10, 10);
-  }
-  // KEY = 3
-  if (cpct_isKeyPressed(Key_3)) {
-    create_enemy(10, 10, 3, 10, 10);
-  }
-  // KEY = 4
-  if (cpct_isKeyPressed(Key_4)) {
-    create_enemy(10, 10, 4, 10, 10);
-  }
-  // KEY = 5
-  if (cpct_isKeyPressed(Key_5)) {
-    create_enemy(10, 10, 5, 10, 10);
-  }
-  */
 
 
   //Kinematics
@@ -177,17 +144,14 @@ u32 get_score() {
   return user.score;
 }
 u8 check_collision_user(u8 x, u8 y, u8 w, u8 h) {
-  u8 i = 0;
   u8 collision = 0;
 
   if (!user.dead) {
     if (fast_collision(x, y, (w * 2) - 1, h, user.e.x, user.e.y, (user.e.w * 2) - 1, user.e.h)) {
       collision = 1;
-      create_explosion(user.e.x + user.e.w, user.e.y + user.e.h, 0);
+      create_explosion(user.e.x + user.e.w, user.e.y, 0);
       user.lives--;
       user.dead = 1;
-      //user.e.x = 200;
-      //user.e.y = 250;
       set_hostility(OFF);
     }
   }
