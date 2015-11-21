@@ -188,7 +188,7 @@ typedef struct {
    u8 delay;
 } TMessage;
 
-extern const TPatternSet pattern01_left, pattern01_right, pattern02, pattern03, pattern04;
+extern const TPatternSet pattern01_left, pattern01_right, pattern02_left, pattern02_right, pattern03, pattern04;
 extern const TPatternSet attack01;
 
 //////////////////////////////////////////////////////////////////////////
@@ -229,8 +229,9 @@ u8 get_hostility();
 
 //USER
 long get_last_moved_user();
+void center_user();
 void init_user();
-void user_init_level();
+void init_user_level();
 u8 get_user_max_shots();
 u8 get_user_speed();
 u8 get_user_lives();
@@ -264,7 +265,8 @@ void blue_message();
 void red_message();
 void colour_message (u8 backg, u8 t);
 void init_messages();
-void create_message(u8 x, u8 y, u8 delay, u8 time, u8 *message);
+void create_message(u8 x, u8 y, u8 delay, u8 time, u8 *text);
+void create_centered_message(u8 y, u8 delay, u8 time, u8 *text);
 void draw_messages(u8* screen);
 void color_test(u8* screen);
 

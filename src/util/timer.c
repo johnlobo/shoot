@@ -1,9 +1,7 @@
-#include <cpctelera.h>
+#include <types.h>
 
-static unsigned int timer0;
-static unsigned int timer1;
-u8 nFPS;
-unsigned long nTimeLast;
+static u16 timer0;
+static u16 timer1;
 
 //******************************************************************************
 // Función timerOn()
@@ -15,6 +13,9 @@ void timer_on(void) {
 	IM 1	
 	PUSH HL
 	LD HL, #_timer0
+	LD (HL),#0X0000
+	INC HL
+	INC HL
 	LD (HL),#0X0000
 	LD HL,#0X0038
 	LD (HL),#0XC3		;JP

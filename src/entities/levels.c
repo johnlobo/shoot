@@ -7,6 +7,7 @@ u8 level_step = 0;
 u8 level_end = 0;
 long level_timer = 0;
 const u8 level_titles[2][20] = {"PROLOGUE", "THE;BEGINNING"};
+const u8 level_enemies[20] = {2, 12};
 u8 level_max_enemy_shots = 0;
 
 void start_level(u8 level) {
@@ -16,12 +17,13 @@ void start_level(u8 level) {
 	level_step = 0;
 	level_end = 0;
 	sprintf(aux_txt, "LEVEL;%d", active_level);
-	create_message(31, 96, 0, 10, aux_txt);
-	create_message(31, 96, 10, 10, (u8*) &level_titles[active_level - 1]);
-	create_message(31, 96, 20, 10, "SHOOT");
+	create_centered_message(96, 0, 15, aux_txt);
+	create_centered_message(96, 15, 15, (u8*) &level_titles[active_level - 1]);
+	sprintf(aux_txt, "ENEMIES;%d", level_enemies[active_level-1]);
+	create_centered_message(96, 30, 15, aux_txt);
 	switch (active_level) {
 	case 1:
-		level_max_enemy_shots = 4;
+		level_max_enemy_shots = 3;
 		break;
 	case 2:
 		level_max_enemy_shots = 5;
@@ -40,7 +42,7 @@ void update_level() {
 			level_step++;
 			break;
 		case 1:
-			if ((get_time() - level_timer) > 600) {
+			if ((get_time() - level_timer) > 300) {
 				level_step++;
 			}
 			break;
@@ -50,23 +52,35 @@ void update_level() {
 			level_step++;
 			break;
 		case 3:
-			if ((!get_active_groups()) && (!get_active_enemies())) {
+			if (!get_active_enemies()) {
+				level_timer = get_time();
 				level_step++;
 			}
 			break;
 		case 4:
-			level_timer = get_time();
-			level_step++;
-			break;
-		case 5:
-			if ( (get_time() - level_timer) > 500) {
+			if ( (get_time() - level_timer) > 300) {
 				level_step++;
 			}
 			break;
+		case 5:
+			create_enemy(75, 0, 1, 55, 50, 2);
+			create_enemy(85, 0, 1, 65, 50, 1);
+			level_step++;
+			break;
 		case 6:
+			if (!get_active_enemies()) {
+				level_timer = get_time();
+				level_step++;
+			}
+			break;
+		case 7:
+			if ( (get_time() - level_timer) > 300) {
+				level_step++;
+			}
+			break;
+		case 8:
 			level_end = 1;
 			break;
-
 		}
 
 		break;
@@ -80,7 +94,7 @@ void update_level() {
 			level_step++;
 			break;
 		case 1:
-			if ((get_time() - level_timer) > 600) {
+			if ((get_time() - level_timer) > 300) {
 				level_step++;
 			}
 			break;
@@ -123,7 +137,7 @@ void update_level() {
 			level_step++;
 			break;
 		case 10:
-			if ( (get_time() - level_timer) > 1000) {
+			if ( (get_time() - level_timer) > 300) {
 				level_step++;
 			}
 			break;
@@ -139,7 +153,7 @@ void update_level() {
 			level_step++;
 			break;
 		case 13:
-			if ( (get_time() - level_timer) > 1000) {
+			if ( (get_time() - level_timer) > 300) {
 				level_step++;
 			}
 			break;

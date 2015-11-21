@@ -24,6 +24,4 @@ cpct_keyID wait_for_keypress();
 i16 sine(i16 angle);
 i16 cosine(i16 angle);
 
-u16 absolute(i16 number) __z88dk_fastcall;
-
 #endif

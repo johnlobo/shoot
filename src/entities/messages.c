@@ -92,6 +92,24 @@ void create_message(u8 x, u8 y, u8 delay, u8 time, u8 *text) {
 	active_messages++;
 }
 
+void create_centered_message(u8 y, u8 delay, u8 time, u8 *text) {
+	u8 i = 0;
+	u8 x = 0;
+
+	x = (80-(strlen(text)*2))/2;
+
+	while (messages[i].active == 1) {
+		i++;
+	} //buscar mensaje no activo disponible
+	messages[i].active = 1;
+	messages[i].x = x;
+	messages[i].y = y;
+	messages[i].time = time;
+	messages[i].delay = delay;
+	strcpy(messages[i].text, text);
+	active_messages++;
+}
+
 void draw_messages(u8* screen) {
 	u8 i;
 	//u8* pscreen;

@@ -8,10 +8,10 @@
 // Definiciones para el mapa de estrellas
 #define STARS_NUM 15
 #define STARFIELD_ACTIVE 1
-#define VELOCIDAD_ESTRELLAS 40
-#define STAR_COLOR1	1
+#define VELOCIDAD_ESTRELLAS 400
+#define STAR_COLOR1	4
 #define STAR_COLOR2 2
-#define STAR_COLOR3	3
+#define STAR_COLOR3	1
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

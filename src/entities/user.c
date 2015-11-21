@@ -10,6 +10,11 @@ u8 choice = 0;
 u8* const user_anim[3] = {G_ship_01_00, G_ship_01_02, G_ship_01_01};
 
 
+void center_user(){
+  user.e.x = (SCREEN_WIDTH + user.e.w) / 2;
+  user.e.y = 199 - (user.e.h);
+}
+
 void init_user() {
 
   user.e.w = 6;
@@ -20,27 +25,24 @@ void init_user() {
   user.shield = 0;
   user.lives = DEFAULT_USER_LIVES;
   user.max_shots = 3;
-}
-
-void user_init_level() {
-  user.e.w = 6;
-  user.e.h = 14;
-  user.e.x = (SCREEN_WIDTH + user.e.w) / 2;
-  user.e.y = 199 - (user.e.h);
   user.e.frame = 0;
   user.e.shift = ON_EVEN_PIXEL;
-  user.e.vx = 0;
-  user.e.vy = 0;
   user.e.topvx = 8;
   user.e.topvy = 10;
-  user.e.ax = 0;
-  user.e.ay = 0;
   user.shield = 0;
-  user.dead = 0;
   user.last_moved = 0;
   shoot_type = 1;
-  init_shots();
-  init_enemies();
+  center_user();
+}
+
+void init_user_level() {
+  user.e.w = 6;
+  user.e.h = 14;
+  user.e.vx = 0;
+  user.e.vy = 0;
+  user.e.ax = 0;
+  user.e.ay = 0;
+  user.dead = 0;
   set_hostility(ON);
 }
 

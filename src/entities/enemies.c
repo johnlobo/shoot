@@ -122,7 +122,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			enemies[k].sprite[5] = (u8*) G_baddie_ship_5;
 			enemies[k].sprite[6] = (u8*) G_baddie_ship_6;
 			enemies[k].sprite[7] = (u8*) G_baddie_ship_7;
-			enemies[k].patternQueue = (TPatternSet*) &pattern02;
+			enemies[k].patternQueue = (TPatternSet*) &pattern02_left;
 			break;
 		case 3:
 			enemies[k].w = 4;
@@ -161,7 +161,7 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 			enemies[k].sprite[5] = (u8*) G_baddie05_05;
 			enemies[k].sprite[6] = (u8*) G_baddie05_06;
 			enemies[k].sprite[7] = (u8*) G_baddie05_07;
-			enemies[k].patternQueue = (TPatternSet*) &pattern02;
+			enemies[k].patternQueue = (TPatternSet*) &pattern02_right;
 			break;
 		default:
 			enemies[k].w = 4;
@@ -186,13 +186,19 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 				enemies[k].patternQueue = (TPatternSet*) &pattern01_right;
 				break;
 			case 3 :
-				enemies[k].patternQueue = (TPatternSet*) &pattern02;
+				enemies[k].patternQueue = (TPatternSet*) &pattern02_left;
 				break;
 			case 4 :
-				enemies[k].patternQueue = (TPatternSet*) &pattern03;
+				enemies[k].patternQueue = (TPatternSet*) &pattern02_right;
 				break;
 			case 5 :
+				enemies[k].patternQueue = (TPatternSet*) &pattern03;
+				break;
+			case 6 :
 				enemies[k].patternQueue = (TPatternSet*) &pattern04;
+				break;
+			case 7 :
+				enemies[k].patternQueue = (TPatternSet*) &attack01;
 				break;
 
 			}

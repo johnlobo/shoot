@@ -42,7 +42,8 @@
 u8 state;
 u8 previous_state;
 
-u8* pvmem;     // Pointer to video memory (or backbuffer) where to draw sprites
+u8* pvmem;
+u8* prev_pvmem;     // Pointer to video memory (or backbuffer) where to draw sprites
 u8 aux_txt[40];
 u8 level = 0;
 
@@ -54,18 +55,24 @@ long last_update, delta_time;
 // It alternates between page C0 (0xC000 - 0xFFFF) to page 40 (0x4000 - 0x7FFF).
 // Page C0 is default video memory, page 40 is used in this example as Back Buffer.
 //
-u8* changeVideoMemoryPage() {
-  static u8 page   = 0;   // Static value to remember the last page shown (0 = page 40, 1 = page C0)
+u8* changeVideoMemoryPage(u8 set_page) {
+  static u8 page   = 0;   // Static value to remember the last page shown (0 = page 80, 1 = page C0)
   u8* screen;
+
+  // if a set_page is set to 1 video memory starts at #C000 if is set to 2, at #8000
+  if (set_page == 1)
+    page = 1;
+  else if (set_page == 2)
+    page = 0;
 
   // Depending on which was the last page shown, we show the other
   // now, and change the page for the next time
   if (page) {
-    cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at banck 3 (0xC000 - 0xFFFF)
-    page = 0;
-    screen = SCR_BUFF;                            // Next page = 0
+    cpct_setVideoMemoryPage(cpct_pageC0);  // Set video memory at bank 3 (0xC000 - 0xFFFF)
+    page = 0;                              // Next page = 0
+    screen = SCR_BUFF;
   } else {
-    cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at banck 1 (0x8000 - 0x7FFF)
+    cpct_setVideoMemoryPage(cpct_page80);  // Set video memory at bank 1 (0x8000 - 0x7FFF)
     page = 1;                              // Next page = 1
     screen = SCR_VMEM;
   }
@@ -112,7 +119,7 @@ void draw_lives_flags(u8* screen) {
   }
   //Pînto corazones por cada vida
   for (i = 0; i < get_user_lives(); i++) {
-    pscreen = cpct_getScreenPtr(screen, 65 + (i * 3), 0);
+    pscreen = cpct_getScreenPtr(screen, 76 - (i * 3), 0);
     cpct_drawSprite((u8*) G_heart, pscreen, 3, 5);
   }
 
@@ -125,32 +132,13 @@ void draw_lives_flags(u8* screen) {
 void draw_scoreboard(u8* screen) {
   red_message();
   sprintf(aux_txt, "%08d", get_score());
-  cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 30, 0));
+  cpc_PrintGphStr(aux_txt, (int) cpct_getScreenPtr(screen, 32, 0));
   draw_lives_flags(screen);
 }
 
 /////////////////////////////////////////////////////////////////////////
 // Initialization
 //
-
-void initialization() {
-
-  pvmem = SCR_BUFF;
-
-  clear_both_screens();
-
-  cpct_setRandomSeedUniform_u8((u8) get_time());
-
-  if (STARFIELD_ACTIVE)
-    init_starfield();
-
-  init_user();
-  init_shots();
-  init_enemies();
-  init_explosions();
-  init_messages();
-}
-
 
 void initial_setup() {
 
@@ -161,11 +149,32 @@ void initial_setup() {
 
   // Clean up Screen and BackBuffer filling them up with 0's
   clear_both_screens();
+
   state = INITIAL_STATE;
+
+  pvmem = SCR_BUFF;
+  prev_pvmem = pvmem;
+
+  cpct_setRandomSeedUniform_u8((u8) get_time());
+}
+
+void init_level() {
+  init_user_level();
+  init_enemies();
+  init_explosions();
+  init_shots();
+  init_enemy_shots();
+  init_messages();
 }
 
 void init_game() {
+  if (STARFIELD_ACTIVE)
+    init_starfield();
 
+  init_user();
+  init_level();
+  set_score(0);
+  level = 1;
 }
 
 u8 menu() {
@@ -173,35 +182,34 @@ u8 menu() {
 
   timer_on();
 
+  changeVideoMemoryPage(1); //Initialize video memory to #C000
+
+  //  Synchronize next frame drawing with VSYNC
+  cpct_waitVSYNC();
+
   clear_screen(SCR_VMEM);
 
   red_message();
   cpc_PrintGphStr2X("SPACE;RETRO;INVADERS", (int) cpct_getScreenPtr(SCR_VMEM, 20, 16));
   blue_message();
-  cpc_PrintGphStr("1;JUGAR", (int) cpct_getScreenPtr(SCR_VMEM, 28, 5 * 16));
-  cpc_PrintGphStr("2;AYUDA", (int) cpct_getScreenPtr(SCR_VMEM, 28, 6 * 16));
-  cpc_PrintGphStr("3;REDEFINIR;TECLAS", (int) cpct_getScreenPtr(SCR_VMEM, 28, 7 * 16));
+  cpc_PrintGphStr("1;PLAY", (int) cpct_getScreenPtr(SCR_VMEM, 24, 5 * 16));
+  cpc_PrintGphStr("2;REDEFINE;KEYS", (int) cpct_getScreenPtr(SCR_VMEM, 24, 6 * 16));
+  cpc_PrintGphStr("3;HELP", (int) cpct_getScreenPtr(SCR_VMEM, 24, 7 * 16));
   red_message();
-  cpc_PrintGphStr("C;2015;JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 24, 11 * 16));
+  cpc_PrintGphStr2X("C;2015;JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 24, 11 * 16));
 
 
   while (choice == 0) {
-    //  Synchronize next frame drawing with VSYNC
-    cpct_waitVSYNC();
 
     // Scan Keyboard
     cpct_scanKeyboard_f();
 
-    if (cpct_isKeyPressed(Key_1)) {
-      init_game();
+    if (cpct_isKeyPressed(Key_1))
       choice = STATE_GAME;
-    }
     if (cpct_isKeyPressed(Key_2))
-      choice = STATE_HELP;
-    if (cpct_isKeyPressed(Key_3))
       choice = STATE_REDEFINE;
-    if (cpct_isKeyPressed(Key_4))
-      choice = STATE_TEST01;
+    if (cpct_isKeyPressed(Key_3))
+      choice = STATE_HELP;
   }
 
   timer_off();
@@ -215,45 +223,6 @@ u8 redefine_keys() {
   return STATE_MENU;
 }
 
-u8 level_up() {
-  red_message();
-  cpc_PrintGphStr2X("CONGRATULATIONS;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
-  blue_message();
-  cpc_PrintGphStr2X("LEVEL COMPLETE", (int) cpct_getScreenPtr(SCR_VMEM, 18, 100));
-  cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
-
-  wait_for_keypress();
-
-  if (level < MAX_LEVEL) {
-    level++;
-    user_init_level();
-    return STATE_GAME;
-  } else
-    return STATE_WIN;
-
-
-}
-
-u8 dead() {
-  if (get_user_lives() > 0) {
-    red_message();
-    cpc_PrintGphStr2X("TOUGH;LUCK;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
-    blue_message();
-    cpc_PrintGphStr2X("YOU;VE;BEEN;HITTED", (int) cpct_getScreenPtr(SCR_VMEM, 18, 100));
-    cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
-
-    wait_for_keypress();
-
-    return STATE_GAME;
-  }
-  else
-    return STATE_LOSE;
-}
-
-u8 end() {
-
-  return STATE_MENU;
-}
 
 u8 help() {
   u8 choice = 0;
@@ -261,21 +230,61 @@ u8 help() {
   clear_screen(SCR_VMEM);
 
   red_message();
-  cpc_PrintGphStr2X("HELP", (int) cpct_getScreenPtr(SCR_VMEM, 40, 10));
+  //  Synchronize next frame drawing with VSYNC
+  cpct_waitVSYNC();
+  cpc_PrintGphStr2X("HELP", (int) cpct_getScreenPtr(SCR_VMEM, 36, 10));
   blue_message();
-  cpc_PrintGphStr2X("PRES;A;KEY", (int) cpct_getScreenPtr(SCR_VMEM, 30, 140));
+  cpc_PrintGphStr2X("PRESS;A;KEY", (int) cpct_getScreenPtr(SCR_VMEM, 29, 30));
 
   wait_for_keypress();
 
   return STATE_MENU;
 }
 
+u8 level_up() {
+  if (level < MAX_LEVEL) {
+    red_message();
+    //  Synchronize next frame drawing with VSYNC
+    cpct_waitVSYNC();
+    cpc_PrintGphStr("CONGRATULATIONS;HERO", (int) cpct_getScreenPtr(prev_pvmem, 20, 80));
+    blue_message();
+    cpc_PrintGphStr("LEVEL;COMPLETE", (int) cpct_getScreenPtr(prev_pvmem, 26, 100));
+    cpc_PrintGphStr("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(prev_pvmem, 23, 120));
+
+    wait_for_keypress();
+
+    level++;
+    return STATE_GAME;
+  } else
+    return STATE_WIN;
+}
+
+u8 dead() {
+  if (get_user_lives() > 0) {
+    red_message();
+    cpc_PrintGphStr("TOUGH;LUCK;HERO", (int) cpct_getScreenPtr(prev_pvmem, 25, 80));
+    blue_message();
+    cpc_PrintGphStr("YOU;VE;BEEN;HITTED", (int) cpct_getScreenPtr(prev_pvmem, 22, 100));
+    cpc_PrintGphStr("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(prev_pvmem, 23, 120));
+
+    wait_for_keypress();
+
+    center_user();
+
+    return STATE_GAME;
+  }
+  else
+    return STATE_LOSE;
+}
+
 u8 win() {
   red_message();
-  cpc_PrintGphStr2X("CONGRATULATIONS;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
+  //  Synchronize next frame drawing with VSYNC
+  cpct_waitVSYNC();
+  cpc_PrintGphStr("CONGRATULATIONS;HERO", (int) cpct_getScreenPtr(prev_pvmem, 20, 80));
   blue_message();
-  cpc_PrintGphStr2X("YOU;WIN", (int) cpct_getScreenPtr(SCR_VMEM, 32, 100));
-  cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
+  cpc_PrintGphStr("YOU;WIN", (int) cpct_getScreenPtr(prev_pvmem, 33, 100));
+  cpc_PrintGphStr("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(prev_pvmem, 23, 140));
 
   wait_for_keypress();
 
@@ -286,10 +295,12 @@ u8 win() {
 
 u8 game_over() {
   red_message();
-  cpc_PrintGphStr2X("GAME;OVER;HERO", (int) cpct_getScreenPtr(SCR_VMEM, 20, 80));
+  //  Synchronize next frame drawing with VSYNC
+  cpct_waitVSYNC();
+  cpc_PrintGphStr("GAME;OVER;HERO", (int) cpct_getScreenPtr(prev_pvmem, 26, 80));
   blue_message();
-  cpc_PrintGphStr2X("MAYBE;NEXT;TIME", (int) cpct_getScreenPtr(SCR_VMEM, 32, 100));
-  cpc_PrintGphStr2X("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(SCR_VMEM, 19, 140));
+  cpc_PrintGphStr("MAYBE;NEXT;TIME", (int) cpct_getScreenPtr(prev_pvmem, 25, 100));
+  cpc_PrintGphStr("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(prev_pvmem, 23, 140));
 
   wait_for_keypress();
   return STATE_MENU;
@@ -303,13 +314,12 @@ u8 game(u8 level) {
 
   timer_on();
 
-  if (SONIDO_ACTIVADO) {
-  }
+  init_level();
 
   start_level(level);
 
-  while (state == STATE_GAME)
-  {
+  while (state == STATE_GAME) {
+
     delta_time = get_time() - last_update;
 
     //Starfield
@@ -329,10 +339,10 @@ u8 game(u8 level) {
 
     update_enemy_shots();
 
+    clear_screen(pvmem);
+
     //  Synchronize next frame drawing with VSYNC
     cpct_waitVSYNC();
-
-    clear_screen(pvmem);
 
     //Draw Starfield
     if (STARFIELD_ACTIVE) {
@@ -350,31 +360,21 @@ u8 game(u8 level) {
     draw_messages(pvmem);
     draw_scoreboard(pvmem);
 
+    prev_pvmem = pvmem;
+    pvmem = changeVideoMemoryPage(0);
+
+
     if ((get_user_dead()) && (!get_active_explosions()) && (!get_active_shots()) && (!get_active_enemy_shots())) {
       state = STATE_DEAD;
       break;
-    }
-
-    if (cpct_isKeyPressed(Key_Esc)) {    // ESC
+    } else if (cpct_isKeyPressed(Key_Esc)) {    // ESC
       state = STATE_MENU;
       break;
-    }
-
-    update_level();
-
-    pvmem = changeVideoMemoryPage();
-
-    if (get_end_level())
+    } else if (get_end_level()) {
       state = STATE_LEVELUP;
-  }
-
-  if (get_user_dead()) {
-    state = STATE_DEAD;
-  }
-
-  //Desactivar sonido
-  if (SONIDO_ACTIVADO) {
-
+      break;
+    } else
+      update_level();
   }
 
   timer_off();
@@ -396,7 +396,6 @@ int main() {
   cpct_setStackLocation(NEW_STACK_LOCATION - 6);
 
   initial_setup();
-  initialization();
 
   while (state != STATE_EXIT) {
     switch (state) {
@@ -413,27 +412,13 @@ int main() {
       break;
 
     case STATE_GAME:
-      level = 1;
 
-      //Inicializo putuacion
-      set_score(0);
+      init_game();
 
       //bucle de juego y subida de nivel
       while ((state != STATE_LOSE) && (state != STATE_WIN) && (state != STATE_MENU)) {
-        //Inicializar usuario nivel
-        user_init_level();
-
-
-        if (SONIDO_ACTIVADO) {
-        }
 
         state = game(level);
-
-        if (SONIDO_ACTIVADO) {
-          //cpc_WyzInitPlayer(SOUND_TABLE_0, RULE_TABLE_0, EFFECT_TABLE, SONG_TABLE_0);
-          //cpc_WyzLoadSong(0);
-          //cpc_WyzSetPlayerOn();
-        }
 
         if (state == STATE_LEVELUP) {
           state = level_up();
@@ -452,16 +437,7 @@ int main() {
     case STATE_LOSE:
       state = game_over();
       break;
-
-    default:
-      state = STATE_EXIT;
-      break;
     }
-  }
-
-  //Set Player Off
-  if (SONIDO_ACTIVADO) {
-
   }
 
   return 0;
