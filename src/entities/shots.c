@@ -68,7 +68,7 @@ void update_shots() {
 			if (shots[i].active) {
 				shots[i].y -= SHOOT_JUMP;
 				if (shots[i].y < 200) {
-					if (check_collision_enemies(shots[i].x, shots[i].y, shots[i].w, shots[i].h)) {
+					if (check_collision_enemies(shots[i].x, shots[i].y, shots[i].w, shots[i].h+SHOOT_JUMP)) {
 						shots[i].active = 0;
 						active_shots--;
 						add_score(10);

@@ -7,7 +7,7 @@ u8 level_step = 0;
 u8 level_end = 0;
 long level_timer = 0;
 const u8 level_titles[2][20] = {"PROLOGUE", "THE;BEGINNING"};
-const u8 level_enemies[20] = {2, 12};
+const u8 level_enemies[20] = {4, 12};
 u8 level_max_enemy_shots = 0;
 
 void start_level(u8 level) {
@@ -17,10 +17,10 @@ void start_level(u8 level) {
 	level_step = 0;
 	level_end = 0;
 	sprintf(aux_txt, "LEVEL;%d", active_level);
-	create_centered_message(96, 0, 15, aux_txt);
-	create_centered_message(96, 15, 15, (u8*) &level_titles[active_level - 1]);
+	create_centered_message(96, 0, 15, aux_txt,0);
+	create_centered_message(96, 15, 15, (u8*) &level_titles[active_level - 1],0);
 	sprintf(aux_txt, "ENEMIES;%d", level_enemies[active_level-1]);
-	create_centered_message(96, 30, 15, aux_txt);
+	create_centered_message(96, 30, 15, aux_txt,1);
 	switch (active_level) {
 	case 1:
 		level_max_enemy_shots = 3;
@@ -109,7 +109,7 @@ void update_level() {
 			level_step++;
 			break;
 		case 4:
-			if ((get_time() - level_timer) > 1500) {
+			if ((get_time() - level_timer) > 1000) {
 				level_step++;
 			}
 			break;
@@ -124,7 +124,7 @@ void update_level() {
 			level_step++;
 			break;
 		case 7:
-			if ((get_time() - level_timer) > 1500) {
+			if ((get_time() - level_timer) > 1000) {
 				level_step++;
 			}
 			break;

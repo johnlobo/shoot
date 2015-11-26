@@ -1,3 +1,13 @@
+;*************************************
+; RESET
+;*************************************
+
+.globl _reset_cpc
+_reset_cpc::
+	call #0000
+	ret
+
+
 ;******************************
 ; 	unsigned char fastCollision(unsigned char x1,unsigned char y1,unsigned char w1,unsigned char h1,unsigned char x2,unsigned char y2,unsigned char w2,unsigned char h2){
 ; 	Descripción:	Devuelve 1 si se ha producido una colisión y 0 en caso contrario

@@ -5,7 +5,6 @@
 #include "starfield/starfield.h"
 #include "util/util.h"
 
-
 // Modo Debug
 #define DEBUG 0
 // Automata de estados
@@ -47,7 +46,7 @@ u8* prev_pvmem;     // Pointer to video memory (or backbuffer) where to draw spr
 u8 aux_txt[40];
 u8 level = 0;
 
-long last_update, delta_time;
+long last_update, delta_time, now;
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Change Video Memory Page
@@ -177,10 +176,22 @@ void init_game() {
   level = 1;
 }
 
+void delete_icon(u8 icon) {
+  u8* pscreen;
+  pscreen = cpct_getScreenPtr(SCR_VMEM, 18, (icon + 5) * 16);
+  cpct_drawSolidBox(pscreen, 0, 3, 5);
+}
+
+void draw_icon(u8 icon) {
+  u8* pscreen;
+  u8 counter = 0;
+  pscreen = cpct_getScreenPtr(SCR_VMEM, 18, (icon + 5) * 16);
+  cpct_drawSprite((u8*) G_heart, pscreen, 3, 5);
+}
+
 u8 menu() {
   u8 choice = 0;
-
-  timer_on();
+  u8 icon = 0;
 
   changeVideoMemoryPage(1); //Initialize video memory to #C000
 
@@ -195,14 +206,17 @@ u8 menu() {
   cpc_PrintGphStr("1;PLAY", (int) cpct_getScreenPtr(SCR_VMEM, 24, 5 * 16));
   cpc_PrintGphStr("2;REDEFINE;KEYS", (int) cpct_getScreenPtr(SCR_VMEM, 24, 6 * 16));
   cpc_PrintGphStr("3;HELP", (int) cpct_getScreenPtr(SCR_VMEM, 24, 7 * 16));
+  cpc_PrintGphStr("ESC;EXIT", (int) cpct_getScreenPtr(SCR_VMEM, 24, 8 * 16));
   red_message();
   cpc_PrintGphStr2X("C;2015;JOHN;LOBO", (int) cpct_getScreenPtr(SCR_VMEM, 24, 11 * 16));
 
+  draw_icon(icon);
 
   while (choice == 0) {
 
     // Scan Keyboard
-    cpct_scanKeyboard_f();
+    //cpct_scanKeyboard_f();
+    do { cpct_scanKeyboard(); } while ( ! cpct_isAnyKeyPressed() );
 
     if (cpct_isKeyPressed(Key_1))
       choice = STATE_GAME;
@@ -210,10 +224,45 @@ u8 menu() {
       choice = STATE_REDEFINE;
     if (cpct_isKeyPressed(Key_3))
       choice = STATE_HELP;
+    if (cpct_isKeyPressed(Key_Esc))
+      choice = STATE_EXIT;
+    if (cpct_isKeyPressed(Joy0_Up) || cpct_isKeyPressed(Key_Q)) {
+      delete_icon(icon);
+      if (icon > 0)
+        icon--;
+      else
+        icon = 3;
+      draw_icon(icon);
+      pause(40);
+    }
+    if (cpct_isKeyPressed(Joy0_Down) || cpct_isKeyPressed(Key_A)) {
+      delete_icon(icon);
+      if (icon < 3)
+        icon++;
+      else
+        icon = 0;
+      draw_icon(icon);
+      pause(40);
+    }
+    if (cpct_isKeyPressed(Joy0_Fire1) || cpct_isKeyPressed(Key_Space)) {
+      pause(40);
+      switch (icon) {
+      case 0:
+        choice = STATE_GAME;
+        break;
+      case 1:
+        choice = STATE_REDEFINE;
+        break;
+      case 2:
+        choice = STATE_HELP;
+        break;
+      case 3:
+        choice = STATE_EXIT;
+        break;
+      }
+    }
+
   }
-
-  timer_off();
-
   return choice;
 }
 
@@ -237,21 +286,20 @@ u8 help() {
   cpc_PrintGphStr2X("PRESS;A;KEY", (int) cpct_getScreenPtr(SCR_VMEM, 29, 30));
 
   wait_for_keypress();
+  pause(40);
 
   return STATE_MENU;
 }
 
 u8 level_up() {
   if (level < MAX_LEVEL) {
-    red_message();
-    //  Synchronize next frame drawing with VSYNC
-    cpct_waitVSYNC();
-    cpc_PrintGphStr("CONGRATULATIONS;HERO", (int) cpct_getScreenPtr(prev_pvmem, 20, 80));
-    blue_message();
-    cpc_PrintGphStr("LEVEL;COMPLETE", (int) cpct_getScreenPtr(prev_pvmem, 26, 100));
-    cpc_PrintGphStr("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(prev_pvmem, 23, 120));
+    create_centered_message(80, 0, 0, "CONGRATULATIONS;HERO", 1);
+    create_centered_message(100, 0, 0, "LEVEL;COMPLETE", 0);
+    create_centered_message(120, 0, 0, "PRESS;ANY;KEY;TO;CONTINUE", 0);
+    draw_messages(prev_pvmem);
 
     wait_for_keypress();
+    pause(40);
 
     level++;
     return STATE_GAME;
@@ -261,13 +309,14 @@ u8 level_up() {
 
 u8 dead() {
   if (get_user_lives() > 0) {
-    red_message();
-    cpc_PrintGphStr("TOUGH;LUCK;HERO", (int) cpct_getScreenPtr(prev_pvmem, 25, 80));
-    blue_message();
-    cpc_PrintGphStr("YOU;VE;BEEN;HITTED", (int) cpct_getScreenPtr(prev_pvmem, 22, 100));
-    cpc_PrintGphStr("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(prev_pvmem, 23, 120));
+
+    create_centered_message(80, 0, 0, "TOUGH;LUCK;HERO", 1);
+    create_centered_message(100, 0, 0, "YOU;VE;BEEN;HITTED", 0);
+    create_centered_message(120, 0, 0, "PRESS;ANY;KEY;TO;CONTINUE", 0);
+    draw_messages(prev_pvmem);
 
     wait_for_keypress();
+    pause(40);
 
     center_user();
 
@@ -278,37 +327,34 @@ u8 dead() {
 }
 
 u8 win() {
-  red_message();
-  //  Synchronize next frame drawing with VSYNC
-  cpct_waitVSYNC();
-  cpc_PrintGphStr("CONGRATULATIONS;HERO", (int) cpct_getScreenPtr(prev_pvmem, 20, 80));
-  blue_message();
-  cpc_PrintGphStr("YOU;WIN", (int) cpct_getScreenPtr(prev_pvmem, 33, 100));
-  cpc_PrintGphStr("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(prev_pvmem, 23, 140));
+  create_centered_message(80, 0, 0, "CONGRATULATIONS;HERO", 1);
+  create_centered_message(100, 0, 0, "YOU;WIN", 0);
+  create_centered_message(120, 0, 0, "PRESS;ANY;KEY;TO;CONTINUE", 0);
+  draw_messages(prev_pvmem);
 
   wait_for_keypress();
+  pause(40);
 
   return STATE_MENU;
 
 }
 
-
 u8 game_over() {
-  red_message();
-  //  Synchronize next frame drawing with VSYNC
-  cpct_waitVSYNC();
-  cpc_PrintGphStr("GAME;OVER;HERO", (int) cpct_getScreenPtr(prev_pvmem, 26, 80));
-  blue_message();
-  cpc_PrintGphStr("MAYBE;NEXT;TIME", (int) cpct_getScreenPtr(prev_pvmem, 25, 100));
-  cpc_PrintGphStr("PRESS;TO;CONTINUE", (int) cpct_getScreenPtr(prev_pvmem, 23, 140));
+  create_centered_message(80, 0, 0, "GAME;OVER;HERO", 1);
+  create_centered_message(100, 0, 0, "MAYBE;NEXT;TIME", 0);
+  create_centered_message(120, 0, 0, "PRESS;ANY;KEY;TO;CONTINUE", 0);
+  draw_messages(prev_pvmem);
 
   wait_for_keypress();
+  pause(40);
+
   return STATE_MENU;
 }
 
 u8 game(u8 level) {
   u16 i = 0;
 
+  now = 0;
   last_update = 0;
   delta_time = 0;
 
@@ -320,29 +366,25 @@ u8 game(u8 level) {
 
   while (state == STATE_GAME) {
 
-    delta_time = get_time() - last_update;
+    now = get_time();
 
     //Starfield
-    if ((STARFIELD_ACTIVE) && (delta_time > VELOCIDAD_ESTRELLAS)) {
+    if ((STARFIELD_ACTIVE) && ((now - get_last_moved_starfield()) > VELOCIDAD_ESTRELLAS)) {
       update_starfield();
     }
     //Explosions
     update_explosions();
 
     //User
-    if ((delta_time > get_user_speed()) && (!get_user_dead())) {
+    if (((now - get_last_moved_user()) > get_user_speed()) && (!get_user_dead())) {
       update_user();
     }
 
+    update_enemies();
     update_shots();
-    update_enemies(pvmem);
-
     update_enemy_shots();
 
     clear_screen(pvmem);
-
-    //  Synchronize next frame drawing with VSYNC
-    cpct_waitVSYNC();
 
     //Draw Starfield
     if (STARFIELD_ACTIVE) {
@@ -362,7 +404,6 @@ u8 game(u8 level) {
 
     prev_pvmem = pvmem;
     pvmem = changeVideoMemoryPage(0);
-
 
     if ((get_user_dead()) && (!get_active_explosions()) && (!get_active_shots()) && (!get_active_enemy_shots())) {
       state = STATE_DEAD;
@@ -440,5 +481,6 @@ int main() {
     }
   }
 
+  reset_cpc();
   return 0;
 }

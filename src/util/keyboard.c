@@ -20,3 +20,18 @@ cpct_keyID wait_for_keypress() {
   } while (--i);
   return 0;
 }
+
+void wait_clean_key(cpct_keyID key) {
+  do
+    cpct_scanKeyboard_f();
+  while ( ! cpct_isKeyPressed(key) );
+}
+
+void pause(u8 cycles){
+  u8 i;
+  for (i=0;i<cycles;i++){
+    __asm
+      halt
+    __endasm;
+  }
+}

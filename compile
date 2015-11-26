@@ -2,4 +2,3 @@
 echo "Compiling & running"
 set -x
 make && cpct_winape shoot.dsk
-

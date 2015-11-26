@@ -7,17 +7,15 @@
 TShip user;
 u8 shoot_type;
 u8 choice = 0;
-u8* const user_anim[3] = {G_ship_01_00, G_ship_01_02, G_ship_01_01};
+u8* const user_anim[3] = {G_ship00_0, G_ship00_2, G_ship00_1};
 
-
-void center_user(){
+void center_user() {
   user.e.x = (SCREEN_WIDTH + user.e.w) / 2;
   user.e.y = 199 - (user.e.h);
 }
 
 void init_user() {
-
-  user.e.w = 6;
+  user.e.w = 5;
   user.e.h = 14;
   user.e.sprite_set = (u8**) user_anim;
   user.e.num_frames = 3;
@@ -32,11 +30,12 @@ void init_user() {
   user.shield = 0;
   user.last_moved = 0;
   shoot_type = 1;
+  user.speed = DEFAULT_USER_SPEED;
   center_user();
 }
 
 void init_user_level() {
-  user.e.w = 6;
+  user.e.w = 5;
   user.e.h = 14;
   user.e.vx = 0;
   user.e.vy = 0;
@@ -79,24 +78,24 @@ void update_user() {
   //
 
   // KEY = Up or Down
-  if ((cpct_isKeyPressed(Key_Q))) {
+  if ((cpct_isKeyPressed(Key_Q)) || (cpct_isKeyPressed(Key_CursorUp)) || (cpct_isKeyPressed(Joy0_Up))) {
     user.e.ay = -2;
-  } else if (cpct_isKeyPressed(Key_A)) {
+  } else if ((cpct_isKeyPressed(Key_A)) || (cpct_isKeyPressed(Key_CursorDown)) || (cpct_isKeyPressed(Joy0_Down))) {
     user.e.ay = 2;
   }
   // KEY =  Right or Left
-  if ((cpct_isKeyPressed(Key_P) || (cpct_isKeyPressed(Key_CursorRight)))) {
+  if ((cpct_isKeyPressed(Key_P)) || (cpct_isKeyPressed(Key_CursorRight)) || (cpct_isKeyPressed(Joy0_Right))) {
     user.e.ax = 2;
     user.e.frame = 2;
-  } else if ((cpct_isKeyPressed(Key_O)) || (cpct_isKeyPressed(Key_CursorLeft))) {
+  } else if ((cpct_isKeyPressed(Key_O)) || (cpct_isKeyPressed(Key_CursorLeft)) || (cpct_isKeyPressed(Joy0_Left))) {
     user.e.ax = -2;
     user.e.frame = 1;
   } else
     user.e.frame = 0;
 
   // KEY = Space
-  if (cpct_isKeyPressed(Key_Space)) {
-    create_shot(user.e.x + 5, user.e.y, shoot_type);
+  if ((cpct_isKeyPressed(Key_Space)) || (cpct_isKeyPressed(Joy0_Fire1))) {
+    create_shot(user.e.x + 4, user.e.y, shoot_type);
   }
 
 
@@ -120,6 +119,7 @@ void update_user() {
   else if (user.e.x > SCREEN_WIDTH - user.e.w) {
     user.e.x = SCREEN_WIDTH - user.e.w;
   }
+  user.last_moved = get_time();
 }
 
 void draw_user(u8* screen) {

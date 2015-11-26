@@ -6,9 +6,9 @@
 
 
 // Definiciones para el mapa de estrellas
-#define STARS_NUM 15
+#define STARS_NUM 10
 #define STARFIELD_ACTIVE 1
-#define VELOCIDAD_ESTRELLAS 400
+#define VELOCIDAD_ESTRELLAS 30
 #define STAR_COLOR1	4
 #define STAR_COLOR2 2
 #define STAR_COLOR3	1
@@ -37,7 +37,7 @@ typedef struct{
 //////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-long get_last_moved_stars();
+long get_last_moved_starfield();
 void init_starfield();
 void draw_starfield(u8* screen);
 void update_starfield();

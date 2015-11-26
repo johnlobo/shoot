@@ -31,3 +31,16 @@ i16 cosine(i16 angle) {
      else
           return (-sine(angle - 90));
 }
+
+i16 maxi16(i16 a, i16 b){
+     if (a>b)
+          return a;
+     else
+          return b;
+}
+i16 mini16(i16 a, i16 b){
+     if (a>b)
+          return b;
+     else
+          return a;
+}

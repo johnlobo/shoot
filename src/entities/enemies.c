@@ -13,9 +13,18 @@ TEnemy_group groups [MAX_ENEMY_GROUPS];
 u8 active_groups;
 TPatternSet* pattern_set;
 TPattern* pattern;
-u8* cur_screen;
 long open_attack_timer = 0;
 u8 hostility;
+u8* const baddie_fly[8] = { (u8*) G_baddie_fly_0, (u8*) G_baddie_fly_1, (u8*) G_baddie_fly_2, (u8*) G_baddie_fly_3, 
+						   (u8*) G_baddie_fly_4, (u8*) G_baddie_fly_5, (u8*) G_baddie_fly_6, (u8*) G_baddie_fly_7};
+u8* const baddie_ship[8] = { (u8*) G_baddie_ship_0, (u8*) G_baddie_ship_1, (u8*) G_baddie_ship_2, (u8*) G_baddie_ship_3, 
+						   (u8*) G_baddie_ship_4, (u8*) G_baddie_ship_5, (u8*) G_baddie_ship_6, (u8*) G_baddie_ship_7};
+u8* const baddie_bird[8] = { (u8*) G_baddie_bird_0, (u8*) G_baddie_bird_1, (u8*) G_baddie_bird_2, (u8*) G_baddie_bird_3, 
+						   (u8*) G_baddie_bird_4, (u8*) G_baddie_bird_5, (u8*) G_baddie_bird_6, (u8*) G_baddie_bird_7};
+u8* const baddie_ball[8] = { (u8*) G_baddie_ball_0, (u8*) G_baddie_ball_1, (u8*) G_baddie_ball_2, (u8*) G_baddie_ball_3, 
+						   (u8*) G_baddie_ball_4, (u8*) G_baddie_ball_5, (u8*) G_baddie_ball_6, (u8*) G_baddie_ball_7};
+u8* const baddie_05[8] = { (u8*) G_baddie05_00, (u8*) G_baddie05_01, (u8*) G_baddie05_02, (u8*) G_baddie05_03, 
+						   (u8*) G_baddie05_04, (u8*) G_baddie05_05, (u8*) G_baddie05_06, (u8*) G_baddie05_07};
 
 //******************************************************************************
 // Función: check_collision_enemies(u8 x, u8 y, u8 w, u8 h)
@@ -84,7 +93,6 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 		enemies[k].home_x = home_x;
 		enemies[k].home_y = home_y;
 		enemies[k].num_frames = 0;
-		enemies[k].movement = 0;
 		enemies[k].step = 0;
 		enemies[k].f.x = (i32) x * (i32) SCALE_FACTOR;
 		enemies[k].f.y = (i32) y * (i32) SCALE_FACTOR;
@@ -101,80 +109,32 @@ void create_enemy(i16 x, i16 y, u8 type, i16 home_x, i16 home_y, u8 pattern) {
 		case 1:
 			enemies[k].w = 4;
 			enemies[k].h = 8;
-			enemies[k].sprite[0] = (u8*) G_baddie_fly_0;
-			enemies[k].sprite[1] = (u8*) G_baddie_fly_1;
-			enemies[k].sprite[2] = (u8*) G_baddie_fly_2;
-			enemies[k].sprite[3] = (u8*) G_baddie_fly_3;
-			enemies[k].sprite[4] = (u8*) G_baddie_fly_4;
-			enemies[k].sprite[5] = (u8*) G_baddie_fly_5;
-			enemies[k].sprite[6] = (u8*) G_baddie_fly_6;
-			enemies[k].sprite[7] = (u8*) G_baddie_fly_7;
+			cpct_memcpy(&enemies[k].sprite[0], &baddie_fly, 16);
 			enemies[k].patternQueue = (TPatternSet*) &pattern01_left;
 			break;
 		case 2:
 			enemies[k].w = 4;
 			enemies[k].h = 7;
-			enemies[k].sprite[0] = (u8*) G_baddie_ship_0;
-			enemies[k].sprite[1] = (u8*) G_baddie_ship_1;
-			enemies[k].sprite[2] = (u8*) G_baddie_ship_2;
-			enemies[k].sprite[3] = (u8*) G_baddie_ship_3;
-			enemies[k].sprite[4] = (u8*) G_baddie_ship_4;
-			enemies[k].sprite[5] = (u8*) G_baddie_ship_5;
-			enemies[k].sprite[6] = (u8*) G_baddie_ship_6;
-			enemies[k].sprite[7] = (u8*) G_baddie_ship_7;
+			cpct_memcpy(&enemies[k].sprite[0], &baddie_ship, 16);
 			enemies[k].patternQueue = (TPatternSet*) &pattern02_left;
 			break;
 		case 3:
 			enemies[k].w = 4;
 			enemies[k].h = 7;
-			enemies[k].sprite[0] = (u8*) G_baddie_bird_0;
-			enemies[k].sprite[1] = (u8*) G_baddie_bird_1;
-			enemies[k].sprite[2] = (u8*) G_baddie_bird_2;
-			enemies[k].sprite[3] = (u8*) G_baddie_bird_3;
-			enemies[k].sprite[4] = (u8*) G_baddie_bird_4;
-			enemies[k].sprite[5] = (u8*) G_baddie_bird_5;
-			enemies[k].sprite[6] = (u8*) G_baddie_bird_6;
-			enemies[k].sprite[7] = (u8*) G_baddie_bird_7;
+			cpct_memcpy(&enemies[k].sprite[0], &baddie_bird, 16);
 			enemies[k].patternQueue = (TPatternSet*) &pattern03;
 			break;
 		case 4:
 			enemies[k].w = 4;
 			enemies[k].h = 7;
-			enemies[k].sprite[0] = (u8*) G_baddie_ball_0;
-			enemies[k].sprite[1] = (u8*) G_baddie_ball_1;
-			enemies[k].sprite[2] = (u8*) G_baddie_ball_2;
-			enemies[k].sprite[3] = (u8*) G_baddie_ball_3;
-			enemies[k].sprite[4] = (u8*) G_baddie_ball_4;
-			enemies[k].sprite[5] = (u8*) G_baddie_ball_5;
-			enemies[k].sprite[6] = (u8*) G_baddie_ball_6;
-			enemies[k].sprite[7] = (u8*) G_baddie_ball_7;
+			cpct_memcpy(&enemies[k].sprite[0], &baddie_ball, 16);
 			enemies[k].patternQueue = (TPatternSet*) &pattern04;
 			break;
 		case 5:
 			enemies[k].w = 5;
 			enemies[k].h = 9;
-			enemies[k].sprite[0] = (u8*) G_baddie05_00;
-			enemies[k].sprite[1] = (u8*) G_baddie05_01;
-			enemies[k].sprite[2] = (u8*) G_baddie05_02;
-			enemies[k].sprite[3] = (u8*) G_baddie05_03;
-			enemies[k].sprite[4] = (u8*) G_baddie05_04;
-			enemies[k].sprite[5] = (u8*) G_baddie05_05;
-			enemies[k].sprite[6] = (u8*) G_baddie05_06;
-			enemies[k].sprite[7] = (u8*) G_baddie05_07;
+			cpct_memcpy(&enemies[k].sprite[0], &baddie_05, 16);
 			enemies[k].patternQueue = (TPatternSet*) &pattern02_right;
-			break;
-		default:
-			enemies[k].w = 4;
-			enemies[k].h = 8;
-			enemies[k].sprite[0] = (u8*) G_baddie_fly_0;
-			enemies[k].sprite[1] = (u8*) G_baddie_fly_1;
-			enemies[k].sprite[2] = (u8*) G_baddie_fly_2;
-			enemies[k].sprite[3] = (u8*) G_baddie_fly_3;
-			enemies[k].sprite[4] = (u8*) G_baddie_fly_4;
-			enemies[k].sprite[5] = (u8*) G_baddie_fly_5;
-			enemies[k].sprite[6] = (u8*) G_baddie_fly_6;
-			enemies[k].sprite[7] = (u8*) G_baddie_fly_7;
-			enemies[k].patternQueue = (TPatternSet*) &pattern01_left;
 			break;
 		}
 		if (pattern > 0) {
@@ -284,13 +244,14 @@ u8 translate_to(TPhysics *f, i16 x, i16 y, u8 v) {
 	x_close = 0;
 	y_close = 0;
 
-	if ((x_comp == x) || ((MIN(x_prev, x_comp) <= x) && ((MAX(x_prev, x_comp) >= x)))) {
+	//if ((x_comp == x) || ((MIN(x_prev, x_comp) <= x) && ((MAX(x_prev, x_comp) >= x)))) {
+	if ((x_comp == x) || ((mini16(x_prev, x_comp) <= x) && ((maxi16(x_prev, x_comp) >= x)))) {
 		x_close = 1;
 		f->x = (i32) x * (i32) SCALE_FACTOR;
 		x_comp = x;
 	}
 
-	if ((y_comp == y) || ((MIN(y_prev, y_comp) <= y) && ((MAX(y_prev, y_comp) >= y)))) {
+	if ((y_comp == y) || ((mini16(y_prev, y_comp) <= y) && ((maxi16(y_prev, y_comp) >= y)))) {
 		y_close = 1;
 		f->y = (i32) y * (i32) SCALE_FACTOR;
 		y_comp = y;
@@ -343,10 +304,8 @@ u8 translate_to(TPhysics *f, i16 x, i16 y, u8 v) {
 // Función: update_enemies2()
 // Update based on patterns
 //******************************************************************************
-void update_enemies(u8* screen) {
+void update_enemies() {
 	u8 i = 0;
-
-	cur_screen = screen;
 
 	update_enemy_groups();
 

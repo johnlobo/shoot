@@ -8,7 +8,6 @@
 #define SCREEN_WIDTH 159
 #define SCREEN_HEIGHT 199
 #define SCALE_FACTOR 256
-#define DEFAULT_USER_LIVES 3
 #define MAX_LEVEL 2
 #define ON 1
 #define OFF 0
@@ -25,10 +24,9 @@
 #define ENEMY_MOVING 1
 #define ENEMY_SLEEP 2
 //MATH
-//#define PI 3.1415926
 #define PIXEL_SCALE 256
 //SHOTS
-#define SHOOT_JUMP 10
+#define SHOOT_JUMP 15
 #define SALTO_DISPARO_MALO 4
 #define MAX_SHOTS 10
 //ENEMIES
@@ -44,6 +42,9 @@
 #define STARS_SPEED 50
 //MESSAGES
 #define MAX_MESSAGES 10
+//USER
+#define DEFAULT_USER_LIVES 3
+#define DEFAULT_USER_SPEED 13
 
 typedef struct
 {
@@ -130,19 +131,14 @@ typedef  struct {    // minimun sprite structure
    u8 num_frames;
    u8 frame;
    u8 speed;
-   u8 movement;
-   u8 stage;
-   u8 stage_step;
-   long last_moved;
    i16 home_x, home_y;
    u8 step;
    u8 cur_cmd;
    TPatternSet *patternQueue;
    u8 patternQueuePos;
    TEntity e;
-   char *sprite[8];
+   u8 *sprite[8];
    u8 state;
-// u8 objetivox;
 } TEnemy;
 
 typedef struct
@@ -186,6 +182,8 @@ typedef struct {
    u8 text[30];
    u8 time;
    u8 delay;
+   u8 fixed;
+   u8 color;
 } TMessage;
 
 extern const TPatternSet pattern01_left, pattern01_right, pattern02_left, pattern02_right, pattern03, pattern04;
@@ -221,7 +219,7 @@ void draw_enemies(u8* screen);
 u8 check_collision_enemies(u8 x, u8 y, u8 w, u8 h);
 u8 get_active_enemies();
 u8 get_active_groups();
-void update_enemies(u8* screen);
+void update_enemies();
 void debug_enemies();
 void enemies_full_attack();
 void set_hostility(u8 onoff);
@@ -265,8 +263,7 @@ void blue_message();
 void red_message();
 void colour_message (u8 backg, u8 t);
 void init_messages();
-void create_message(u8 x, u8 y, u8 delay, u8 time, u8 *text);
-void create_centered_message(u8 y, u8 delay, u8 time, u8 *text);
+void create_centered_message(u8 y, u8 delay, u8 time, u8 *text, u8 color);
 void draw_messages(u8* screen);
 void color_test(u8* screen);
 

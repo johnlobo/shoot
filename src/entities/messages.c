@@ -73,30 +73,18 @@ void init_messages() {
 		messages[i].x = 0;
 		messages[i].y = 0;
 		messages[i].time = 0;
+		messages[i].fixed = 0;
+		messages[i].delay = 0;
+		messages[i].color = 0;
 	}
 	active_messages = 0;
 }
 
-void create_message(u8 x, u8 y, u8 delay, u8 time, u8 *text) {
-	u8 i;
-	i = 0;
-	while (messages[i].active == 1) {
-		i++;
-	} //buscar mensaje no activo disponible
-	messages[i].active = 1;
-	messages[i].x = x;
-	messages[i].y = y;
-	messages[i].time = time;
-	messages[i].delay = delay;
-	strcpy(messages[i].text, text);
-	active_messages++;
-}
-
-void create_centered_message(u8 y, u8 delay, u8 time, u8 *text) {
+void create_centered_message(u8 y, u8 delay, u8 time, u8 *text, u8 color) {
 	u8 i = 0;
 	u8 x = 0;
 
-	x = (80-(strlen(text)*2))/2;
+	x = (80 - (strlen(text) * 2)) / 2;
 
 	while (messages[i].active == 1) {
 		i++;
@@ -104,9 +92,13 @@ void create_centered_message(u8 y, u8 delay, u8 time, u8 *text) {
 	messages[i].active = 1;
 	messages[i].x = x;
 	messages[i].y = y;
-	messages[i].time = time;
+	if (!time)
+		messages[i].fixed = 1;
+	else
+		messages[i].time = time;
 	messages[i].delay = delay;
 	strcpy(messages[i].text, text);
+	messages[i].color = color;
 	active_messages++;
 }
 
@@ -115,17 +107,22 @@ void draw_messages(u8* screen) {
 	//u8* pscreen;
 
 	if (active_messages) {
-		blue_message();
 		for (i = 0; i < MAX_MESSAGES; i++) {
 			if (messages[i].active) {
 				if (messages[i].delay)
 					messages[i].delay--;
 				else {
+					if (messages[i].color)
+						red_message();
+					else
+						blue_message();
 					cpc_PrintGphStr(messages[i].text, (int) cpct_getScreenPtr(screen, messages[i].x, messages[i].y));
-					messages[i].time--;
-					if (!messages[i].time) {
-						messages[i].active = 0;
-						active_messages--;
+					if (!messages[i].fixed) {
+						messages[i].time--;
+						if (!messages[i].time) {
+							messages[i].active = 0;
+							active_messages--;
+						}
 					}
 				}
 			}
