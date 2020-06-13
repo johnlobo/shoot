@@ -154,7 +154,7 @@ void initial_setup() {
   pvmem = SCR_BUFF;
   prev_pvmem = pvmem;
 
-  cpct_setRandomSeedUniform_u8((u8) get_time());
+  cpct_srand(get_time());
 }
 
 void init_level() {

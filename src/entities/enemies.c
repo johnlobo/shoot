@@ -421,7 +421,7 @@ void update_enemies() {
 						}
 						if ((get_active_enemy_shots() < get_level_max_enemy_shots()) &&
 						        (enemies[i].state == ENEMY_MOVING) &&
-						        (cpct_getRandomUniform_u8_f(0) < 60) &&
+						        (cpct_rand() < 60) &&
 						        (enemies[i].f.dir > 4) &&
 						        (hostility)) {
 							create_enemy_shot(enemies[i].x, enemies[i].y, 0, 270, 4);

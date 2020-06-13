@@ -38,9 +38,9 @@ void init_starfield() {
    //Inicializar estrellas
    for (nStar = 0; nStar < STARS_NUM; nStar++)
    {
-      aStars[nStar].nX = cpct_getRandomUniform_u8_f(0) % 160;
-      aStars[nStar].nY = cpct_getRandomUniform_u8_f(0) % 199;
-      aStars[nStar].nStarType = cpct_getRandomUniform_u8_f(0) % 3;
+      aStars[nStar].nX = cpct_rand() % 160;
+      aStars[nStar].nY = cpct_rand() % 199;
+      aStars[nStar].nStarType = cpct_rand() % 3;
    }
    last_moved_stars = 0;
 }
@@ -90,8 +90,8 @@ void update_starfield() {
       if (pStar->nY >= 198)
       {
          pStar->nY = 0;
-         pStar->nX = cpct_getRandomUniform_u8_f(0) % 160;
-         pStar->nStarType = cpct_getRandomUniform_u8_f(0) % 3;
+         pStar->nX = cpct_rand() % 160;
+         pStar->nStarType = cpct_rand() % 3;
       }
    }
    last_moved_stars = get_time();
